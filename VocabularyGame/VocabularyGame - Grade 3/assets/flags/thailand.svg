@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 2" width="96" height="64">
+  <!-- Simplified Thai flag: red, white, blue horizontal stripes -->
+  <rect width="3" height="0.4" y="0" fill="#ff0000"/>
+  <rect width="3" height="0.4" y="0.4" fill="#ffffff"/>
+  <rect width="3" height="0.8" y="0.8" fill="#0018a8"/>
+  <rect width="3" height="0.4" y="1.6" fill="#ff0000"/>
+  <rect width="3" height="0.4" y="2.0" fill="#ffffff"/>
+</svg>

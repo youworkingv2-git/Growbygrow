@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Vocab Fun</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Main App Container -->
+    <div id="app">
+        <!-- Home Screen -->
+        <div id="screen-home" class="screen active">
+            <h1 class="bounce-loop text-white">Vocab Fun!</h1>
+            
+            <!-- Difficulty Selector -->
+            <div class="difficulty-selector">
+                <div class="difficulty-toggle">
+                    <button class="diff-btn active" id="diff-easy" onclick="setDifficulty('easy')">Dễ 🟢</button>
+                    <button class="diff-btn" id="diff-medium" onclick="setDifficulty('medium')">Vừa 🟡</button>
+                    <button class="diff-btn" id="diff-hard" onclick="setDifficulty('hard')">Khó 🔴</button>
+                </div>
+            </div>
+
+            <div class="category-grid">
+    <button class="category-btn" style="background:#ffadad" onclick="startGame('MyFriends')">
+        <div class="emoji">👧👦</div>
+        <div class="label">My friends</div>
+        <div class="category-score">⭐ <span id="score-MyFriends">0</span></div>
+        <div class="category-lives" id="lives-MyFriends"></div>
+    </button>
+    <button class="category-btn" style="background:#fdffb6" onclick="startGame('School')">
+        <div class="emoji">🏫🎒</div>
+        <div class="label">School</div>
+        <div class="category-score">⭐ <span id="score-School">0</span></div>
+        <div class="category-lives" id="lives-School"></div>
+    </button>
+    <button class="category-btn" style="background:#caffbf" onclick="startGame('Family')">
+        <div class="emoji">👨‍👩‍👧‍👦</div>
+        <div class="label">Family</div>
+        <div class="category-score">⭐ <span id="score-Family">0</span></div>
+        <div class="category-lives" id="lives-Family"></div>
+    </button>
+    <button class="category-btn" style="background:#9bf6ff" onclick="startGame('Home')">
+        <div class="emoji">🏠🏡</div>
+        <div class="label">Home</div>
+        <div class="category-score">⭐ <span id="score-Home">0</span></div>
+        <div class="category-lives" id="lives-Home"></div>
+    </button>
+    <button class="category-btn" style="background:#a0c4ff" onclick="startGame('SportHobbies')">
+        <div class="emoji">⚽🛹</div>
+        <div class="label">Sport & Hobbies</div>
+        <div class="category-score">⭐ <span id="score-SportHobbies">0</span></div>
+        <div class="category-lives" id="lives-SportHobbies"></div>
+    </button>
+    <button class="category-btn" style="background:#ffc6ff" onclick="startGame('Clothes')">
+        <div class="emoji">👗👕</div>
+        <div class="label">Clothes</div>
+        <div class="category-score">⭐ <span id="score-Clothes">0</span></div>
+        <div class="category-lives" id="lives-Clothes"></div>
+    </button>
+</div>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="screen-game" class="screen">
+            <div class="header">
+                <div class="header-left">
+                    <button class="btn-home" onclick="goHome()" title="Go Home">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                        </svg>
+                    </button>
+                    <button class="btn-pause" id="btn-pause" onclick="togglePause()" title="Tạm Dừng Trò Chơi">⏸️</button>
+                    <div class="category-title" id="game-category-title">Category</div>
+                </div>
+                <div class="timer-box" id="timer-box">
+                    ⏱️ <span id="timer-display">60</span>
+                </div>
+                <div class="score-box">
+                    ⭐ <span id="score-display">0</span>
+                </div>
+            </div>
+
+            <div class="timer-bar-container">
+                <div class="timer-bar" id="timer-bar"></div>
+            </div>
+            
+            <div class="lives-container" id="lives-container">
+                <!-- Hearts will be dynamically injected based on difficulty -->
+            </div>
+
+            <div class="question-container">
+                <div class="word-info">
+                    <h1 id="word-display">Word</h1>
+                    <div id="ipa-display" class="ipa-badge" onclick="playAudio()">🇺🇸 /wɜːrd/</div>
+
+                
+                </div>
+                
+                <button class="btn-audio" onclick="playAudio()">🔊</button>
+            </div>
+
+            <div class="options-grid" id="options-grid">
+                <!-- Options will be injected here -->
+            </div>
+
+            <!-- Pause Overlay -->
+            <div id="pause-overlay" class="pause-overlay">
+                <div class="pause-content">
+                    <h2 class="text-white bounce-loop" style="font-size: 2.5rem; margin-top: 0;">Tạm Dừng ⏸️</h2>
+                    <p class="text-white" style="margin-bottom: 25px; font-size: 1.3rem; font-weight: bold;">Trò chơi đang được tạm dừng.</p>
+                    <button class="btn-primary" onclick="togglePause()" style="margin: 0; width: 200px;">Tiếp tục ▶️</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Over Screen -->
+        <div id="screen-game-over" class="screen">
+            <h1 class="text-white bounce-loop" style="margin-top: 5vh;" id="game-over-title">Game Over!</h1>
+            <div class="final-score-box">
+                <h2 id="final-score-label">Your Score</h2>
+                <h1 id="final-score">0</h1>
+            </div>
+            <button class="btn-primary" onclick="restartGame()">Play Again</button>
+            <button class="btn-secondary" onclick="goHome()">Go Home</button>
+        </div>
+
+        <!-- Reward Overlay -->
+        <div id="reward-overlay">
+            <div class="star-animation">🌟</div>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
