@@ -1,0 +1,20 @@
+---
+description: Mỗi lần thay đổi dự án phải ghi nhật ký vào file text riêng trong changelog/
+alwaysApply: true
+---
+
+# Ghi nhật ký thay đổi (changelog)
+
+Sau **mỗi lần** chỉnh sửa code/nội dung dự án ContextMap AI (không tính chỉ đọc/hỏi đáp):
+
+1. Tạo **một file `.txt` mới** trong thư mục `changelog/` (không ghi đè file cũ).
+2. Đặt tên: `YYYY-MM-DD_HHmm_<mo-ta-ngan-khong-dau>.txt`
+3. Nội dung tối thiểu (tiếng Việt):
+   - THỜI GIAN
+   - TIÊU ĐỀ
+   - TÓM TẮT (1–2 câu)
+   - CHI TIẾT THAY ĐỔI (file thêm/sửa/xóa)
+   - LÝ DO (theo yêu cầu người dùng, nếu có)
+4. Tham chiếu quy ước đầy đủ ở `changelog/README.txt`.
+
+Không bỏ qua bước này khi hoàn thành một yêu cầu có thay đổi file.

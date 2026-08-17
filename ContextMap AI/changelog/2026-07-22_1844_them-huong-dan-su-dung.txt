@@ -1,0 +1,25 @@
+THỜI GIAN: 2026-07-22 ~18:40–18:44
+TIÊU ĐỀ: Thêm phần Hướng dẫn sử dụng
+
+TÓM TẮT:
+Bổ sung section "Hướng dẫn sử dụng" (#huong-dan) mô tả quy trình 5 bước
+từ nạp tài liệu đến luyện Writing/Speaking, kèm mẹo cho người luyện thi.
+
+CHI TIẾT THAY ĐỔI:
+- Sửa src/App.tsx:
+  + Thêm mảng guideSteps (5 bước)
+  + Section #huong-dan với danh sách bước, preview từng bước, tip IELTS/TOEIC
+  + Link nav "Hướng dẫn" và CTA hero trỏ tới #huong-dan
+- Sửa / tạo src/App.css:
+  + Style .guide, .guide-step, .step-preview, .guide-tip, features, CTA, footer
+- Giữ nguyên hero, tính năng, footer
+
+NỘI DUNG 5 BƯỚC TRONG HƯỚNG DẪN:
+1. Nạp tài liệu (text / link YouTube / OCR)
+2. AI tạo mindmap (Main Ideas · Vocab · Grammar)
+3. Split-screen đọc tương tác (click → highlight)
+4. Spaced Repetition (mindmap → flashcards / Anki)
+5. Practice Writing/Speaking + AI chấm điểm
+
+LÝ DO:
+Yêu cầu người dùng: "Thêm phần hướng dẫn sử dụng".

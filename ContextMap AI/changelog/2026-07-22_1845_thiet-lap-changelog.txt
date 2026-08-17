@@ -1,0 +1,16 @@
+THỜI GIAN: 2026-07-22 ~18:44–18:45
+TIÊU ĐỀ: Thiết lập thư mục changelog — lưu mỗi lần thay đổi thành file text riêng
+
+TÓM TẮT:
+Tạo thư mục changelog/ và quy ước: mỗi lần chỉnh sửa dự án ghi thành một file .txt mới,
+không ghi đè lịch sử cũ. Đồng thời bổ sung nhật ký cho các thay đổi trước đó.
+
+CHI TIẾT THAY ĐỔI:
+- Thêm thư mục changelog/
+- Thêm changelog/README.txt (quy ước đặt tên & nội dung)
+- Thêm changelog/2026-07-22_1840_khoi-tao-landing-page.txt
+- Thêm changelog/2026-07-22_1844_them-huong-dan-su-dung.txt
+- Thêm file này: changelog/2026-07-22_1845_thiet-lap-changelog.txt
+
+LÝ DO:
+Yêu cầu người dùng: "Mỗi lần thay đổi sẽ lưu thành file text riêng để lưu lại những thay đổi".

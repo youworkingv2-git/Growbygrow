@@ -1,0 +1,24 @@
+THỜI GIAN: 2026-07-22 ~18:37–18:40
+TIÊU ĐỀ: Khởi tạo dự án landing page ContextMap AI
+
+TÓM TẮT:
+Scaffold ứng dụng web (Vite + React + TypeScript) và dựng landing page
+giới thiệu sản phẩm ContextMap AI cho đối tượng Intermediate+ / IELTS–TOEIC.
+
+CHI TIẾT THAY ĐỔI:
+- Tạo project Vite template react-ts
+- Cài thêm framer-motion
+- Thêm / chỉnh các file:
+  + index.html (tiếng Việt, font Bricolage Grotesque + Figtree, meta SEO)
+  + public/favicon.svg (logo mindmap)
+  + src/main.tsx
+  + src/App.tsx (hero + nav + footer)
+  + src/index.css (biến màu, typography nền)
+  + src/App.css (style hero, nav, sections)
+
+NỘI DUNG SẢN PHẨM TRÊN TRANG:
+- Hero: thương hiệu ContextMap AI, headline, CTA, mindmap minh họa có animation
+- Định hướng USP: biến đoạn văn/video thành mindmap học tiếng Anh
+
+LÝ DO:
+Workspace trống; bắt đầu hiện thực hóa ý tưởng sản phẩm ContextMap AI.

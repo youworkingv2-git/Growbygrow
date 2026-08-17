@@ -1,0 +1,139 @@
+import { test, expect } from '@playwright/test';
+
+test.setTimeout(120000);
+
+const BASE_URL = 'http://localhost:8080';
+
+test.describe('Toeic Vocab App UI', () => {
+  test.setTimeout(120000);
+  test.beforeEach(async ({ page }) => {
+    await page.goto(BASE_URL);
+    await page.waitForLoadState('networkidle');
+  });
+
+  test('Navigation works', async ({ page }) => {
+    await expect(page.locator('.nav-button[data-page="learn"]').first()).toBeVisible();
+    await page.click('.nav-button[data-page="quiz"]').then(() => { });
+    await expect(page.locator('#quizPage')).not.toHaveClass(/hidden/);
+    await page.click('.nav-button[data-page="stats"]').then(() => { });
+    await expect(page.locator('#statsPage')).not.toHaveClass(/hidden/);
+  });
+
+  test('Theme toggle switches', async ({ page }) => {
+    const button = page.locator('#themeButton');
+    const initial = await button.textContent();
+    await button.click();
+    const after = await button.textContent();
+    expect(after).not.toBe(initial);
+  });
+
+  test('Learning page displays words', async ({ page }) => {
+    await page.click('.nav-button[data-page="learn"]');
+    await page.waitForLoadState('networkidle');
+    await page.waitForFunction(() => {
+      const cards = document.querySelectorAll('#learnPage article.panel.stack');
+      return cards.length > 0 && window.state?.page === 'learn';
+    }, null, { timeout: 120000 });
+    const cards = page.locator('#learnPage article.panel.stack');
+    const count = await cards.count();
+    expect(count).toBeGreaterThan(0);
+  });
+
+  test('Typing quiz flow', async ({ page }) => {
+    await page.click('.nav-button[data-page="quiz"]');
+    await page.click('.tab[data-mode="typing"]');
+    await page.click('#startQuiz');
+    // Wait for the answer input to be rendered
+    await page.waitForSelector('#typingAnswer', { timeout: 60000 });
+    const prompt = page.locator('.typing-form h3');
+    await expect(prompt).toBeVisible();
+    const answerInput = page.locator('#typingAnswer');
+    await answerInput.fill('test');
+    await page.click('#typingForm button[type="submit"]');
+    // Wait for feedback element to become visible
+    await page.waitForSelector('.feedback', { state: 'visible', timeout: 120000 });
+    const feedback = page.locator('.feedback');
+    await expect(feedback).toBeVisible();
+  });
+
+  test('Hint button reveals more letters on each tap', async ({ page }) => {
+    await page.click('.nav-button[data-page="quiz"]');
+    await page.click('.tab[data-mode="typing"]');
+    await page.click('#startQuiz');
+    await page.waitForSelector('#quizHint', { timeout: 60000 });
+    const hint = page.locator('#hintText');
+    await page.click('#quizHint');
+    await expect(hint).not.toHaveClass(/hidden/);
+    const firstHint = await hint.textContent();
+    await page.click('#quizHint');
+    const secondHint = await hint.textContent();
+    expect(secondHint).not.toBe(firstHint);
+    expect(secondHint.replace(/[^a-zA-Z]/g, '').length).toBeGreaterThan(firstHint.replace(/[^a-zA-Z]/g, '').length);
+  });
+
+  test('Reset saved state clears data', async ({ page }) => {
+    await page.evaluate(() => {
+      localStorage.setItem('lexirise-vocabulary-store-v3', JSON.stringify({ state: { words: [] } }));
+    });
+    await page.reload();
+    // Navigate to stats page to access the reset button
+    await page.click('.nav-button[data-page="stats"]');
+    await page.waitForSelector('#resetSavedState');
+    await page.click('#resetSavedState');
+    // Reload to ensure UI updates after reset
+    await page.reload();
+    // After reset, the app reloads all words, so total count remains, but known is zero
+    const header = await page.locator('#headerStats').textContent();
+    expect(header).toMatch(/^0 \//); // matches "0 / <total> known"
+  });
+
+  test('Quiz results display hint and lightbulb counts', async ({ page }) => {
+    // Navigate to quiz and set question limit to 1
+    await page.click('.nav-button[data-page="stats"]');
+    const limitInput = page.locator('#quizQuestionLimitInput');
+    await limitInput.fill('1');
+    await limitInput.press('Enter');
+
+    // Go to quiz page and start typing quiz
+    await page.click('.nav-button[data-page="quiz"]');
+    await page.click('.tab[data-mode="typing"]');
+    await page.click('#startQuiz');
+
+    // Wait for the typing answer input
+    await page.waitForSelector('#typingAnswer', { timeout: 60000 });
+
+    // Click Hint twice
+    await page.click('#quizHint');
+    await page.click('#quizHint');
+
+    // Click Lightbulb once
+    await page.click('#quizAnswerPeek');
+
+    // Get the correct answer from state
+    const correctWord = await page.evaluate(() => window.state.currentQuestion.answer);
+
+    // Fill in correct answer to automatically submit/advance
+    const answerInput = page.locator('#typingAnswer');
+    await answerInput.fill(correctWord);
+
+    // Wait for the result summary to be visible
+    await page.waitForSelector('.stats-grid', { timeout: 10000 });
+
+    // Verify overall hint/bulb counts in the stats grid
+    const hintStat = page.locator('.stat:has-text("Hint") strong');
+    const bulbStat = page.locator('.stat:has-text("Lightbulb") strong');
+    await expect(hintStat).toHaveText('2');
+    await expect(bulbStat).toHaveText('1');
+
+    // Verify per-question hint/bulb counts in the details list
+    const detailRow = page.locator('.row:has-text("Question 1")');
+    await expect(detailRow.locator('span[title="Hints"]')).toHaveText('2');
+    await expect(detailRow.locator('span[title="Lightbulbs"]')).toHaveText('1');
+
+    // Go to Stats page and check Recent Quizzes list item
+    await page.click('.nav-button[data-page="stats"]');
+    const recentQuizItem = page.locator('.panel:has-text("Recent Quizzes") div').first();
+    await expect(recentQuizItem.locator('span[title="Hints"]')).toHaveText('2');
+    await expect(recentQuizItem.locator('span[title="Lightbulbs"]')).toHaveText('1');
+  });
+});

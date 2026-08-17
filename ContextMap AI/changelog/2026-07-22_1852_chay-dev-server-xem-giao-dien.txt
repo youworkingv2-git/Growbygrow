@@ -1,0 +1,13 @@
+THỜI GIAN: 2026-07-22 ~18:52
+TIÊU ĐỀ: Chạy dev server để xem giao diện
+
+TÓM TẮT:
+Khởi động Vite dev server (npm run dev -- --host) để người dùng mở trình duyệt xem landing page ContextMap AI.
+
+CHI TIẾT THAY ĐỔI:
+- Không sửa code nguồn
+- Chạy lệnh: npm run dev -- --host
+- Địa chỉ xem: http://localhost:5173/
+
+LÝ DO:
+Yêu cầu người dùng: "thiết kế giao diện để tôi có thể nhìn thấy".
