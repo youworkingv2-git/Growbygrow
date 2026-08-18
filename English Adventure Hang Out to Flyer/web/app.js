@@ -16,8 +16,9 @@ const W0_BEATS = [
   {
     id: "W0-T01",
     title: "First Steps",
-    hint: "Beat 1/4 · Nghe Hello rồi chọn đúng lời chào",
+    hint: "Nghe Hello rồi chọn đúng lời chào",
     type: "listen_choose",
+    scene: "village",
     say: "Hello!",
     line: "Hello! Hi! Come in.",
     choices: ["Hello", "Goodbye", "Please"],
@@ -26,16 +27,18 @@ const W0_BEATS = [
   {
     id: "W0-T02",
     title: "Your Name",
-    hint: "Beat 2/4 · Gõ tên rồi bấm OK",
+    hint: "Gõ tên rồi bấm OK",
     type: "name",
+    scene: "village",
     say: "What's your name?",
     line: "What's your name?"
   },
   {
     id: "W0-T03",
     title: "How to Play",
-    hint: "Beat 3/4 · Nghe Find the star rồi chạm ngôi sao",
+    hint: "Nghe Find the star rồi chạm ngôi sao",
     type: "find_it",
+    scene: "village",
     say: "Find the star.",
     line: "Find the star.",
     objects: [
@@ -48,8 +51,9 @@ const W0_BEATS = [
   {
     id: "W0-T04",
     title: "Thank You",
-    hint: "Beat 4/4 · Nghe Thank you rồi chọn đúng",
+    hint: "Nghe Thank you rồi chọn đúng",
     type: "listen_choose",
+    scene: "village",
     say: "Thank you.",
     line: "Please help. Thank you! Goodbye!",
     choices: ["Hello", "Thank you", "No"],
@@ -58,22 +62,70 @@ const W0_BEATS = [
 ];
 
 const W1_FINDS = [
-  { say: "Find the lamp.", answer: "lamp" },
-  { say: "Find the chair.", answer: "chair" },
-  { say: "Find the window.", answer: "window" },
-  { say: "There is a bed. Find the bed.", answer: "bed" }
+  { say: "Find the lamp.", answer: "lamp", type: "find_it", scene: "room" },
+  { say: "Find the chair.", answer: "chair", type: "find_it", scene: "room" },
+  { say: "Find the window.", answer: "window", type: "find_it", scene: "room" },
+  { say: "There is a bed. Find the bed.", answer: "bed", type: "find_it", scene: "room" }
 ];
+
+const FALLBACK_MEANING = {
+  hello: "xin chào",
+  hi: "chào",
+  goodbye: "tạm biệt",
+  please: "làm ơn",
+  "thank you": "cảm ơn",
+  star: "ngôi sao",
+  ball: "quả bóng",
+  hat: "mũ",
+  lamp: "đèn",
+  chair: "ghế",
+  window: "cửa sổ",
+  bed: "giường",
+  door: "cửa",
+  desk: "bàn"
+};
 
 let lessons = [];
 let words = [];
 let playWorld = "W0";
+let queue = [];
 let playIndex = 0;
 let playing = false;
+let isReview = false;
 let xp = 0;
 let hearts = 3;
 let stars = 0;
 let currentSay = "";
 let playerName = "friend";
+let missed = new Map();
+
+function meaningOf(word) {
+  const key = String(word).toLowerCase();
+  const hit = words.find((w) => w.word.toLowerCase() === key);
+  return (hit && hit.meaning_vi) || FALLBACK_MEANING[key] || "";
+}
+
+function markMiss(word) {
+  if (!word) return;
+  const key = String(word).toLowerCase();
+  const prev = missed.get(key) || { word: key, mistakes: 0, meaning: meaningOf(key) };
+  prev.mistakes += 1;
+  prev.meaning = prev.meaning || meaningOf(key);
+  missed.set(key, prev);
+}
+
+function missedList() {
+  return [...missed.values()].sort((a, b) => b.mistakes - a.mistakes);
+}
+
+function fullQueue(world) {
+  return world === "W1" ? W1_FINDS.slice() : W0_BEATS.slice();
+}
+
+function reviewQueue(world, missWords) {
+  const source = world === "W1" ? W1_FINDS : W0_BEATS;
+  return source.filter((item) => item.answer && missWords.includes(item.answer));
+}
 
 function speak(text) {
   currentSay = text;
@@ -184,28 +236,30 @@ function setFeedback(text, kind) {
 function setMeta(world) {
   document.querySelectorAll(".chip").forEach((el) => el.classList.toggle("is-on", el.dataset.play === world));
   if (world === "W0") {
-    document.getElementById("play-kicker").textContent = "World 0 · Tutorial Village";
-    document.getElementById("play-title").textContent = "Làng tập làm quen";
-    document.getElementById("play-hook").textContent = "Mira đợi ở cổng làng. Làm 4 việc nhỏ rồi được vào nhà.";
+    document.getElementById("play-kicker").textContent = isReview ? "World 0 · Ôn từ sai" : "World 0 · Tutorial Village";
+    document.getElementById("play-title").textContent = isReview ? "Chơi lại từ sai" : "Làng tập làm quen";
+    document.getElementById("play-hook").textContent = isReview
+      ? "Chỉ những từ vừa làm sai. Làm đúng ngay thì khỏi ôn tiếp."
+      : "Mira đợi ở cổng làng. Làm 4 việc nhỏ rồi được vào nhà.";
     document.getElementById("play-howto").innerHTML = `
       <p><b>Cách chơi World 0</b></p>
       <ol>
         <li>Bấm <b>Bắt đầu</b> để Mira nói tiếng Anh.</li>
-        <li>Beat 1: nghe <i>Hello!</i> → chọn Hello.</li>
-        <li>Beat 2: nghe <i>What's your name?</i> → gõ tên → OK.</li>
-        <li>Beat 3: nghe <i>Find the star.</i> → chạm ngôi sao, không chạm ball/hat.</li>
-        <li>Beat 4: nghe <i>Thank you.</i> → chọn Thank you.</li>
+        <li>Sai thì Try again. Từ sai sẽ được tổng hợp cuối bài.</li>
+        <li>Sau bài, bấm <b>Chơi lại từ sai</b> để ôn đúng những từ đó.</li>
       </ol>`;
   } else {
-    document.getElementById("play-kicker").textContent = "World 1 · Lesson 04";
-    document.getElementById("play-title").textContent = "My Room";
-    document.getElementById("play-hook").textContent = "Phòng ngủ. Nghe rồi chạm đúng đồ vật.";
+    document.getElementById("play-kicker").textContent = isReview ? "World 1 · Ôn từ sai" : "World 1 · Lesson 04";
+    document.getElementById("play-title").textContent = isReview ? "Chơi lại từ sai" : "My Room";
+    document.getElementById("play-hook").textContent = isReview
+      ? "Chỉ tìm những đồ vừa chạm nhầm."
+      : "Phòng ngủ. Nghe rồi chạm đúng đồ vật.";
     document.getElementById("play-howto").innerHTML = `
       <p><b>Cách chơi My Room</b></p>
       <ol>
         <li>Bấm <b>Bắt đầu</b>.</li>
-        <li>Nghe Mira: Find the lamp / chair / window / bed.</li>
-        <li>Chạm đúng đồ trong phòng. Sai thì Try again.</li>
+        <li>Nghe Mira rồi chạm đúng đồ.</li>
+        <li>Cuối bài sẽ hiện từ sai để chơi lại.</li>
       </ol>`;
   }
 }
@@ -218,22 +272,40 @@ function villageShell(inner) {
   `;
 }
 
-function renderW0Beat() {
+function currentItem() {
+  return queue[playIndex];
+}
+
+function renderItem(item) {
   const scene = document.getElementById("stage-scene");
-  scene.className = "scene village";
-  const beat = W0_BEATS[playIndex];
-  if (!beat) {
-    scene.innerHTML = villageShell(`<div class="choices"><button class="choice is-right" type="button" data-next-home>Vào nhà →</button></div>`);
+  if (!item) return;
+  const total = queue.length;
+  const n = playIndex + 1;
+  document.getElementById("play-hint").textContent = isReview
+    ? `Ôn ${n}/${total} · ${item.answer || item.title}`
+    : `${item.hint || ""} · ${n}/${total}`;
+  setLine(item.line || item.say);
+  if (item.scene === "room" || playWorld === "W1") {
+    scene.className = "scene";
+    scene.innerHTML = `
+      <div class="room" id="room">
+        <button class="obj door" data-id="door" style="left:6%;top:28%"><span>door</span></button>
+        <button class="obj window" data-id="window" style="left:38%;top:10%"><span>window</span></button>
+        <button class="obj bed" data-id="bed" style="left:58%;top:48%"><span>bed</span></button>
+        <button class="obj desk" data-id="desk" style="left:8%;top:62%"><span>desk</span></button>
+        <button class="obj chair" data-id="chair" style="left:28%;top:68%"><span>chair</span></button>
+        <button class="obj lamp" data-id="lamp" style="left:78%;top:18%"><span>lamp</span></button>
+      </div>`;
+    speak(item.say);
     return;
   }
-  document.getElementById("play-hint").textContent = beat.hint;
-  setLine(beat.line);
-  if (beat.type === "listen_choose") {
+  scene.className = "scene village";
+  if (item.type === "listen_choose") {
     scene.innerHTML = villageShell(`
       <div class="choices">
-        ${beat.choices.map((c) => `<button class="choice" type="button" data-choice="${c.toLowerCase()}">${c}</button>`).join("")}
+        ${item.choices.map((c) => `<button class="choice" type="button" data-choice="${c.toLowerCase()}">${c}</button>`).join("")}
       </div>`);
-  } else if (beat.type === "name") {
+  } else if (item.type === "name") {
     scene.innerHTML = villageShell(`
       <form class="name-box" id="name-form">
         <input id="name-input" maxlength="16" placeholder="Anna" autocomplete="nickname" />
@@ -244,101 +316,143 @@ function renderW0Beat() {
     input.focus();
     form.addEventListener("submit", (e) => {
       e.preventDefault();
-      const name = input.value.trim() || "friend";
-      playerName = name;
+      playerName = input.value.trim() || "friend";
       setFeedback("Great!", "ok");
-      speak(`Hi, ${name}!`);
-      setLine(`Hi, ${name}! My name is Mira.`);
+      speak(`Hi, ${playerName}!`);
+      setLine(`Hi, ${playerName}! My name is Mira.`);
       xp += 10;
       stars = Math.min(3, stars + 1);
       setHud();
       playIndex += 1;
-      setTimeout(runBeat, 900);
+      setTimeout(runQueue, 900);
     });
-  } else if (beat.type === "find_it") {
-    scene.innerHTML = villageShell(beat.objects.map((o) =>
+  } else if (item.type === "find_it") {
+    scene.innerHTML = villageShell(item.objects.map((o) =>
       `<button class="obj ${o.id}" type="button" data-id="${o.id}" style="left:${o.left};top:${o.top};position:absolute">${o.label}</button>`
     ).join(""));
   }
-  speak(beat.say);
+  speak(item.say);
 }
 
-function renderW1Room() {
+function showRecap(list) {
   const scene = document.getElementById("stage-scene");
-  scene.className = "scene";
-  scene.innerHTML = `
-    <div class="room" id="room">
-      <button class="obj door" data-id="door" style="left:6%;top:28%"><span>door</span></button>
-      <button class="obj window" data-id="window" style="left:38%;top:10%"><span>window</span></button>
-      <button class="obj bed" data-id="bed" style="left:58%;top:48%"><span>bed</span></button>
-      <button class="obj desk" data-id="desk" style="left:8%;top:62%"><span>desk</span></button>
-      <button class="obj chair" data-id="chair" style="left:28%;top:68%"><span>chair</span></button>
-      <button class="obj lamp" data-id="lamp" style="left:78%;top:18%"><span>lamp</span></button>
+  const village = playWorld === "W0";
+  scene.className = village ? "scene village" : "scene";
+  const perfect = list.length === 0;
+  const items = list.map((m) => `
+    <li>
+      <button type="button" data-say="${m.word}">
+        <b>${m.word}</b>
+        <small>${m.meaning || ""} · sai ${m.mistakes} lần</small>
+      </button>
+    </li>`).join("");
+  const body = perfect
+    ? `<p>Không có từ sai. Bạn làm rất tốt!</p>`
+    : `<p>${isReview ? "Vẫn còn từ chưa đúng ngay." : "Những từ vừa làm sai:"} chạm từ để nghe lại.</p>
+       <ul class="miss-list">${items}</ul>`;
+  const actions = perfect
+    ? (playWorld === "W0"
+      ? `<button class="cta" type="button" data-next-home>Vào nhà →</button>`
+      : `<button class="cta" type="button" data-play="W0">Về làng</button>`)
+    : `<button class="cta" type="button" data-review>Chơi lại ${list.length} từ sai</button>
+       <button class="cta ghost" type="button" data-skip-review>Bỏ qua</button>`;
+  const title = isReview ? "Ôn xong vòng này" : "Tổng hợp sau bài";
+  const recap = `<div class="recap">
+      <h3>${title}</h3>
+      ${body}
+      <div class="recap-actions">${actions}</div>
     </div>`;
+  scene.innerHTML = village ? villageShell(recap) : recap;
+  document.getElementById("play-hint").textContent = perfect
+    ? "Xong bài. Không cần ôn."
+    : `Cần ôn ${list.length} từ. Bấm Chơi lại từ sai.`;
 }
 
-function startPlay(world) {
+function finishRun() {
+  playing = false;
+  const list = missedList();
+  if (list.length === 0) {
+    stars = 3;
+    xp += isReview ? 10 : (playWorld === "W0" ? 15 : 20);
+    setHud();
+    setLine("Great job!");
+    speak("Great job!");
+    setFeedback(isReview ? "Ôn xong · không còn từ sai" : "Xong bài · không có từ sai", "ok");
+  } else {
+    setLine("Let's practice these words.");
+    speak("Let's practice these words.");
+    setFeedback(`Có ${list.length} từ cần ôn lại`, "bad");
+  }
+  showRecap(list);
+}
+
+function runQueue() {
+  if (playIndex >= queue.length) {
+    finishRun();
+    return;
+  }
+  renderItem(currentItem());
+}
+
+function startPlay(world, review) {
   playWorld = world || "W0";
+  isReview = Boolean(review);
   playing = true;
   playIndex = 0;
   hearts = 3;
   stars = 0;
-  xp = 0;
+  if (!isReview) {
+    xp = 0;
+    missed = new Map();
+    queue = fullQueue(playWorld);
+  } else {
+    const wordsToRetry = missedList().map((m) => m.word);
+    missed = new Map();
+    queue = reviewQueue(playWorld, wordsToRetry);
+    if (queue.length === 0) {
+      isReview = false;
+      playing = false;
+      showRecap([]);
+      return;
+    }
+  }
   setHud();
   setFeedback("");
   setMeta(playWorld);
   showView("play");
-  if (playWorld === "W0") {
-    document.getElementById("play-hint").textContent = "Beat 1/4 · Chào Mira";
-    runBeat();
-  } else {
-    renderW1Room();
-    document.getElementById("play-hint").textContent = "Nghe rồi chạm đúng đồ vật.";
-    nextFind();
-  }
+  runQueue();
 }
 
-function runBeat() {
-  if (playIndex >= W0_BEATS.length) {
-    playing = false;
-    stars = 3;
-    xp += 15;
-    setHud();
-    setLine("Goodbye! Come to my home.");
-    speak("Goodbye! Come to my home.");
-    setFeedback("Xong World 0 · +15 XP · có thể vào My Home", "ok");
-    document.getElementById("play-hint").textContent = "Tutorial xong. Bấm W1 Phòng ngủ để chơi tiếp.";
-    renderW0Beat();
-    return;
-  }
-  renderW0Beat();
+function startReview() {
+  startPlay(playWorld, true);
 }
 
-function nextFind() {
-  document.querySelectorAll(".obj").forEach((el) => el.classList.remove("is-right", "is-wrong"));
-  if (playIndex >= W1_FINDS.length) {
-    playing = false;
-    stars = 3;
-    xp += 20;
-    setHud();
-    setLine("Great! There is a lamp. Teddy was here.");
-    speak("Great job! You found the things in my room.");
-    setFeedback("Xong bài My Room · +20 XP · ★★★", "ok");
-    return;
-  }
-  const step = W1_FINDS[playIndex];
-  setLine(step.say);
-  document.getElementById("play-hint").textContent = `Tìm: ${step.answer}`;
-  speak(step.say);
+function skipReview() {
+  missed = new Map();
+  isReview = false;
+  playing = false;
+  setFeedback("Đã bỏ qua phần ôn.", "ok");
+  showRecap([]);
 }
 
 function wrong() {
+  const item = currentItem();
+  markMiss(item && item.answer);
   hearts = Math.max(0, hearts - 1);
   setHud();
   setFeedback("Try again! Listen carefully.", "bad");
   speak("Try again. Listen carefully.");
-  const beat = playWorld === "W0" ? W0_BEATS[playIndex] : W1_FINDS[playIndex];
-  setTimeout(() => speak(beat.say), 1100);
+  setTimeout(() => speak(item.say), 1100);
+}
+
+function advance() {
+  xp += 10;
+  stars = Math.min(3, stars + 1);
+  setHud();
+  setFeedback("Great!", "ok");
+  speak("Great!");
+  playIndex += 1;
+  setTimeout(runQueue, 800);
 }
 
 function handleChoice(value, btn) {
@@ -346,18 +460,11 @@ function handleChoice(value, btn) {
     setFeedback("Bấm Bắt đầu trước nhé.", "bad");
     return;
   }
-  if (playWorld !== "W0") return;
-  const beat = W0_BEATS[playIndex];
-  if (beat.type !== "listen_choose") return;
-  if (value === beat.answer) {
+  const item = currentItem();
+  if (!item || item.type !== "listen_choose") return;
+  if (value === item.answer) {
     btn.classList.add("is-right");
-    xp += 10;
-    stars = Math.min(3, stars + 1);
-    setHud();
-    setFeedback("Great!", "ok");
-    speak("Great!");
-    playIndex += 1;
-    setTimeout(runBeat, 800);
+    advance();
   } else {
     btn.classList.add("is-wrong");
     wrong();
@@ -366,20 +473,15 @@ function handleChoice(value, btn) {
 
 function handleFind(id, btn) {
   if (!playing) {
-    setLine(playWorld === "W0" ? `This is a ${id}.` : `This is a ${id}.`);
+    setLine(`This is a ${id}.`);
     speak(id);
     return;
   }
-  const answer = playWorld === "W0" ? W0_BEATS[playIndex].answer : W1_FINDS[playIndex].answer;
-  if (id === answer) {
+  const item = currentItem();
+  if (!item || !item.answer) return;
+  if (id === item.answer) {
     btn.classList.add("is-right");
-    xp += 10;
-    stars = Math.min(3, stars + 1);
-    setHud();
-    setFeedback("Great!", "ok");
-    speak("Great!");
-    playIndex += 1;
-    setTimeout(playWorld === "W0" ? runBeat : nextFind, 800);
+    advance();
   } else {
     btn.classList.add("is-wrong");
     wrong();
@@ -390,6 +492,7 @@ async function load() {
   renderTrail();
   playWorld = "W0";
   playing = false;
+  isReview = false;
   playIndex = 0;
   setMeta("W0");
   const scene = document.getElementById("stage-scene");
@@ -445,9 +548,29 @@ document.getElementById("word-grid").addEventListener("click", (e) => {
 document.getElementById("btn-start").addEventListener("click", () => startPlay(playWorld));
 document.getElementById("btn-listen").addEventListener("click", () => speak(currentSay || "Hello!"));
 document.getElementById("stage-scene").addEventListener("click", (e) => {
+  const review = e.target.closest("[data-review]");
+  if (review) {
+    startReview();
+    return;
+  }
+  const skip = e.target.closest("[data-skip-review]");
+  if (skip) {
+    skipReview();
+    return;
+  }
   const home = e.target.closest("[data-next-home]");
   if (home) {
     startPlay("W1");
+    return;
+  }
+  const replay = e.target.closest("[data-play]");
+  if (replay) {
+    startPlay(replay.dataset.play);
+    return;
+  }
+  const sayBtn = e.target.closest(".miss-list [data-say]");
+  if (sayBtn) {
+    speak(sayBtn.dataset.say);
     return;
   }
   const choice = e.target.closest("[data-choice]");
