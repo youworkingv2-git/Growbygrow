@@ -1,0 +1,16 @@
+---
+description: After each completed user request, commit project files and push to GitHub.
+alwaysApply: true
+---
+
+# Tự commit và push GitHub
+
+Sau khi hoàn thành xong một lệnh/yêu cầu của người dùng (có thay đổi file):
+
+1. `git add` các file vừa làm trong project này (không add `.env`, secret, token).
+2. `git commit` với message ngắn, tiếng Việt hoặc tiếng Anh, nêu lý do thay đổi.
+3. `git push` lên remote GitHub hiện có. Không `--force`, không `--no-verify`.
+
+Làm bước này ở **cuối** mỗi lượt, sau khi việc chính đã xong. Nếu không có thay đổi thì không tạo commit rỗng.
+
+Repo Git hiện tại là thư mục cha `Quyen Git` (remote `Growbygrow`). Commit từ root đó, chỉ stage file trong `English Adventure Hang Out to Flyer/`.
