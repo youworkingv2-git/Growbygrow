@@ -1,6 +1,6 @@
 const WORLDS = [
-  { id: "W0", name: "Tutorial Village", vi: "Làng tập làm quen", lessons: 4, color: "#c9892e", band: "Pre-A1", mvp: true },
-  { id: "W1", name: "My Home", vi: "Nhà của mình", lessons: 10, color: "#d4654a", band: "Beginner", mvp: true },
+  { id: "W0", name: "Tutorial Village", vi: "Làng tập làm quen", lessons: 4, color: "#c9892e", band: "Pre-A1", mvp: true, playable: true },
+  { id: "W1", name: "My Home", vi: "Nhà của mình", lessons: 10, color: "#d4654a", band: "Beginner", mvp: true, playable: true },
   { id: "W2", name: "My School", vi: "Trường học", lessons: 12, color: "#3d6ea8", band: "A1", mvp: false },
   { id: "W3", name: "Food City", vi: "Thành phố đồ ăn", lessons: 12, color: "#e09132", band: "A1", mvp: false },
   { id: "W4", name: "Animal World", vi: "Thế giới động vật", lessons: 12, color: "#3f8a4a", band: "A1", mvp: false },
@@ -12,7 +12,52 @@ const WORLDS = [
   { id: "W10", name: "Flyer Island", vi: "Đảo Flyer", lessons: 16, color: "#c9892e", band: "A2 Flyers", mvp: false }
 ];
 
-const FINDS = [
+const W0_BEATS = [
+  {
+    id: "W0-T01",
+    title: "First Steps",
+    hint: "Beat 1/4 · Nghe Hello rồi chọn đúng lời chào",
+    type: "listen_choose",
+    say: "Hello!",
+    line: "Hello! Hi! Come in.",
+    choices: ["Hello", "Goodbye", "Please"],
+    answer: "hello"
+  },
+  {
+    id: "W0-T02",
+    title: "Your Name",
+    hint: "Beat 2/4 · Gõ tên rồi bấm OK",
+    type: "name",
+    say: "What's your name?",
+    line: "What's your name?"
+  },
+  {
+    id: "W0-T03",
+    title: "How to Play",
+    hint: "Beat 3/4 · Nghe Find the star rồi chạm ngôi sao",
+    type: "find_it",
+    say: "Find the star.",
+    line: "Find the star.",
+    objects: [
+      { id: "ball", label: "ball", left: "18%", top: "22%" },
+      { id: "star", label: "star", left: "48%", top: "18%" },
+      { id: "hat", label: "hat", left: "72%", top: "24%" }
+    ],
+    answer: "star"
+  },
+  {
+    id: "W0-T04",
+    title: "Thank You",
+    hint: "Beat 4/4 · Nghe Thank you rồi chọn đúng",
+    type: "listen_choose",
+    say: "Thank you.",
+    line: "Please help. Thank you! Goodbye!",
+    choices: ["Hello", "Thank you", "No"],
+    answer: "thank you"
+  }
+];
+
+const W1_FINDS = [
   { say: "Find the lamp.", answer: "lamp" },
   { say: "Find the chair.", answer: "chair" },
   { say: "Find the window.", answer: "window" },
@@ -21,12 +66,14 @@ const FINDS = [
 
 let lessons = [];
 let words = [];
+let playWorld = "W0";
 let playIndex = 0;
 let playing = false;
 let xp = 0;
 let hearts = 3;
 let stars = 0;
 let currentSay = "";
+let playerName = "friend";
 
 function speak(text) {
   currentSay = text;
@@ -36,7 +83,8 @@ function speak(text) {
   u.lang = "en-US";
   u.rate = 0.85;
   const voices = window.speechSynthesis.getVoices();
-  const en = voices.find((v) => v.lang.startsWith("en"));
+  const en = voices.find((v) => /en[-_]/i.test(v.lang) && /child|female|zira|samantha|google/i.test(v.name))
+    || voices.find((v) => v.lang.startsWith("en"));
   if (en) u.voice = en;
   window.speechSynthesis.speak(u);
 }
@@ -73,9 +121,11 @@ function renderTrail() {
       <div class="mark" style="background:${w.color}">${w.id}</div>
       <div>
         <h3>${w.name} · ${w.vi}</h3>
-        <p>${w.lessons} bài · ${w.band}${w.mvp ? " · đang làm MVP" : ""}</p>
+        <p>${w.lessons} bài · ${w.band}${w.playable ? " · bấm Chơi" : ""}</p>
       </div>
-      <button type="button" data-world="${w.id}">Xem bài</button>
+      <button type="button" class="${w.playable ? "play" : ""}" data-world="${w.id}" data-playable="${w.playable ? "1" : "0"}">
+        ${w.playable ? "Chơi" : "Xem bài"}
+      </button>
     </li>
   `).join("");
 }
@@ -131,7 +181,104 @@ function setFeedback(text, kind) {
   el.className = `feedback ${kind || ""}`;
 }
 
-function startPlay() {
+function setMeta(world) {
+  document.querySelectorAll(".chip").forEach((el) => el.classList.toggle("is-on", el.dataset.play === world));
+  if (world === "W0") {
+    document.getElementById("play-kicker").textContent = "World 0 · Tutorial Village";
+    document.getElementById("play-title").textContent = "Làng tập làm quen";
+    document.getElementById("play-hook").textContent = "Mira đợi ở cổng làng. Làm 4 việc nhỏ rồi được vào nhà.";
+    document.getElementById("play-howto").innerHTML = `
+      <p><b>Cách chơi World 0</b></p>
+      <ol>
+        <li>Bấm <b>Bắt đầu</b> để Mira nói tiếng Anh.</li>
+        <li>Beat 1: nghe <i>Hello!</i> → chọn Hello.</li>
+        <li>Beat 2: nghe <i>What's your name?</i> → gõ tên → OK.</li>
+        <li>Beat 3: nghe <i>Find the star.</i> → chạm ngôi sao, không chạm ball/hat.</li>
+        <li>Beat 4: nghe <i>Thank you.</i> → chọn Thank you.</li>
+      </ol>`;
+  } else {
+    document.getElementById("play-kicker").textContent = "World 1 · Lesson 04";
+    document.getElementById("play-title").textContent = "My Room";
+    document.getElementById("play-hook").textContent = "Phòng ngủ. Nghe rồi chạm đúng đồ vật.";
+    document.getElementById("play-howto").innerHTML = `
+      <p><b>Cách chơi My Room</b></p>
+      <ol>
+        <li>Bấm <b>Bắt đầu</b>.</li>
+        <li>Nghe Mira: Find the lamp / chair / window / bed.</li>
+        <li>Chạm đúng đồ trong phòng. Sai thì Try again.</li>
+      </ol>`;
+  }
+}
+
+function villageShell(inner) {
+  return `
+    <span class="mira-label">Mira</span>
+    <div class="gate" title="gate"></div>
+    ${inner}
+  `;
+}
+
+function renderW0Beat() {
+  const scene = document.getElementById("stage-scene");
+  scene.className = "scene village";
+  const beat = W0_BEATS[playIndex];
+  if (!beat) {
+    scene.innerHTML = villageShell(`<div class="choices"><button class="choice is-right" type="button" data-next-home>Vào nhà →</button></div>`);
+    return;
+  }
+  document.getElementById("play-hint").textContent = beat.hint;
+  setLine(beat.line);
+  if (beat.type === "listen_choose") {
+    scene.innerHTML = villageShell(`
+      <div class="choices">
+        ${beat.choices.map((c) => `<button class="choice" type="button" data-choice="${c.toLowerCase()}">${c}</button>`).join("")}
+      </div>`);
+  } else if (beat.type === "name") {
+    scene.innerHTML = villageShell(`
+      <form class="name-box" id="name-form">
+        <input id="name-input" maxlength="16" placeholder="Anna" autocomplete="nickname" />
+        <button class="cta" type="submit">OK</button>
+      </form>`);
+    const form = document.getElementById("name-form");
+    const input = document.getElementById("name-input");
+    input.focus();
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const name = input.value.trim() || "friend";
+      playerName = name;
+      setFeedback("Great!", "ok");
+      speak(`Hi, ${name}!`);
+      setLine(`Hi, ${name}! My name is Mira.`);
+      xp += 10;
+      stars = Math.min(3, stars + 1);
+      setHud();
+      playIndex += 1;
+      setTimeout(runBeat, 900);
+    });
+  } else if (beat.type === "find_it") {
+    scene.innerHTML = villageShell(beat.objects.map((o) =>
+      `<button class="obj ${o.id}" type="button" data-id="${o.id}" style="left:${o.left};top:${o.top};position:absolute">${o.label}</button>`
+    ).join(""));
+  }
+  speak(beat.say);
+}
+
+function renderW1Room() {
+  const scene = document.getElementById("stage-scene");
+  scene.className = "scene";
+  scene.innerHTML = `
+    <div class="room" id="room">
+      <button class="obj door" data-id="door" style="left:6%;top:28%"><span>door</span></button>
+      <button class="obj window" data-id="window" style="left:38%;top:10%"><span>window</span></button>
+      <button class="obj bed" data-id="bed" style="left:58%;top:48%"><span>bed</span></button>
+      <button class="obj desk" data-id="desk" style="left:8%;top:62%"><span>desk</span></button>
+      <button class="obj chair" data-id="chair" style="left:28%;top:68%"><span>chair</span></button>
+      <button class="obj lamp" data-id="lamp" style="left:78%;top:18%"><span>lamp</span></button>
+    </div>`;
+}
+
+function startPlay(world) {
+  playWorld = world || "W0";
   playing = true;
   playIndex = 0;
   hearts = 3;
@@ -139,35 +286,70 @@ function startPlay() {
   xp = 0;
   setHud();
   setFeedback("");
-  document.getElementById("play-hint").textContent = "Nghe rồi chạm đúng đồ vật. Sai thì Try again — không game over.";
-  nextFind();
+  setMeta(playWorld);
+  showView("play");
+  if (playWorld === "W0") {
+    document.getElementById("play-hint").textContent = "Beat 1/4 · Chào Mira";
+    runBeat();
+  } else {
+    renderW1Room();
+    document.getElementById("play-hint").textContent = "Nghe rồi chạm đúng đồ vật.";
+    nextFind();
+  }
+}
+
+function runBeat() {
+  if (playIndex >= W0_BEATS.length) {
+    playing = false;
+    stars = 3;
+    xp += 15;
+    setHud();
+    setLine("Goodbye! Come to my home.");
+    speak("Goodbye! Come to my home.");
+    setFeedback("Xong World 0 · +15 XP · có thể vào My Home", "ok");
+    document.getElementById("play-hint").textContent = "Tutorial xong. Bấm W1 Phòng ngủ để chơi tiếp.";
+    renderW0Beat();
+    return;
+  }
+  renderW0Beat();
 }
 
 function nextFind() {
   document.querySelectorAll(".obj").forEach((el) => el.classList.remove("is-right", "is-wrong"));
-  if (playIndex >= FINDS.length) {
+  if (playIndex >= W1_FINDS.length) {
     playing = false;
     stars = 3;
     xp += 20;
     setHud();
     setLine("Great! There is a lamp. Teddy was here.");
     speak("Great job! You found the things in my room.");
-    setFeedback("Xong bài My Room · +20 XP  ·  ★★★", "ok");
+    setFeedback("Xong bài My Room · +20 XP · ★★★", "ok");
     return;
   }
-  const step = FINDS[playIndex];
+  const step = W1_FINDS[playIndex];
   setLine(step.say);
+  document.getElementById("play-hint").textContent = `Tìm: ${step.answer}`;
   speak(step.say);
 }
 
-function tapObject(id, btn) {
+function wrong() {
+  hearts = Math.max(0, hearts - 1);
+  setHud();
+  setFeedback("Try again! Listen carefully.", "bad");
+  speak("Try again. Listen carefully.");
+  const beat = playWorld === "W0" ? W0_BEATS[playIndex] : W1_FINDS[playIndex];
+  setTimeout(() => speak(beat.say), 1100);
+}
+
+function handleChoice(value, btn) {
   if (!playing) {
-    setLine(`This is a ${id}.`);
-    speak(id);
+    setFeedback("Bấm Bắt đầu trước nhé.", "bad");
     return;
   }
-  const step = FINDS[playIndex];
-  if (id === step.answer) {
+  if (playWorld !== "W0") return;
+  const beat = W0_BEATS[playIndex];
+  if (beat.type !== "listen_choose") return;
+  if (value === beat.answer) {
     btn.classList.add("is-right");
     xp += 10;
     stars = Math.min(3, stars + 1);
@@ -175,19 +357,47 @@ function tapObject(id, btn) {
     setFeedback("Great!", "ok");
     speak("Great!");
     playIndex += 1;
-    setTimeout(nextFind, 700);
+    setTimeout(runBeat, 800);
   } else {
     btn.classList.add("is-wrong");
-    hearts = Math.max(0, hearts - 1);
+    wrong();
+  }
+}
+
+function handleFind(id, btn) {
+  if (!playing) {
+    setLine(playWorld === "W0" ? `This is a ${id}.` : `This is a ${id}.`);
+    speak(id);
+    return;
+  }
+  const answer = playWorld === "W0" ? W0_BEATS[playIndex].answer : W1_FINDS[playIndex].answer;
+  if (id === answer) {
+    btn.classList.add("is-right");
+    xp += 10;
+    stars = Math.min(3, stars + 1);
     setHud();
-    setFeedback("Try again! Listen carefully.", "bad");
-    speak("Try again. Listen carefully.");
-    setTimeout(() => speak(step.say), 1100);
+    setFeedback("Great!", "ok");
+    speak("Great!");
+    playIndex += 1;
+    setTimeout(playWorld === "W0" ? runBeat : nextFind, 800);
+  } else {
+    btn.classList.add("is-wrong");
+    wrong();
   }
 }
 
 async function load() {
   renderTrail();
+  playWorld = "W0";
+  playing = false;
+  playIndex = 0;
+  setMeta("W0");
+  const scene = document.getElementById("stage-scene");
+  scene.className = "scene village";
+  scene.innerHTML = villageShell("");
+  setLine("Hello! Tap Bắt đầu to play.");
+  setFeedback("");
+  document.getElementById("play-hint").textContent = "Bấm Bắt đầu. Trình duyệt sẽ đọc Hello!";
 
   const [csvText, vocabJson] = await Promise.all([
     fetch("../docs/curriculum/lesson-matrix-full.csv").then((r) => r.text()),
@@ -200,8 +410,8 @@ async function load() {
   worldSelect.innerHTML = `<option value="ALL">Tất cả</option>` + WORLDS.map((w) =>
     `<option value="${w.id}">${w.id} · ${w.name}</option>`
   ).join("");
-  worldSelect.value = "W1";
-  renderLessons("W1");
+  worldSelect.value = "W0";
+  renderLessons("W0");
 
   const topics = ["ALL", ...new Set(words.map((w) => w.topic))];
   const topicSelect = document.getElementById("filter-topic");
@@ -212,13 +422,16 @@ async function load() {
 document.querySelectorAll(".tab").forEach((btn) => {
   btn.addEventListener("click", () => showView(btn.dataset.view));
 });
-document.querySelector("[data-open-play]").addEventListener("click", () => {
-  showView("play");
-  startPlay();
+document.querySelectorAll("[data-play]").forEach((btn) => {
+  btn.addEventListener("click", () => startPlay(btn.dataset.play));
 });
 document.getElementById("world-trail").addEventListener("click", (e) => {
   const btn = e.target.closest("[data-world]");
   if (!btn) return;
+  if (btn.dataset.playable === "1") {
+    startPlay(btn.dataset.world);
+    return;
+  }
   document.getElementById("filter-world").value = btn.dataset.world;
   renderLessons(btn.dataset.world);
   showView("lessons");
@@ -229,15 +442,25 @@ document.getElementById("word-grid").addEventListener("click", (e) => {
   const btn = e.target.closest(".word");
   if (btn) speak(btn.dataset.say);
 });
-document.getElementById("btn-start").addEventListener("click", startPlay);
-document.getElementById("btn-listen").addEventListener("click", () => speak(currentSay || "This is my room."));
-document.getElementById("room").addEventListener("click", (e) => {
-  const btn = e.target.closest(".obj");
-  if (btn) tapObject(btn.dataset.id, btn);
+document.getElementById("btn-start").addEventListener("click", () => startPlay(playWorld));
+document.getElementById("btn-listen").addEventListener("click", () => speak(currentSay || "Hello!"));
+document.getElementById("stage-scene").addEventListener("click", (e) => {
+  const home = e.target.closest("[data-next-home]");
+  if (home) {
+    startPlay("W1");
+    return;
+  }
+  const choice = e.target.closest("[data-choice]");
+  if (choice) {
+    handleChoice(choice.dataset.choice, choice);
+    return;
+  }
+  const obj = e.target.closest("[data-id]");
+  if (obj) handleFind(obj.dataset.id, obj);
 });
 if (window.speechSynthesis) window.speechSynthesis.onvoiceschanged = () => {};
 
 load().catch((err) => {
-  document.getElementById("lesson-count").textContent = "Không tải được dữ liệu. Hãy mở trang qua http://localhost, không mở file trực tiếp.";
+  document.getElementById("lesson-count").textContent = "Không tải được dữ liệu. Hãy mở trang qua http://localhost.";
   console.error(err);
 });

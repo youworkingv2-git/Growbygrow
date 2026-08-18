@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>English Adventure — xem curriculum</title>
+  <title>English Adventure — World 0</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet" />
@@ -20,62 +20,62 @@
         </div>
       </div>
       <nav class="tabs" role="tablist">
-        <button class="tab is-on" data-view="map">Bản đồ</button>
-        <button class="tab" data-view="play">Chơi thử</button>
+        <button class="tab" data-view="map">Bản đồ</button>
+        <button class="tab is-on" data-view="play">Chơi World 0</button>
         <button class="tab" data-view="lessons">126 bài</button>
         <button class="tab" data-view="words">69 từ MVP</button>
       </nav>
     </header>
 
     <main>
-      <section id="view-map" class="view is-on">
+      <section id="view-map" class="view">
         <div class="hero-card">
           <div>
             <h2>Hang Out 1 → A2 Flyers</h2>
-            <p>Game phiêu lưu. Tiếng Anh là chìa khóa để chơi, không phải danh sách từ. Phiên bản đầu: <strong>nhà của mình</strong>, 10 bài, tìm gấu bông Teddy.</p>
+            <p>Bắt đầu ở <strong>Tutorial Village (W0)</strong>. Chào Mira, nói tên, tìm ngôi sao, rồi cảm ơn. Sau đó mới vào nhà.</p>
             <div class="pills">
-              <span>126 bài toàn hành trình</span>
-              <span>69 từ World 0–1</span>
-              <span>5 mini-game</span>
+              <span>W0 · 4 beat tutorial</span>
+              <span>W1 · My Room</span>
+              <span>Bật loa để nghe</span>
             </div>
           </div>
-          <button class="cta" data-open-play>Chơi thử phòng ngủ →</button>
+          <button class="cta" type="button" data-play="W0">Chơi World 0 →</button>
         </div>
         <ol class="trail" id="world-trail"></ol>
       </section>
 
-      <section id="view-play" class="view">
+      <section id="view-play" class="view is-on">
         <div class="play-layout">
           <aside class="play-side">
-            <p class="eyebrow">World 1 · Lesson 04</p>
-            <h2>My Room</h2>
-            <p class="hook">Phòng tối. Mira nhờ bạn bật đèn và tìm đồ. Nghe rồi chạm đúng vật.</p>
-            <ol class="steps-mini">
-              <li>Story</li>
-              <li>Discover</li>
-              <li>Practice · Find It</li>
-              <li>Reward</li>
-            </ol>
+            <p class="eyebrow" id="play-kicker">World 0 · Tutorial Village</p>
+            <h2 id="play-title">Làng tập làm quen</h2>
+            <p class="hook" id="play-hook">Mira đợi ở cổng làng. Làm 4 việc nhỏ rồi được vào nhà.</p>
+            <div class="howto" id="play-howto">
+              <p><b>Cách chơi</b></p>
+              <ol>
+                <li>Bấm <b>Bắt đầu</b> (cần bấm 1 lần để trình duyệt được đọc tiếng Anh).</li>
+                <li>Nghe Mira. Không hiểu thì bấm 🔊.</li>
+                <li>Chọn lời chào, gõ tên, chạm ngôi sao, chọn Thank you.</li>
+                <li>Sai thì <i>Try again</i> — không thua, không game over.</li>
+              </ol>
+            </div>
+            <div class="lesson-switch">
+              <button type="button" class="chip is-on" data-play="W0">W0 Làng</button>
+              <button type="button" class="chip" data-play="W1">W1 Phòng ngủ</button>
+            </div>
             <div class="hud">
               <span id="hud-hearts">❤ ❤ ❤</span>
               <span id="hud-stars">☆ ☆ ☆</span>
               <span id="hud-xp">0 XP</span>
             </div>
-            <p class="hint" id="play-hint">Bấm Bắt đầu. Trình duyệt sẽ đọc tiếng Anh.</p>
+            <p class="hint" id="play-hint">Beat 1/4 · Chào Mira</p>
           </aside>
           <div class="stage-wrap">
             <div class="lesson-bar">
-              <p id="npc-line">Mira: Hello! This is my room.</p>
+              <p id="npc-line">Mira: Hello! Tap Bắt đầu to play.</p>
               <button type="button" id="btn-listen" class="icon-btn" title="Nghe lại">🔊</button>
             </div>
-            <div class="room" id="room" aria-label="Phòng ngủ">
-              <button class="obj door" data-id="door" style="left:6%;top:28%"><span>door</span></button>
-              <button class="obj window" data-id="window" style="left:38%;top:10%"><span>window</span></button>
-              <button class="obj bed" data-id="bed" style="left:58%;top:48%"><span>bed</span></button>
-              <button class="obj desk" data-id="desk" style="left:8%;top:62%"><span>desk</span></button>
-              <button class="obj chair" data-id="chair" style="left:28%;top:68%"><span>chair</span></button>
-              <button class="obj lamp" data-id="lamp" style="left:78%;top:18%"><span>lamp</span></button>
-            </div>
+            <div id="stage-scene" class="scene village" aria-live="polite"></div>
             <div class="stage-actions">
               <button type="button" class="cta" id="btn-start">Bắt đầu</button>
               <p id="feedback" class="feedback"></p>
@@ -124,6 +124,6 @@
       </section>
     </main>
   </div>
-  <script src="app.js"></script>
+  <script src="app.js?v=w0"></script>
 </body>
 </html>
