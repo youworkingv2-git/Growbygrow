@@ -127,6 +127,8 @@ Quiz behavior:
 - Tracks total answers, correct answers, score, streak, elapsed time, and accuracy.
 - Records per-word quiz attempt count and correct count for display on the Learn screen.
 - Shows a quiz result summary after the final question, including correct count, wrong count, accuracy, elapsed time, total Hint presses, total Lightbulb presses, and each question's selected/correct answer.
+- After a completed quiz, shows **Start New Quiz** and **Retry Incorrect Questions**.
+- If more than 40% of answers are wrong, highlights Retry Incorrect Questions and starts a new quiz with only the missed words.
 - Supports quiz reset.
 
 ### Progress And Stats
@@ -137,7 +139,7 @@ Quiz behavior:
 - Shows scheduled review count.
 - Shows completion percentage with a progress bar.
 - Shows recently known words.
-- Shows the current learning queue.
+- Shows the current learning queue on the left and the remaining words in the selected topic on the right.
 - Shows stats for the selected topic or all topics.
 - Lets the user choose the vocabulary source: TOEIC, Grade 9, Grade 4, American IPA, or English Dictation.
 - Lets the user set the number of words used in each quiz.

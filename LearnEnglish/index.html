@@ -71,6 +71,8 @@
       .icon-button { width: 3rem; height: 2.55rem; border-radius: 999px; }
       .button, .tab, .nav-button { border-radius: 999px; padding: 0.75rem 0.85rem; transition: transform 0.15s ease; }
       .button:hover, .tab:hover, .nav-button:hover { transform: translateY(-1px); }
+      .button:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+      .button:disabled:hover { transform: none; }
       .active, .primary { border-color: transparent; background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; }
       .danger { color: white; border-color: transparent; background: linear-gradient(135deg, #f43f5e, #fb7185); }
       .success { color: white; border-color: transparent; background: linear-gradient(135deg, #16a34a, #22c55e); }
@@ -87,9 +89,15 @@
       .progress-track { overflow: hidden; height: 0.65rem; border-radius: 999px; background: rgba(148, 163, 184, 0.22); }
       .progress-fill { height: 100%; width: 0%; border-radius: inherit; background: linear-gradient(90deg, var(--primary), var(--accent)); transition: width 0.25s ease; }
       .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+      .queue-split { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; align-items: start; }
+      .queue-column { min-width: 0; }
+      .queue-list { display: grid; gap: 0.4rem; max-height: 24rem; overflow: auto; padding-right: 0.2rem; }
+      .queue-list p { font-size: 0.92rem; line-height: 1.35; }
       .stat { padding: 1rem; border-radius: 1rem; background: var(--panel-strong); border: 1px solid var(--line); }
       .stat strong { display: block; margin-top: 0.25rem; font-size: 1.5rem; }
       .quiz-options, .typing-form { display: grid; gap: 0.65rem; }
+      .quiz-start-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; }
+      .quiz-start-actions .button { width: 100%; white-space: normal; line-height: 1.3; border-radius: 1.15rem; }
       .option { width: 100%; text-align: left; border-radius: 1rem; }
       .option:disabled { opacity: 0.45; cursor: not-allowed; }
       .option.success:disabled { opacity: 1 !important; background: linear-gradient(135deg, #16a34a, #22c55e) !important; color: white !important; border-color: transparent !important; }
@@ -140,7 +148,7 @@
       input[type="range"]::-webkit-slider-thumb:hover {
         transform: scale(1.25);
       }
-      @media (max-width: 520px) { .app { padding-inline: 0.8rem; } .header { margin-inline: -0.8rem; padding-inline: 0.8rem; } .stats-grid, .tabs.four, .tabs.five { grid-template-columns: 1fr 1fr; } .word-title { font-size: 1.7rem; } .pill { display: none; } }
+      @media (max-width: 520px) { .app { padding-inline: 0.8rem; } .header { margin-inline: -0.8rem; padding-inline: 0.8rem; } .stats-grid, .tabs.four, .tabs.five { grid-template-columns: 1fr 1fr; } .queue-split, .quiz-start-actions { grid-template-columns: 1fr; } .word-title { font-size: 1.7rem; } .pill { display: none; } }
     </style>
   </head>
   <body>
@@ -471,6 +479,7 @@
       }
 
       function prettyTopic(topic) {
+        if (/^Unit \d+/i.test(topic)) return topic;
         // Convert hyphens/underscores to spaces and capitalize each word
         return topic
           .replace(/[-_]/g, ' ')
@@ -562,7 +571,9 @@
       }
 
       function getTopics(words = state.words) {
-        return [...new Set(words.map((word) => word.topic).filter(Boolean))].sort((a, b) => a.localeCompare(b));
+        return [...new Set(words.map((word) => word.topic).filter(Boolean))].sort((a, b) =>
+          a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' })
+        );
       }
 
       function getTopicWords() {
@@ -1024,9 +1035,12 @@
         return { id: `${word.id}-${mode}-${state.quizStartedAt || Date.now()}-${state.quizQuestionIndex}`, mode, prompt: prompts[mode], answer: ['word', 'typing', 'dictation'].includes(mode) ? word.word : word.meaning_vi, options, word };
       }
 
-      function startQuiz(mode = state.quizMode) {
+      function startQuiz(mode = state.quizMode, options = {}) {
+        const retryIds = Array.isArray(options.questionIds)
+          ? options.questionIds.filter((id) => state.words.some((word) => word.id === id))
+          : [];
         state.quizMode = mode;
-        state.quizQuestionIds = buildQuizQuestionIds();
+        state.quizQuestionIds = retryIds.length ? retryIds : buildQuizQuestionIds();
         state.quizQuestionIndex = 0;
         state.quizResults = [];
         state.quizStartedAt = Date.now();
@@ -1044,6 +1058,24 @@
         state.feedback = state.currentQuestion ? '' : 'Load at least 1 word to start a quiz.';
         saveState();
         render();
+      }
+
+      function getIncorrectQuizWordIds() {
+        return [...new Set(
+          state.quizResults
+            .filter((item) => !item.isCorrect)
+            .map((item) => item.wordId),
+        )].filter((id) => state.words.some((word) => word.id === id));
+      }
+
+      function shouldRetryIncorrectQuiz(quizStats = getQuizStats()) {
+        return quizStats.total > 0 && ((quizStats.total - quizStats.correct) / quizStats.total) * 100 > 40;
+      }
+
+      function retryIncorrectQuiz() {
+        const incorrectIds = getIncorrectQuizWordIds();
+        if (!incorrectIds.length) return;
+        startQuiz(state.quizMode, { questionIds: shuffle(incorrectIds) });
       }
 
       function answerQuestion(answer) {
@@ -1379,7 +1411,21 @@
           <div class="panel stack">
             ${question ? renderQuestion(question) : (completedQuiz ? renderQuizSummary(quizStats) : '<div class="empty"><h3>Ready to practice?</h3><p class="muted">Choose a mode and start a quiz.</p></div>')}
             ${state.feedback ? `<p class="feedback">${state.feedback}</p>` : ''}
-            <button class="button" type="button" id="startQuiz">${question ? 'Restart quiz' : (completedQuiz ? 'Start new quiz' : 'Start quiz')}</button>
+            ${renderQuizStartActions(question, completedQuiz, quizStats)}
+          </div>
+        `;
+      }
+
+      function renderQuizStartActions(question, completedQuiz, quizStats) {
+        if (!completedQuiz) {
+          return `<button class="button" type="button" id="startQuiz">${question ? 'Restart quiz' : 'Start quiz'}</button>`;
+        }
+        const canRetry = getIncorrectQuizWordIds().length > 0;
+        const retryPrimary = shouldRetryIncorrectQuiz(quizStats);
+        return `
+          <div class="quiz-start-actions">
+            <button class="button${retryPrimary ? '' : ' primary'}" type="button" id="startQuiz">Start New Quiz</button>
+            <button class="button${retryPrimary ? ' primary' : ''}" type="button" id="retryIncorrectQuiz"${canRetry ? '' : ' disabled'}>Retry Incorrect Questions</button>
           </div>
         `;
       }
@@ -1504,6 +1550,7 @@
               ${statCard('Hint', quizStats.hintPressCount)}
               ${statCard('Lightbulb', quizStats.answerPeekCount)}
             </div>
+            ${shouldRetryIncorrectQuiz(quizStats) ? `<p class="muted small">You missed more than 40%. Retry the incorrect questions.</p>` : ''}
             <div class="stack" style="gap: 0.65rem;">
               ${resultRows}
             </div>
@@ -1531,7 +1578,10 @@
         const stats = getStats();
         const topicWords = getTopicWords();
         const knownWords = topicWords.filter((word) => word.status === 'known').slice(-8).reverse();
-        const learningWords = topicWords.filter((word) => word.status === 'learning').slice(0, LEARNING_LIMIT);
+        const orderedTopicWords = orderWords(topicWords);
+        const learningWords = orderedTopicWords.filter((word) => word.status === 'learning').slice(0, LEARNING_LIMIT);
+        const learningIds = new Set(learningWords.map((word) => word.id));
+        const remainingWords = orderedTopicWords.filter((word) => !learningIds.has(word.id));
         const scheduled = topicWords.filter((word) => word.nextReviewAt).length;
         const source = getDataSource();
 
@@ -1613,8 +1663,29 @@
             </div>
           </div>
           <div class="panel stack"><h3>Recently Known</h3>${knownWords.length ? knownWords.map((word) => `<p>${escapeHtml(word.word)} <span class="muted">${escapeHtml(word.meaning_vi)}</span></p>`).join('') : '<p class="muted">No known words yet.</p>'}</div>
-          <div class="panel stack"><h3>Learning Queue</h3>${learningWords.length ? learningWords.map((word) => `<p>${escapeHtml(word.word)} <span class="muted">${escapeHtml(word.meaning_vi)}</span></p>`).join('') : '<p class="muted">No learning words loaded.</p>'}</div>
+          <div class="panel stack">
+            <div class="queue-split">
+              <div class="queue-column stack" style="gap: 0.65rem;">
+                <div>
+                  <h3>Learning Queue</h3>
+                  <p class="muted small">${learningWords.length} word${learningWords.length === 1 ? '' : 's'}</p>
+                </div>
+                <div class="queue-list">${learningWords.length ? learningWords.map(renderQueueWord).join('') : '<p class="muted">No learning words loaded.</p>'}</div>
+              </div>
+              <div class="queue-column stack" style="gap: 0.65rem;">
+                <div>
+                  <h3>Remaining in topic</h3>
+                  <p class="muted small">${remainingWords.length} word${remainingWords.length === 1 ? '' : 's'}</p>
+                </div>
+                <div class="queue-list">${remainingWords.length ? remainingWords.map(renderQueueWord).join('') : '<p class="muted">No remaining words in this topic.</p>'}</div>
+              </div>
+            </div>
+          </div>
         `;
+      }
+
+      function renderQueueWord(word) {
+        return `<p>${escapeHtml(word.word)} <span class="muted">${escapeHtml(word.meaning_vi)}</span></p>`;
       }
 
       function statCard(label, value) {
@@ -1623,7 +1694,7 @@
 
       document.addEventListener('click', (event) => {
         const target = event.target.closest('button');
-        if (!target) return;
+        if (!target || target.disabled) return;
         if (target.type === 'submit') return;
         if (target.dataset.page) {
           if (target.dataset.page !== 'learn' && state.autoLearn.isPlaying) stopAutoLearn();
@@ -1671,6 +1742,7 @@
           return;
         }
         if (target.id === 'startQuiz') startQuiz(state.quizMode);
+        if (target.id === 'retryIncorrectQuiz') retryIncorrectQuiz();
         if (target.id === 'resetQuiz') resetQuizState();
         if (target.id === 'nextQuestion') {
           nextQuestion();

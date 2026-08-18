@@ -4,7 +4,7 @@ This project contains a curated English vocabulary dataset for Vietnamese Grade 
 
 ## Files
 
-- `grade4-basic-english-premium.json`: 200 vocabulary entries across school, family, animals, food, colors, activities, weather, transportation, body, clothes, sports, house, nature, jobs, daily routines, friends, hobbies, places, and time.
+- `grade4-basic-english-premium.json`: 436 vocabulary entries across school, family, animals, food, colors, activities, weather, transportation, body, clothes, sports, house, nature, jobs, daily routines, friends, hobbies, places, and time, including Grade 4 textbook words. The same English word may appear in more than one topic when the textbook uses it in more than one unit.
 - `validate-grade4.js`: Node.js validation script for structure, duplicates, IPA shape, audio URL format, grammar patterns, and repeated example templates.
 - `README.md`: Dataset documentation and maintenance guide.
 
@@ -85,4 +85,4 @@ The script prints summary statistics plus warnings and errors. Errors should be 
 - Do not use ungrammatical examples such as `I can see a homework` or `I like read`.
 - Prefer concrete, visual, child-safe vocabulary.
 - Keep examples realistic for Vietnamese Grade 4 students in school, home, and city life.
-- Avoid duplicate words, duplicate examples, and near-identical sentence templates.
+- Avoid duplicate words in the same topic, duplicate examples, and near-identical sentence templates.

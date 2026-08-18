@@ -5,25 +5,26 @@ const path = require('path');
 const DATASET_KEY = 'grade4-basic-english-premium';
 const FILE = path.join(__dirname, 'grade4-basic-english-premium.json');
 const REQUIRED_TOPICS = [
-  'school',
-  'family',
-  'animals',
-  'food',
-  'colors',
-  'activities',
-  'weather',
-  'transportation',
-  'body',
-  'clothes',
-  'sports',
-  'house',
-  'nature',
-  'jobs',
-  'daily-routines',
-  'friends',
-  'hobbies',
-  'places',
-  'time',
+  'Unit 1 – My friends',
+  'Unit 2 – Time and daily routines',
+  'Unit 3 – My week',
+  'Unit 4 – My birthday party',
+  'Unit 5 – Things we can do',
+  'Unit 6 – Our school facilities',
+  'Unit 7 – Our timetable',
+  'Unit 8 – My favourite subjects',
+  'Unit 9 – Our sports day',
+  'Unit 10 – Our summer holidays',
+  'Unit 11 – My home',
+  'Unit 12 – Jobs',
+  'Unit 13 – Appearance',
+  'Unit 14 – Daily activities',
+  "Unit 15 – My family's weekends",
+  'Unit 16 – Weather',
+  'Unit 17 – In the city',
+  'Unit 18 – At the shopping centre',
+  'Unit 19 – The animal world',
+  'Unit 20 – At summer camp',
 ];
 const REQUIRED_FIELDS = [
   'id',
@@ -120,8 +121,8 @@ const exampleTokens = [];
   if (ids.has(entry.id)) addError(id, `Duplicate id also used by ${ids.get(entry.id)}`);
   ids.set(entry.id, id);
 
-  const wordKey = normalize(entry.word);
-  if (words.has(wordKey)) addError(id, `Duplicate word also used by ${words.get(wordKey)}`);
+  const wordKey = `${normalize(entry.word)}::${entry.topic}`;
+  if (words.has(wordKey)) addError(id, `Duplicate word in topic also used by ${words.get(wordKey)}`);
   words.set(wordKey, id);
 
   const exampleKey = normalize(entry.example);
