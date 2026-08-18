@@ -1,88 +1,39 @@
+const SAVE_KEY = "english-adventure-unlock";
+
 const WORLDS = [
-  { id: "W0", name: "Tutorial Village", vi: "Làng tập làm quen", lessons: 4, color: "#c9892e", band: "Pre-A1", mvp: true, playable: true },
-  { id: "W1", name: "My Home", vi: "Nhà của mình", lessons: 10, color: "#d4654a", band: "Beginner", mvp: true, playable: true },
-  { id: "W2", name: "My School", vi: "Trường học", lessons: 12, color: "#3d6ea8", band: "A1", mvp: false },
-  { id: "W3", name: "Food City", vi: "Thành phố đồ ăn", lessons: 12, color: "#e09132", band: "A1", mvp: false },
-  { id: "W4", name: "Animal World", vi: "Thế giới động vật", lessons: 12, color: "#3f8a4a", band: "A1", mvp: false },
-  { id: "W5", name: "City", vi: "Thành phố", lessons: 12, color: "#5a6472", band: "A1+", mvp: false },
-  { id: "W6", name: "Weather & Seasons", vi: "Thời tiết", lessons: 10, color: "#4aa3c7", band: "A1+", mvp: false },
-  { id: "W7", name: "Hobbies", vi: "Sở thích", lessons: 12, color: "#7a4ea8", band: "A1+", mvp: false },
-  { id: "W8", name: "Travel", vi: "Du lịch", lessons: 12, color: "#1f7a6c", band: "A2", mvp: false },
-  { id: "W9", name: "Adventure World", vi: "Thế giới phiêu lưu", lessons: 14, color: "#24364a", band: "A2", mvp: false },
-  { id: "W10", name: "Flyer Island", vi: "Đảo Flyer", lessons: 16, color: "#c9892e", band: "A2 Flyers", mvp: false }
+  { id: "W0", name: "Tutorial Village", vi: "Làng tập làm quen", lessons: 4, color: "#c9892e", band: "Pre-A1" },
+  { id: "W1", name: "My Home", vi: "Nhà của mình", lessons: 10, color: "#d4654a", band: "Beginner" },
+  { id: "W2", name: "My School", vi: "Trường học", lessons: 12, color: "#3d6ea8", band: "A1" },
+  { id: "W3", name: "Food City", vi: "Thành phố đồ ăn", lessons: 12, color: "#e09132", band: "A1" },
+  { id: "W4", name: "Animal World", vi: "Thế giới động vật", lessons: 12, color: "#3f8a4a", band: "A1" },
+  { id: "W5", name: "City", vi: "Thành phố", lessons: 12, color: "#5a6472", band: "A1+" },
+  { id: "W6", name: "Weather & Seasons", vi: "Thời tiết", lessons: 10, color: "#4aa3c7", band: "A1+" },
+  { id: "W7", name: "Hobbies", vi: "Sở thích", lessons: 12, color: "#7a4ea8", band: "A1+" },
+  { id: "W8", name: "Travel", vi: "Du lịch", lessons: 12, color: "#1f7a6c", band: "A2" },
+  { id: "W9", name: "Adventure World", vi: "Thế giới phiêu lưu", lessons: 14, color: "#24364a", band: "A2" },
+  { id: "W10", name: "Flyer Island", vi: "Đảo Flyer", lessons: 16, color: "#c9892e", band: "A2 Flyers" }
 ];
 
-const W0_BEATS = [
-  {
-    id: "W0-T01",
-    title: "First Steps",
-    hint: "Nghe Hello rồi chọn đúng lời chào",
-    type: "listen_choose",
-    scene: "village",
-    say: "Hello!",
-    line: "Hello! Hi! Come in.",
-    choices: ["Hello", "Goodbye", "Please"],
-    answer: "hello"
-  },
-  {
-    id: "W0-T02",
-    title: "Your Name",
-    hint: "Gõ tên rồi bấm OK",
-    type: "name",
-    scene: "village",
-    say: "What's your name?",
-    line: "What's your name?"
-  },
-  {
-    id: "W0-T03",
-    title: "How to Play",
-    hint: "Nghe Find the star rồi chạm ngôi sao",
-    type: "find_it",
-    scene: "village",
-    say: "Find the star.",
-    line: "Find the star.",
-    objects: [
-      { id: "ball", label: "ball", left: "18%", top: "22%" },
-      { id: "star", label: "star", left: "48%", top: "18%" },
-      { id: "hat", label: "hat", left: "72%", top: "24%" }
-    ],
-    answer: "star"
-  },
-  {
-    id: "W0-T04",
-    title: "Thank You",
-    hint: "Nghe Thank you rồi chọn đúng",
-    type: "listen_choose",
-    scene: "village",
-    say: "Thank you.",
-    line: "Please help. Thank you! Goodbye!",
-    choices: ["Hello", "Thank you", "No"],
-    answer: "thank you"
-  }
-];
-
-const W1_FINDS = [
-  { say: "Find the lamp.", answer: "lamp", type: "find_it", scene: "room" },
-  { say: "Find the chair.", answer: "chair", type: "find_it", scene: "room" },
-  { say: "Find the window.", answer: "window", type: "find_it", scene: "room" },
-  { say: "There is a bed. Find the bed.", answer: "bed", type: "find_it", scene: "room" }
-];
+const FURNITURE = new Set(["door", "window", "bed", "desk", "chair", "lamp"]);
 
 const FALLBACK_MEANING = {
-  hello: "xin chào",
-  hi: "chào",
-  goodbye: "tạm biệt",
-  please: "làm ơn",
-  "thank you": "cảm ơn",
-  star: "ngôi sao",
-  ball: "quả bóng",
-  hat: "mũ",
-  lamp: "đèn",
-  chair: "ghế",
-  window: "cửa sổ",
-  bed: "giường",
-  door: "cửa",
-  desk: "bàn"
+  hello: "xin chào", hi: "chào", goodbye: "tạm biệt", please: "làm ơn", "thank you": "cảm ơn",
+  star: "ngôi sao", ball: "quả bóng", hat: "mũ", lamp: "đèn", chair: "ghế", window: "cửa sổ",
+  bed: "giường", door: "cửa", desk: "bàn", mum: "mẹ", dad: "bố", sister: "chị/em gái",
+  doll: "búp bê", blue: "xanh dương", red: "đỏ", green: "xanh lá",
+  pencil: "bút chì", book: "sách", bag: "cặp", ruler: "thước", eraser: "cục tẩy",
+  on: "ở trên", in: "ở trong", under: "ở dưới", happy: "vui", sad: "buồn", angry: "giận",
+  apple: "táo", banana: "chuối", carrot: "cà rốt", milk: "sữa", cake: "bánh", fish: "cá", onion: "hành",
+  cat: "mèo", dog: "chó", bird: "chim", cow: "bò", elephant: "voi", fly: "bay", swim: "bơi", big: "to", small: "nhỏ",
+  park: "công viên", school: "trường", hospital: "bệnh viện", library: "thư viện", shop: "cửa hàng",
+  doctor: "bác sĩ", pilot: "phi công", farmer: "nông dân", bus: "xe buýt", "next to": "bên cạnh",
+  umbrella: "ô", sun: "mặt trời", snow: "tuyết", sunny: "nắng", rainy: "mưa", jacket: "áo khoác",
+  windy: "gió", hot: "nóng", cold: "lạnh", coat: "áo choàng",
+  football: "bóng đá", piano: "đàn piano", computer: "máy tính", swimming: "bơi", reading: "đọc", playing: "đang chơi",
+  plane: "máy bay", train: "tàu", ticket: "vé", beach: "bãi biển", hotel: "khách sạn", key: "chìa khóa",
+  airport: "sân bay", tomorrow: "ngày mai", yesterday: "hôm qua",
+  went: "đã đi", saw: "đã thấy", bigger: "to hơn", map: "bản đồ", castle: "lâu đài",
+  cooking: "nấu ăn", sleeping: "ngủ", hungry: "đói", yellow: "vàng"
 };
 
 let lessons = [];
@@ -98,6 +49,50 @@ let stars = 0;
 let currentSay = "";
 let playerName = "friend";
 let missed = new Map();
+let unlockedMax = Number(localStorage.getItem(SAVE_KEY) || 0);
+
+function worldIndex(id) {
+  return WORLDS.findIndex((w) => w.id === id);
+}
+
+function worldById(id) {
+  return WORLDS.find((w) => w.id === id);
+}
+
+function nextWorldId(id) {
+  const i = worldIndex(id);
+  return i >= 0 && WORLDS[i + 1] ? WORLDS[i + 1].id : null;
+}
+
+function isOpen(id) {
+  return worldIndex(id) <= unlockedMax;
+}
+
+function saveUnlock() {
+  localStorage.setItem(SAVE_KEY, String(unlockedMax));
+}
+
+function unlockNext(fromId) {
+  const next = nextWorldId(fromId);
+  if (!next) return null;
+  unlockedMax = Math.max(unlockedMax, worldIndex(next));
+  saveUnlock();
+  renderTrail();
+  renderChips();
+  return next;
+}
+
+function playData(world) {
+  return WORLD_PLAY[world];
+}
+
+function fullQueue(world) {
+  return (playData(world).items || []).slice();
+}
+
+function reviewQueue(world, missWords) {
+  return fullQueue(world).filter((item) => item.answer && missWords.includes(item.answer));
+}
 
 function meaningOf(word) {
   const key = String(word).toLowerCase();
@@ -116,15 +111,6 @@ function markMiss(word) {
 
 function missedList() {
   return [...missed.values()].sort((a, b) => b.mistakes - a.mistakes);
-}
-
-function fullQueue(world) {
-  return world === "W1" ? W1_FINDS.slice() : W0_BEATS.slice();
-}
-
-function reviewQueue(world, missWords) {
-  const source = world === "W1" ? W1_FINDS : W0_BEATS;
-  return source.filter((item) => item.answer && missWords.includes(item.answer));
 }
 
 function speak(text) {
@@ -168,17 +154,28 @@ function parseCsv(text) {
 
 function renderTrail() {
   const trail = document.getElementById("world-trail");
-  trail.innerHTML = WORLDS.map((w) => `
-    <li class="world ${w.mvp ? "mvp" : ""}">
+  trail.innerHTML = WORLDS.map((w, i) => {
+    const open = i <= unlockedMax;
+    return `
+    <li class="world ${open ? "" : "is-locked"} ${i === unlockedMax ? "mvp" : ""}">
       <div class="mark" style="background:${w.color}">${w.id}</div>
       <div>
         <h3>${w.name} · ${w.vi}</h3>
-        <p>${w.lessons} bài · ${w.band}${w.playable ? " · bấm Chơi" : ""}</p>
+        <p>${w.lessons} bài · ${w.band}${open ? "" : " · khóa"}</p>
       </div>
-      <button type="button" class="${w.playable ? "play" : ""}" data-world="${w.id}" data-playable="${w.playable ? "1" : "0"}">
-        ${w.playable ? "Chơi" : "Xem bài"}
+      <button type="button" class="${open ? "play" : ""}" data-world="${w.id}" data-playable="${open ? "1" : "0"}">
+        ${open ? "Chơi" : "Khóa"}
       </button>
-    </li>
+    </li>`;
+  }).join("");
+}
+
+function renderChips() {
+  const box = document.getElementById("world-chips");
+  box.innerHTML = WORLDS.map((w, i) => `
+    <button type="button" class="chip ${w.id === playWorld ? "is-on" : ""}" data-play="${w.id}" ${i > unlockedMax ? "disabled" : ""}>
+      ${w.id}
+    </button>
   `).join("");
 }
 
@@ -234,79 +231,67 @@ function setFeedback(text, kind) {
 }
 
 function setMeta(world) {
-  document.querySelectorAll(".chip").forEach((el) => el.classList.toggle("is-on", el.dataset.play === world));
-  if (world === "W0") {
-    document.getElementById("play-kicker").textContent = isReview ? "World 0 · Ôn từ sai" : "World 0 · Tutorial Village";
-    document.getElementById("play-title").textContent = isReview ? "Chơi lại từ sai" : "Làng tập làm quen";
-    document.getElementById("play-hook").textContent = isReview
-      ? "Chỉ những từ vừa làm sai. Làm đúng ngay thì khỏi ôn tiếp."
-      : "Mira đợi ở cổng làng. Làm 4 việc nhỏ rồi được vào nhà.";
-    document.getElementById("play-howto").innerHTML = `
-      <p><b>Cách chơi World 0</b></p>
-      <ol>
-        <li>Bấm <b>Bắt đầu</b> để Mira nói tiếng Anh.</li>
-        <li>Sai thì Try again. Từ sai sẽ được tổng hợp cuối bài.</li>
-        <li>Sau bài, bấm <b>Chơi lại từ sai</b> để ôn đúng những từ đó.</li>
-      </ol>`;
-  } else {
-    document.getElementById("play-kicker").textContent = isReview ? "World 1 · Ôn từ sai" : "World 1 · Lesson 04";
-    document.getElementById("play-title").textContent = isReview ? "Chơi lại từ sai" : "My Room";
-    document.getElementById("play-hook").textContent = isReview
-      ? "Chỉ tìm những đồ vừa chạm nhầm."
-      : "Phòng ngủ. Nghe rồi chạm đúng đồ vật.";
-    document.getElementById("play-howto").innerHTML = `
-      <p><b>Cách chơi My Room</b></p>
-      <ol>
-        <li>Bấm <b>Bắt đầu</b>.</li>
-        <li>Nghe Mira rồi chạm đúng đồ.</li>
-        <li>Cuối bài sẽ hiện từ sai để chơi lại.</li>
-      </ol>`;
-  }
+  const w = worldById(world);
+  const next = nextWorldId(world);
+  document.getElementById("play-kicker").textContent = isReview ? `${world} · Ôn từ sai` : `${world} · ${w.name}`;
+  document.getElementById("play-title").textContent = isReview ? "Chơi lại từ sai" : w.vi;
+  document.getElementById("play-hook").textContent = isReview
+    ? "Chỉ những từ vừa làm sai. Đúng ngay thì khỏi ôn tiếp."
+    : `Nghe Mira rồi chọn hoặc chạm đúng. Xong ${world} sẽ mở ${next || "Flyer Champion"}.`;
+  document.getElementById("play-howto").innerHTML = `
+    <p><b>Hành trình</b></p>
+    <ol>
+      <li>Chơi hết màn của world này.</li>
+      <li>Ôn từ sai nếu có.</li>
+      <li>Bấm mở world tiếp theo, đến W10.</li>
+    </ol>`;
+  renderChips();
 }
 
 function villageShell(inner) {
+  return `<span class="mira-label">Mira</span><div class="gate" title="gate"></div>${inner}`;
+}
+
+function fieldHtml(objects) {
+  return `<div class="field">${(objects || []).map((o) =>
+    `<button class="obj field-obj" type="button" data-id="${o}">${o}</button>`
+  ).join("")}</div>`;
+}
+
+function roomHtml() {
   return `
-    <span class="mira-label">Mira</span>
-    <div class="gate" title="gate"></div>
-    ${inner}
-  `;
+    <div class="room" id="room">
+      <button class="obj door" data-id="door" style="left:6%;top:28%"><span>door</span></button>
+      <button class="obj window" data-id="window" style="left:38%;top:10%"><span>window</span></button>
+      <button class="obj bed" data-id="bed" style="left:58%;top:48%"><span>bed</span></button>
+      <button class="obj desk" data-id="desk" style="left:8%;top:62%"><span>desk</span></button>
+      <button class="obj chair" data-id="chair" style="left:28%;top:68%"><span>chair</span></button>
+      <button class="obj lamp" data-id="lamp" style="left:78%;top:18%"><span>lamp</span></button>
+    </div>`;
 }
 
 function currentItem() {
   return queue[playIndex];
 }
 
-function renderItem(item) {
+function wrapScene(item, inner) {
+  const sceneName = item.scene || playData(playWorld).scene;
   const scene = document.getElementById("stage-scene");
+  scene.className = `scene ${sceneName}`;
+  scene.innerHTML = sceneName === "village" ? villageShell(inner) : inner;
+}
+
+function renderItem(item) {
   if (!item) return;
   const total = queue.length;
   const n = playIndex + 1;
   document.getElementById("play-hint").textContent = isReview
-    ? `Ôn ${n}/${total} · ${item.answer || item.title}`
-    : `${item.hint || ""} · ${n}/${total}`;
+    ? `Ôn ${n}/${total} · ${item.answer || ""}`
+    : `${item.hint || playWorld} · ${n}/${total}`;
   setLine(item.line || item.say);
-  if (item.scene === "room" || playWorld === "W1") {
-    scene.className = "scene";
-    scene.innerHTML = `
-      <div class="room" id="room">
-        <button class="obj door" data-id="door" style="left:6%;top:28%"><span>door</span></button>
-        <button class="obj window" data-id="window" style="left:38%;top:10%"><span>window</span></button>
-        <button class="obj bed" data-id="bed" style="left:58%;top:48%"><span>bed</span></button>
-        <button class="obj desk" data-id="desk" style="left:8%;top:62%"><span>desk</span></button>
-        <button class="obj chair" data-id="chair" style="left:28%;top:68%"><span>chair</span></button>
-        <button class="obj lamp" data-id="lamp" style="left:78%;top:18%"><span>lamp</span></button>
-      </div>`;
-    speak(item.say);
-    return;
-  }
-  scene.className = "scene village";
-  if (item.type === "listen_choose") {
-    scene.innerHTML = villageShell(`
-      <div class="choices">
-        ${item.choices.map((c) => `<button class="choice" type="button" data-choice="${c.toLowerCase()}">${c}</button>`).join("")}
-      </div>`);
-  } else if (item.type === "name") {
-    scene.innerHTML = villageShell(`
+
+  if (item.type === "name") {
+    wrapScene(item, `
       <form class="name-box" id="name-form">
         <input id="name-input" maxlength="16" placeholder="Anna" autocomplete="nickname" />
         <button class="cta" type="submit">OK</button>
@@ -326,18 +311,44 @@ function renderItem(item) {
       playIndex += 1;
       setTimeout(runQueue, 900);
     });
-  } else if (item.type === "find_it") {
-    scene.innerHTML = villageShell(item.objects.map((o) =>
-      `<button class="obj ${o.id}" type="button" data-id="${o.id}" style="left:${o.left};top:${o.top};position:absolute">${o.label}</button>`
-    ).join(""));
+    speak(item.say);
+    return;
+  }
+
+  if (item.type === "listen_choose") {
+    wrapScene(item, `<div class="choices">${item.choices.map((c) =>
+      `<button class="choice" type="button" data-choice="${c.toLowerCase()}">${c}</button>`
+    ).join("")}</div>`);
+    speak(item.say);
+    return;
+  }
+
+  const objs = item.objects || [];
+  if (item.scene === "room" && objs.every((o) => FURNITURE.has(o))) {
+    const scene = document.getElementById("stage-scene");
+    scene.className = "scene";
+    scene.innerHTML = roomHtml();
+  } else {
+    wrapScene(item, fieldHtml(objs));
   }
   speak(item.say);
 }
 
+function nextCta(list) {
+  if (list.length) {
+    return `<button class="cta" type="button" data-review>Chơi lại ${list.length} từ sai</button>
+            <button class="cta ghost" type="button" data-skip-review>Bỏ qua, world tiếp</button>`;
+  }
+  const next = nextWorldId(playWorld);
+  if (next) {
+    const w = worldById(next);
+    return `<button class="cta" type="button" data-next-world="${next}">Mở ${next} · ${w.vi} →</button>`;
+  }
+  return `<p><b>Flyer Champion!</b> Bạn đã đi hết bản đồ.</p>`;
+}
+
 function showRecap(list) {
-  const scene = document.getElementById("stage-scene");
-  const village = playWorld === "W0";
-  scene.className = village ? "scene village" : "scene";
+  const item = { scene: playData(playWorld).scene };
   const perfect = list.length === 0;
   const items = list.map((m) => `
     <li>
@@ -347,25 +358,16 @@ function showRecap(list) {
       </button>
     </li>`).join("");
   const body = perfect
-    ? `<p>Không có từ sai. Bạn làm rất tốt!</p>`
-    : `<p>${isReview ? "Vẫn còn từ chưa đúng ngay." : "Những từ vừa làm sai:"} chạm từ để nghe lại.</p>
-       <ul class="miss-list">${items}</ul>`;
-  const actions = perfect
-    ? (playWorld === "W0"
-      ? `<button class="cta" type="button" data-next-home>Vào nhà →</button>`
-      : `<button class="cta" type="button" data-play="W0">Về làng</button>`)
-    : `<button class="cta" type="button" data-review>Chơi lại ${list.length} từ sai</button>
-       <button class="cta ghost" type="button" data-skip-review>Bỏ qua</button>`;
-  const title = isReview ? "Ôn xong vòng này" : "Tổng hợp sau bài";
-  const recap = `<div class="recap">
-      <h3>${title}</h3>
+    ? `<p>Không có từ sai. World ${playWorld} xong!</p>`
+    : `<p>Từ vừa làm sai — chạm để nghe, rồi chơi lại.</p><ul class="miss-list">${items}</ul>`;
+  wrapScene(item, `<div class="recap">
+      <h3>${isReview ? "Ôn xong vòng này" : "Tổng hợp sau bài"}</h3>
       ${body}
-      <div class="recap-actions">${actions}</div>
-    </div>`;
-  scene.innerHTML = village ? villageShell(recap) : recap;
+      <div class="recap-actions">${nextCta(list)}</div>
+    </div>`);
   document.getElementById("play-hint").textContent = perfect
-    ? "Xong bài. Không cần ôn."
-    : `Cần ôn ${list.length} từ. Bấm Chơi lại từ sai.`;
+    ? (nextWorldId(playWorld) ? `Xong ${playWorld}. Mở world tiếp theo.` : "Hết hành trình.")
+    : `Cần ôn ${list.length} từ.`;
 }
 
 function finishRun() {
@@ -373,11 +375,12 @@ function finishRun() {
   const list = missedList();
   if (list.length === 0) {
     stars = 3;
-    xp += isReview ? 10 : (playWorld === "W0" ? 15 : 20);
+    xp += isReview ? 10 : 20;
     setHud();
     setLine("Great job!");
     speak("Great job!");
-    setFeedback(isReview ? "Ôn xong · không còn từ sai" : "Xong bài · không có từ sai", "ok");
+    setFeedback(`Xong ${playWorld}`, "ok");
+    unlockNext(playWorld);
   } else {
     setLine("Let's practice these words.");
     speak("Let's practice these words.");
@@ -395,23 +398,28 @@ function runQueue() {
 }
 
 function startPlay(world, review) {
-  playWorld = world || "W0";
+  const id = world || "W0";
+  if (!isOpen(id)) {
+    setFeedback(`Hãy xong ${WORLDS[unlockedMax].id} trước.`, "bad");
+    return;
+  }
+  playWorld = id;
   isReview = Boolean(review);
   playing = true;
   playIndex = 0;
   hearts = 3;
   stars = 0;
   if (!isReview) {
-    xp = 0;
     missed = new Map();
     queue = fullQueue(playWorld);
   } else {
     const wordsToRetry = missedList().map((m) => m.word);
     missed = new Map();
     queue = reviewQueue(playWorld, wordsToRetry);
-    if (queue.length === 0) {
+    if (!queue.length) {
       isReview = false;
       playing = false;
+      unlockNext(playWorld);
       showRecap([]);
       return;
     }
@@ -431,6 +439,7 @@ function skipReview() {
   missed = new Map();
   isReview = false;
   playing = false;
+  unlockNext(playWorld);
   setFeedback("Đã bỏ qua phần ôn.", "ok");
   showRecap([]);
 }
@@ -442,7 +451,7 @@ function wrong() {
   setHud();
   setFeedback("Try again! Listen carefully.", "bad");
   speak("Try again. Listen carefully.");
-  setTimeout(() => speak(item.say), 1100);
+  setTimeout(() => item && speak(item.say), 1100);
 }
 
 function advance() {
@@ -490,17 +499,17 @@ function handleFind(id, btn) {
 
 async function load() {
   renderTrail();
-  playWorld = "W0";
+  renderChips();
+  playWorld = WORLDS[Math.min(unlockedMax, WORLDS.length - 1)].id;
   playing = false;
   isReview = false;
-  playIndex = 0;
-  setMeta("W0");
-  const scene = document.getElementById("stage-scene");
-  scene.className = "scene village";
-  scene.innerHTML = villageShell("");
+  setMeta(playWorld);
+  wrapScene({ scene: playData(playWorld).scene }, "");
   setLine("Hello! Tap Bắt đầu to play.");
   setFeedback("");
-  document.getElementById("play-hint").textContent = "Bấm Bắt đầu. Trình duyệt sẽ đọc Hello!";
+  document.getElementById("play-hint").textContent = `World đang mở: ${playWorld}. Bấm Bắt đầu.`;
+  document.getElementById("hero-play").dataset.play = playWorld;
+  document.getElementById("hero-play").textContent = `Chơi ${playWorld} →`;
 
   const [csvText, vocabJson] = await Promise.all([
     fetch("../docs/curriculum/lesson-matrix-full.csv").then((r) => r.text()),
@@ -525,8 +534,12 @@ async function load() {
 document.querySelectorAll(".tab").forEach((btn) => {
   btn.addEventListener("click", () => showView(btn.dataset.view));
 });
-document.querySelectorAll("[data-play]").forEach((btn) => {
-  btn.addEventListener("click", () => startPlay(btn.dataset.play));
+document.getElementById("world-chips").addEventListener("click", (e) => {
+  const btn = e.target.closest("[data-play]");
+  if (btn && !btn.disabled) startPlay(btn.dataset.play);
+});
+document.getElementById("hero-play").addEventListener("click", (e) => {
+  startPlay(e.currentTarget.dataset.play || "W0");
 });
 document.getElementById("world-trail").addEventListener("click", (e) => {
   const btn = e.target.closest("[data-world]");
@@ -535,9 +548,8 @@ document.getElementById("world-trail").addEventListener("click", (e) => {
     startPlay(btn.dataset.world);
     return;
   }
-  document.getElementById("filter-world").value = btn.dataset.world;
-  renderLessons(btn.dataset.world);
-  showView("lessons");
+  setFeedback("World này còn khóa. Hãy xong world đang mở.", "bad");
+  showView("map");
 });
 document.getElementById("filter-world").addEventListener("change", (e) => renderLessons(e.target.value));
 document.getElementById("filter-topic").addEventListener("change", (e) => renderWords(e.target.value));
@@ -549,35 +561,15 @@ document.getElementById("btn-start").addEventListener("click", () => startPlay(p
 document.getElementById("btn-listen").addEventListener("click", () => speak(currentSay || "Hello!"));
 document.getElementById("stage-scene").addEventListener("click", (e) => {
   const review = e.target.closest("[data-review]");
-  if (review) {
-    startReview();
-    return;
-  }
+  if (review) { startReview(); return; }
   const skip = e.target.closest("[data-skip-review]");
-  if (skip) {
-    skipReview();
-    return;
-  }
-  const home = e.target.closest("[data-next-home]");
-  if (home) {
-    startPlay("W1");
-    return;
-  }
-  const replay = e.target.closest("[data-play]");
-  if (replay) {
-    startPlay(replay.dataset.play);
-    return;
-  }
+  if (skip) { skipReview(); return; }
+  const next = e.target.closest("[data-next-world]");
+  if (next) { startPlay(next.dataset.nextWorld); return; }
   const sayBtn = e.target.closest(".miss-list [data-say]");
-  if (sayBtn) {
-    speak(sayBtn.dataset.say);
-    return;
-  }
+  if (sayBtn) { speak(sayBtn.dataset.say); return; }
   const choice = e.target.closest("[data-choice]");
-  if (choice) {
-    handleChoice(choice.dataset.choice, choice);
-    return;
-  }
+  if (choice) { handleChoice(choice.dataset.choice, choice); return; }
   const obj = e.target.closest("[data-id]");
   if (obj) handleFind(obj.dataset.id, obj);
 });

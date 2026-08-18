@@ -142,7 +142,8 @@ h2 { font-size: 26px; }
   cursor: pointer;
   font: inherit;
 }
-.chip.is-on { background: var(--ink); color: var(--paper); }
+.chip:disabled { opacity: .4; cursor: not-allowed; }
+.world.is-locked { opacity: .55; }
 .hud { display: flex; gap: 12px; font-weight: 800; margin: 12px 0; }
 .lesson-bar {
   display: flex; justify-content: space-between; gap: 8px; align-items: center;
@@ -162,11 +163,40 @@ h2 { font-size: 26px; }
   border-radius: 18px;
   overflow: hidden;
 }
+.field {
+  position: absolute;
+  inset: 18px 18px 70px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-content: flex-start;
+  z-index: 3;
+}
+.field-obj { position: static; min-width: 88px; }
+.scene.school { background: linear-gradient(#c5d8ee 0 40%, #8aa8c7 40% 100%); }
+.scene.food { background: linear-gradient(#ffe0b3 0 40%, #e09132 40% 100%); }
+.scene.animals { background: linear-gradient(#c8e6c9 0 40%, #3f8a4a 40% 100%); }
+.scene.city { background: linear-gradient(#d7dde5 0 38%, #5a6472 38% 100%); }
+.scene.weather { background: linear-gradient(#9ad7f5 0 45%, #7cbc6a 45% 100%); }
+.scene.hobbies { background: linear-gradient(#e4d4f5 0 40%, #7a4ea8 40% 100%); }
+.scene.travel { background: linear-gradient(#b8efe6 0 42%, #1f7a6c 42% 100%); }
+.scene.adventure { background: linear-gradient(#3b4a63 0 45%, #1c2433 45% 100%); color: #fff; }
+.scene.island { background: linear-gradient(#f3d48a 0 42%, #c9892e 42% 100%); }
 .scene.village {
-  background:
-    linear-gradient(#8ecae6 0 42%, #7cbc6a 42% 58%, #5a9a4a 58% 100%);
+  background: linear-gradient(#8ecae6 0 42%, #7cbc6a 42% 58%, #5a9a4a 58% 100%);
 }
 .scene.village::after {
+  content: "";
+  position: absolute;
+  left: 18%;
+  bottom: 18%;
+  width: 88px;
+  height: 88px;
+  border-radius: 50% 50% 12px 12px;
+  background: #f4c9a8;
+  border: 2px solid var(--ink);
+  box-shadow: 0 58px 0 -28px #d4654a, 0 48px 0 -18px #fff8ea;
+}
   content: "";
   position: absolute;
   left: 18%;

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>English Adventure — World 0</title>
+  <title>English Adventure — W0 đến W10</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet" />
@@ -21,7 +21,7 @@
       </div>
       <nav class="tabs" role="tablist">
         <button class="tab" data-view="map">Bản đồ</button>
-        <button class="tab is-on" data-view="play">Chơi World 0</button>
+        <button class="tab is-on" data-view="play">Chơi</button>
         <button class="tab" data-view="lessons">126 bài</button>
         <button class="tab" data-view="words">69 từ MVP</button>
       </nav>
@@ -32,14 +32,14 @@
         <div class="hero-card">
           <div>
             <h2>Hang Out 1 → A2 Flyers</h2>
-            <p>Bắt đầu ở <strong>Tutorial Village (W0)</strong>. Chào Mira, nói tên, tìm ngôi sao, rồi cảm ơn. Sau đó mới vào nhà.</p>
+            <p>Xong <strong>W0</strong> sẽ mở W1, xong W1 mở W2, đi hết đến <strong>W10 Flyer Island</strong>.</p>
             <div class="pills">
-              <span>W0 · 4 beat tutorial</span>
-              <span>W1 · My Room</span>
+              <span>11 world nối tiếp</span>
+              <span>Ôn từ sai cuối bài</span>
               <span>Bật loa để nghe</span>
             </div>
           </div>
-          <button class="cta" type="button" data-play="W0">Chơi World 0 →</button>
+          <button class="cta" type="button" id="hero-play" data-play="W0">Chơi W0 →</button>
         </div>
         <ol class="trail" id="world-trail"></ol>
       </section>
@@ -59,10 +59,7 @@
                 <li>Sai thì <i>Try again</i> — không thua, không game over.</li>
               </ol>
             </div>
-            <div class="lesson-switch">
-              <button type="button" class="chip is-on" data-play="W0">W0 Làng</button>
-              <button type="button" class="chip" data-play="W1">W1 Phòng ngủ</button>
-            </div>
+            <div class="lesson-switch" id="world-chips"></div>
             <div class="hud">
               <span id="hud-hearts">❤ ❤ ❤</span>
               <span id="hud-stars">☆ ☆ ☆</span>
@@ -124,6 +121,7 @@
       </section>
     </main>
   </div>
-  <script src="app.js?v=review1"></script>
+  <script src="worlds.js?v=path1"></script>
+  <script src="app.js?v=path1"></script>
 </body>
 </html>
