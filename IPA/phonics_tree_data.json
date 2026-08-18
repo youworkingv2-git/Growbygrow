@@ -1,0 +1,402 @@
+{
+  "nodes": [
+    {
+      "id": "node_starters_root",
+      "world_id": "1",
+      "parent_id": null,
+      "ipa_symbol": "/æ/",
+      "title": "Short Vowel A",
+      "audio_url": "audio/sounds/short_a.mp3",
+      "unlock_requirement": null
+    },
+    {
+      "id": "node_starters_short_e",
+      "world_id": "1",
+      "parent_id": "node_starters_root",
+      "ipa_symbol": "/e/",
+      "title": "Short Vowel E",
+      "audio_url": "audio/sounds/short_e.mp3",
+      "unlock_requirement": "node_starters_root"
+    },
+    {
+      "id": "node_starters_short_i",
+      "world_id": "1",
+      "parent_id": "node_starters_root",
+      "ipa_symbol": "/ɪ/",
+      "title": "Short Vowel I",
+      "audio_url": "audio/sounds/short_i.mp3",
+      "unlock_requirement": "node_starters_root"
+    },
+    {
+      "id": "node_starters_short_o",
+      "world_id": "1",
+      "parent_id": "node_starters_short_e",
+      "ipa_symbol": "/ɒ/",
+      "title": "Short Vowel O",
+      "audio_url": "audio/sounds/short_o.mp3",
+      "unlock_requirement": "node_starters_short_e"
+    },
+    {
+      "id": "node_starters_short_u",
+      "world_id": "1",
+      "parent_id": "node_starters_short_i",
+      "ipa_symbol": "/ʌ/",
+      "title": "Short Vowel U",
+      "audio_url": "audio/sounds/short_u.mp3",
+      "unlock_requirement": "node_starters_short_i"
+    },
+    {
+      "id": "node_movers1_long_a",
+      "world_id": "2",
+      "parent_id": "node_starters_short_u",
+      "ipa_symbol": "/eɪ/",
+      "title": "Long A (a_e, ai, ay)",
+      "audio_url": "audio/sounds/long_a.mp3",
+      "unlock_requirement": "node_starters_short_u"
+    },
+    {
+      "id": "node_movers1_long_e",
+      "world_id": "2",
+      "parent_id": "node_movers1_long_a",
+      "ipa_symbol": "/iː/",
+      "title": "Long E (ee, ea)",
+      "audio_url": "audio/sounds/long_e.mp3",
+      "unlock_requirement": "node_movers1_long_a"
+    },
+    {
+      "id": "node_movers1_long_i",
+      "world_id": "2",
+      "parent_id": "node_movers1_long_a",
+      "ipa_symbol": "/aɪ/",
+      "title": "Long I (i_e, igh, y)",
+      "audio_url": "audio/sounds/long_i.mp3",
+      "unlock_requirement": "node_movers1_long_a"
+    },
+    {
+      "id": "node_movers1_long_o",
+      "world_id": "2",
+      "parent_id": "node_movers1_long_e",
+      "ipa_symbol": "/oʊ/",
+      "title": "Long O (o_e, oa, ow)",
+      "audio_url": "audio/sounds/long_o.mp3",
+      "unlock_requirement": "node_movers1_long_e"
+    },
+    {
+      "id": "node_movers2_sh",
+      "world_id": "3",
+      "parent_id": "node_movers1_long_o",
+      "ipa_symbol": "/ʃ/",
+      "title": "Digraph SH",
+      "audio_url": "audio/sounds/sh.mp3",
+      "unlock_requirement": "node_movers1_long_o"
+    },
+    {
+      "id": "node_movers2_ch",
+      "world_id": "3",
+      "parent_id": "node_movers2_sh",
+      "ipa_symbol": "/tʃ/",
+      "title": "Digraph CH",
+      "audio_url": "audio/sounds/ch.mp3",
+      "unlock_requirement": "node_movers2_sh"
+    },
+    {
+      "id": "node_movers2_th",
+      "world_id": "3",
+      "parent_id": "node_movers2_sh",
+      "ipa_symbol": "/θ/",
+      "title": "Digraph TH (Unvoiced)",
+      "audio_url": "audio/sounds/th.mp3",
+      "unlock_requirement": "node_movers2_sh"
+    },
+    {
+      "id": "node_movers2_ng",
+      "world_id": "3",
+      "parent_id": "node_movers2_ch",
+      "ipa_symbol": "/ŋ/",
+      "title": "Nasal NG",
+      "audio_url": "audio/sounds/ng.mp3",
+      "unlock_requirement": "node_movers2_ch"
+    },
+    {
+      "id": "node_flyers_ar",
+      "world_id": "4",
+      "parent_id": "node_movers2_ng",
+      "ipa_symbol": "/ɑː/",
+      "title": "R-Controlled AR",
+      "audio_url": "audio/sounds/ar.mp3",
+      "unlock_requirement": "node_movers2_ng"
+    },
+    {
+      "id": "node_flyers_or",
+      "world_id": "4",
+      "parent_id": "node_flyers_ar",
+      "ipa_symbol": "/ɔː/",
+      "title": "R-Controlled OR",
+      "audio_url": "audio/sounds/or.mp3",
+      "unlock_requirement": "node_flyers_ar"
+    },
+    {
+      "id": "node_flyers_exceptions",
+      "world_id": "4",
+      "parent_id": "node_flyers_or",
+      "ipa_symbol": "★",
+      "title": "Boss Exception Slayer",
+      "audio_url": "audio/sounds/boss.mp3",
+      "unlock_requirement": "node_flyers_or"
+    }
+  ],
+  "words": [
+    {
+      "id": "word_cat",
+      "node_id": "node_starters_root",
+      "spelling": "cat",
+      "pattern": "a",
+      "audio_url": "audio/words/cat.mp3",
+      "is_exception": false,
+      "exception_tip": null
+    },
+    {
+      "id": "word_bat",
+      "node_id": "node_starters_root",
+      "spelling": "bat",
+      "pattern": "a",
+      "audio_url": "audio/words/bat.mp3",
+      "is_exception": false,
+      "exception_tip": null
+    },
+    {
+      "id": "word_apple",
+      "node_id": "node_starters_root",
+      "spelling": "apple",
+      "pattern": "a",
+      "audio_url": "audio/words/apple.mp3",
+      "is_exception": false,
+      "exception_tip": null
+    },
+    {
+      "id": "word_bed",
+      "node_id": "node_starters_short_e",
+      "spelling": "bed",
+      "pattern": "e",
+      "audio_url": "audio/words/bed.mp3",
+      "is_exception": false,
+      "exception_tip": null
+    },
+    {
+      "id": "word_pen",
+      "node_id": "node_starters_short_e",
+      "spelling": "pen",
+      "pattern": "e",
+      "audio_url": "audio/words/pen.mp3",
+      "is_exception": false,
+      "exception_tip": null
+    },
+    {
+      "id": "word_sit",
+      "node_id": "node_starters_short_i",
+      "spelling": "sit",
+      "pattern": "i",
+      "audio_url": "audio/words/sit.mp3",
+      "is_exception": false,
+      "exception_tip": null
+    },
+    {
+      "id": "word_pin",
+      "node_id": "node_starters_short_i",
+      "spelling": "pin",
+      "pattern": "i",
+      "audio_url": "audio/words/pin.mp3",
+      "is_exception": false,
+      "exception_tip": null
+    },
+    {
+      "id": "word_hot",
+      "node_id": "node_starters_short_o",
+      "spelling": "hot",
+      "pattern": "o",
+      "audio_url": "audio/words/hot.mp3",
+      "is_exception": false,
+      "exception_tip": null
+    },
+    {
+      "id": "word_cup",
+      "node_id": "node_starters_short_u",
+      "spelling": "cup",
+      "pattern": "u",
+      "audio_url": "audio/words/cup.mp3",
+      "is_exception": false,
+      "exception_tip": null
+    },
+    {
+      "id": "word_cake",
+      "node_id": "node_movers1_long_a",
+      "spelling": "cake",
+      "pattern": "a_e",
+      "audio_url": "audio/words/cake.mp3",
+      "is_exception": false,
+      "exception_tip": null
+    },
+    {
+      "id": "word_rain",
+      "node_id": "node_movers1_long_a",
+      "spelling": "rain",
+      "pattern": "ai",
+      "audio_url": "audio/words/rain.mp3",
+      "is_exception": false,
+      "exception_tip": "ai is usually in the middle of a word."
+    },
+    {
+      "id": "word_play",
+      "node_id": "node_movers1_long_a",
+      "spelling": "play",
+      "pattern": "ay",
+      "audio_url": "audio/words/play.mp3",
+      "is_exception": false,
+      "exception_tip": "ay usually comes at the end of a word."
+    },
+    {
+      "id": "word_said",
+      "node_id": "node_movers1_long_a",
+      "spelling": "said",
+      "pattern": "ai",
+      "audio_url": "audio/words/said.mp3",
+      "is_exception": true,
+      "exception_tip": "SAID is an irregular exception! Pronounced /sed/, NOT /seɪd/."
+    },
+    {
+      "id": "word_tree",
+      "node_id": "node_movers1_long_e",
+      "spelling": "tree",
+      "pattern": "ee",
+      "audio_url": "audio/words/tree.mp3",
+      "is_exception": false,
+      "exception_tip": null
+    },
+    {
+      "id": "word_leaf",
+      "node_id": "node_movers1_long_e",
+      "spelling": "leaf",
+      "pattern": "ea",
+      "audio_url": "audio/words/leaf.mp3",
+      "is_exception": false,
+      "exception_tip": null
+    },
+    {
+      "id": "word_like",
+      "node_id": "node_movers1_long_i",
+      "spelling": "like",
+      "pattern": "i_e",
+      "audio_url": "audio/words/like.mp3",
+      "is_exception": false,
+      "exception_tip": null
+    },
+    {
+      "id": "word_night",
+      "node_id": "node_movers1_long_i",
+      "spelling": "night",
+      "pattern": "igh",
+      "audio_url": "audio/words/night.mp3",
+      "is_exception": false,
+      "exception_tip": "igh has a silent gh!"
+    },
+    {
+      "id": "word_home",
+      "node_id": "node_movers1_long_o",
+      "spelling": "home",
+      "pattern": "o_e",
+      "audio_url": "audio/words/home.mp3",
+      "is_exception": false,
+      "exception_tip": null
+    },
+    {
+      "id": "word_boat",
+      "node_id": "node_movers1_long_o",
+      "spelling": "boat",
+      "pattern": "oa",
+      "audio_url": "audio/words/boat.mp3",
+      "is_exception": false,
+      "exception_tip": null
+    },
+    {
+      "id": "word_ship",
+      "node_id": "node_movers2_sh",
+      "spelling": "ship",
+      "pattern": "sh",
+      "audio_url": "audio/words/ship.mp3",
+      "is_exception": false,
+      "exception_tip": null
+    },
+    {
+      "id": "word_fish",
+      "node_id": "node_movers2_sh",
+      "spelling": "fish",
+      "pattern": "sh",
+      "audio_url": "audio/words/fish.mp3",
+      "is_exception": false,
+      "exception_tip": null
+    },
+    {
+      "id": "word_chair",
+      "node_id": "node_movers2_ch",
+      "spelling": "chair",
+      "pattern": "ch",
+      "audio_url": "audio/words/chair.mp3",
+      "is_exception": false,
+      "exception_tip": null
+    },
+    {
+      "id": "word_think",
+      "node_id": "node_movers2_th",
+      "spelling": "think",
+      "pattern": "th",
+      "audio_url": "audio/words/think.mp3",
+      "is_exception": false,
+      "exception_tip": null
+    },
+    {
+      "id": "word_sing",
+      "node_id": "node_movers2_ng",
+      "spelling": "sing",
+      "pattern": "ng",
+      "audio_url": "audio/words/sing.mp3",
+      "is_exception": false,
+      "exception_tip": null
+    },
+    {
+      "id": "word_star",
+      "node_id": "node_flyers_ar",
+      "spelling": "star",
+      "pattern": "ar",
+      "audio_url": "audio/words/star.mp3",
+      "is_exception": false,
+      "exception_tip": null
+    },
+    {
+      "id": "word_fork",
+      "node_id": "node_flyers_or",
+      "spelling": "fork",
+      "pattern": "or",
+      "audio_url": "audio/words/fork.mp3",
+      "is_exception": false,
+      "exception_tip": null
+    },
+    {
+      "id": "word_have",
+      "node_id": "node_flyers_exceptions",
+      "spelling": "have",
+      "pattern": "a_e",
+      "audio_url": "audio/words/have.mp3",
+      "is_exception": true,
+      "exception_tip": "HAVE is irregular! Pronounced /hæv/, NOT /heɪv/."
+    },
+    {
+      "id": "word_give",
+      "node_id": "node_flyers_exceptions",
+      "spelling": "give",
+      "pattern": "i_e",
+      "audio_url": "audio/words/give.mp3",
+      "is_exception": true,
+      "exception_tip": "GIVE is irregular! Pronounced /ɡɪv/, NOT /ɡaɪv/."
+    }
+  ]
+}

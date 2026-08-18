@@ -3,15 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
-  <meta name="description" content="Game học tiếng Anh từ đầu cho người mới: 10 thế giới phonics, từ âm đến trọng âm và connected speech.">
-  <meta name="theme-color" content="#1e1b4b">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="mobile-web-app-capable" content="yes">
-  <title>Phonics Quest</title>
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="icon.svg">
+  <meta name="description" content="Phonics Mindmap Mobile Game - Phonic Learning Game from Starters to Flyers.">
+  <meta name="theme-color" content="#0f172a">
+  <title>Phonics Mindmap Game</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800;900&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
@@ -19,62 +13,282 @@
 </head>
 <body>
   <div class="app" id="app">
+    <!-- Topbar Header -->
     <header class="topbar">
-      <button class="icon-btn" data-action="back" id="btn-back" hidden aria-label="Quay lại">←</button>
       <div class="brand">
-        <span class="brand-mark">Aa</span>
+        <span class="brand-mark">🌳</span>
         <div>
-          <strong id="top-title">Phonics Quest</strong>
-          <p id="top-sub">10 thế giới âm tiếng Anh</p>
+          <strong id="top-title">Phonics Mindmap</strong>
+          <p id="top-sub">Starters → Flyers Progression</p>
         </div>
       </div>
-      <div class="xp-chip" id="xp-chip" title="Điểm kinh nghiệm">⭐ 0</div>
+
+      <div class="topbar-actions">
+        <button class="water-tree-btn hidden" id="water-tree-btn" title="Water the Tree to review weak words!">
+          💧 Water Tree (<span id="due-srs-count">0</span>)
+        </button>
+        <div class="xp-chip" id="xp-chip" title="Total XP">⭐ <span id="xp-val">0</span></div>
+      </div>
     </header>
 
-    <main class="view" id="view"></main>
-
-    <section id="tree-screen" class="tree-screen hidden" aria-label="Bản đồ cây kỹ năng">
-      <div class="tree-controls">
-        <button class="control-btn" data-action="zoom-in" title="Phóng to">➕</button>
-        <button class="control-btn" data-action="zoom-out" title="Thu nhỏ">➖</button>
-        <button class="control-btn" data-action="zoom-fit" title="Về trạm hiện tại">🎯</button>
-      </div>
-      <div class="svg-wrap" id="svg-wrap">
-        <svg id="skill-svg" width="100%" height="100%">
-          <defs>
-            <linearGradient id="gold-glow" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#fde68a"/>
-              <stop offset="100%" stop-color="#f59e0b"/>
-            </linearGradient>
-            <filter id="soft-glow" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur stdDeviation="3.5" result="b"/>
-              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-            </filter>
-          </defs>
-          <g id="skill-zoom"></g>
-        </svg>
-      </div>
-      <div id="node-sheet" class="node-sheet hidden"></div>
-    </section>
-
-    <nav class="tabbar" id="tabbar">
-      <button class="tab active" data-action="tab" data-tab="home">
-        <span>🏠</span><small>Nhà</small>
-      </button>
-      <button class="tab" data-action="tab" data-tab="map">
-        <span>🌳</span><small>Cây</small>
-      </button>
-      <button class="tab" data-action="tab" data-tab="dict">
-        <span>📖</span><small>Sổ tay</small>
-      </button>
-      <button class="tab" data-action="tab" data-tab="me">
-        <span>👤</span><small>Tôi</small>
-      </button>
+    <!-- World Navigation Tabs -->
+    <nav class="world-tabs">
+      <button class="world-tab active" data-world="1">World 1<br><small>Starters</small></button>
+      <button class="world-tab" data-world="2">World 2<br><small>Movers 1</small></button>
+      <button class="world-tab" data-world="3">World 3<br><small>Movers 2</small></button>
+      <button class="world-tab" data-world="4">World 4<br><small>Flyers</small></button>
     </nav>
+
+    <!-- Main Views -->
+    <main class="view-container">
+      <!-- 2D Mindmap Canvas View -->
+      <div id="mindmap-view" class="view-screen">
+        <div class="canvas-controls">
+          <button id="btn-zoom-in" title="Zoom In">➕</button>
+          <button id="btn-zoom-out" title="Zoom Out">➖</button>
+          <button id="btn-reset-view" title="Reset View">🎯</button>
+        </div>
+        <div id="mindmap-canvas-container" class="canvas-wrap"></div>
+      </div>
+
+      <!-- Minigame View -->
+      <div id="minigame-view" class="view-screen hidden">
+        <div class="game-top-bar">
+          <button class="back-btn" id="btn-exit-game">← Back to Map</button>
+          <div class="game-mode-tag" id="game-mode-tag">Minigame Mode</div>
+        </div>
+        <div id="minigame-stage-container"></div>
+      </div>
+    </main>
+
+    <!-- Node Pop-up Modal -->
+    <div id="node-modal" class="modal-overlay hidden">
+      <div class="modal-card">
+        <button class="modal-close" id="node-modal-close">✕</button>
+        <div class="modal-node-icon" id="modal-ipa-symbol">/æ/</div>
+        <h3 id="modal-node-title">Short Vowel A</h3>
+        <p class="modal-node-sub" id="modal-node-sub">Target Phonics Sound</p>
+
+        <div class="modal-audio-row">
+          <button class="modal-audio-btn" id="modal-play-sound-btn">🔊 Listen Sound</button>
+        </div>
+
+        <div class="modal-words-list" id="modal-words-list"></div>
+
+        <div class="modal-actions">
+          <button class="btn-primary" id="btn-start-level">🚀 Start Level</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Level Summary Modal -->
+    <div id="summary-modal" class="modal-overlay hidden">
+      <div class="modal-card summary-card">
+        <div class="summary-emoji" id="summary-emoji">🎉</div>
+        <h3 id="summary-title">Level Completed!</h3>
+        <div class="stars-row" id="summary-stars">⭐⭐⭐</div>
+        <div class="summary-score" id="summary-score">+50 XP</div>
+
+        <div class="summary-actions">
+          <button class="btn-retry hidden" id="btn-retry-mistakes">🔄 Retry Mistakes</button>
+          <button class="btn-primary" id="btn-continue-map"> Continue to Map</button>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <script src="data.js"></script>
-  <script src="tree.js"></script>
-  <script src="game.js"></script>
+  <!-- Modular Scripts -->
+  <script src="services/AudioEngine/AudioEngine.js"></script>
+  <script src="services/ProgressTracker/ProgressTracker.js"></script>
+  <script src="components/MindmapCanvas/MindmapCanvas.js"></script>
+  <script src="components/Minigames/DragAndDrop.js"></script>
+  <script src="components/Minigames/PatternCompletion.js"></script>
+  <script src="components/Minigames/BossBattle.js"></script>
+
+  <!-- App Main Entry Point -->
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      // 1. Fetch phonics tree data
+      let treeData = null;
+      try {
+        const resp = await fetch('phonics_tree_data.json');
+        treeData = await resp.json();
+      } catch (e) {
+        console.warn('Fallback to inline tree data', e);
+      }
+
+      if (!treeData) {
+        alert('Data file phonics_tree_data.json loaded!');
+        return;
+      }
+
+      // Update XP & Water Tree button in UI
+      const updateUIHeader = () => {
+        document.getElementById('xp-val').textContent = window.progressTracker.data.xp;
+        const dueCount = window.progressTracker.getDueSRSCount();
+        const waterBtn = document.getElementById('water-tree-btn');
+        if (dueCount > 0) {
+          waterBtn.classList.remove('hidden');
+          document.getElementById('due-srs-count').textContent = dueCount;
+        } else {
+          waterBtn.classList.add('hidden');
+        }
+      };
+      updateUIHeader();
+
+      document.getElementById('water-tree-btn').addEventListener('click', () => {
+        window.progressTracker.waterTree();
+        window.audioEngine.playSuccessSound();
+        alert('🌳 You watered the Phonics Tree! +50 XP gained.');
+        updateUIHeader();
+      });
+
+      // 2. Initialize Mindmap Canvas
+      let selectedNode = null;
+      const mindmap = new window.MindmapCanvas('mindmap-canvas-container', treeData, (node, state) => {
+        if (state === 'LOCKED') {
+          window.audioEngine.playErrorSound();
+          alert('🔒 This node is LOCKED! Complete parent nodes to unlock.');
+          return;
+        }
+        selectedNode = node;
+        openNodeModal(node, state);
+      });
+
+      // Canvas Zoom Controls
+      document.getElementById('btn-zoom-in').addEventListener('click', () => {
+        mindmap.transform.scale = Math.min(2.5, mindmap.transform.scale * 1.2);
+        mindmap.render();
+      });
+      document.getElementById('btn-zoom-out').addEventListener('click', () => {
+        mindmap.transform.scale = Math.max(0.5, mindmap.transform.scale * 0.8);
+        mindmap.render();
+      });
+      document.getElementById('btn-reset-view').addEventListener('click', () => {
+        mindmap.transform = { x: 60, y: 100, scale: 1.0 };
+        mindmap.render();
+      });
+
+      // World Tab switching
+      const worldTabs = document.querySelectorAll('.world-tab');
+      worldTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          worldTabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          const worldId = tab.getAttribute('data-world');
+          mindmap.setWorld(worldId);
+        });
+      });
+
+      // 3. Node Pop-up Modal Handlers
+      const nodeModal = document.getElementById('node-modal');
+      const openNodeModal = (node, state) => {
+        document.getElementById('modal-ipa-symbol').textContent = node.ipa_symbol;
+        document.getElementById('modal-node-title').textContent = node.title;
+        document.getElementById('modal-node-sub').textContent = `World ${node.world_id} • Status: ${state}`;
+
+        const words = treeData.words.filter(w => w.node_id === node.id);
+        const wordsListEl = document.getElementById('modal-words-list');
+        wordsListEl.innerHTML = words.map(w => `
+          <div class="modal-word-item ${w.is_exception ? 'exception' : ''}">
+            <strong>${w.spelling}</strong>
+            <span>${w.pattern ? '(' + w.pattern + ')' : ''}</span>
+            <button class="word-speak-btn" onclick="window.audioEngine.speakWord('${w.spelling}')">🔊</button>
+          </div>
+        `).join('');
+
+        nodeModal.classList.remove('hidden');
+      };
+
+      document.getElementById('node-modal-close').addEventListener('click', () => {
+        nodeModal.classList.add('hidden');
+      });
+
+      document.getElementById('modal-play-sound-btn').addEventListener('click', () => {
+        if (selectedNode) {
+          window.audioEngine.speakSound(selectedNode.ipa_symbol);
+        }
+      });
+
+      // 4. Start Level -> Launch Minigames
+      document.getElementById('btn-start-level').addEventListener('click', () => {
+        if (!selectedNode) return;
+        nodeModal.classList.add('hidden');
+        launchMinigame(selectedNode);
+      });
+
+      const mindmapView = document.getElementById('mindmap-view');
+      const minigameView = document.getElementById('minigame-view');
+      const stageContainer = document.getElementById('minigame-stage-container');
+
+      document.getElementById('btn-exit-game').addEventListener('click', () => {
+        minigameView.classList.add('hidden');
+        mindmapView.classList.remove('hidden');
+        mindmap.render();
+      });
+
+      let currentMistakes = [];
+      const launchMinigame = (node, isRetryOnly = false) => {
+        mindmapView.classList.add('hidden');
+        minigameView.classList.remove('hidden');
+
+        let wordsForGame = treeData.words;
+        if (isRetryOnly && window.progressTracker.data.levelMistakes.length > 0) {
+          const mistakeIds = new Set(window.progressTracker.data.levelMistakes.map(m => m.wordId));
+          wordsForGame = treeData.words.filter(w => mistakeIds.has(w.id));
+        }
+
+        const modeTag = document.getElementById('game-mode-tag');
+
+        const onGameComplete = (result) => {
+          currentMistakes = result.mistakes || [];
+          window.progressTracker.completeLevel(node.id, result.score, result.stars, currentMistakes);
+          updateUIHeader();
+          showSummaryModal(result);
+        };
+
+        if (node.id === 'node_flyers_exceptions' || node.ipa_symbol === '★') {
+          modeTag.textContent = '👾 Boss Exception Slayer';
+          new window.MinigameBossBattle(stageContainer, node, wordsForGame, onGameComplete);
+        } else if (node.title.includes('Long') || node.title.includes('Digraph')) {
+          modeTag.textContent = '🧩 Pattern Assembly';
+          new window.MinigamePatternCompletion(stageContainer, node, wordsForGame, onGameComplete);
+        } else {
+          modeTag.textContent = '🎯 Branch Sorting';
+          new window.MinigameDragAndDrop(stageContainer, node, wordsForGame, onGameComplete);
+        }
+      };
+
+      // 5. Level Summary Modal
+      const summaryModal = document.getElementById('summary-modal');
+      const showSummaryModal = (result) => {
+        minigameView.classList.add('hidden');
+        document.getElementById('summary-score').textContent = `+${result.score} XP`;
+        document.getElementById('summary-stars').textContent = '⭐'.repeat(result.stars);
+
+        const retryBtn = document.getElementById('btn-retry-mistakes');
+        if (result.mistakes && result.mistakes.length > 0) {
+          retryBtn.classList.remove('hidden');
+        } else {
+          retryBtn.classList.add('hidden');
+        }
+
+        summaryModal.classList.remove('hidden');
+      };
+
+      document.getElementById('btn-retry-mistakes').addEventListener('click', () => {
+        summaryModal.classList.add('hidden');
+        if (selectedNode) {
+          launchMinigame(selectedNode, true);
+        }
+      });
+
+      document.getElementById('btn-continue-map').addEventListener('click', () => {
+        summaryModal.classList.add('hidden');
+        mindmapView.classList.remove('hidden');
+        mindmap.render();
+      });
+    });
+  </script>
 </body>
 </html>
