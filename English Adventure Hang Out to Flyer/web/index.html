@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>English Adventure — xem curriculum</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="top">
+      <div class="brand">
+        <span class="badge-dot"></span>
+        <div>
+          <p class="eyebrow">Curriculum preview · MVP</p>
+          <h1>English Adventure</h1>
+        </div>
+      </div>
+      <nav class="tabs" role="tablist">
+        <button class="tab is-on" data-view="map">Bản đồ</button>
+        <button class="tab" data-view="play">Chơi thử</button>
+        <button class="tab" data-view="lessons">126 bài</button>
+        <button class="tab" data-view="words">69 từ MVP</button>
+      </nav>
+    </header>
+
+    <main>
+      <section id="view-map" class="view is-on">
+        <div class="hero-card">
+          <div>
+            <h2>Hang Out 1 → A2 Flyers</h2>
+            <p>Game phiêu lưu. Tiếng Anh là chìa khóa để chơi, không phải danh sách từ. Phiên bản đầu: <strong>nhà của mình</strong>, 10 bài, tìm gấu bông Teddy.</p>
+            <div class="pills">
+              <span>126 bài toàn hành trình</span>
+              <span>69 từ World 0–1</span>
+              <span>5 mini-game</span>
+            </div>
+          </div>
+          <button class="cta" data-open-play>Chơi thử phòng ngủ →</button>
+        </div>
+        <ol class="trail" id="world-trail"></ol>
+      </section>
+
+      <section id="view-play" class="view">
+        <div class="play-layout">
+          <aside class="play-side">
+            <p class="eyebrow">World 1 · Lesson 04</p>
+            <h2>My Room</h2>
+            <p class="hook">Phòng tối. Mira nhờ bạn bật đèn và tìm đồ. Nghe rồi chạm đúng vật.</p>
+            <ol class="steps-mini">
+              <li>Story</li>
+              <li>Discover</li>
+              <li>Practice · Find It</li>
+              <li>Reward</li>
+            </ol>
+            <div class="hud">
+              <span id="hud-hearts">❤ ❤ ❤</span>
+              <span id="hud-stars">☆ ☆ ☆</span>
+              <span id="hud-xp">0 XP</span>
+            </div>
+            <p class="hint" id="play-hint">Bấm Bắt đầu. Trình duyệt sẽ đọc tiếng Anh.</p>
+          </aside>
+          <div class="stage-wrap">
+            <div class="lesson-bar">
+              <p id="npc-line">Mira: Hello! This is my room.</p>
+              <button type="button" id="btn-listen" class="icon-btn" title="Nghe lại">🔊</button>
+            </div>
+            <div class="room" id="room" aria-label="Phòng ngủ">
+              <button class="obj door" data-id="door" style="left:6%;top:28%"><span>door</span></button>
+              <button class="obj window" data-id="window" style="left:38%;top:10%"><span>window</span></button>
+              <button class="obj bed" data-id="bed" style="left:58%;top:48%"><span>bed</span></button>
+              <button class="obj desk" data-id="desk" style="left:8%;top:62%"><span>desk</span></button>
+              <button class="obj chair" data-id="chair" style="left:28%;top:68%"><span>chair</span></button>
+              <button class="obj lamp" data-id="lamp" style="left:78%;top:18%"><span>lamp</span></button>
+            </div>
+            <div class="stage-actions">
+              <button type="button" class="cta" id="btn-start">Bắt đầu</button>
+              <p id="feedback" class="feedback"></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-lessons" class="view">
+        <div class="toolbar">
+          <label>World
+            <select id="filter-world"></select>
+          </label>
+          <p id="lesson-count"></p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Bài</th>
+                <th>Chủ đề</th>
+                <th>Từ</th>
+                <th>Mẫu câu</th>
+                <th>L</th>
+                <th>S</th>
+                <th>R</th>
+                <th>W</th>
+                <th>Game</th>
+                <th>Level</th>
+              </tr>
+            </thead>
+            <tbody id="lesson-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="view-words" class="view">
+        <div class="toolbar">
+          <label>Chủ đề
+            <select id="filter-topic"></select>
+          </label>
+          <p>Chạm thẻ để nghe. Đây là từ gốc của game, không copy sách.</p>
+        </div>
+        <div class="word-grid" id="word-grid"></div>
+      </section>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,497 @@
+{
+  "meta": {
+    "project": "English Adventure",
+    "pack": "MVP lessons",
+    "version": "1.0",
+    "engine": "Unity-ready JSON",
+    "npc": { "id": "mira", "name": "Mira", "role": "guide friend" }
+  },
+  "worlds": [
+    {
+      "world_id": "W0",
+      "name": "Tutorial Village",
+      "name_vi": "Làng tập làm quen",
+      "badge": null,
+      "unlocks": "W1"
+    },
+    {
+      "world_id": "W1",
+      "name": "My Home",
+      "name_vi": "Nhà của mình",
+      "badge": "Home Explorer",
+      "boss_lesson_id": "W1-L10",
+      "unlocks": "W2"
+    }
+  ],
+  "sentence_patterns_mvp": [
+    "Hello!",
+    "Hi!",
+    "Goodbye!",
+    "What's your name?",
+    "My name is ...",
+    "I am ten.",
+    "I'm ten years old.",
+    "This is my mum.",
+    "He is my brother.",
+    "She is my sister.",
+    "I have a ball.",
+    "What's this? It's a bed.",
+    "There is a lamp.",
+    "Where is the cat? It's under the bed.",
+    "What color is it? It's blue.",
+    "I'm wearing a hat.",
+    "Touch your nose.",
+    "Thank you.",
+    "Please.",
+    "Yes.",
+    "No."
+  ],
+  "lessons": [
+    {
+      "lesson_id": "W0-T01",
+      "world_id": "W0",
+      "title": "First Steps",
+      "title_vi": "Bước đầu",
+      "level": "Beginner",
+      "topic": "greetings",
+      "duration_min": 2,
+      "tutorial": true,
+      "vocabulary": ["TUT_001", "TUT_002"],
+      "grammar": ["chunks"],
+      "sentence_patterns": ["Hello!", "Hi!"],
+      "story": {
+        "npc": "mira",
+        "lines": ["Hello!", "Hi! Come in."]
+      },
+      "steps": ["story", "discover", "practice", "reward"],
+      "mini_games": ["listen_choose"],
+      "listening": [
+        { "id": "W0-T01-L1", "level": 1, "type": "LISTENING", "prompt": "Hello!", "choices": ["hello", "goodbye", "please"], "correct_answer": "hello" }
+      ],
+      "speaking": [],
+      "reading": [],
+      "writing": [],
+      "rewards": { "xp": 10, "coins": 2, "stars_max": 3 },
+      "hangout1_ref": "HO1-Welcome",
+      "yle_ref": "Starters"
+    },
+    {
+      "lesson_id": "W0-T02",
+      "world_id": "W0",
+      "title": "Your Name",
+      "title_vi": "Tên của bạn",
+      "level": "Beginner",
+      "topic": "intro",
+      "duration_min": 2,
+      "tutorial": true,
+      "vocabulary": ["HOME_001"],
+      "grammar": ["be"],
+      "sentence_patterns": ["What's your name?", "My name is ..."],
+      "story": {
+        "npc": "mira",
+        "lines": ["What's your name?"]
+      },
+      "steps": ["story", "use", "reward"],
+      "mini_games": ["speaking_challenge"],
+      "listening": [
+        { "id": "W0-T02-L1", "level": 2, "type": "LISTENING", "prompt": "What's your name?", "choices": ["name", "room", "ball"], "correct_answer": "name" }
+      ],
+      "speaking": [
+        { "id": "W0-T02-S1", "type": "SPEAKING", "prompt": "What's your name?", "expect_keywords": ["my", "name", "is"], "fallback": "type_name" }
+      ],
+      "reading": [],
+      "writing": [],
+      "rewards": { "xp": 10, "coins": 2, "stars_max": 3 },
+      "hangout1_ref": "HO1-Welcome",
+      "yle_ref": "Starters"
+    },
+    {
+      "lesson_id": "W0-T03",
+      "world_id": "W0",
+      "title": "How to Play",
+      "title_vi": "Cách chơi",
+      "level": "Beginner",
+      "topic": "controls",
+      "duration_min": 2,
+      "tutorial": true,
+      "vocabulary": ["TUT_006", "TUT_007"],
+      "grammar": ["yes_no"],
+      "sentence_patterns": ["Yes.", "No.", "Find the star."],
+      "story": {
+        "npc": "mira",
+        "lines": ["Find the star.", "Yes? No?"]
+      },
+      "steps": ["story", "practice", "reward"],
+      "mini_games": ["find_it"],
+      "listening": [
+        { "id": "W0-T03-L1", "level": 1, "type": "LISTENING", "prompt": "Find the star.", "correct_answer": "star", "scene_objects": ["star", "ball", "hat"] }
+      ],
+      "speaking": [],
+      "reading": [],
+      "writing": [],
+      "rewards": { "xp": 10, "coins": 3, "stars_max": 3 },
+      "hangout1_ref": "HO1-Welcome",
+      "yle_ref": "Starters"
+    },
+    {
+      "lesson_id": "W0-T04",
+      "world_id": "W0",
+      "title": "Thank You",
+      "title_vi": "Cảm ơn",
+      "level": "Beginner",
+      "topic": "polite",
+      "duration_min": 2,
+      "tutorial": true,
+      "vocabulary": ["TUT_004", "TUT_005", "TUT_003"],
+      "grammar": ["chunks"],
+      "sentence_patterns": ["Please.", "Thank you.", "Goodbye."],
+      "story": {
+        "npc": "mira",
+        "lines": ["Please help.", "Thank you!", "Goodbye!"]
+      },
+      "steps": ["story", "practice", "use", "reward"],
+      "mini_games": ["listen_choose"],
+      "listening": [
+        { "id": "W0-T04-L1", "level": 1, "type": "LISTENING", "prompt": "Thank you.", "choices": ["thank you", "hello", "no"], "correct_answer": "thank you" }
+      ],
+      "speaking": [
+        { "id": "W0-T04-S1", "type": "SPEAKING", "prompt": "Say thank you.", "expect_keywords": ["thank"] }
+      ],
+      "reading": [],
+      "writing": [],
+      "rewards": { "xp": 15, "coins": 5, "stars_max": 3, "unlock": "W1" },
+      "hangout1_ref": "HO1-Welcome",
+      "yle_ref": "Starters"
+    },
+    {
+      "lesson_id": "W1-L01",
+      "world_id": "W1",
+      "title": "Hello!",
+      "title_vi": "Xin chào",
+      "level": "Beginner",
+      "topic": "greetings",
+      "duration_min": 7,
+      "vocabulary": ["TUT_001", "TUT_002", "TUT_003", "TUT_004", "TUT_005"],
+      "grammar": ["chunks"],
+      "sentence_patterns": ["Hello!", "Hi!", "Goodbye!", "Please.", "Thank you."],
+      "story": {
+        "npc": "mira",
+        "lines": ["Hello!", "The door is closed.", "Please help."]
+      },
+      "steps": ["story", "discover", "practice", "use", "challenge", "reward"],
+      "mini_games": ["listen_choose"],
+      "listening": [
+        { "id": "W1-L01-L1", "level": 1, "type": "LISTENING", "prompt": "Hello!", "choices": ["hello", "goodbye", "please"], "correct_answer": "hello" },
+        { "id": "W1-L01-L2", "level": 1, "type": "LISTENING", "prompt": "Thank you.", "choices": ["thank you", "hi", "no"], "correct_answer": "thank you" },
+        { "id": "W1-L01-L3", "level": 1, "type": "LISTENING", "prompt": "Goodbye!", "choices": ["goodbye", "please", "yes"], "correct_answer": "goodbye" }
+      ],
+      "speaking": [
+        { "id": "W1-L01-S1", "type": "SPEAKING", "prompt": "Say hello.", "expect_keywords": ["hello", "hi"] }
+      ],
+      "reading": [],
+      "writing": [],
+      "challenge": { "goal": "Open the door", "required": ["please", "thank you"] },
+      "rewards": { "xp": 20, "coins": 5, "stars_max": 3 },
+      "hangout1_ref": "HO1-Welcome",
+      "yle_ref": "Starters"
+    },
+    {
+      "lesson_id": "W1-L02",
+      "world_id": "W1",
+      "title": "My Name",
+      "title_vi": "Tên của mình",
+      "level": "Beginner",
+      "topic": "identity",
+      "duration_min": 8,
+      "vocabulary": ["HOME_001", "HOME_002", "HOME_003", "HOME_004", "HOME_005", "NUM_001", "NUM_002", "NUM_003", "NUM_004", "NUM_005", "NUM_006", "NUM_007", "NUM_008", "NUM_009", "NUM_010"],
+      "grammar": ["be"],
+      "sentence_patterns": ["What's your name?", "My name is ...", "I am ten.", "I'm ten years old."],
+      "story": {
+        "npc": "mira",
+        "lines": ["What's your name?", "I am Mira.", "How old are you?"]
+      },
+      "steps": ["story", "discover", "practice", "use", "challenge", "reward"],
+      "mini_games": ["word_puzzle"],
+      "listening": [
+        { "id": "W1-L02-L1", "level": 2, "type": "LISTENING", "prompt": "My name is Mira.", "choices": ["name", "room", "hat"], "correct_answer": "name" },
+        { "id": "W1-L02-L2", "level": 1, "type": "LISTENING", "prompt": "ten", "choices": ["ten", "two", "three"], "correct_answer": "ten" }
+      ],
+      "speaking": [
+        { "id": "W1-L02-S1", "type": "SPEAKING", "prompt": "What's your name?", "expect_keywords": ["my", "name", "is"], "fallback": "type_name" }
+      ],
+      "reading": ["My name is Linh."],
+      "writing": [],
+      "challenge": { "goal": "Choose your age", "default_age": 10, "age_range": [8, 12] },
+      "rewards": { "xp": 20, "coins": 5, "item": "Name Badge", "stars_max": 3 },
+      "hangout1_ref": "HO1-Welcome",
+      "yle_ref": "Starters"
+    },
+    {
+      "lesson_id": "W1-L03",
+      "world_id": "W1",
+      "title": "My Family",
+      "title_vi": "Gia đình",
+      "level": "Beginner",
+      "topic": "family",
+      "duration_min": 8,
+      "vocabulary": ["HOME_006", "HOME_007", "HOME_008", "HOME_009", "HOME_010", "HOME_011", "HOME_012"],
+      "grammar": ["this_is", "possessive_my", "he_she"],
+      "sentence_patterns": ["This is my mum.", "He is my brother.", "She is my sister.", "Who is this?"],
+      "story": {
+        "npc": "mira",
+        "lines": ["Who is at home?", "This is my family."]
+      },
+      "steps": ["story", "discover", "practice", "use", "challenge", "reward"],
+      "mini_games": ["match"],
+      "listening": [
+        { "id": "W1-L03-L1", "level": 2, "type": "LISTENING", "prompt": "This is my mum.", "choices": ["mum", "dad", "robot"], "correct_answer": "mum" },
+        { "id": "W1-L03-L2", "level": 2, "type": "LISTENING", "prompt": "He is my brother.", "choices": ["brother", "sister", "lamp"], "correct_answer": "brother" }
+      ],
+      "speaking": [
+        { "id": "W1-L03-S1", "type": "SPEAKING", "prompt": "Who is this?", "image": "mum", "expect_keywords": ["mum", "mom", "mother"] }
+      ],
+      "reading": ["This is my family."],
+      "writing": [],
+      "challenge": { "goal": "Match 4 family portraits", "type": "match" },
+      "rewards": { "xp": 20, "coins": 5, "stars_max": 3 },
+      "hangout1_ref": "HO1-U4",
+      "yle_ref": "Starters"
+    },
+    {
+      "lesson_id": "W1-L04",
+      "world_id": "W1",
+      "title": "My Room",
+      "title_vi": "Phòng của mình",
+      "level": "Beginner",
+      "topic": "rooms",
+      "duration_min": 8,
+      "vocabulary": ["HOME_013", "HOME_014", "HOME_015", "HOME_016", "HOME_017", "HOME_018", "HOME_019"],
+      "grammar": ["this_is", "there_is"],
+      "sentence_patterns": ["This is my room.", "This is my bed.", "There is a lamp."],
+      "story": {
+        "npc": "mira",
+        "lines": ["This is my room.", "It is dark.", "Find the lamp."]
+      },
+      "steps": ["story", "discover", "practice", "use", "challenge", "reward"],
+      "mini_games": ["find_it"],
+      "listening": [
+        { "id": "W1-L04-L1", "level": 1, "type": "LISTENING", "prompt": "Find the chair.", "correct_answer": "chair", "scene_objects": ["chair", "bed", "door"] },
+        { "id": "W1-L04-L2", "level": 1, "type": "LISTENING", "prompt": "Find the window.", "correct_answer": "window", "scene_objects": ["window", "lamp", "desk"] },
+        { "id": "W1-L04-L3", "level": 2, "type": "LISTENING", "prompt": "There is a lamp.", "correct_answer": "lamp", "scene_objects": ["lamp", "ball", "hat"] }
+      ],
+      "speaking": [
+        { "id": "W1-L04-S1", "type": "SPEAKING", "prompt": "What's this?", "image": "bed", "expect_keywords": ["bed"] }
+      ],
+      "reading": ["This is my room."],
+      "writing": [
+        { "id": "W1-L04-W1", "type": "WRITING", "level": 1, "template": "This is my ____.", "answer": "bed", "bank": ["bed", "car", "mum"] }
+      ],
+      "challenge": { "goal": "Turn on the lamp", "audio": "There is a lamp." },
+      "rewards": { "xp": 20, "coins": 5, "item": "Lamp", "stars_max": 3 },
+      "hangout1_ref": "HO1-U7-rooms",
+      "yle_ref": "Starters-home",
+      "prototype_priority": 1
+    },
+    {
+      "lesson_id": "W1-L05",
+      "world_id": "W1",
+      "title": "My Toys",
+      "title_vi": "Đồ chơi",
+      "level": "Beginner",
+      "topic": "toys",
+      "duration_min": 8,
+      "vocabulary": ["HOME_020", "HOME_021", "HOME_022", "HOME_023", "HOME_024", "HOME_025", "HOME_026"],
+      "grammar": ["have", "a_an", "this_is"],
+      "sentence_patterns": ["I have a ball.", "What's this?", "It's a robot."],
+      "story": {
+        "npc": "mira",
+        "lines": ["Look at the toy box.", "Teddy was here.", "What's this?"]
+      },
+      "steps": ["story", "discover", "practice", "use", "challenge", "reward"],
+      "mini_games": ["find_it", "listen_choose"],
+      "listening": [
+        { "id": "W1-L05-L1", "level": 1, "type": "LISTENING", "prompt": "Find the robot.", "correct_answer": "robot", "scene_objects": ["robot", "doll", "kite"] },
+        { "id": "W1-L05-L2", "level": 2, "type": "LISTENING", "prompt": "I have a ball.", "choices": ["ball", "bed", "dad"], "correct_answer": "ball" }
+      ],
+      "speaking": [
+        { "id": "W1-L05-S1", "type": "SPEAKING", "prompt": "What's this?", "image": "car", "expect_keywords": ["car"] }
+      ],
+      "reading": ["I have a doll."],
+      "writing": [
+        { "id": "W1-L05-W1", "type": "WRITING", "level": 2, "tokens": ["I", "have", "a", "doll"], "answer": "I have a doll." }
+      ],
+      "challenge": { "goal": "Collect 4 toys by listening" },
+      "rewards": { "xp": 20, "coins": 5, "stars_max": 3 },
+      "hangout1_ref": "HO1-U2",
+      "yle_ref": "Starters"
+    },
+    {
+      "lesson_id": "W1-L06",
+      "world_id": "W1",
+      "title": "My Body",
+      "title_vi": "Cơ thể",
+      "level": "Beginner",
+      "topic": "body",
+      "duration_min": 8,
+      "vocabulary": ["HOME_027", "HOME_028", "HOME_029", "HOME_030", "HOME_031", "HOME_032", "HOME_033", "HOME_034"],
+      "grammar": ["plurals", "numbers"],
+      "sentence_patterns": ["This is my nose.", "Touch your head.", "I have two hands."],
+      "story": {
+        "npc": "mira",
+        "lines": ["Look at the magic mirror.", "Touch your nose."]
+      },
+      "steps": ["story", "discover", "practice", "use", "challenge", "reward"],
+      "mini_games": ["listen_choose"],
+      "listening": [
+        { "id": "W1-L06-L1", "level": 2, "type": "LISTENING", "prompt": "Touch your head.", "choices": ["head", "feet", "hat"], "correct_answer": "head" },
+        { "id": "W1-L06-L2", "level": 2, "type": "LISTENING", "prompt": "Touch your feet.", "choices": ["feet", "eyes", "door"], "correct_answer": "feet" }
+      ],
+      "speaking": [
+        { "id": "W1-L06-S1", "type": "SPEAKING", "prompt": "Touch your nose.", "expect_keywords": ["nose"] }
+      ],
+      "reading": [],
+      "writing": [],
+      "challenge": { "goal": "Simon-says 4 body parts", "lives": 3 },
+      "rewards": { "xp": 20, "coins": 5, "stars_max": 3 },
+      "hangout1_ref": "HO1-U8",
+      "yle_ref": "Starters"
+    },
+    {
+      "lesson_id": "W1-L07",
+      "world_id": "W1",
+      "title": "My Clothes",
+      "title_vi": "Quần áo",
+      "level": "Beginner",
+      "topic": "clothes",
+      "duration_min": 8,
+      "vocabulary": ["HOME_035", "HOME_036", "HOME_037", "HOME_038", "HOME_039", "HOME_040", "HOME_041"],
+      "grammar": ["present_continuous_wearing"],
+      "sentence_patterns": ["I'm wearing a hat.", "It's a blue jacket.", "Put on your shoes."],
+      "story": {
+        "npc": "mira",
+        "lines": ["It is rainy.", "Put on your jacket.", "Put on your shoes."]
+      },
+      "steps": ["story", "discover", "practice", "use", "challenge", "reward"],
+      "mini_games": ["match"],
+      "listening": [
+        { "id": "W1-L07-L1", "level": 2, "type": "LISTENING", "prompt": "Put on your hat.", "choices": ["hat", "bed", "mum"], "correct_answer": "hat" },
+        { "id": "W1-L07-L2", "level": 2, "type": "LISTENING", "prompt": "I'm wearing a jacket.", "choices": ["jacket", "kite", "lamp"], "correct_answer": "jacket" }
+      ],
+      "speaking": [
+        { "id": "W1-L07-S1", "type": "SPEAKING", "prompt": "What are you wearing?", "expect_keywords": ["wearing", "t-shirt", "hat", "jacket", "shoes"] }
+      ],
+      "reading": ["I am wearing a jacket."],
+      "writing": [],
+      "challenge": { "goal": "Dress the avatar for rain" },
+      "rewards": { "xp": 20, "coins": 5, "item": "Blue Hat", "stars_max": 3 },
+      "hangout1_ref": "HO-beyond",
+      "yle_ref": "Starters-clothes"
+    },
+    {
+      "lesson_id": "W1-L08",
+      "world_id": "W1",
+      "title": "My Colors",
+      "title_vi": "Màu sắc",
+      "level": "Beginner",
+      "topic": "colors",
+      "duration_min": 8,
+      "vocabulary": ["HOME_042", "HOME_043", "HOME_044", "HOME_045", "HOME_046", "HOME_047", "HOME_048", "HOME_049"],
+      "grammar": ["adjective_noun"],
+      "sentence_patterns": ["What color is it?", "It's red.", "I have a green kite."],
+      "story": {
+        "npc": "mira",
+        "lines": ["The map is messy.", "What color is it?", "Make it blue."]
+      },
+      "steps": ["story", "discover", "practice", "use", "challenge", "reward"],
+      "mini_games": ["sentence_builder"],
+      "listening": [
+        { "id": "W1-L08-L1", "level": 2, "type": "LISTENING", "prompt": "It's red.", "choices": ["red", "blue", "green"], "correct_answer": "red" },
+        { "id": "W1-L08-L2", "level": 2, "type": "LISTENING", "prompt": "I have a blue ball.", "choices": ["blue ball", "red hat", "black car"], "correct_answer": "blue ball" }
+      ],
+      "speaking": [
+        { "id": "W1-L08-S1", "type": "SPEAKING", "prompt": "What color is it?", "image": "yellow_lamp", "expect_keywords": ["yellow"] }
+      ],
+      "reading": ["The ball is blue."],
+      "writing": [
+        { "id": "W1-L08-W1", "type": "WRITING", "level": 1, "template": "It is ____.", "answer": "blue", "bank": ["blue", "bed", "dad"] }
+      ],
+      "challenge": { "goal": "Paint 5 map pieces from audio" },
+      "rewards": { "xp": 20, "coins": 5, "stars_max": 3 },
+      "hangout1_ref": "HO1-Welcome",
+      "yle_ref": "Starters-colours"
+    },
+    {
+      "lesson_id": "W1-L09",
+      "world_id": "W1",
+      "title": "Home Review",
+      "title_vi": "Ôn nhà",
+      "level": "Beginner",
+      "topic": "review",
+      "duration_min": 10,
+      "vocabulary": [],
+      "recycle": "W1-L01..W1-L08",
+      "adaptive": { "prefer_accuracy_below": 0.7, "max_weak_words": 8 },
+      "grammar": ["mix"],
+      "sentence_patterns": ["This is my room.", "I have a red ball.", "I'm wearing a hat."],
+      "story": {
+        "npc": "mira",
+        "lines": ["Look at the family book.", "Let's remember."]
+      },
+      "steps": ["story", "practice", "use", "challenge", "reward"],
+      "mini_games": ["match", "listen_choose", "sentence_builder"],
+      "listening": [
+        { "id": "W1-L09-L1", "level": 2, "type": "LISTENING", "prompt": "Find the blue hat.", "correct_answer": "blue_hat" }
+      ],
+      "speaking": [
+        { "id": "W1-L09-S1", "type": "SPEAKING", "prompt": "What's this?", "expect_keywords": ["ball", "bed", "mum", "hat"] }
+      ],
+      "reading": ["This is my room.", "I have a red ball.", "I'm wearing a hat."],
+      "writing": [
+        { "id": "W1-L09-W1", "type": "WRITING", "level": 2, "tokens": ["I", "have", "a", "red", "ball"], "answer": "I have a red ball." }
+      ],
+      "rewards": { "xp": 25, "coins": 8, "stars_max": 3, "unlock": "W1-L10" },
+      "hangout1_ref": "HO1-mix",
+      "yle_ref": "Starters"
+    },
+    {
+      "lesson_id": "W1-L10",
+      "world_id": "W1",
+      "title": "The Missing Teddy",
+      "title_vi": "Gấu bông mất tích",
+      "level": "Beginner",
+      "topic": "boss",
+      "duration_min": 12,
+      "boss": true,
+      "vocabulary": ["HOME_050", "HOME_051", "HOME_052"],
+      "grammar": ["in", "on", "under"],
+      "sentence_patterns": ["Where is Teddy?", "It's under the bed.", "Find the hat."],
+      "story": {
+        "npc": "mira",
+        "lines": ["Teddy is in the house.", "Listen.", "Find Teddy."]
+      },
+      "steps": ["story", "practice", "use", "challenge", "reward"],
+      "mini_games": ["find_it", "listen_choose"],
+      "boss_beats": [
+        { "id": 1, "skill": "listening", "prompt": "Teddy is in the house. Find Teddy." },
+        { "id": 2, "skill": "find_it", "prompts": ["Find the hat.", "Find the ball.", "Find the jacket"] },
+        { "id": 3, "skill": "reading", "text": "Teddy is under the bed." },
+        { "id": 4, "skill": "reading", "question": "Where is Teddy?", "choices": ["in the box", "on the desk", "under the bed"], "correct_answer": "under the bed" },
+        { "id": 5, "skill": "speaking", "prompt": "Where is Teddy?", "expect_keywords": ["under", "bed"] },
+        { "id": 6, "skill": "reward", "badge": "Home Explorer" }
+      ],
+      "listening": [
+        { "id": "W1-L10-L1", "level": 2, "type": "LISTENING", "prompt": "Find the hat.", "correct_answer": "hat" },
+        { "id": "W1-L10-L2", "level": 3, "type": "LISTENING", "prompt": "Teddy is under the bed.", "correct_answer": "under_the_bed" }
+      ],
+      "speaking": [
+        { "id": "W1-L10-S1", "type": "SPEAKING", "prompt": "Where is Teddy?", "expect_keywords": ["under", "bed"] }
+      ],
+      "reading": ["Teddy is under the bed."],
+      "writing": [],
+      "fail_policy": { "hearts": 3, "game_over": false, "wrong_feedback": "Try again!" },
+      "rewards": { "xp_boss": 30, "xp_lesson": 20, "coins": 15, "badge": "Home Explorer", "stars_max": 3, "unlock": "W2-map-icon" },
+      "hangout1_ref": "HO1-U3-prepositions",
+      "yle_ref": "Starters"
+    }
+  ]
+}

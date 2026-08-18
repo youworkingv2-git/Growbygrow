@@ -1,0 +1,127 @@
+world_id,world_name,lesson_id,lesson_no,title,title_vi,topic,new_word_count,vocabulary,sentence_patterns,grammar,listening,speaking,reading,writing,mini_game,level,hangout1_ref,yle_ref,duration_min,story_hook
+W0,Tutorial Village,W0-T01,1,First Steps,Bước đầu,greetings,2,hello; hi,Hello!; Hi!,chunks,1,0,0,0,listen_choose,Beginner,HO1-Welcome,Starters,2,Chạm cổng làng và chào Mira
+W0,Tutorial Village,W0-T02,2,Your Name,Tên của bạn,intro,1,name,What's your name?; My name is ...,be (I am),1,1,0,0,speaking_challenge,Beginner,HO1-Welcome,Starters,2,Ghi danh nhà thám hiểm
+W0,Tutorial Village,W0-T03,3,How to Play,Cách chơi,controls,2,yes; no,Yes.; No.; Find the star.,yes/no,1,0,0,0,find_it,Beginner,HO1-Welcome,Starters,2,Nghe lệnh tìm ngôi sao
+W0,Tutorial Village,W0-T04,4,Thank You,Cảm ơn,polite,3,please; thank you; goodbye,Please.; Thank you.; Goodbye.,chunks,1,1,0,0,listen_choose,Beginner,HO1-Welcome,Starters,2,Nhận bản đồ và vào nhà
+W1,My Home,W1-L01,1,Hello!,Xin chào,greetings,5,hello; hi; goodbye; please; thank you,Hello!; Hi!; Goodbye!; Please.; Thank you.,chunks,1,1,0,0,listen_choose,Beginner,HO1-Welcome,Starters,7,Cửa nhà khóa — chào Mira để được giúp
+W1,My Home,W1-L02,2,My Name,Tên của mình,identity,8,name; friend; boy; girl; years old; one; two; three; four; five; six; seven; eight; nine; ten,What's your name?; My name is ...; I am ten.; I'm ten years old.,be (I am),1,1,1,0,word_puzzle,Beginner,HO1-Welcome,Starters,8,Hòm thư bản đồ cần tên nhà thám hiểm
+W1,My Home,W1-L03,3,My Family,Gia đình,family,7,mum; dad; sister; brother; grandma; grandpa; family,This is my mum.; He is my brother.; She is my sister.; Who is this?,this is; possessive my; he/she,1,1,1,0,match,Beginner,HO1-U4,Starters,8,Ai đang ở nhà? Tìm người thân
+W1,My Home,W1-L04,4,My Room,Phòng của mình,rooms,7,room; bed; desk; chair; lamp; door; window,This is my room.; This is my bed.; There is a lamp.,this is; there is,1,1,1,1,find_it,Beginner,HO1-U7-rooms,Starters,8,Phòng tối — bật đèn tìm manh mối
+W1,My Home,W1-L05,5,My Toys,Đồ chơi,toys,7,toy; doll; ball; car; robot; puzzle; kite,I have a ball.; What's this?; It's a robot.,have; a/an; this is,1,1,1,1,find_it,Beginner,HO1-U2,Starters,8,Rương đồ chơi — Teddy từng ở đây
+W1,My Home,W1-L06,6,My Body,Cơ thể,body,8,head; eyes; nose; mouth; hands; feet; arms; legs,This is my nose.; Touch your head.; I have two hands.,plurals; numbers,1,1,0,0,listen_choose,Beginner,HO1-U8,Starters,8,Gương ma thuật — làm đúng động tác
+W1,My Home,W1-L07,7,My Clothes,Quần áo,clothes,7,T-shirt; pants; dress; hat; shoes; socks; jacket,I'm wearing a hat.; It's a blue jacket.; Put on your shoes.,present continuous (wearing),1,1,1,0,match,Beginner,HO-beyond,Starters,8,Mưa — mặc đồ rồi ra sân
+W1,My Home,W1-L08,8,My Colors,Màu sắc,colors,8,red; blue; yellow; green; orange; pink; black; white,What color is it?; It's red.; I have a green kite.,adjective + noun,1,1,1,1,sentence_builder,Beginner,HO1-Welcome,Starters,8,Bản đồ lem màu — sơn theo lời Mira
+W1,My Home,W1-L09,9,Home Review,Ôn nhà,review,0,(recycle W1),mix L01-L08,mix,1,1,1,1,match,Beginner,HO1-mix,Starters,10,Album gia đình — ôn đường trong nhà
+W1,My Home,W1-L10,10,The Missing Teddy,Gấu bông mất tích,boss,0,(recycle W1 + in/on/under),Where is Teddy?; It's under the bed.,in; on; under,1,1,1,0,find_it,Beginner,HO1-U3-prepositions,Starters,12,Nghe manh mối tìm Teddy
+W2,My School,W2-L01,1,School Bag,Cặp sách,school objects,6,pencil; pen; book; bag; eraser; ruler,I have a pencil.; What's this?; It's a pen.,have; a/an,1,1,1,0,find_it,A1,HO1-U1,Starters,8,Mira làm rơi đồ — nhặt đúng đồ
+W2,My School,W2-L02,2,What's in My Bag?,Trong cặp có gì,school objects,4,crayon; notebook; lunchbox; pencil case,Do you have a ruler?; Yes I do.; No I don't.,Do you have; short answers,1,1,1,1,match,A1,HO1-U1,Starters,8,Đố bạn trong cặp có gì
+W2,My School,W2-L03,3,My Classroom,Lớp học,classroom,6,classroom; board; cupboard; clock; shelf; map,This is my classroom.; There is a board.,there is/are,1,1,1,0,find_it,A1,HO1-U3,Starters,8,Lớp trống — sắp đồ đúng chỗ
+W2,My School,W2-L04,4,Where Is It?,Ở đâu?,prepositions,3,in; on; under,Where is the book?; It's on the desk.,where; in/on/under,1,1,1,1,listen_choose,A1,HO1-U3,Starters,8,Giấu đồ chơi trong lớp
+W2,My School,W2-L05,5,Next To,Bên cạnh,prepositions,3,next to; between; behind,It's next to the door.; It's between the chairs.,next to; between; behind,1,1,1,0,find_it,A1,HO1-U3,Starters,8,Bản đồ lớp — đặt ghế đúng chỗ
+W2,My School,W2-L06,6,Teacher and Friends,Cô giáo và bạn,people,5,teacher; classmate; friend; boy; girl,This is my teacher.; She is my friend.,he/she; this is,1,1,1,0,match,A1,HO1-U4,Starters,8,Chụp ảnh lớp
+W2,My School,W2-L07,7,Subjects,Môn học,school,5,English; maths; art; music; PE,I like art.; We have English.,present simple,1,1,1,1,listen_choose,A1,HO-beyond,Starters,8,Thời khóa biểu ma thuật
+W2,My School,W2-L08,8,Classroom Actions,Hành động trong lớp,actions,6,sit; stand; open; close; look; listen,Sit down.; Open your book.; Listen.,imperatives,1,1,0,0,listen_choose,A1,HO1-U5-actions,Starters,7,Simon says trong lớp
+W2,My School,W2-L09,9,How Are You?,Bạn khỏe không?,feelings,6,happy; sad; tired; hungry; thirsty; angry,How are you?; I'm happy.; I'm tired.,be + adjective,1,1,1,0,match,A1,HO1-U6,Starters,8,Bạn trong lớp buồn — hỏi thăm
+W2,My School,W2-L10,10,School Day,Một ngày ở trường,routine,5,go; read; write; play; draw,I go to school.; I read a book.,present simple,1,1,1,1,sentence_builder,A1,HO1-U7,Starters,8,Đi theo lịch một ngày
+W2,My School,W2-L11,11,School Review,Ôn trường,review,0,(recycle W2),mix W2,mix,1,1,1,1,match,A1,HO1-U1-U3-U6,Starters,10,Dọn lớp trước giờ chơi
+W2,My School,W2-L12,12,The Lost Backpack,Ba lô lạc,boss,0,(recycle W2),Where is my backpack?; It's under the chair.,mix W2,1,1,1,0,find_it,A1,HO1-U1,Starters,12,Tìm ba lô theo manh mối nghe-đọc-nói
+W3,Food City,W3-L01,1,Fruit Market,Chợ trái cây,fruit,6,apple; banana; orange; grape; watermelon; fruit,What's this?; It's an apple.; I see a banana.,a/an,1,1,1,0,find_it,A1,HO-beyond,Starters,8,Chợ mở — hái đúng trái
+W3,Food City,W3-L02,2,Vegetables,Rau củ,vegetables,5,carrot; tomato; potato; corn; vegetable,I have a carrot.; These are tomatoes.,plurals,1,1,1,0,match,A1,HO-beyond,Starters,8,Vườn rau của Mira
+W3,Food City,W3-L03,3,Drinks,Đồ uống,drinks,5,water; milk; juice; tea; cup,I want water.; Can I have some juice?,some; want,1,1,1,1,listen_choose,A1,HO-beyond,Starters,8,Quán nước — phục vụ khách
+W3,Food City,W3-L04,4,Meals,Bữa ăn,meals,4,breakfast; lunch; dinner; snack,I eat breakfast.; We have lunch at school.,present simple,1,1,1,0,sentence_builder,A1,HO1-U7-eat,Starters,8,Chuông bữa ăn trong thành phố
+W3,Food City,W3-L05,5,I Like,Tôi thích,likes,4,like; pizza; ice cream; cake,I like apples.; Do you like cake?,like + noun,1,1,1,1,match,A1,HO-beyond,Starters,8,Tiệm bánh — chọn món thích
+W3,Food City,W3-L06,6,I Don't Like,Tôi không thích,dislikes,3,don't like; fish; onion,I don't like fish.; I like milk.,negative,1,1,1,1,listen_choose,A1,HO-beyond,Starters,8,Thực đơn — bỏ món không thích
+W3,Food City,W3-L07,7,Can I Have Some?,Cho mình xin,requests,4,some; please; here you are; thanks,Can I have some milk?; Here you are.,can for request,1,1,1,0,speaking_challenge,A1,HO-beyond,Starters,8,Hàng quán — gọi món lịch sự
+W3,Food City,W3-L08,8,At the Shop,Ở cửa hàng,shopping,5,shop; buy; money; cheap; bag,I want to buy apples.; How much is it?,want to,1,1,1,1,find_it,A1,HO-beyond,Starters,8,Mua 5 món cho tiệc
+W3,Food City,W3-L09,9,Numbers 11-20,Số 11-20,numbers,10,eleven; twelve; thirteen; fourteen; fifteen; sixteen; seventeen; eighteen; nineteen; twenty,I have twelve apples.,numbers,1,1,0,1,word_puzzle,A1,HO1-Welcome-extend,Starters,8,Đếm trái cây trong thùng
+W3,Food City,W3-L10,10,Let's Cook,Cùng nấu,food,4,cook; bread; egg; rice,I can cook eggs.; Let's make lunch.,can; let's,1,1,1,0,listen_choose,A1,HO1-U5-eat,Starters,8,Bếp thành phố — làm theo công thức nghe
+W3,Food City,W3-L11,11,Food Review,Ôn đồ ăn,review,0,(recycle W3),mix W3,mix,1,1,1,1,match,A1,HO-beyond,Starters,10,Lễ hội thử món
+W3,Food City,W3-L12,12,Food Festival,Lễ hội ẩm thực,boss,0,(recycle W3),Can I have some juice?; I like bananas.,mix W3,1,1,1,1,find_it,A1,HO-beyond,Starters,12,Phục vụ đúng món theo lời khách
+W4,Animal World,W4-L01,1,Pets,Thú cưng,pets,5,pet; cat; dog; fish; bird,I have a cat.; This is my dog.,have; this is,1,1,1,0,match,A1,HO1-U5,Starters,8,Nhà thú cưng — nhận nuôi
+W4,Animal World,W4-L02,2,Farm Animals,Động vật nông trại,farm,5,cow; horse; sheep; chicken; farm,There is a cow.; The horse is brown.,there is; colors,1,1,1,0,find_it,A1,HO1-U5,Starters,8,Nông trại ồn ào — tìm đúng con
+W4,Animal World,W4-L03,3,Wild Animals,Động vật hoang dã,wild,5,elephant; tiger; monkey; lion; zoo,The elephant is big.; I can see a tiger.,adjectives,1,1,1,0,listen_choose,A1,HO1-U5,Starters,8,Cổng sở thú
+W4,Animal World,W4-L04,4,Animal Bodies,Bộ phận,body,5,tail; wing; leg; ear; mouth,A bird has wings.; A fish hasn't got legs.,has; have got,1,1,1,1,match,A1,HO1-U8,Starters,8,Ghép bộ phận cho đúng thú
+W4,Animal World,W4-L05,5,Habitats,Nơi sống,habitats,4,jungle; sea; tree; house,A fish lives in the sea.; A bird lives in a tree.,lives in,1,1,1,0,listen_choose,A1,HO-beyond,Starters,8,Đưa thú về nhà
+W4,Animal World,W4-L06,6,It Can Fly,Nó biết bay,ability,5,can; fly; swim; run; jump,A bird can fly.; A fish can swim.,can,1,1,1,1,sentence_builder,A1,HO1-U5,Starters,8,Cổng phép — thú khoe khả năng
+W4,Animal World,W4-L07,7,It Can't,Nó không thể,ability,3,can't; climb; sing,A fish can't fly.; Can a cat climb?,can't; questions,1,1,1,1,listen_choose,A1,HO1-U5,Starters,8,Đố khả năng sai-đúng
+W4,Animal World,W4-L08,8,Big and Small,To và nhỏ,adjectives,5,big; small; long; short; fast,The elephant is big.; The mouse is small.,be + adj,1,1,1,0,match,A1,HO-beyond,Starters,8,Cân thú trên đảo
+W4,Animal World,W4-L09,9,It's a / They're,Đây là / Chúng là,grammar,2,it's; they're,It's a cat.; They're birds.; What are these?,this/these,1,1,1,1,word_puzzle,A1,HO1-U2,Starters,7,Thẻ đôi — một con hay nhiều con
+W4,Animal World,W4-L10,10,At the Zoo,Ở sở thú,zoo,4,zoo; feed; look; quiet,Look at the lions.; Don't feed the animals.,imperatives,1,1,1,0,find_it,A1,HO-beyond,Starters,8,Tour sở thú
+W4,Animal World,W4-L11,11,Animal Review,Ôn động vật,review,0,(recycle W4),mix W4,mix,1,1,1,1,match,A1,HO1-U5,Starters,10,Sách ảnh thú
+W4,Animal World,W4-L12,12,The Lost Puppy,Cún lạc,boss,0,(recycle W4),The puppy is small.; It can run.; It's in the park.,mix W4,1,1,1,0,find_it,A1,HO1-U5,Starters,12,Tìm cún theo mô tả nghe
+W5,City,W5-L01,1,Places,Địa điểm,places,6,park; school; hospital; library; shop; city,Where is the park?; It's a big city.,where,1,1,1,0,find_it,A1,HO1-U9,Starters,8,Bản đồ thành phố mở
+W5,City,W5-L02,2,Shops,Cửa hàng,shops,5,bakery; bookshop; supermarket; toy shop; market,I go to the bakery.; I want bread.,go to,1,1,1,0,match,A1,HO-beyond,Movers,8,Danh sách mua sắm
+W5,City,W5-L03,3,Hospital,Bệnh viện,health,5,doctor; nurse; ill; hospital; help,The doctor is in the hospital.; I'm ill.,be,1,1,1,0,listen_choose,A1,HO1-U9,Starters,8,Giúp bạn ốm
+W5,City,W5-L04,4,Jobs 1,Nghề 1,jobs,4,teacher; doctor; cook; farmer,He's a farmer.; She's a teacher.,he/she is a,1,1,1,1,match,A1,HO1-U9,Starters,8,Thẻ nghề lần 1
+W5,City,W5-L05,5,Jobs 2,Nghề 2,jobs,4,pilot; police officer; florist; actor,She's a pilot.; He's a police officer.,jobs,1,1,1,0,listen_choose,A1,HO1-U9,Starters,8,Thẻ nghề lần 2
+W5,City,W5-L06,6,Where Does He Work?,Anh ấy làm ở đâu?,work,4,work; office; farm; airport,He works on a farm.; She works in a hospital.,present simple 3rd,1,1,1,1,sentence_builder,A1+,HO1-U9,Movers,8,Ghép người-nơi làm
+W5,City,W5-L07,7,Transport,Phương tiện,transport,5,bus; car; bike; train; walk,I go by bus.; I ride a bike.,by + transport,1,1,1,0,find_it,A1,HO-beyond,Starters,8,Kẹt xe — chọn cách đi
+W5,City,W5-L08,8,Next To the School,Cạnh trường,directions,4,next to; opposite; between; near,The library is next to the school.,prepositions of place,1,1,1,1,listen_choose,A1+,HO1-U3-extend,Movers,8,Đặt biển chỉ đường
+W5,City,W5-L09,9,Asking the Way,Hỏi đường,directions,4,straight; left; right; turn,Go straight.; Turn left.,imperatives,1,1,1,0,speaking_challenge,A1+,HO-beyond,Movers,8,Dẫn Mira tới thư viện
+W5,City,W5-L10,10,My Town,Thị trấn của mình,description,3,town; people; live,I live in a town.; There is a park.,there is/are,1,1,1,1,sentence_builder,A1+,HO-beyond,Movers,8,Vẽ/chọn bản đồ thị trấn
+W5,City,W5-L11,11,City Review,Ôn thành phố,review,0,(recycle W5),mix W5,mix,1,1,1,1,match,A1+,HO1-U9,Movers,10,Câu đố bản đồ
+W5,City,W5-L12,12,Find the Library,Tìm thư viện,boss,0,(recycle W5),Where is the library?; It's next to the school.,mix W5,1,1,1,0,find_it,A1+,HO1-U9,Movers,12,Giao sách gấp theo chỉ đường
+W6,Weather & Seasons,W6-L01,1,Sunny and Rainy,Nắng và mưa,weather,4,sunny; rainy; weather; umbrella,It's sunny.; It's rainy.,it's + weather,1,1,1,0,listen_choose,A1+,HO-beyond,Starters,7,Cửa sổ thời tiết
+W6,Weather & Seasons,W6-L02,2,Hot and Cold,Nóng và lạnh,weather,4,cloudy; windy; hot; cold,It's cloudy.; I'm hot.; I'm cold.,be + adj,1,1,1,0,match,A1+,HO1-U6-hot-cold,Starters,7,Núi gió và thung lũng nắng
+W6,Weather & Seasons,W6-L03,3,Spring and Summer,Xuân hè,seasons,3,season; spring; summer,It's spring.; I like summer.,like,1,1,1,0,find_it,A1+,HO-beyond,Movers,8,Vườn bốn cửa
+W6,Weather & Seasons,W6-L04,4,Autumn and Winter,Thu đông,seasons,3,autumn; winter; snow,It's winter.; There is snow.,there is,1,1,1,0,listen_choose,A1+,HO-beyond,Movers,8,Lá rơi và tuyết
+W6,Weather & Seasons,W6-L05,5,How's the Weather?,Thời tiết thế nào?,weather,2,how's; today,How's the weather?; It's windy today.,questions,1,1,1,1,speaking_challenge,A1+,HO-beyond,Movers,8,Bản tin thời tiết của trẻ
+W6,Weather & Seasons,W6-L06,6,What to Wear,Mặc gì,clothes+weather,3,coat; boots; sunglasses,I'm wearing a coat.; Put on your boots.,wearing,1,1,1,0,match,A1+,W1-recycle,Starters,8,Tủ đồ theo thời tiết
+W6,Weather & Seasons,W6-L07,7,I Feel,Tôi cảm thấy,feelings,4,feel; excited; bored; scared,I feel happy.; I feel cold.,feel + adj,1,1,1,0,listen_choose,A1+,HO1-U6,Movers,8,Nhật ký cảm xúc theo trời
+W6,Weather & Seasons,W6-L08,8,Weekend Plan,Kế hoạch cuối tuần,plans,3,weekend; picnic; stay,Let's have a picnic.; We stay home.,let's,1,1,1,1,sentence_builder,A1+,HO-beyond,Movers,8,Chọn hoạt động theo trời
+W6,Weather & Seasons,W6-L09,9,Weather Review,Ôn thời tiết,review,0,(recycle W6),mix W6,mix,1,1,1,1,match,A1+,HO-beyond,Movers,10,Lịch tuần có icon trời
+W6,Weather & Seasons,W6-L10,10,Storm Island Rescue,Cứu đảo bão,boss,0,(recycle W6),It's windy.; Put on your jacket.; Let's go.,mix W6,1,1,1,0,find_it,A1+,HO-beyond,Movers,12,Cứu thú trên đảo khi bão
+W7,Hobbies,W7-L01,1,Sports,Thể thao,sports,5,sport; football; basketball; run; play,I play football.; I like sports.,play + sport,1,1,1,0,find_it,A1+,HO-beyond,Starters,8,Sân chơi mở
+W7,Hobbies,W7-L02,2,Music,Âm nhạc,music,4,music; sing; piano; song,I like music.; She can sing.,can,1,1,1,0,listen_choose,A1+,HO-beyond,Starters,8,Phòng nhạc
+W7,Hobbies,W7-L03,3,Read and Draw,Đọc và vẽ,hobbies,3,read; draw; picture,I like reading.; I draw a picture.,like + ing intro,1,1,1,1,match,A1+,HO1-U7,Movers,8,Góc sách và góc vẽ
+W7,Hobbies,W7-L04,4,Swim and Games,Bơi và trò chơi,hobbies,4,swim; game; computer; park,I like swimming.; We play games.,like + ing,1,1,1,0,find_it,A1+,HO1-U2-U7,Starters,8,Hồ bơi và phòng game
+W7,Hobbies,W7-L05,5,I Like + -ing,Thích làm gì,likes,3,swimming; reading; drawing,I like swimming.; Do you like reading?,like + gerund,1,1,1,1,sentence_builder,A1+,HO-beyond,Starters,8,Bảng sở thích dán tem
+W7,Hobbies,W7-L06,6,She Plays,Cô ấy chơi,3rd person,3,plays; sings; reads,She plays football.; He sings.,present simple 3rd,1,1,1,1,listen_choose,A1+,HO-beyond,Movers,8,Xem bạn bè đang làm gì
+W7,Hobbies,W7-L07,7,At the Weekend,Cuối tuần,weekend,4,weekend; Saturday; Sunday; visit,What do you do at the weekend?; I visit my grandma.,present simple,1,1,1,1,speaking_challenge,A1+,HO1-U7,Movers,8,Lịch cuối tuần
+W7,Hobbies,W7-L08,8,Daily Routine,Sinh hoạt hằng ngày,routine,6,get up; brush; eat breakfast; go to school; homework; go to bed,I get up at seven.; I go to bed at nine.,present simple routine,1,1,1,1,sentence_builder,A1+,HO1-U7,Movers,9,Đồng hồ ngày của nhân vật
+W7,Hobbies,W7-L09,9,Always and Never,Luôn và không bao giờ,frequency,3,always; sometimes; never,I always eat breakfast.; I never watch TV at night.,adverbs of frequency,1,1,1,1,match,A1+,HO-beyond,Movers,8,Thẻ thói quen đúng/sai
+W7,Hobbies,W7-L10,10,What Are You Doing?,Bạn đang làm gì?,present continuous,4,doing; reading; playing; cooking,What are you doing?; I'm reading.,present continuous,1,1,1,1,listen_choose,A1+,HO-beyond,Movers,8,Nhìn qua cửa sổ nhà bạn
+W7,Hobbies,W7-L11,11,Hobbies Review,Ôn sở thích,review,0,(recycle W7),mix W7,mix,1,1,1,1,match,A1+,HO1-U7,Movers,10,Câu lạc bộ sở thích
+W7,Hobbies,W7-L12,12,Talent Show,Đêm tài năng,boss,0,(recycle W7),I like singing.; She is playing the piano.,mix W7,1,1,1,1,speaking_challenge,A1+,HO-beyond,Movers,12,Biểu diễn và giới thiệu tiết mục
+W8,Travel,W8-L01,1,Holiday,Kỳ nghỉ,holiday,4,holiday; travel; suitcase; ticket,I like holidays.; Pack the suitcase.,imperatives,1,1,1,0,find_it,A2,HO-beyond,Movers,8,Nhận thư mời đi chơi
+W8,Travel,W8-L02,2,Airport,Sân bay,airport,5,airport; plane; passport; bag; wait,We're at the airport.; The plane is big.,there is,1,1,1,0,listen_choose,A2,HO1-U9-airport,Flyers,8,Tìm cổng máy bay
+W8,Travel,W8-L03,3,Hotel,Khách sạn,hotel,4,hotel; room; key; breakfast,This is our hotel.; Where is the key?,where,1,1,1,1,match,A2,HO-beyond,Flyers,8,Nhận phòng
+W8,Travel,W8-L04,4,Train and Bus,Tàu và xe buýt,transport,4,train; station; bus; stop,The train is at the station.; Get on the bus.,get on/off,1,1,1,0,find_it,A2,HO-beyond,Movers,8,Ga tàu kẹt lịch
+W8,Travel,W8-L05,5,Beach,Bãi biển,beach,5,beach; sea; sand; shell; swim,We're at the beach.; I can swim.,can,1,1,1,0,find_it,A2,HO-beyond,Starters,8,Săn vỏ sò
+W8,Travel,W8-L06,6,Where Are You Going?,Bạn đi đâu?,future,3,going; beach; park,Where are you going?; I'm going to the beach.,present continuous future,1,1,1,1,speaking_challenge,A2,HO-beyond,Movers,8,Bảng chuyến đi
+W8,Travel,W8-L07,7,Going To,Dự định,going to,3,going to; visit; tomorrow,I'm going to visit grandma.; It isn't going to rain.,be going to,1,1,1,1,sentence_builder,A2,HO-beyond,Flyers,8,Lịch ngày mai
+W8,Travel,W8-L08,8,Packing,Sắp vali,clothes,0,(recycle clothes+weather),I'm packing a jacket.; I need shoes.,need,1,1,1,0,match,A2,W1-W6-recycle,Movers,8,Vali theo nơi đến
+W8,Travel,W8-L09,9,Travel Fun,Vui khi đi,activities,4,photo; boat; ice cream; picnic,We take photos.; Let's have a picnic.,let's,1,1,1,0,listen_choose,A2,HO-beyond,Movers,8,Ngày vui trên đảo
+W8,Travel,W8-L10,10,Postcard,Bưu thiếp,writing,3,postcard; dear; from,Dear Mira; I am at the beach.; From Anna.,short writing,1,1,1,1,sentence_builder,A2,HO-beyond,Flyers,9,Viết bưu thiếp về nhà
+W8,Travel,W8-L11,11,Travel Review,Ôn du lịch,review,0,(recycle W8),mix W8,mix,1,1,1,1,match,A2,HO-beyond,Flyers,10,Album chuyến đi
+W8,Travel,W8-L12,12,Catch the Plane,Kịp máy bay,boss,0,(recycle W8),Where are you going?; I'm going to the airport.,mix W8,1,1,1,0,find_it,A2,HO-beyond,Flyers,12,Chạy đua ra cổng theo chỉ dẫn
+W9,Adventure World,W9-L01,1,Longer Listening,Nghe dài hơn,listening,0,(recycle),2-3 sentence dialogues,listening L3-L4,1,0,0,0,listen_choose,A2,HO-beyond,Flyers,8,Hang động thì thầm
+W9,Adventure World,W9-L02,2,Picture Order,Xếp tranh,stories,0,(recycle),First... Then... Finally...,sequencers,1,1,1,0,story_puzzle,A2,HO-beyond,Flyers,8,Tranh rơi khỏi sách
+W9,Adventure World,W9-L03,3,Find the Information,Tìm thông tin,reading,0,(recycle),read 50-70 words; answer 3 questions,reading for detail,0,0,1,1,listen_choose,A2,HO-beyond,Flyers,9,Bia đá có chữ
+W9,Adventure World,W9-L04,4,Fix the Sentences,Sửa câu,grammar,0,(recycle),longer sentence builder,word order,0,0,1,1,sentence_builder,A2,HO-beyond,Flyers,8,Câu bị gió xáo
+W9,Adventure World,W9-L05,5,Was and Were,Was / Were,past,3,was; were; yesterday,I was at home yesterday.; They were at the park.,past of be,1,1,1,1,match,A2,HO-beyond,Movers,8,Nhật ký hôm qua
+W9,Adventure World,W9-L06,6,Yesterday Verbs,Động từ quá khứ đều,past,5,played; visited; watched; cooked; walked,I played football yesterday.,past simple regular,1,1,1,1,sentence_builder,A2,HO-beyond,Movers,8,Con đường dấu chân
+W9,Adventure World,W9-L07,7,Went and Saw,Went / Saw,past,5,went; saw; ate; had; came,We went to the park.; I saw a bird.,past simple irregular,1,1,1,1,listen_choose,A2,HO-beyond,Flyers,8,Cổng thời gian
+W9,Adventure World,W9-L08,8,Yesterday's Adventure,Cuộc phiêu lưu hôm qua,narrative,0,(recycle past),I went... I saw... It was...,short narrative,1,1,1,1,speaking_challenge,A2,HO-beyond,Flyers,9,Kể lại cho vua đảo
+W9,Adventure World,W9-L09,9,Describe a Picture,Mô tả tranh,speaking,0,(recycle),There is... The boy is wearing... He is playing...,there is; present continuous,1,1,1,0,speaking_challenge,A2,HO-beyond,Flyers,8,Phòng tranh
+W9,Adventure World,W9-L10,10,Ask and Answer,Hỏi và đáp,speaking,0,(recycle),What's his name?; What is she doing?,questions,1,1,0,0,speaking_challenge,A2,HO-beyond,Flyers,8,NPC hỏi chéo
+W9,Adventure World,W9-L11,11,Short Story,Chuyện ngắn,writing,0,(recycle),write 4-5 sentences,writing L4,0,0,1,1,sentence_builder,A2,HO-beyond,Flyers,9,Sách còn trang trống
+W9,Adventure World,W9-L12,12,Bigger and Smaller,So sánh,comparatives,4,bigger; smaller; faster; taller,The elephant is bigger than the cat.,comparatives,1,1,1,1,match,A2,HO-beyond,Movers,8,Cổng hai con thú
+W9,Adventure World,W9-L13,13,Adventure Review,Ôn phiêu lưu,review,0,(recycle W9),mix W9,mix,1,1,1,1,match,A2,HO-beyond,Flyers,10,Thử thách đền
+W9,Adventure World,W9-L14,14,Temple of Stories,Đền chuyện,boss,0,(recycle W9),listen + read + speak past + describe,mix A2,1,1,1,1,story_puzzle,A2,HO-beyond,Flyers,12,Mở cổng đền bằng 4 kỹ năng
+W10,Flyer Island,W10-L01,1,Island Voices,Giọng đảo,listening,0,(recycle),match people to clothes and actions,listen for detail,1,0,0,0,listen_choose,A2,Flyers-skill,Flyers,8,Cảng đảo — nghe mô tả người
+W10,Flyer Island,W10-L02,2,Captain's Notes,Ghi chú thuyền trưởng,listening,0,(recycle),complete 1-word notes,listen and write word,1,0,0,1,word_puzzle,A2,Flyers-skill,Flyers,8,Sổ tay thuyền trưởng
+W10,Flyer Island,W10-L03,3,Choose the Scene,Chọn cảnh,listening,0,(recycle),choose the correct picture,listen and choose,1,0,0,0,listen_choose,A2,Flyers-skill,Flyers,8,Ba cánh cửa tranh
+W10,Flyer Island,W10-L04,4,Word Gates,Cổng từ,reading,0,(recycle),match definitions to words,reading vocab,0,0,1,0,match,A2,Flyers-skill,Flyers,8,Cổng định nghĩa
+W10,Flyer Island,W10-L05,5,Story Bridge,Cầu chuyện,reading,0,(recycle),gap-fill a short story,reading grammar,0,0,1,1,sentence_builder,A2,Flyers-skill,Flyers,9,Cầu gãy chữ
+W10,Flyer Island,W10-L06,6,Read and Find,Đọc và tìm,reading,0,(recycle),answer questions about a text,reading comprehension,0,0,1,1,listen_choose,A2,Flyers-skill,Flyers,9,Bia đá dài
+W10,Flyer Island,W10-L07,7,Write the Word,Viết từ,writing,0,(recycle),write words from pictures,writing L1-L2,0,0,0,1,word_puzzle,A2,Flyers-skill,Flyers,8,Bảng chữ đảo
+W10,Flyer Island,W10-L08,8,Write a Message,Viết tin,writing,0,(recycle),write 3-5 sentences / short paragraph,writing L4-L5,0,0,1,1,sentence_builder,A2,Flyers-skill,Flyers,10,Chai thư trên biển
+W10,Flyer Island,W10-L09,9,Two Pictures,Hai bức tranh,speaking,0,(recycle),say differences,there is; present continuous,1,1,0,0,speaking_challenge,A2,Flyers-skill,Flyers,8,Gương đôi
+W10,Flyer Island,W10-L10,10,Ask the Card,Hỏi theo thẻ,speaking,0,(recycle),ask and answer from a prompt card,questions,1,1,0,0,speaking_challenge,A2,Flyers-skill,Flyers,8,Thẻ NPC
+W10,Flyer Island,W10-L11,11,Four Pictures,Bốn bức tranh,speaking,0,(recycle),tell a short picture story,past or present narrative,1,1,0,0,story_puzzle,A2,Flyers-skill,Flyers,9,Sách 4 trang
+W10,Flyer Island,W10-L12,12,About You,Về bạn,speaking,0,(recycle),personal questions,present/past/going to,1,1,0,0,speaking_challenge,A2,Flyers-skill,Flyers,8,Lửa trại với thuyền trưởng
+W10,Flyer Island,W10-L13,13,Grammar Workshop,Xưởng ngữ pháp,grammar,0,(recycle),mixed A2 patterns,mix A2,0,0,1,1,sentence_builder,A2,Flyers-skill,Flyers,9,Sửa cầu ngữ pháp
+W10,Flyer Island,W10-L14,14,Vocab Island,Đảo từ vựng,vocabulary,0,(recycle weak words),adaptive weak vocab,srs,1,1,0,0,match,A2,Flyers-skill,Flyers,8,Rừng từ yếu
+W10,Flyer Island,W10-L15,15,Island Trial,Thử thách đảo,mixed,0,(recycle),mixed 4 skills original,mix,1,1,1,1,listen_choose,A2,Flyers-skill,Flyers,12,Thử thách hỗn hợp (không gọi là đề thi)
+W10,Flyer Island,W10-L16,16,Flyer Castle,Lâu đài Flyer,boss,0,(recycle all),listen + read + write + speak,mix A2,1,1,1,1,story_puzzle,A2,Flyers-skill,Flyers,12,Thu thập đủ 4 chìa khóa kỹ năng — Flyer Champion
