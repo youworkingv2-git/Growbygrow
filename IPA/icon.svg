@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Phonics Quest">
+  <rect width="128" height="128" rx="28" fill="#1e1b4b"/>
+  <circle cx="64" cy="58" r="34" fill="#6366f1"/>
+  <text x="64" y="70" text-anchor="middle" font-size="36" font-family="Georgia, serif" fill="#fff">Aa</text>
+  <rect x="24" y="96" width="80" height="14" rx="7" fill="#fbbf24"/>
+</svg>

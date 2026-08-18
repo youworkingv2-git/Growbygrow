@@ -23,8 +23,8 @@ Current source files:
 
 - `data/all-topics-toeic.json`
 - `data/all-topics-hangout1.json`
-- `data/all-topics-grade9.json`
-- `data/all-topics-grade4.json`
+- `data/all-topics-grade9.json` (337 words categorized by 12 textbook Units: Unit 1 – Local community to Unit 12 – Career Choices)
+- `data/all-topics-grade4.json` (414 words categorized by 20 textbook Units: Unit 1 – My friends to Unit 20 – At summer camp)
 - `data/all-topics-american-ipa.json`
 - `data/all-topics-english-dictation.json`
 

@@ -1,0 +1,19 @@
+{
+  "name": "Phonics Quest — Hành trình Âm tiếng Anh",
+  "short_name": "Phonics Quest",
+  "description": "Game học tiếng Anh từ đầu: âm → cách viết → quy tắc → ngoại lệ → trọng âm.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#1e1b4b",
+  "theme_color": "#1e1b4b",
+  "lang": "vi",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
