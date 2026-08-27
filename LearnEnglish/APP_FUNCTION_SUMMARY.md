@@ -24,7 +24,7 @@ Current source files:
 - `data/all-topics-toeic.json`
 - `data/all-topics-hangout1.json`
 - `data/all-topics-grade9.json` (337 words categorized by 12 textbook Units: Unit 1 – Local community to Unit 12 – Career Choices)
-- `data/all-topics-grade4.json` (414 words categorized by 20 textbook Units: Unit 1 – My friends to Unit 20 – At summer camp)
+- `data/all-topics-grade4.json` (458 words categorized by 21 textbook sections: Starter, Unit 1 – My friends to Unit 20 – At summer camp)
 - `data/all-topics-american-ipa.json`
 - `data/all-topics-english-dictation.json`
 
@@ -90,10 +90,11 @@ To add another source, add the JSON file in `data/` and register it in the app's
 
 ### Search And Filter
 
-- Searches by English word, Vietnamese meaning, or IPA.
-- Searches by topic name.
-- Keeps focus in the search box while typing.
-- Filters words by topic, including `toeic words`.
+- Searches any English word across every topic in the loaded source.
+- Runs the lookup when the user presses Enter or the magnifying-glass search button.
+- Shows saved pronunciation (IPA), Vietnamese meaning, and example sentence when the word is in the loaded data.
+- Shows a not-found message when the word is not in the saved vocabulary.
+- Filters the learning list by topic, including `toeic words`.
 - Filters words by status: `Learning`, `Known`, or `All Status`.
 - In `All Status`, shows each word's quiz attempt count and correct percentage when that word has been tested.
 - Saves the selected filter and search query locally.
@@ -139,7 +140,9 @@ Quiz behavior:
 - Shows scheduled review count.
 - Shows completion percentage with a progress bar.
 - Shows recently known words.
-- Shows the current learning queue on the left and the remaining words in the selected topic on the right.
+- Shows the current learning words in column 1 and the remaining topic words in columns 2 and 3, without a vertical scrollbar.
+- Lets the user select words with checkboxes and delete the selected words.
+- Lets the user add a word (English, Vietnamese meaning, topic, optional IPA and example) to the current source in this browser.
 - Shows stats for the selected topic or all topics.
 - Lets the user choose the vocabulary source: TOEIC, Grade 9, Grade 4, American IPA, or English Dictation.
 - Lets the user set the number of words used in each quiz.
@@ -175,6 +178,8 @@ Persisted data:
 - selected vocabulary source
 - quiz word count
 - selected quiz mode
+- user-added words
+- deleted word ids
 
 Not persisted:
 

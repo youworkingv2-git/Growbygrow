@@ -78,6 +78,9 @@
       .success { color: white; border-color: transparent; background: linear-gradient(135deg, #16a34a, #22c55e); }
       .toolbar { display: grid; gap: 0.75rem; margin-bottom: 1rem; }
       .search { width: 100%; min-height: 2.9rem; border: 1px solid var(--line); border-radius: 1rem; padding: 0 1rem; background: var(--panel-strong); color: var(--text); outline: none; }
+      .search-row { display: grid; grid-template-columns: 1fr auto; gap: 0.5rem; align-items: stretch; }
+      .search-submit { width: 2.9rem; height: 2.9rem; border-radius: 1rem; display: grid; place-items: center; color: var(--text); }
+      .search-submit:hover { color: var(--primary); border-color: var(--primary); }
       .tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.45rem; }
       .tabs.four { grid-template-columns: repeat(4, 1fr); }
       .tabs.five { grid-template-columns: repeat(5, 1fr); }
@@ -89,10 +92,15 @@
       .progress-track { overflow: hidden; height: 0.65rem; border-radius: 999px; background: rgba(148, 163, 184, 0.22); }
       .progress-fill { height: 100%; width: 0%; border-radius: inherit; background: linear-gradient(90deg, var(--primary), var(--accent)); transition: width 0.25s ease; }
       .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
-      .queue-split { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; align-items: start; }
+      .queue-split { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.85rem; align-items: start; }
       .queue-column { min-width: 0; }
-      .queue-list { display: grid; gap: 0.4rem; max-height: 24rem; overflow: auto; padding-right: 0.2rem; }
-      .queue-list p { font-size: 0.92rem; line-height: 1.35; }
+      .queue-remaining { grid-column: span 2; min-width: 0; }
+      .queue-remaining-split { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; align-items: start; }
+      .queue-list { display: grid; gap: 0.35rem; }
+      .queue-item { display: flex; align-items: flex-start; gap: 0.4rem; font-size: 0.86rem; line-height: 1.35; }
+      .queue-item input { margin: 0.2rem 0 0; flex: 0 0 auto; }
+      .queue-item span { min-width: 0; }
+      .add-word-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
       .stat { padding: 1rem; border-radius: 1rem; background: var(--panel-strong); border: 1px solid var(--line); }
       .stat strong { display: block; margin-top: 0.25rem; font-size: 1.5rem; }
       .quiz-options, .typing-form { display: grid; gap: 0.65rem; }
@@ -148,7 +156,7 @@
       input[type="range"]::-webkit-slider-thumb:hover {
         transform: scale(1.25);
       }
-      @media (max-width: 520px) { .app { padding-inline: 0.8rem; } .header { margin-inline: -0.8rem; padding-inline: 0.8rem; } .stats-grid, .tabs.four, .tabs.five { grid-template-columns: 1fr 1fr; } .queue-split, .quiz-start-actions { grid-template-columns: 1fr; } .word-title { font-size: 1.7rem; } .pill { display: none; } }
+      @media (max-width: 520px) { .app { padding-inline: 0.8rem; } .header { margin-inline: -0.8rem; padding-inline: 0.8rem; } .stats-grid, .tabs.four, .tabs.five { grid-template-columns: 1fr 1fr; } .queue-split, .queue-remaining-split, .quiz-start-actions, .add-word-grid { grid-template-columns: 1fr; } .queue-remaining { grid-column: auto; } .word-title { font-size: 1.7rem; } .pill { display: none; } }
     </style>
   </head>
   <body>
@@ -202,6 +210,13 @@
         filter: 'learning',
         topicFilter: 'all',
         searchQuery: '',
+        lookupActive: false,
+        lookupResults: [],
+        selectedWordIds: [],
+        deletedWordIds: [],
+        userWords: [],
+        showAddWordForm: false,
+        addWordError: '',
         theme: 'dark',
         page: 'learn',
         dataSourceName: DATA_SOURCES[0].name,
@@ -336,6 +351,8 @@
           if (savedState.filter) state.filter = savedState.filter;
           if (savedState.topicFilter) state.topicFilter = savedState.topicFilter;
           if (typeof savedState.searchQuery === 'string') state.searchQuery = savedState.searchQuery;
+          if (Array.isArray(savedState.deletedWordIds)) state.deletedWordIds = savedState.deletedWordIds;
+          if (Array.isArray(savedState.userWords)) state.userWords = savedState.userWords;
           if (savedState.theme === 'light' || savedState.theme === 'dark') state.theme = savedState.theme;
           if (DATA_SOURCES.some((source) => source.name === savedState.dataSourceName)) state.dataSourceName = savedState.dataSourceName;
           state.quizQuestionLimit = normalizeQuizQuestionLimit(savedState.quizQuestionLimit);
@@ -360,6 +377,8 @@
             quizQuestionLimit: state.quizQuestionLimit,
             quizMode: state.quizMode,
             quizHistory: state.quizHistory || [],
+            deletedWordIds: state.deletedWordIds || [],
+            userWords: state.userWords || [],
           },
           version: 2,
         }));
@@ -432,16 +451,24 @@
         function importTopics(topicGroups) {
           const normalized = topicGroups.flatMap((group) => normalizeWords(group.words, group.topic));
           const progressById = new Map(state.words.map((word) => [word.id, word]));
-          seedWords = normalized;
-          // Preserve saved progress for each word; default to 'learning' for new words
-          state.words = normalized.map((word) => {
-            const merged = mergeWordProgress(word, progressById.get(word.id));
-            // If there is no saved status or it is still 'new', start as 'learning'
-            if (!merged.status || merged.status === 'new') {
-              merged.status = 'learning';
-            }
-            return merged;
-          });
+          const deleted = new Set(state.deletedWordIds || []);
+          const fileWords = normalized
+            .filter((word) => !deleted.has(sourceWordKey(word.id)))
+            .map((word) => {
+              const merged = mergeWordProgress(word, progressById.get(word.id));
+              if (!merged.status || merged.status === 'new') merged.status = 'learning';
+              return merged;
+            });
+          const customWords = (state.userWords || [])
+            .filter((word) => (word.dataSourceName || state.dataSourceName) === state.dataSourceName)
+            .filter((word) => !deleted.has(sourceWordKey(word.id)))
+            .map((word) => {
+              const merged = mergeWordProgress(word, progressById.get(word.id) || word);
+              if (!merged.status || merged.status === 'new') merged.status = 'learning';
+              return merged;
+            });
+          seedWords = fileWords;
+          state.words = [...fileWords, ...customWords];
           ensureWordOrder();
           if (!getTopics(state.words).includes(state.topicFilter)) state.topicFilter = 'all';
           resetQuizState();
@@ -486,6 +513,74 @@
           .replace(/\b\w/g, (c) => c.toUpperCase());
       }
 
+      function sourceWordKey(id) {
+        return `${state.dataSourceName}::${id}`;
+      }
+
+      function toggleSelectedWord(wordId, checked) {
+        const selected = new Set(state.selectedWordIds || []);
+        if (checked) selected.add(wordId);
+        else selected.delete(wordId);
+        state.selectedWordIds = [...selected];
+        const deleteButton = document.getElementById('deleteSelectedWords');
+        if (deleteButton) deleteButton.disabled = state.selectedWordIds.length === 0;
+      }
+
+      function deleteSelectedWords() {
+        const ids = new Set(state.selectedWordIds || []);
+        if (!ids.size) return;
+        if (!window.confirm(`Delete ${ids.size} selected word${ids.size === 1 ? '' : 's'}?`)) return;
+        state.deletedWordIds = [...new Set([...(state.deletedWordIds || []), ...[...ids].map(sourceWordKey)])];
+        state.userWords = (state.userWords || []).filter((word) => !ids.has(word.id));
+        state.words = refillLearningQueue(state.words.filter((word) => !ids.has(word.id)));
+        state.selectedWordIds = [];
+        if (state.currentQuestion && ids.has(state.currentQuestion.word?.id)) resetQuizState();
+        else state.quizQuestionIds = (state.quizQuestionIds || []).filter((id) => !ids.has(id));
+        saveState();
+        render();
+      }
+
+      function addUserWordFromForm() {
+        const word = document.getElementById('addWordText')?.value.trim() || '';
+        const meaning = document.getElementById('addWordMeaning')?.value.trim() || '';
+        const topic = document.getElementById('addWordTopic')?.value.trim() || '';
+        const ipa = document.getElementById('addWordIpa')?.value.trim() || '';
+        const example = document.getElementById('addWordExample')?.value.trim() || '';
+        if (!word || !meaning || !topic) {
+          state.addWordError = 'English word, Vietnamese meaning, and topic are required.';
+          render();
+          return;
+        }
+        const exists = state.words.some((item) => item.word.toLowerCase() === word.toLowerCase() && item.topic === topic);
+        if (exists) {
+          state.addWordError = 'That word already exists in this topic.';
+          render();
+          return;
+        }
+        const [entry] = normalizeWords([{
+          id: `user-${Date.now()}`,
+          word,
+          meaning_vi: meaning,
+          topic,
+          ipa_us: ipa,
+          example,
+          audio_us: '',
+          audio_vi: '',
+          status: 'new',
+          reviewLevel: 0,
+          reviewCount: 0,
+          createdAt: Date.now(),
+          dataSourceName: state.dataSourceName,
+        }], topic);
+        entry.dataSourceName = state.dataSourceName;
+        state.userWords = [...(state.userWords || []), entry];
+        state.words = refillLearningQueue([...state.words, { ...entry }]);
+        state.showAddWordForm = false;
+        state.addWordError = '';
+        saveState();
+        render();
+      }
+
       function mergeWordProgress(word, progress) {
         if (!progress) return { ...word };
         return {
@@ -528,6 +623,13 @@
         state.filter = 'learning';
         state.topicFilter = 'all';
         state.searchQuery = '';
+        state.lookupActive = false;
+        state.lookupResults = [];
+        state.selectedWordIds = [];
+        state.deletedWordIds = [];
+        state.userWords = [];
+        state.showAddWordForm = false;
+        state.addWordError = '';
         state.dataSourceName = DATA_SOURCES[0].name;
         state.quizQuestionLimit = DEFAULT_QUIZ_QUESTION_LIMIT;
         state.quizMode = 'meaning';
@@ -599,15 +701,51 @@
       }
 
       function getVisibleWords() {
-        const query = state.searchQuery.trim().toLowerCase();
         const topicWords = getTopicWords();
-        const filtered = topicWords.filter((word) => {
-          const matchesFilter = state.filter === 'all' || word.status === state.filter;
-          const matchesQuery = !query || word.word.toLowerCase().includes(query) || word.meaning_vi.toLowerCase().includes(query) || word.ipa_us.toLowerCase().includes(query) || word.topic.toLowerCase().includes(query);
-          return matchesFilter && matchesQuery;
-        });
+        const filtered = topicWords.filter((word) => state.filter === 'all' || word.status === state.filter);
         const ordered = orderWords(filtered);
-        return state.filter === 'learning' && !query ? ordered.slice(0, LEARNING_LIMIT) : ordered;
+        return state.filter === 'learning' ? ordered.slice(0, LEARNING_LIMIT) : ordered;
+      }
+
+      function lookupWords(query) {
+        const q = String(query || '').trim().toLowerCase();
+        if (!q) return [];
+        const pool = state.words;
+        const seen = new Set();
+        const take = (list) => list.filter((word) => {
+          if (seen.has(word.id)) return false;
+          seen.add(word.id);
+          return true;
+        });
+        const exact = take(pool.filter((word) => String(word.word || '').trim().toLowerCase() === q));
+        if (exact.length) return exact;
+        const starts = take(pool.filter((word) => String(word.word || '').toLowerCase().startsWith(q)));
+        if (starts.length) return starts.slice(0, 20);
+        return take(pool.filter((word) => {
+          const english = String(word.word || '').toLowerCase();
+          const meaning = String(word.meaning_vi || '').toLowerCase();
+          const ipa = String(word.ipa_us || '').toLowerCase();
+          return english.includes(q) || meaning.includes(q) || ipa.includes(q);
+        })).slice(0, 20);
+      }
+
+      function runWordLookup() {
+        const input = document.getElementById('searchInput');
+        const query = (input ? input.value : state.searchQuery).trim();
+        state.searchQuery = query;
+        state.lookupActive = Boolean(query);
+        state.lookupResults = query ? lookupWords(query) : [];
+        if (state.autoLearn.isPlaying) stopAutoLearn();
+        saveState();
+        render();
+      }
+
+      function clearWordLookup() {
+        state.lookupActive = false;
+        state.lookupResults = [];
+        state.searchQuery = '';
+        saveState();
+        render();
       }
 
       function speak(text, lang = 'en-US') {
@@ -1278,7 +1416,15 @@
                 ${topics.map((topic) => `<option value="${escapeHtml(topic)}"${state.topicFilter === topic ? ' selected' : ''}>${escapeHtml(prettyTopic(topic))}</option>`).join('')}
               </select>
               <label class="muted small" for="searchInput">Search</label>
-              <input class="search" id="searchInput" type="search" placeholder="Search English, Vietnamese, or IPA" value="${escapeHtml(state.searchQuery)}" />
+              <form class="search-row" id="wordLookupForm">
+                <input class="search" id="searchInput" type="search" placeholder="Search any English word in all topics" value="${escapeHtml(state.searchQuery)}" autocomplete="off" />
+                <button class="icon-button search-submit" type="submit" id="searchWordButton" aria-label="Search word" title="Search">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  </svg>
+                </button>
+              </form>
               <p class="muted small">Status</p>
               <div class="tabs">
                 ${filterButton('learning', 'Learning')}
@@ -1286,21 +1432,63 @@
                 ${filterButton('all', 'All Status')}
               </div>
             </div>
-            <p class="muted small">Showing ${words.length} of ${topicTotal} word${topicTotal === 1 ? '' : 's'}${state.topicFilter === 'all' ? '' : ` in ${escapeHtml(state.topicFilter)}`}</p>
-            ${renderAutoLearnPanel(words)}
+            <p class="muted small">${state.lookupActive
+              ? `Search results in all topics for "${escapeHtml(state.searchQuery.trim())}"`
+              : `Showing ${words.length} of ${topicTotal} word${topicTotal === 1 ? '' : 's'}${state.topicFilter === 'all' ? '' : ` in ${escapeHtml(state.topicFilter)}`}`}</p>
+            ${state.lookupActive ? '' : renderAutoLearnPanel(words)}
           </div>
-          ${words.length ? words.map(renderWordCard).join('') : renderEmptyWords(topicTotal)}
+          ${state.lookupActive ? renderWordLookup() : (words.length ? words.map(renderWordCard).join('') : renderEmptyWords(topicTotal))}
         `;
-        document.getElementById('searchInput').addEventListener('input', (event) => {
-          const cursorPosition = event.target.selectionStart;
-          if (state.autoLearn.isPlaying) stopAutoLearn();
-          state.searchQuery = event.target.value;
-          saveState();
-          renderLearn();
-          const searchInput = document.getElementById('searchInput');
-          searchInput.focus();
-          searchInput.setSelectionRange(cursorPosition, cursorPosition);
+        document.getElementById('wordLookupForm').addEventListener('submit', (event) => {
+          event.preventDefault();
+          runWordLookup();
         });
+        document.getElementById('searchInput').addEventListener('input', (event) => {
+          state.searchQuery = event.target.value;
+        });
+      }
+
+      function renderWordLookup() {
+        const query = state.searchQuery.trim();
+        if (!state.lookupResults.length) {
+          return `
+            <div class="panel empty">
+              <h3>Word not found</h3>
+              <p class="muted">"${escapeHtml(query)}" is not in the saved vocabulary for this source.</p>
+              <button class="button" type="button" id="clearWordLookup">Back to learning</button>
+            </div>
+          `;
+        }
+        return `
+          <div class="panel stack">
+            <div class="row between">
+              <p class="muted small">Found ${state.lookupResults.length} word${state.lookupResults.length === 1 ? '' : 's'}</p>
+              <button class="button" type="button" id="clearWordLookup">Back to learning</button>
+            </div>
+          </div>
+          ${state.lookupResults.map(renderLookupCard).join('')}
+        `;
+      }
+
+      function renderLookupCard(word) {
+        return `
+          <article class="panel stack">
+            <div class="row between">
+              <span class="badge">${escapeHtml(prettyTopic(word.topic))}</span>
+              <button class="action-btn play" type="button" data-pronounce="${escapeHtml(word.id)}" aria-label="Pronounce ${escapeHtml(word.word)}" title="Pronounce">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                  <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+                </svg>
+              </button>
+            </div>
+            <div class="word-title">${escapeHtml(word.word)}</div>
+            <p class="muted">${escapeHtml(word.ipa_us || 'No pronunciation saved')}</p>
+            <p class="meaning">${escapeHtml(word.meaning_vi || 'No Vietnamese meaning saved')}</p>
+            ${word.example ? `<p class="example">${escapeHtml(word.example)}</p>` : '<p class="muted small">No example sentence saved.</p>'}
+          </article>
+        `;
       }
 
       function filterButton(filter, label) {
@@ -1314,7 +1502,7 @@
         if (!topicTotal) {
           return '<div class="panel empty"><h3>No words in this topic</h3><p class="muted">Choose All topics or load a JSON file with this topic.</p></div>';
         }
-        return '<div class="panel empty"><h3>No words match this view</h3><p class="muted">Try All Status or clear the search text.</p></div>';
+        return '<div class="panel empty"><h3>No words match this view</h3><p class="muted">Try All Status or choose another topic.</p></div>';
       }
 
       function renderWordCard(word) {
@@ -1582,6 +1770,9 @@
         const learningWords = orderedTopicWords.filter((word) => word.status === 'learning').slice(0, LEARNING_LIMIT);
         const learningIds = new Set(learningWords.map((word) => word.id));
         const remainingWords = orderedTopicWords.filter((word) => !learningIds.has(word.id));
+        const remainingMid = Math.ceil(remainingWords.length / 2);
+        const remainingLeft = remainingWords.slice(0, remainingMid);
+        const remainingRight = remainingWords.slice(remainingMid);
         const scheduled = topicWords.filter((word) => word.nextReviewAt).length;
         const source = getDataSource();
 
@@ -1664,28 +1855,90 @@
           </div>
           <div class="panel stack"><h3>Recently Known</h3>${knownWords.length ? knownWords.map((word) => `<p>${escapeHtml(word.word)} <span class="muted">${escapeHtml(word.meaning_vi)}</span></p>`).join('') : '<p class="muted">No known words yet.</p>'}</div>
           <div class="panel stack">
+            <div class="row between">
+              <div>
+                <h3>Learning and remaining words</h3>
+                <p class="muted small">Select words to delete, or add a new word to this source.</p>
+              </div>
+              <div class="row">
+                <button class="button danger" type="button" id="deleteSelectedWords" ${(state.selectedWordIds || []).length ? '' : ' disabled'}>Delete selected</button>
+                <button class="button primary" type="button" id="showAddWordForm">Add word</button>
+              </div>
+            </div>
+            ${state.showAddWordForm ? renderAddWordForm() : ''}
             <div class="queue-split">
               <div class="queue-column stack" style="gap: 0.65rem;">
                 <div>
-                  <h3>Learning Queue</h3>
+                  <h3>Learning</h3>
                   <p class="muted small">${learningWords.length} word${learningWords.length === 1 ? '' : 's'}</p>
                 </div>
                 <div class="queue-list">${learningWords.length ? learningWords.map(renderQueueWord).join('') : '<p class="muted">No learning words loaded.</p>'}</div>
               </div>
-              <div class="queue-column stack" style="gap: 0.65rem;">
+              <div class="queue-remaining stack" style="gap: 0.65rem;">
                 <div>
                   <h3>Remaining in topic</h3>
                   <p class="muted small">${remainingWords.length} word${remainingWords.length === 1 ? '' : 's'}</p>
                 </div>
-                <div class="queue-list">${remainingWords.length ? remainingWords.map(renderQueueWord).join('') : '<p class="muted">No remaining words in this topic.</p>'}</div>
+                <div class="queue-remaining-split">
+                  <div class="queue-list">${remainingLeft.length ? remainingLeft.map(renderQueueWord).join('') : '<p class="muted">No remaining words in this topic.</p>'}</div>
+                  <div class="queue-list">${remainingRight.map(renderQueueWord).join('')}</div>
+                </div>
               </div>
             </div>
           </div>
         `;
+        document.getElementById('addWordForm')?.addEventListener('submit', (event) => {
+          event.preventDefault();
+          addUserWordFromForm();
+        });
       }
 
       function renderQueueWord(word) {
-        return `<p>${escapeHtml(word.word)} <span class="muted">${escapeHtml(word.meaning_vi)}</span></p>`;
+        const checked = (state.selectedWordIds || []).includes(word.id) ? ' checked' : '';
+        return `
+          <label class="queue-item">
+            <input type="checkbox" data-select-word="${escapeHtml(word.id)}"${checked}>
+            <span>${escapeHtml(word.word)} <span class="muted">${escapeHtml(word.meaning_vi)}</span></span>
+          </label>
+        `;
+      }
+
+      function renderAddWordForm() {
+        const topics = getTopics();
+        const selectedTopic = state.topicFilter !== 'all' ? state.topicFilter : (topics[0] || '');
+        return `
+          <form id="addWordForm" class="stack" style="padding: 0.85rem; border: 1px solid var(--line); border-radius: 1rem; background: var(--panel-strong);">
+            ${state.addWordError ? `<p class="danger-text small">${escapeHtml(state.addWordError)}</p>` : ''}
+            <div class="add-word-grid">
+              <label class="stack" style="gap: 0.35rem;">
+                <span class="muted small">English word</span>
+                <input class="search" id="addWordText" type="text" required autocomplete="off">
+              </label>
+              <label class="stack" style="gap: 0.35rem;">
+                <span class="muted small">Vietnamese meaning</span>
+                <input class="search" id="addWordMeaning" type="text" required autocomplete="off">
+              </label>
+              <label class="stack" style="gap: 0.35rem;">
+                <span class="muted small">Topic</span>
+                <select class="search" id="addWordTopic" required>
+                  ${topics.map((topic) => `<option value="${escapeHtml(topic)}"${topic === selectedTopic ? ' selected' : ''}>${escapeHtml(prettyTopic(topic))}</option>`).join('')}
+                </select>
+              </label>
+              <label class="stack" style="gap: 0.35rem;">
+                <span class="muted small">Pronunciation (optional)</span>
+                <input class="search" id="addWordIpa" type="text" placeholder="/ˈæp.əl/" autocomplete="off">
+              </label>
+              <label class="stack" style="gap: 0.35rem; grid-column: 1 / -1;">
+                <span class="muted small">Example sentence (optional)</span>
+                <input class="search" id="addWordExample" type="text" autocomplete="off">
+              </label>
+            </div>
+            <div class="row">
+              <button class="button primary" type="submit">Save word</button>
+              <button class="button" type="button" id="cancelAddWord">Cancel</button>
+            </div>
+          </form>
+        `;
       }
 
       function statCard(label, value) {
@@ -1741,6 +1994,11 @@
           }
           return;
         }
+        if (target.id === 'searchWordButton') return;
+        if (target.id === 'clearWordLookup') {
+          clearWordLookup();
+          return;
+        }
         if (target.id === 'startQuiz') startQuiz(state.quizMode);
         if (target.id === 'retryIncorrectQuiz') retryIncorrectQuiz();
         if (target.id === 'resetQuiz') resetQuizState();
@@ -1770,6 +2028,22 @@
           if (input) input.focus();
           return;
         }
+        if (target.id === 'deleteSelectedWords') {
+          deleteSelectedWords();
+          return;
+        }
+        if (target.id === 'showAddWordForm') {
+          state.showAddWordForm = true;
+          state.addWordError = '';
+          render();
+          return;
+        }
+        if (target.id === 'cancelAddWord') {
+          state.showAddWordForm = false;
+          state.addWordError = '';
+          render();
+          return;
+        }
         if (target.id === 'resetSavedState') {
           if (window.confirm('Reset all saved progress and reload fresh data?')) resetSavedState();
           return;
@@ -1780,6 +2054,10 @@
 
 
       document.addEventListener('change', async (event) => {
+        if (event.target.dataset.selectWord) {
+          toggleSelectedWord(event.target.dataset.selectWord, event.target.checked);
+          return;
+        }
         if (event.target.id === 'topicSelect' || event.target.id === 'quizTopicSelect') {
           if (state.autoLearn.isPlaying) stopAutoLearn();
           state.topicFilter = event.target.value;
@@ -1796,6 +2074,8 @@
           state.dataSourceName = nextSource;
           state.topicFilter = 'all';
           state.searchQuery = '';
+          state.lookupActive = false;
+          state.lookupResults = [];
           state.filter = 'learning';
           resetQuizState();
           saveState();

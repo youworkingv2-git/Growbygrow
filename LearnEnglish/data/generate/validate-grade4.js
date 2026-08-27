@@ -5,6 +5,7 @@ const path = require('path');
 const DATASET_KEY = 'grade4-basic-english-premium';
 const FILE = path.join(__dirname, 'grade4-basic-english-premium.json');
 const REQUIRED_TOPICS = [
+  'Starter',
   'Unit 1 – My friends',
   'Unit 2 – Time and daily routines',
   'Unit 3 – My week',
