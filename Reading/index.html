@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reading Aloud — Luyện đọc tiếng Anh</title>
+    <link rel="stylesheet" href="css/style.css?v=20261004-hardword-ipa" />
+</head>
+
+<body class="show-vietnamese">
+  <div class="app">
+    <header>
+      <h1>Reading Aloud</h1>
+      <p class="subtitle">Đọc to từng câu — mic khớp từ tích lũy dần</p>
+    </header>
+
+    <div id="error-banner" class="error-banner hidden" role="alert"></div>
+
+    <section class="panel" aria-label="Điều khiển">
+      <div class="controls-row filter-row">
+        <label for="topic-select">Chủ đề</label>
+        <select id="topic-select" aria-label="Lọc theo chủ đề"></select>
+        <label for="level-filter">Cấp độ</label>
+        <select id="level-filter" aria-label="Lọc theo cấp độ"></select>
+        <button type="button" id="btn-topic-tree-toggle" class="topic-tree-btn" title="Danh sách Chủ Đề"
+          aria-label="Danh sách Chủ Đề" aria-expanded="false" aria-controls="topic-tree-panel">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+          </svg>
+          Danh sách Chủ Đề
+        </button>
+        <div class="filter-actions">
+          <button type="button" id="btn-import-toggle" class="icon-btn" title="Import bài của tôi"
+            aria-label="Import bài của tôi" aria-expanded="false" aria-controls="import-panel">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="17 8 12 3 7 8" />
+              <line x1="12" y1="3" x2="12" y2="15" />
+            </svg>
+          </button>
+          <button type="button" id="btn-history-toggle" class="icon-btn" title="Lịch sử học" aria-label="Lịch sử học"
+            aria-expanded="false" aria-controls="history-panel">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M3 3v18h18" />
+              <path d="M7 14l3-3 3 2 5-6" />
+              <path d="M18 7h-4" />
+              <path d="M18 7v4" />
+            </svg>
+          </button>
+          <button type="button" id="btn-hard-words-toggle" class="icon-btn" title="Từ khó cần ôn"
+            aria-label="Từ khó cần ôn" aria-expanded="false" aria-controls="hard-words-panel">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+              <line x1="8" y1="7" x2="16" y2="7" />
+              <line x1="8" y1="11" x2="14" y2="11" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div id="topic-tree-panel" class="topic-tree-drawer hidden" aria-label="Danh sách chủ đề">
+        <div class="topic-tree-drawer-head">
+          <h3>Danh sách Chủ Đề</h3>
+          <button type="button" id="btn-topic-tree-close" class="icon-btn icon-btn-ghost" title="Đóng"
+            aria-label="Đóng danh sách chủ đề">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+        </div>
+        <p class="topic-tree-hint">
+          Cây thư mục: <strong>chủ đề → cấp độ → bài</strong>. Bấm tên thư mục để lọc, bấm bài để mở.
+        </p>
+        <div id="topic-tree-root" class="topic-tree-root"></div>
+      </div>
+
+      <div id="import-panel" class="import-drawer hidden" aria-label="Import bài">
+        <div class="import-drawer-head">
+          <h3>Import bài của tôi</h3>
+          <button type="button" id="btn-import-close" class="icon-btn icon-btn-ghost" title="Đóng"
+            aria-label="Đóng import">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+        </div>
+        <p class="import-hint">
+          Mỗi dòng một câu tiếng Anh, dòng dưới là tiếng Việt (giống bài Homework habits).
+          Hoặc dùng <strong>Đọc để thêm bài</strong> bên dưới (Chrome/Edge).
+          Cũng có thể dán JSON / file <code>.txt</code> / <code>.json</code>.
+          Bài lưu trên trình duyệt; Xuất bài của tôi → thư mục <code>Reading/Import</code>.
+        </p>
+        <div class="import-grid">
+          <label class="import-field">
+            <span>Tiêu đề</span>
+            <input type="text" id="import-title" placeholder="VD: My IELTS practice" />
+          </label>
+          <label class="import-field">
+            <span>Cấp độ</span>
+            <select id="import-level"></select>
+          </label>
+          <label class="import-field">
+            <span>Chủ đề</span>
+            <select id="import-topic"></select>
+          </label>
+          <label class="import-field">
+            <span>Định dạng</span>
+            <select id="import-format">
+              <option value="text">Văn bản (mỗi dòng một câu)</option>
+              <option value="json">JSON</option>
+            </select>
+          </label>
+        </div>
+        <label class="import-field import-field-full">
+          <span id="import-content-label">Nội dung các câu</span>
+          <textarea id="import-content" rows="6"
+            placeholder="I do my homework after I get home from school.&#10;Tôi làm bài tập về nhà sau khi tan học.&#10;I start with the subjects I find most difficult.&#10;Tôi bắt đầu với môn tôi thấy khó nhất."></textarea>
+        </label>
+        <div id="import-dictation" class="import-dictation" aria-label="Đọc để thêm bài">
+          <p id="import-dictation-status" class="import-dictation-status">
+            Bấm Bắt đầu nghe, đọc tiếng Anh (cả câu/đoạn). Xong đoạn Anh → đọc tiếng Việt → Lưu cặp câu.
+          </p>
+          <pre id="import-dictation-live" class="import-dictation-live" aria-live="polite">—</pre>
+          <div class="import-dictation-actions">
+            <button type="button" id="btn-import-dictation-toggle" class="backup-btn">
+              Bắt đầu nghe
+            </button>
+            <button type="button" id="btn-import-dictation-next" class="backup-btn" disabled>
+              Xong đoạn Anh → đọc Việt
+            </button>
+          </div>
+        </div>
+        <div class="import-actions">
+          <label class="icon-btn icon-btn-ghost file-btn" title="Chọn file" aria-label="Chọn file">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+            </svg>
+            <input type="file" id="import-file" accept=".txt,.json,application/json,text/plain" hidden />
+          </label>
+          <button type="button" id="btn-import-save" class="icon-btn icon-btn-primary" title="Lưu bài"
+            aria-label="Lưu bài">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+              <polyline points="17 21 17 13 7 13 7 21" />
+              <polyline points="7 3 7 8 15 8" />
+            </svg>
+          </button>
+        </div>
+        <div class="backup-actions" aria-label="Sao lưu bài đã import">
+          <button type="button" id="btn-custom-export" class="backup-btn"
+            title="Xuất tất cả bài đã import vào thư mục Reading/Import">
+            Xuất bài của tôi
+          </button>
+          <label class="backup-btn file-btn" title="Nhập file JSON đã xuất">
+            Nhập bài đã xuất
+            <input type="file" id="backup-import-file" accept=".json,application/json" hidden />
+          </label>
+        </div>
+        <p id="import-feedback" class="import-feedback hidden" role="status"></p>
+        <div id="custom-lessons-list" class="custom-lessons-list hidden">
+          <h4 class="custom-list-title">Bài đã import</h4>
+          <ul id="custom-lessons-ul"></ul>
+        </div>
+      </div>
+
+      <div id="edit-panel" class="import-drawer hidden" aria-label="Sửa bài luyện">
+        <div class="import-drawer-head">
+          <h3 id="edit-panel-title">Sửa bài luyện</h3>
+          <button type="button" id="btn-edit-close" class="icon-btn icon-btn-ghost" title="Đóng"
+            aria-label="Đóng sửa bài">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+        </div>
+        <div class="import-grid">
+          <label class="import-field">
+            <span>Tiêu đề bài luyện</span>
+            <input type="text" id="edit-title" placeholder="Tiêu đề bài học" />
+          </label>
+          <div class="import-field">
+            <div class="field-label-row">
+              <span>Cấp độ</span>
+              <button type="button" id="btn-add-level" class="text-action-btn" title="Thêm cấp độ mới">+ Thêm cấp
+                độ</button>
+            </div>
+            <select id="edit-level"></select>
+          </div>
+          <div class="import-field">
+            <div class="field-label-row">
+              <span>Chủ đề</span>
+              <div class="topic-action-group">
+                <button type="button" id="btn-add-topic" class="text-action-btn" title="Thêm chủ đề mới">+ Thêm</button>
+                <button type="button" id="btn-delete-topic" class="text-action-btn text-danger hidden"
+                  title="Xóa chủ đề này">Xóa</button>
+              </div>
+            </div>
+            <select id="edit-topic"></select>
+          </div>
+        </div>
+        <label class="import-field import-field-full">
+          <span>Nội dung các câu (mỗi dòng 1 câu, có thể kèm dòng dịch tiếng Việt bên dưới)</span>
+          <textarea id="edit-content" rows="6"
+            placeholder="I do my homework after I get home from school.&#10;Tôi làm bài tập về nhà sau khi tan học."></textarea>
+        </label>
+        <div class="import-actions">
+          <button type="button" id="btn-edit-save" class="backup-btn backup-btn-primary"
+            style="margin: 0; min-height: 2.35rem;" title="Lưu thay đổi" aria-label="Lưu thay đổi">
+            Lưu thay đổi
+          </button>
+          <button type="button" id="btn-edit-cancel" class="backup-btn" style="margin: 0; min-height: 2.35rem;"
+            title="Hủy">
+            Hủy
+          </button>
+        </div>
+        <p id="edit-feedback" class="import-feedback hidden" role="status"></p>
+      </div>
+
+      <div id="move-panel" class="import-drawer hidden" aria-label="Di chuyển bài luyện">
+        <div class="import-drawer-head">
+          <h3 id="move-panel-title">Di chuyển bài (Move to)</h3>
+          <button type="button" id="btn-move-close" class="icon-btn icon-btn-ghost" title="Đóng"
+            aria-label="Đóng di chuyển">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+        </div>
+        <p class="import-hint">
+          Tick chọn một hoặc nhiều bài, rồi chọn chủ đề / cấp độ mới. Bài đang mở được chọn sẵn.
+        </p>
+        <p id="move-selected-count" class="move-selected-count">Đang chọn 0 bài</p>
+        <div class="move-picker-actions">
+          <button type="button" id="btn-move-select-topic" class="backup-btn" title="Chọn mọi bài trong chủ đề đang xem">
+            Chọn chủ đề hiện tại
+          </button>
+          <button type="button" id="btn-move-select-level" class="backup-btn" title="Chọn mọi bài trong cấp độ đang xem">
+            Chọn cấp độ hiện tại
+          </button>
+          <button type="button" id="btn-move-select-none" class="backup-btn">Bỏ chọn</button>
+        </div>
+        <div id="move-lesson-list" class="topic-tree-root move-lesson-list"></div>
+        <div class="import-grid">
+          <div class="import-field">
+            <span>Chủ đề mới</span>
+            <select id="move-topic"></select>
+          </div>
+          <div class="import-field">
+            <span>Cấp độ mới</span>
+            <select id="move-level"></select>
+          </div>
+        </div>
+        <div class="import-actions">
+          <button type="button" id="btn-move-save" class="backup-btn backup-btn-primary"
+            style="margin: 0; min-height: 2.35rem;" title="Xác nhận di chuyển" aria-label="Xác nhận di chuyển">
+            Xác nhận di chuyển
+          </button>
+          <button type="button" id="btn-move-cancel" class="backup-btn" style="margin: 0; min-height: 2.35rem;"
+            title="Hủy">
+            Hủy
+          </button>
+        </div>
+        <p id="move-feedback" class="import-feedback hidden" role="status"></p>
+      </div>
+
+      <div id="hard-words-panel" class="hard-words-drawer hidden" aria-label="Từ khó cần ôn">
+        <div class="hard-words-drawer-head">
+          <h3>Từ khó cần ôn</h3>
+          <div class="hard-words-actions">
+            <button type="button" id="btn-hard-words-add" class="icon-btn icon-btn-secondary" title="Thêm từ"
+              aria-label="Thêm từ khó">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>
+            </button>
+            <button type="button" id="btn-hard-words-close" class="icon-btn icon-btn-ghost" title="Đóng"
+              aria-label="Đóng danh sách từ khó">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                aria-hidden="true">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <p class="hard-words-hint">
+          Các từ bạn đọc sai từ 5 lần trở lên được lưu ở đây — hoặc bấm <strong>+</strong> để thêm từ thủ công.
+          Mỗi từ hiển thị <strong>IPA</strong> ngay bên dưới để bạn nhìn và đọc. Chọn từ, bấm <strong>Luyện từ đã chọn</strong>,
+          rồi <strong>Đã học</strong> khi đã nhuần nhuyễn.
+        </p>
+        <div id="hard-words-edit-panel" class="hard-words-edit-panel hidden" aria-label="Thêm hoặc sửa từ khó">
+          <h4 id="hard-words-edit-title" class="hard-words-edit-title">Thêm từ khó</h4>
+          <div class="hard-words-edit-grid">
+            <label class="import-field">
+              <span>Từ tiếng Anh</span>
+              <input type="text" id="hard-word-input" placeholder="VD: difficult" autocomplete="off" />
+            </label>
+            <label class="import-field">
+              <span>IPA (phát âm)</span>
+              <div class="ipa-input-row">
+                <input type="text" id="hard-word-ipa" placeholder="VD: /dɪˈfɪkəlt/" autocomplete="off" />
+                <button type="button" id="btn-hard-word-fetch-ipa" class="backup-btn" title="Tự lấy IPA">Lấy IPA</button>
+              </div>
+            </label>
+            <label class="import-field import-field-full">
+              <span>Câu ngữ cảnh (tùy chọn)</span>
+              <input type="text" id="hard-word-context" placeholder="VD: It is difficult to learn." autocomplete="off" />
+            </label>
+          </div>
+          <div class="hard-words-edit-actions">
+            <button type="button" id="btn-hard-word-save" class="backup-btn backup-btn-primary">Lưu từ</button>
+            <button type="button" id="btn-hard-word-cancel" class="backup-btn">Hủy</button>
+          </div>
+          <p id="hard-words-edit-feedback" class="import-feedback hidden" role="status"></p>
+        </div>
+        <div class="hard-words-toolbar">
+          <button type="button" id="btn-hard-words-select-all" class="backup-btn">Chọn tất cả</button>
+          <button type="button" id="btn-hard-words-select-none" class="backup-btn">Bỏ chọn</button>
+          <button type="button" id="btn-hard-words-practice" class="backup-btn backup-btn-primary">Luyện từ đã chọn</button>
+        </div>
+        <p id="hard-words-summary" class="hard-words-summary"></p>
+        <div class="hard-words-table-wrap">
+          <table class="hard-words-table" aria-label="Danh sách từ khó">
+            <thead>
+              <tr>
+                <th scope="col" class="col-select">Chọn</th>
+                <th scope="col">Từ · IPA</th>
+                <th scope="col">Sai</th>
+                <th scope="col">Ngữ cảnh</th>
+                <th scope="col" class="col-action"></th>
+              </tr>
+            </thead>
+            <tbody id="hard-words-tbody"></tbody>
+          </table>
+        </div>
+        <p id="hard-words-empty" class="hard-words-empty hidden">Chưa có từ khó. Bấm <strong>+</strong> để thêm từ, hoặc tiếp tục luyện đọc — từ đọc sai từ 5 lần sẽ được thêm tự động.</p>
+      </div>
+
+      <div id="history-panel" class="history-drawer hidden" aria-label="Lịch sử học">
+        <div class="history-drawer-head">
+          <h3>Lịch sử học</h3>
+          <div class="history-actions">
+            <button type="button" id="btn-history-clear" class="icon-btn icon-btn-danger" title="Xóa lịch sử"
+              aria-label="Xóa lịch sử">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="3 6 5 6 21 6" />
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+              </svg>
+            </button>
+            <button type="button" id="btn-history-close" class="icon-btn icon-btn-ghost" title="Đóng"
+              aria-label="Đóng lịch sử">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                aria-hidden="true">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <p class="history-hint">
+          Review tiến độ từng lần học: bài đạt bao nhiêu %, câu/từ nào chưa đọc được và có bấm qua câu hay không.
+        </p>
+        <div id="history-summary" class="history-summary"></div>
+        <div class="history-review-grid">
+          <div>
+            <h4 class="history-section-title">Các lần học gần đây</h4>
+            <ul id="history-list" class="history-list"></ul>
+          </div>
+          <div>
+            <h4 class="history-section-title">Chi tiết review</h4>
+            <div id="history-detail" class="history-detail"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="controls-row lesson-row">
+        <label for="lesson-select">Bài luyện</label>
+        <select id="lesson-select" aria-label="Chọn bài luyện"></select>
+      </div>
+
+      <div class="controls-row voice-row">
+        <label for="voice-select">Giọng mẫu</label>
+        <select id="voice-select" aria-label="Chọn giọng đọc mẫu">
+          <option value="">Đang tải giọng…</option>
+        </select>
+        <label for="speech-rate-select">Tốc độ đọc</label>
+        <select id="speech-rate-select" aria-label="Chọn tốc độ đọc mẫu">
+          <option value="0.5">0.5× — Chậm</option>
+          <option value="0.75">0.75×</option>
+          <option value="1" selected>1× — Bình thường</option>
+          <option value="1.25">1.25×</option>
+          <option value="1.5">1.5× — Nhanh</option>
+        </select>
+        <label for="pronunciation-accuracy-select">Độ chính xác</label>
+        <select id="pronunciation-accuracy-select" aria-label="Chọn độ chính xác phát âm">
+          <option value="100" selected>100% — Chuẩn</option>
+          <option value="95">95%</option>
+          <option value="90">90%</option>
+          <option value="85">85%</option>
+          <option value="80">80% — Dễ hơn</option>
+        </select>
+      </div>
+
+      <div class="toolbar" role="toolbar" aria-label="Điều khiển luyện đọc">
+        <button type="button" id="btn-mic-toggle" class="icon-btn icon-btn-mic" title="Bật mic" aria-label="Bật mic"
+          aria-pressed="false">
+          <span class="mic-icon mic-icon-on" aria-hidden="true">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+              <line x1="12" y1="19" x2="12" y2="23" />
+              <line x1="8" y1="23" x2="16" y2="23" />
+            </svg>
+          </span>
+          <span class="mic-icon mic-icon-off hidden" aria-hidden="true">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <line x1="1" y1="1" x2="23" y2="23" />
+              <path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6" />
+              <path d="M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23" />
+              <line x1="12" y1="19" x2="12" y2="23" />
+              <line x1="8" y1="23" x2="16" y2="23" />
+            </svg>
+          </span>
+        </button>
+
+        <button type="button" id="btn-read-sample" class="icon-btn" title="Đọc mẫu" aria-label="Đọc mẫu">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" />
+          </svg>
+        </button>
+
+        <button type="button" id="btn-read-remaining" class="icon-btn" title="Đọc từ còn lại"
+          aria-label="Đọc từ còn lại">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+            <line x1="16" y1="9" x2="22" y2="9" />
+            <line x1="16" y1="13" x2="20" y2="13" />
+            <line x1="16" y1="17" x2="21" y2="17" />
+          </svg>
+        </button>
+
+
+        <button type="button" id="btn-auto-read" class="icon-btn icon-btn-toggle" title="Tự đọc mẫu khi sang câu mới"
+          aria-label="Tự đọc mẫu khi sang câu mới" aria-pressed="false">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M1 4v6h6" />
+            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10" />
+            <path d="M11 5v6l4 2" />
+          </svg>
+        </button>
+
+        <button type="button" id="btn-show-vietnamese" class="icon-btn icon-btn-toggle" title="Hiện nghĩa tiếng Việt"
+          aria-label="Hiện nghĩa tiếng Việt" aria-pressed="false">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m5 8 6 6" />
+            <path d="m4 14 6-6 2-3" />
+            <path d="M2 5h12" />
+            <path d="M7 2h1" />
+            <path d="m22 22-5-10-5 10" />
+            <path d="M14 18h6" />
+          </svg>
+        </button>
+
+        <span class="toolbar-sep" aria-hidden="true"></span>
+
+        <button type="button" id="btn-prev-sentence" class="icon-btn" title="Câu trước" aria-label="Câu trước">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+        </button>
+        <button type="button" id="btn-next-sentence" class="icon-btn" title="Câu sau" aria-label="Câu sau">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
+        </button>
+
+        <span class="toolbar-sep" aria-hidden="true"></span>
+
+        <button type="button" id="btn-reset-sentence" class="icon-btn" title="Làm lại câu" aria-label="Làm lại câu">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="1 4 1 10 7 10" />
+            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10" />
+          </svg>
+        </button>
+        <button type="button" id="btn-reset-lesson" class="icon-btn icon-btn-danger" title="Làm lại bài"
+          aria-label="Làm lại bài">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="23 4 23 10 17 10" />
+            <polyline points="1 20 1 14 7 14" />
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
+          </svg>
+        </button>
+        <button type="button" id="btn-edit-lesson" class="icon-btn icon-btn-secondary" title="Sửa bài này"
+          aria-label="Sửa bài này">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+          </svg>
+        </button>
+        <button type="button" id="btn-move-lesson" class="icon-btn icon-btn-secondary"
+          title="Di chuyển bài (có thể chọn nhiều)" aria-label="Di chuyển bài (có thể chọn nhiều)">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+            <polyline points="13 11 17 11 17 15" />
+            <line x1="10" y1="14" x2="17" y2="11" />
+          </svg>
+        </button>
+        <button type="button" id="btn-delete-custom" class="icon-btn icon-btn-danger hidden" title="Xóa bài này"
+          aria-label="Xóa bài này">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="3 6 5 6 21 6" />
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="status-bar">
+        <span id="mic-status" class="mic-status-text">Mic tắt</span>
+        <span id="progress-text" class="progress-text">Câu 0 / 0</span>
+      </div>
+      <div class="live-transcript" aria-live="polite">
+        Nghe: <strong id="live-transcript">—</strong>
+      </div>
+    </section>
+
+    <section class="panel reading-panel" aria-label="Nội dung bài đọc">
+      <div class="lesson-heading-row">
+        <h2 id="lesson-title" class="lesson-title"></h2>
+        <button type="button" id="btn-lesson-chunks" class="lesson-chunks-btn" title="Từ/Cụm cần học"
+          aria-label="Từ/Cụm cần học" aria-expanded="false" aria-controls="lesson-chunks-panel">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+            <line x1="8" y1="7" x2="16" y2="7" />
+            <line x1="8" y1="11" x2="14" y2="11" />
+            <line x1="8" y1="15" x2="12" y2="15" />
+          </svg>
+          <span class="lesson-chunks-btn-label">Từ/Cụm cần học</span>
+        </button>
+      </div>
+      <div id="lesson-chunks-panel" class="lesson-chunks-drawer hidden" aria-label="Từ và cụm cần học">
+        <div class="lesson-chunks-drawer-head">
+          <h3>Từ/Cụm cần học</h3>
+          <button type="button" id="btn-lesson-chunks-close" class="icon-btn icon-btn-ghost" title="Đóng"
+            aria-label="Đóng từ/cụm cần học">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+        </div>
+        <p class="lesson-chunks-hint">
+          Nhìn cụm → hiểu nghĩa → bấm loa để <strong>nói lại</strong> → bấm chip để <strong>thay từ</strong> phía sau.
+        </p>
+        <div id="lesson-chunks-list" class="lesson-chunks-list"></div>
+        <p id="lesson-chunks-empty" class="lesson-chunks-empty hidden">Bài này chưa có danh sách từ/cụm cần học.</p>
+      </div>
+      <div id="sentences-root"></div>
+      <div id="remediation-panel" class="remediation-panel hidden" aria-live="polite">
+        <h2 id="remediation-title">Ôn từ khó</h2>
+        <p id="remediation-intro" class="remediation-intro">Các từ bạn đã đọc sai từ 5 lần trở lên. Hãy đọc lại từng từ một lần đúng để hoàn thành bài.</p>
+        <p id="remediation-progress" class="remediation-progress"></p>
+        <div class="remediation-word-block">
+          <div id="remediation-word" class="remediation-word"></div>
+          <p id="remediation-ipa" class="remediation-ipa"></p>
+        </div>
+        <p id="remediation-context" class="remediation-context"></p>
+        <p id="remediation-success" class="remediation-success hidden">Đọc đúng! Tiếp tục luyện hoặc bấm «Đã học» khi đã nhuần nhuyễn.</p>
+        <div id="remediation-actions" class="remediation-actions hidden">
+          <button type="button" id="btn-practice-learned" class="backup-btn backup-btn-primary">Đã học</button>
+          <button type="button" id="btn-practice-skip" class="backup-btn">Từ tiếp</button>
+          <button type="button" id="btn-practice-exit" class="backup-btn">Thoát luyện</button>
+        </div>
+      </div>
+      <div id="completion-banner" class="completion-banner hidden">
+        <h2>Hoàn thành bài!</h2>
+        <p>Bạn đã đọc đúng tất cả các câu và ôn xong các từ khó.</p>
+        <div class="completion-actions">
+          <button type="button" id="btn-restart" class="icon-btn icon-btn-ghost icon-btn-lg" title="Luyện lại"
+            aria-label="Luyện lại">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="23 4 23 10 17 10" />
+              <polyline points="1 20 1 14 7 14" />
+              <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
+            </svg>
+          </button>
+          <button type="button" id="btn-next-lesson" class="icon-btn icon-btn-primary icon-btn-lg" title="Bài tiếp theo"
+            aria-label="Bài tiếp theo">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polygon points="5 4 15 12 5 20 5 4" />
+              <line x1="19" y1="5" x2="19" y2="19" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div id="confirm-delete-overlay" class="confirm-overlay hidden" role="dialog" aria-modal="true"
+    aria-labelledby="confirm-delete-title" aria-describedby="confirm-delete-message">
+    <div class="confirm-dialog">
+      <h3 id="confirm-delete-title">Xóa bài này?</h3>
+      <p id="confirm-delete-message">Bạn có chắc muốn xóa bài này? Thao tác không hoàn lại được.</p>
+      <div class="confirm-actions">
+        <button type="button" id="btn-confirm-delete-cancel" class="backup-btn">Hủy</button>
+        <button type="button" id="btn-confirm-delete-ok" class="backup-btn backup-btn-danger">Xác nhận xóa</button>
+      </div>
+    </div>
+  </div>
+
+  <input type="checkbox" id="auto-read-sample" class="hidden" hidden aria-hidden="true" tabindex="-1" />
+
+  <script type="module" src="js/app.js?v=20261019-import-dictation"></script>
+</body>
+
+</html>

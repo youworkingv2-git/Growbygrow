@@ -1,0 +1,97 @@
+import { LESSON_INDEX } from './lessonIndex.js';
+import { TOPICS } from './lessonMeta.js';
+
+/** @type {Map<string, Record<string, string[]>>} */
+const translationCache = new Map();
+
+/** @type {Map<string, Promise<Record<string, string[]>>>} */
+const translationLoading = new Map();
+
+const TOPIC_IDS = TOPICS.filter((t) => t.id !== 'custom').map((t) => t.id);
+
+/**
+ * @param {string} topicId
+ * @returns {Promise<Record<string, string[]>>}
+ */
+function importTranslationChunk(topicId) {
+  switch (topicId) {
+    case 'daily':
+      return import('./chunks/translations/daily.js').then((m) => m.TOPIC_TRANSLATIONS);
+    case 'travel':
+      return import('./chunks/translations/travel.js').then((m) => m.TOPIC_TRANSLATIONS);
+    case 'work':
+      return import('./chunks/translations/work.js').then((m) => m.TOPIC_TRANSLATIONS);
+    case 'study':
+      return import('./chunks/translations/study.js').then((m) => m.TOPIC_TRANSLATIONS);
+    case 'ielts':
+      return import('./chunks/translations/ielts.js').then((m) => m.TOPIC_TRANSLATIONS);
+    case 'health':
+      return import('./chunks/translations/health.js').then((m) => m.TOPIC_TRANSLATIONS);
+    case 'tech':
+      return import('./chunks/translations/tech.js').then((m) => m.TOPIC_TRANSLATIONS);
+    case 'society':
+      return import('./chunks/translations/society.js').then((m) => m.TOPIC_TRANSLATIONS);
+    case 'food':
+      return import('./chunks/translations/food.js').then((m) => m.TOPIC_TRANSLATIONS);
+    case 'sports':
+      return import('./chunks/translations/sports.js').then((m) => m.TOPIC_TRANSLATIONS);
+    case 'communication':
+      return import('./chunks/translations/communication.js').then((m) => m.TOPIC_TRANSLATIONS);
+    default:
+      return Promise.resolve({});
+  }
+}
+
+/**
+ * @param {string} topicId
+ * @returns {Promise<Record<string, string[]>>}
+ */
+export function loadTranslationChunk(topicId) {
+  if (translationCache.has(topicId)) {
+    return Promise.resolve(translationCache.get(topicId));
+  }
+  if (translationLoading.has(topicId)) {
+    return translationLoading.get(topicId);
+  }
+  const promise = importTranslationChunk(topicId).then((translations) => {
+    translationCache.set(topicId, translations);
+    translationLoading.delete(topicId);
+    return translations;
+  });
+  translationLoading.set(topicId, promise);
+  return promise;
+}
+
+/**
+ * @param {string[]} topicIds
+ * @returns {Promise<void>}
+ */
+export async function preloadTranslationTopics(topicIds) {
+  const unique = [...new Set(topicIds.filter((id) => TOPIC_IDS.includes(id)))];
+  await Promise.all(unique.map(loadTranslationChunk));
+}
+
+/**
+ * @param {string} lessonId
+ * @returns {Promise<string[]>}
+ */
+export async function getLessonTranslations(lessonId) {
+  const meta = LESSON_INDEX.find((l) => l.id === lessonId);
+  if (!meta) return [];
+  const chunk = await loadTranslationChunk(meta.topic);
+  return chunk[lessonId] ?? [];
+}
+
+/**
+ * @param {string} lessonId
+ * @returns {string[]}
+ */
+export function getLessonTranslationsSync(lessonId) {
+  const meta = LESSON_INDEX.find((l) => l.id === lessonId);
+  if (!meta) return [];
+  const chunk = translationCache.get(meta.topic);
+  return chunk?.[lessonId] ?? [];
+}
+
+/** Legacy empty object — translations load per topic chunk. */
+export const TRANSLATIONS = {};
