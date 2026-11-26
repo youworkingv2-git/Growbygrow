@@ -575,8 +575,8 @@ func _show_summary_stage() -> void:
 
 	var stars_str := ""
 	for i in range(3):
-		stars_str += "★ " if i < result.stars else "☆ "
-	_sum_stars_lbl.text = "%s (%d/3 Sao)" % [stars_str.strip_edges(), result.stars]
+		stars_str += "[*] " if i < result.stars else "[ ] "
+	_sum_stars_lbl.text = "%s  (%d/3 Sao)" % [stars_str.strip_edges(), result.stars]
 
 	_sum_stats_lbl.text = (
 		"Đúng: %d/%d  |  Trả lời ngay lần đầu: %d  |  Sai: %d  |  Gợi ý: %d\n"

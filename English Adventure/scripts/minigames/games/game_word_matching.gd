@@ -39,7 +39,7 @@ func _ready() -> void:
 	_prompt_lbl.add_theme_color_override("font_color", Color(0.14, 0.2, 0.34, 1))
 	top.add_child(_prompt_lbl)
 
-	_mode_btn = _make_action_button("Đổi chế độ: Từ ↔ Hình", Color(0.36, 0.44, 0.78, 1))
+	_mode_btn = _make_action_button("Đổi chế độ: Từ <-> Hình", Color(0.36, 0.44, 0.78, 1))
 	_mode_btn.pressed.connect(_toggle_mode)
 	top.add_child(_mode_btn)
 
@@ -107,7 +107,7 @@ func render_item(item: Dictionary, _index: int, _total: int) -> void:
 
 func _toggle_mode() -> void:
 	_mode = "word_vi" if _mode == "word_image" else "word_image"
-	_mode_btn.text = "Đổi chế độ: Từ ↔ Nghĩa Việt" if _mode == "word_vi" else "Đổi chế độ: Từ ↔ Hình"
+	_mode_btn.text = "Đổi chế độ: Từ <-> Nghĩa Việt" if _mode == "word_vi" else "Đổi chế độ: Từ <-> Hình"
 	_selected_left_id = ""
 	_selected_right_id = ""
 	_rebuild_columns()
@@ -121,8 +121,8 @@ func _rebuild_columns() -> void:
 	_left_buttons.clear()
 	_right_buttons.clear()
 
-	_mode_btn.text = "Đổi chế độ: Từ ↔ Nghĩa Việt" if _mode == "word_vi" else "Đổi chế độ: Từ ↔ Hình"
-	_prompt_lbl.text = "Ghép %d cặp thẻ đúng (%s):" % [_pairs.size(), "Từ ↔ Nghĩa" if _mode == "word_vi" else "Từ ↔ Hình"]
+	_mode_btn.text = "Đổi chế độ: Từ <-> Nghĩa Việt" if _mode == "word_vi" else "Đổi chế độ: Từ <-> Hình"
+	_prompt_lbl.text = "Ghép %d cặp thẻ đúng (%s):" % [_pairs.size(), "Từ <-> Nghĩa" if _mode == "word_vi" else "Từ <-> Hình"]
 
 	var left_list: Array[Dictionary] = []
 	var right_list: Array[Dictionary] = []
@@ -182,14 +182,20 @@ func _style_card(btn: Button, matched: bool, selected: bool) -> void:
 	if matched:
 		btn.add_theme_stylebox_override("normal", _make_fantasy_card(Color(0.82, 0.96, 0.85, 1), Color(0.2, 0.7, 0.34, 1), 14))
 		btn.add_theme_stylebox_override("disabled", _make_fantasy_card(Color(0.82, 0.96, 0.85, 1), Color(0.2, 0.7, 0.34, 1), 14))
-		btn.add_theme_color_override("font_color", Color(0.1, 0.38, 0.18, 1))
+		btn.add_theme_color_override("font_color", Color(0.08, 0.34, 0.16, 1))
+		btn.add_theme_color_override("font_disabled_color", Color(0.08, 0.34, 0.16, 1))
 	elif selected:
 		btn.add_theme_stylebox_override("normal", _make_fantasy_card(Color(0.84, 0.92, 1.0, 1), Color(0.18, 0.52, 0.9, 1), 14))
+		btn.add_theme_stylebox_override("hover", _make_fantasy_card(Color(0.84, 0.92, 1.0, 1), Color(0.18, 0.52, 0.9, 1), 14))
 		btn.add_theme_color_override("font_color", Color(0.08, 0.22, 0.45, 1))
+		btn.add_theme_color_override("font_hover_color", Color(0.08, 0.22, 0.45, 1))
+		btn.add_theme_color_override("font_pressed_color", Color(0.08, 0.22, 0.45, 1))
 	else:
 		btn.add_theme_stylebox_override("normal", _make_fantasy_card(Color(0.99, 0.97, 0.92, 1), Color(0.75, 0.6, 0.3, 1), 14))
 		btn.add_theme_stylebox_override("hover", _make_fantasy_card(Color(0.94, 0.96, 1.0, 1), Color(0.32, 0.58, 0.88, 1), 14))
 		btn.add_theme_color_override("font_color", Color(0.16, 0.2, 0.3, 1))
+		btn.add_theme_color_override("font_hover_color", Color(0.12, 0.2, 0.38, 1))
+		btn.add_theme_color_override("font_pressed_color", Color(0.12, 0.2, 0.38, 1))
 
 
 func _on_left_clicked(wid: String, pair_data: Dictionary) -> void:

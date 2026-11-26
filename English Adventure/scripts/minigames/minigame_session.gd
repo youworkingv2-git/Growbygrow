@@ -177,6 +177,9 @@ func record_answer(
 	last_feedback["attempt_record"] = attempt_record
 
 	EventBus.minigame_answered.emit(minigame_id, attempt_record)
+	if item.has("pairs") and is_correct:
+		current_item_attempts = 0
+		current_item_hint_used = false
 	return last_feedback
 
 
@@ -194,6 +197,8 @@ func finalize_session() -> MiniGameResult:
 	var reward_cfg: Dictionary = registry_entry.get("reward_config", {})
 	var thresholds: Array = reward_cfg.get("stars_thresholds", [0.5, 0.75, 0.9])
 	var total_n := maxi(1, items.size())
+	if items.size() == 1 and items[0].has("pairs"):
+		total_n = maxi(1, (items[0].get("pairs", []) as Array).size())
 
 	var summary := MiniGameScoring.build_summary(
 		minigame_id,

@@ -47,6 +47,10 @@ func _ready() -> void:
 	_speak_toggle = CheckButton.new()
 	_speak_toggle.text = "Đọc to câu trả lời"
 	_speak_toggle.button_pressed = false
+	_speak_toggle.add_theme_color_override("font_color", Color(0.16, 0.22, 0.36, 1))
+	_speak_toggle.add_theme_color_override("font_hover_color", Color(0.12, 0.28, 0.56, 1))
+	_speak_toggle.add_theme_color_override("font_pressed_color", Color(0.12, 0.38, 0.22, 1))
+	_speak_toggle.add_theme_color_override("font_hover_pressed_color", Color(0.12, 0.38, 0.22, 1))
 	_speak_toggle.toggled.connect(func(pressed: bool) -> void:
 		_speak_practice_mode = pressed
 	)
@@ -129,7 +133,10 @@ func render_item(item: Dictionary, index: int, total: int) -> void:
 		btn.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 		btn.add_theme_stylebox_override("normal", _make_fantasy_card(Color(1.0, 0.98, 0.92, 1), Color(0.76, 0.6, 0.28, 1), 14))
 		btn.add_theme_stylebox_override("hover", _make_fantasy_card(Color(0.9, 0.96, 1.0, 1), Color(0.22, 0.54, 0.88, 1), 14))
+		btn.add_theme_stylebox_override("pressed", _make_fantasy_card(Color(0.84, 0.94, 1.0, 1), Color(0.18, 0.48, 0.86, 1), 14))
 		btn.add_theme_color_override("font_color", Color(0.14, 0.2, 0.32, 1))
+		btn.add_theme_color_override("font_hover_color", Color(0.1, 0.2, 0.4, 1))
+		btn.add_theme_color_override("font_pressed_color", Color(0.08, 0.24, 0.48, 1))
 		btn.pressed.connect(func() -> void:
 			_on_option_chosen(opt, btn)
 		)

@@ -34,7 +34,7 @@ func _ready() -> void:
 	_prompt_lbl.add_theme_color_override("font_color", Color(0.14, 0.2, 0.34, 1))
 	top.add_child(_prompt_lbl)
 
-	_mode_btn = _make_action_button("Chế độ: Từ ↔ Hình", Color(0.36, 0.44, 0.78, 1))
+	_mode_btn = _make_action_button("Chế độ: Từ <-> Hình", Color(0.36, 0.44, 0.78, 1))
 	_mode_btn.pressed.connect(_cycle_mode)
 	top.add_child(_mode_btn)
 
@@ -82,7 +82,7 @@ func _setup_deck() -> void:
 	for c in _grid.get_children():
 		c.queue_free()
 
-	var mode_label := "Từ ↔ Hình" if _mode == "word_image" else ("Từ ↔ Nghĩa Việt" if _mode == "word_vi" else "Nghe âm ↔ Hình")
+	var mode_label := "Từ <-> Hình" if _mode == "word_image" else ("Từ <-> Nghĩa Việt" if _mode == "word_vi" else "Nghe âm <-> Hình")
 	_mode_btn.text = "Chế độ: " + mode_label
 	_prompt_lbl.text = "Tìm %d cặp thẻ phép thuật (%s)!" % [_pairs.size(), mode_label]
 	_status_lbl.text = "Lật 2 thẻ bất kỳ để tìm cặp từ vựng khớp nhau."
@@ -144,8 +144,11 @@ func _refresh_card_visual(idx: int) -> void:
 	var bg := Color(0.82, 0.96, 0.85, 1) if matched else Color(1.0, 0.98, 0.92, 1)
 	var bd := Color(0.18, 0.7, 0.34, 1) if matched else Color(0.24, 0.54, 0.88, 1)
 	btn.add_theme_stylebox_override("normal", _make_fantasy_card(bg, bd, 14))
+	btn.add_theme_stylebox_override("hover", _make_fantasy_card(bg, bd, 14))
 	btn.add_theme_stylebox_override("disabled", _make_fantasy_card(bg, bd, 14))
-	btn.add_theme_color_override("font_color", Color(0.12, 0.22, 0.38, 1))
+	btn.add_theme_color_override("font_color", Color(0.1, 0.22, 0.38, 1))
+	btn.add_theme_color_override("font_hover_color", Color(0.1, 0.22, 0.38, 1))
+	btn.add_theme_color_override("font_disabled_color", Color(0.08, 0.34, 0.16, 1))
 	btn.disabled = matched
 
 	var p: Dictionary = c.get("pair_data", {})

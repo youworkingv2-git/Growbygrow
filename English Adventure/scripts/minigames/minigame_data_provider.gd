@@ -338,12 +338,23 @@ static func _build_sound_detective(diff_cfg: Dictionary, _context: Dictionary) -
 		var sound_ipa := str(target.get("letter_sound_ipa", ""))
 		var name_ipa := pm.get_letter_name_ipa(target)
 		var ask_sound := (i % 2 == 0)
+		var target_lower := target_upper.to_lower()
 		var anchor_ids: Array = target.get("anchor_word_ids", [])
-		var anchor_word := "apple"
-		if not anchor_ids.is_empty():
-			var w := LearningEngine.vocabulary_manager.get_word(str(anchor_ids[0]))
-			if not w.is_empty():
-				anchor_word = str(w.get("word", "apple"))
+		var anchor_word := ""
+		for aid in anchor_ids:
+			var w := LearningEngine.vocabulary_manager.get_word(str(aid))
+			var candidate := str(w.get("word", "")).to_lower()
+			if not candidate.is_empty() and (candidate.begins_with(target_lower) or (target_lower == "x" and candidate.contains("x"))):
+				anchor_word = candidate
+				break
+		if anchor_word.is_empty():
+			var fallback_examples := {
+				"j": "jam", "q": "queen", "v": "van", "x": "box", "z": "zoo"
+			}
+			anchor_word = str(fallback_examples.get(target_lower, ""))
+			if anchor_word.is_empty() and not anchor_ids.is_empty():
+				var w0 := LearningEngine.vocabulary_manager.get_word(str(anchor_ids[0]))
+				anchor_word = str(w0.get("word", target_lower))
 
 		var choices: Array[Dictionary] = [{
 			"id": str(target.get("id", "")),
