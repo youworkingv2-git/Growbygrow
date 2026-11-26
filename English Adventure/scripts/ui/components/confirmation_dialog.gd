@@ -14,6 +14,7 @@ signal cancelled()
 
 func _ready() -> void:
 	visible = false
+	card.add_theme_stylebox_override("panel", UIDesignSystem.make_panel_style(Color(0.08, 0.13, 0.24, 1.0), UIDesignSystem.BORDER_DEFAULT, 14, 2, 0, 0))
 	UIDesignSystem.apply_button_variant(cancel_btn, "secondary")
 	UIDesignSystem.apply_button_variant(confirm_btn, "confirm")
 	UIAnimator.attach_button_feedback(cancel_btn)

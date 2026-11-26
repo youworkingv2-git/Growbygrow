@@ -37,6 +37,7 @@ var _node_buttons: Dictionary = {}
 
 func _ready() -> void:
 	locked_popup.visible = false
+	locked_popup.add_theme_stylebox_override("panel", UIDesignSystem.make_panel_style(Color(0.08, 0.13, 0.24, 1.0), UIDesignSystem.BORDER_DEFAULT, 14, 2, 0, 0))
 	UIDesignSystem.apply_button_variant(main_menu_btn, "secondary")
 	UIDesignSystem.apply_button_variant(settings_btn, "secondary")
 	UIDesignSystem.apply_button_variant(back_btn, "back")

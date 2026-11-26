@@ -19,6 +19,7 @@ signal save_and_exit_requested()
 
 func _ready() -> void:
 	visible = false
+	card.add_theme_stylebox_override("panel", UIDesignSystem.make_panel_style(Color(0.08, 0.13, 0.24, 1.0), UIDesignSystem.BORDER_DEFAULT, 14, 2, 0, 0))
 	UIDesignSystem.apply_button_variant(resume_btn, "confirm")
 	UIDesignSystem.apply_button_variant(map_btn, "primary")
 	UIDesignSystem.apply_button_variant(quests_btn, "secondary")
