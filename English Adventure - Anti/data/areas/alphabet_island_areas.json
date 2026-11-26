@@ -1,0 +1,82 @@
+{
+  "world_id": "world_1",
+  "areas": [
+    {
+      "id": "welcome_village",
+      "name_en": "Welcome Village",
+      "name_vi": "Làng Khởi Đầu",
+      "description_vi": "Ngôi làng bình yên nơi Professor Owl và Lily sinh sống. Nơi bắt đầu hành trình!",
+      "order_index": 1,
+      "scene_path": "res://scenes/adventure/alphabet_island/welcome_village.tscn",
+      "default_spawn": { "x": 320, "y": 400 },
+      "map_position": { "x": 0.16, "y": 0.65 },
+      "unlock_condition": { "type": "default_unlocked" },
+      "connected_areas": ["alphabet_meadow"],
+      "theme_color": "#4CAF50"
+    },
+    {
+      "id": "alphabet_meadow",
+      "name_en": "Alphabet Meadow",
+      "name_vi": "Đồng Cỏ Bảng Chữ Cái",
+      "description_vi": "Đồng cỏ rực rỡ với những biển chỉ dẫn mất chữ và các ký tự A–Z bị thất lạc.",
+      "order_index": 2,
+      "scene_path": "res://scenes/adventure/alphabet_island/alphabet_meadow.tscn",
+      "default_spawn": { "x": 180, "y": 400 },
+      "map_position": { "x": 0.36, "y": 0.48 },
+      "unlock_condition": {
+        "type": "quest_completed",
+        "quest_id": "quest_01_new_adventure"
+      },
+      "connected_areas": ["welcome_village", "letter_cave"],
+      "theme_color": "#8BC34A"
+    },
+    {
+      "id": "letter_cave",
+      "name_en": "Letter Cave",
+      "name_vi": "Hang Động Chữ Cái",
+      "description_vi": "Hang động bí ẩn nơi Rocky canh giữ những ký tự cổ xưa bị giấu kín.",
+      "order_index": 3,
+      "scene_path": "res://scenes/adventure/alphabet_island/letter_cave.tscn",
+      "default_spawn": { "x": 180, "y": 400 },
+      "map_position": { "x": 0.56, "y": 0.32 },
+      "unlock_condition": {
+        "type": "quest_completed",
+        "quest_id": "quest_02_lost_letters"
+      },
+      "connected_areas": ["alphabet_meadow", "crystal_lake"],
+      "theme_color": "#7E57C2"
+    },
+    {
+      "id": "crystal_lake",
+      "name_en": "Crystal Lake",
+      "name_vi": "Hồ Pha Lê",
+      "description_vi": "Hồ nước phép thuật lấp lánh ánh sáng của các Magic Crystals.",
+      "order_index": 4,
+      "scene_path": "res://scenes/adventure/alphabet_island/crystal_lake.tscn",
+      "default_spawn": { "x": 180, "y": 400 },
+      "map_position": { "x": 0.72, "y": 0.58 },
+      "unlock_condition": {
+        "type": "area_visited",
+        "area_id": "letter_cave"
+      },
+      "connected_areas": ["letter_cave", "shadow_gate"],
+      "theme_color": "#29B6F6"
+    },
+    {
+      "id": "shadow_gate",
+      "name_en": "The Shadow Gate",
+      "name_vi": "Cổng Bóng Tối",
+      "description_vi": "Cánh cổng cổ bị The Silent Shadow phong ấn. Chỉ mở khi đủ sức mạnh ngôn ngữ!",
+      "order_index": 5,
+      "scene_path": "res://scenes/adventure/alphabet_island/shadow_gate.tscn",
+      "default_spawn": { "x": 180, "y": 400 },
+      "map_position": { "x": 0.87, "y": 0.35 },
+      "unlock_condition": {
+        "type": "quest_completed",
+        "quest_id": "quest_03_mysterious_gate"
+      },
+      "connected_areas": ["crystal_lake"],
+      "theme_color": "#E53935"
+    }
+  ]
+}

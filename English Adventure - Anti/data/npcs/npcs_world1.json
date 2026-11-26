@@ -1,0 +1,55 @@
+{
+  "npcs": [
+    {
+      "id": "professor_owl",
+      "name_en": "Professor Owl",
+      "name_vi": "Giáo Sư Cú Mèo",
+      "description_vi": "Người hướng dẫn uyên bác tại Welcome Village, am hiểu bí mật của các chữ cái.",
+      "sprite_path": "res://assets/characters/professor_owl/professor_owl.svg",
+      "area_id": "welcome_village",
+      "position": { "x": 540, "y": 330 },
+      "default_dialogue_id": "dlg_owl_greeting",
+      "quest_ids": ["quest_01_new_adventure"],
+      "appear_condition": { "type": "always" }
+    },
+    {
+      "id": "lily",
+      "name_en": "Lily",
+      "name_vi": "Cô Bé Lily",
+      "description_vi": "Cô bé thân thiện ở quảng trường làng, đang lo lắng vì bảng chữ cái biến mất.",
+      "sprite_path": "res://assets/characters/npcs/npc_lily.svg",
+      "area_id": "welcome_village",
+      "position": { "x": 850, "y": 430 },
+      "default_dialogue_id": "dlg_lily_greeting",
+      "quest_ids": ["quest_02_lost_letters"],
+      "appear_condition": { "type": "always" }
+    },
+    {
+      "id": "rocky",
+      "name_en": "Rocky",
+      "name_vi": "Sinh Vật Đá Rocky",
+      "description_vi": "Sinh vật nhỏ đáng yêu sống gần Letter Cave, nắm giữ manh mối về Shadow Gate.",
+      "sprite_path": "res://assets/characters/npcs/npc_rocky.svg",
+      "area_id": "letter_cave",
+      "position": { "x": 640, "y": 360 },
+      "default_dialogue_id": "dlg_rocky_greeting",
+      "quest_ids": ["quest_03_mysterious_gate"],
+      "appear_condition": { "type": "always" }
+    },
+    {
+      "id": "crystal_guardian",
+      "name_en": "Crystal Guardian",
+      "name_vi": "Người Bảo Vệ Pha Lê",
+      "description_vi": "Thần hộ mệnh của Crystal Lake, chỉ xuất hiện khi khu vực được mở khóa.",
+      "sprite_path": "res://assets/characters/npcs/npc_crystal_guardian.svg",
+      "area_id": "crystal_lake",
+      "position": { "x": 660, "y": 340 },
+      "default_dialogue_id": "dlg_guardian_greeting",
+      "quest_ids": ["quest_03_mysterious_gate"],
+      "appear_condition": {
+        "type": "area_unlocked",
+        "area_id": "crystal_lake"
+      }
+    }
+  ]
+}

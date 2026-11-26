@@ -1,0 +1,112 @@
+{
+  "_comment": "English Adventure – World 1 Sample Quests (Prompt 02 Framework)",
+  "_version": "2.0.0",
+  "_world": "world_1",
+  "quests": [
+    {
+      "id": "quest_01_new_adventure",
+      "world_id": "world_1",
+      "area_id": "welcome_village",
+      "name_en": "Quest 01 – A New Adventure",
+      "name_vi": "Nhiệm Vụ 01 – Cuộc Phiêu Lưu Mới",
+      "description_vi": "Gặp Professor Owl tại Welcome Village, làm quen với Buddy và mở khóa đường sang Alphabet Meadow.",
+      "giver_npc_id": "professor_owl",
+      "order_index": 1,
+      "unlock_condition": { "type": "default_unlocked" },
+      "steps": [
+        {
+          "id": "q1_step_1",
+          "description_vi": "Nói chuyện với Professor Owl tại quảng trường Welcome Village",
+          "target_type": "interact_npc",
+          "target_id": "professor_owl"
+        },
+        {
+          "id": "q1_step_2",
+          "description_vi": "Kiểm tra biển chỉ dẫn phía Đông làng",
+          "target_type": "interact_object",
+          "target_id": "signpost_village"
+        }
+      ],
+      "reward": {
+        "exp": 50,
+        "gold": 20,
+        "magic_crystals": 1,
+        "unlocks_area_id": "alphabet_meadow"
+      }
+    },
+    {
+      "id": "quest_02_lost_letters",
+      "world_id": "world_1",
+      "area_id": "alphabet_meadow",
+      "name_en": "Quest 02 – Find the Lost Letters",
+      "name_vi": "Nhiệm Vụ 02 – Tìm Lại Chữ Cái Thất Lạc",
+      "description_vi": "Đi đến Alphabet Meadow, tìm 2 viên đá chữ cái thất lạc và mở khóa Letter Cave.",
+      "giver_npc_id": "lily",
+      "order_index": 2,
+      "unlock_condition": {
+        "type": "quest_completed",
+        "quest_id": "quest_01_new_adventure"
+      },
+      "steps": [
+        {
+          "id": "q2_step_1",
+          "description_vi": "Đi tới Alphabet Meadow",
+          "target_type": "visit_area",
+          "target_id": "alphabet_meadow"
+        },
+        {
+          "id": "q2_step_2",
+          "description_vi": "Khám phá Đá Chữ Cái A tại Alphabet Meadow",
+          "target_type": "interact_object",
+          "target_id": "letter_stone_a"
+        },
+        {
+          "id": "q2_step_3",
+          "description_vi": "Khám phá Đá Chữ Cái B tại Alphabet Meadow",
+          "target_type": "interact_object",
+          "target_id": "letter_stone_b"
+        }
+      ],
+      "reward": {
+        "exp": 80,
+        "gold": 35,
+        "magic_crystals": 1,
+        "unlocks_area_id": "letter_cave"
+      }
+    },
+    {
+      "id": "quest_03_mysterious_gate",
+      "world_id": "world_1",
+      "area_id": "letter_cave",
+      "name_en": "Quest 03 – The Mysterious Gate",
+      "name_vi": "Nhiệm Vụ 03 – Cánh Cổng Bí Ẩn",
+      "description_vi": "Gặp Rocky trong Letter Cave, tới Crystal Lake gặp Crystal Guardian và mở khóa The Shadow Gate.",
+      "giver_npc_id": "rocky",
+      "order_index": 3,
+      "unlock_condition": {
+        "type": "quest_completed",
+        "quest_id": "quest_02_lost_letters"
+      },
+      "steps": [
+        {
+          "id": "q3_step_1",
+          "description_vi": "Gặp Rocky tại Letter Cave để hỏi manh mối",
+          "target_type": "interact_npc",
+          "target_id": "rocky"
+        },
+        {
+          "id": "q3_step_2",
+          "description_vi": "Gặp Crystal Guardian tại Crystal Lake",
+          "target_type": "interact_npc",
+          "target_id": "crystal_guardian"
+        }
+      ],
+      "reward": {
+        "exp": 120,
+        "gold": 50,
+        "magic_crystals": 2,
+        "unlocks_area_id": "shadow_gate"
+      }
+    }
+  ]
+}

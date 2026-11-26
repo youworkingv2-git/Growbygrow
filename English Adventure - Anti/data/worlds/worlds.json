@@ -1,0 +1,59 @@
+{
+  "worlds": [
+    {
+      "id": "world_1",
+      "name_en": "Alphabet Island",
+      "name_vi": "Đảo Bảng Chữ Cái",
+      "description_vi": "Hòn đảo kỳ diệu nơi 26 chữ cái đang chờ được giải cứu khỏi The Silent Shadow.",
+      "order_index": 1,
+      "is_active": true,
+      "is_mvp": true,
+      "default_area_id": "welcome_village"
+    },
+    {
+      "id": "world_2",
+      "name_en": "Vocabulary Forest",
+      "name_vi": "Khu Rừng Từ Vựng",
+      "description_vi": "Khu rừng phép thuật với hàng trăm từ vựng sống động.",
+      "order_index": 2,
+      "is_active": false,
+      "is_mvp": false
+    },
+    {
+      "id": "world_3",
+      "name_en": "Sentence Kingdom",
+      "name_vi": "Vương Quốc Câu",
+      "description_vi": "Nơi các từ vựng kết nối thành những câu hoàn chỉnh.",
+      "order_index": 3,
+      "is_active": false,
+      "is_mvp": false
+    },
+    {
+      "id": "world_4",
+      "name_en": "Listening Ocean",
+      "name_vi": "Đại Dương Lắng Nghe",
+      "description_vi": "Đại dương âm thanh nơi em rèn luyện kỹ năng nghe.",
+      "order_index": 4,
+      "is_active": false,
+      "is_mvp": false
+    },
+    {
+      "id": "world_5",
+      "name_en": "Speaking City",
+      "name_vi": "Thành Phố Giao Tiếp",
+      "description_vi": "Thành phố nhộn nhịp giúp em tự tin giao tiếp tiếng Anh.",
+      "order_index": 5,
+      "is_active": false,
+      "is_mvp": false
+    },
+    {
+      "id": "world_6",
+      "name_en": "Challenge Kingdom",
+      "name_vi": "Vương Quốc Thử Thách",
+      "description_vi": "Thành trì cuối cùng của The Silent Shadow.",
+      "order_index": 6,
+      "is_active": false,
+      "is_mvp": false
+    }
+  ]
+}

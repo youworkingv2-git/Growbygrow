@@ -1,0 +1,79 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="1_player"]
+[ext_resource type="PackedScene" path="res://scenes/characters/buddy.tscn" id="2_buddy"]
+[ext_resource type="PackedScene" path="res://scenes/interactions/interactable_object.tscn" id="3_obj"]
+[ext_resource type="PackedScene" path="res://scenes/ui/area_hud.tscn" id="4_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="5_dlg"]
+[ext_resource type="Texture2D" path="res://assets/icons/items/letter_stone.svg" id="6_stone"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_h"]
+size = Vector2(1280, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_v"]
+size = Vector2(40, 720)
+
+[node name="AlphabetMeadow" type="Node2D"]
+y_sort_enabled = true
+
+[node name="Ground" type="ColorRect" parent="."]
+z_index = -10
+offset_right = 1280.0
+offset_bottom = 720.0
+color = Color(0.55, 0.82, 0.36, 1)
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="TopWall" type="CollisionShape2D" parent="Walls"]
+position = Vector2(640, 80)
+shape = SubResource("RectangleShape2D_wall_h")
+
+[node name="BottomWall" type="CollisionShape2D" parent="Walls"]
+position = Vector2(640, 700)
+shape = SubResource("RectangleShape2D_wall_h")
+
+[node name="LeftWall" type="CollisionShape2D" parent="Walls"]
+position = Vector2(20, 360)
+shape = SubResource("RectangleShape2D_wall_v")
+
+[node name="RightWall" type="CollisionShape2D" parent="Walls"]
+position = Vector2(1260, 360)
+shape = SubResource("RectangleShape2D_wall_v")
+
+[node name="Player" parent="." instance=ExtResource("1_player")]
+position = Vector2(180, 400)
+
+[node name="Buddy" parent="." instance=ExtResource("2_buddy")]
+position = Vector2(120, 380)
+
+[node name="LetterStoneA" parent="." instance=ExtResource("3_obj")]
+position = Vector2(520, 300)
+object_id = "letter_stone_a"
+display_name = "Đá Chữ A"
+interaction_type = "dialogue"
+dialogue_id = "dlg_lost_letter_stone"
+
+[node name="LetterStoneB" parent="." instance=ExtResource("3_obj")]
+position = Vector2(840, 460)
+object_id = "letter_stone_b"
+display_name = "Đá Chữ B"
+interaction_type = "dialogue"
+dialogue_id = "dlg_lost_letter_stone"
+
+[node name="PortalBackVillage" parent="." instance=ExtResource("3_obj")]
+position = Vector2(90, 400)
+object_id = "portal_back_village"
+display_name = "Quay lại Welcome Village"
+interaction_type = "portal"
+target_area_id = "welcome_village"
+
+[node name="PortalToCave" parent="." instance=ExtResource("3_obj")]
+position = Vector2(1180, 380)
+object_id = "portal_to_cave"
+display_name = "Đi tới Letter Cave"
+interaction_type = "portal"
+target_area_id = "letter_cave"
+
+[node name="AreaHUD" parent="." instance=ExtResource("4_hud")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("5_dlg")]

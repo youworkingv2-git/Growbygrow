@@ -1,0 +1,129 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/character_select.gd" id="1_charsel"]
+[ext_resource type="Texture2D" path="res://assets/characters/player_boy/player_boy.svg" id="2_boy"]
+[ext_resource type="Texture2D" path="res://assets/characters/player_girl/player_girl.svg" id="3_girl"]
+
+[node name="CharacterSelect" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_charsel")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.11, 0.35, 0.62, 1)
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 30
+
+[node name="VBox" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="HeaderLabel" type="Label" parent="Margin/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "CHỌN NHÂN VẬT PHIÊU LƯU"
+horizontal_alignment = 1
+
+[node name="CardsRow" type="HBoxContainer" parent="Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="BoyCard" type="PanelContainer" parent="Margin/VBox/CardsRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 270)
+layout_mode = 2
+
+[node name="BoyVBox" type="VBoxContainer" parent="Margin/VBox/CardsRow/BoyCard"]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="BoySprite" type="TextureRect" parent="Margin/VBox/CardsRow/BoyCard/BoyVBox"]
+custom_minimum_size = Vector2(140, 140)
+layout_mode = 2
+texture = ExtResource("2_boy")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="BoyTitle" type="Label" parent="Margin/VBox/CardsRow/BoyCard/BoyVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Boy Adventurer"
+horizontal_alignment = 1
+
+[node name="SelectBoyButton" type="Button" parent="Margin/VBox/CardsRow/BoyCard/BoyVBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 48)
+layout_mode = 2
+text = "Chọn Bạn Nam"
+
+[node name="GirlCard" type="PanelContainer" parent="Margin/VBox/CardsRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 270)
+layout_mode = 2
+
+[node name="GirlVBox" type="VBoxContainer" parent="Margin/VBox/CardsRow/GirlCard"]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="GirlSprite" type="TextureRect" parent="Margin/VBox/CardsRow/GirlCard/GirlVBox"]
+custom_minimum_size = Vector2(140, 140)
+layout_mode = 2
+texture = ExtResource("3_girl")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="GirlTitle" type="Label" parent="Margin/VBox/CardsRow/GirlCard/GirlVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Girl Adventurer"
+horizontal_alignment = 1
+
+[node name="SelectGirlButton" type="Button" parent="Margin/VBox/CardsRow/GirlCard/GirlVBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 48)
+layout_mode = 2
+text = "Chọn Bạn Nữ"
+
+[node name="NameRow" type="HBoxContainer" parent="Margin/VBox"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 12
+
+[node name="NameLabel" type="Label" parent="Margin/VBox/NameRow"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Tên của em:"
+
+[node name="NameInput" type="LineEdit" parent="Margin/VBox/NameRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(280, 48)
+layout_mode = 2
+placeholder_text = "Nhập tên nhà thám hiểm..."
+
+[node name="ConfirmButton" type="Button" parent="Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(280, 56)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 22
+text = "Bắt Đầu Phiêu Lưu!"

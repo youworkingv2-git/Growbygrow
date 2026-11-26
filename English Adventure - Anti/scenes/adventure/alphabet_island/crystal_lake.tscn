@@ -1,0 +1,85 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="1_player"]
+[ext_resource type="PackedScene" path="res://scenes/characters/buddy.tscn" id="2_buddy"]
+[ext_resource type="PackedScene" path="res://scenes/characters/npc.tscn" id="3_npc"]
+[ext_resource type="PackedScene" path="res://scenes/interactions/interactable_object.tscn" id="4_obj"]
+[ext_resource type="PackedScene" path="res://scenes/ui/area_hud.tscn" id="5_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="6_dlg"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_h"]
+size = Vector2(1280, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_v"]
+size = Vector2(40, 720)
+
+[node name="CrystalLake" type="Node2D"]
+y_sort_enabled = true
+
+[node name="Ground" type="ColorRect" parent="."]
+z_index = -10
+offset_right = 1280.0
+offset_bottom = 720.0
+color = Color(0.24, 0.65, 0.85, 1)
+
+[node name="LakeShore" type="ColorRect" parent="."]
+z_index = -9
+offset_left = 80.0
+offset_top = 260.0
+offset_right = 1200.0
+offset_bottom = 620.0
+color = Color(0.76, 0.88, 0.72, 1)
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="TopWall" type="CollisionShape2D" parent="Walls"]
+position = Vector2(640, 80)
+shape = SubResource("RectangleShape2D_wall_h")
+
+[node name="BottomWall" type="CollisionShape2D" parent="Walls"]
+position = Vector2(640, 700)
+shape = SubResource("RectangleShape2D_wall_h")
+
+[node name="LeftWall" type="CollisionShape2D" parent="Walls"]
+position = Vector2(20, 360)
+shape = SubResource("RectangleShape2D_wall_v")
+
+[node name="RightWall" type="CollisionShape2D" parent="Walls"]
+position = Vector2(1260, 360)
+shape = SubResource("RectangleShape2D_wall_v")
+
+[node name="Player" parent="." instance=ExtResource("1_player")]
+position = Vector2(180, 400)
+
+[node name="Buddy" parent="." instance=ExtResource("2_buddy")]
+position = Vector2(120, 380)
+
+[node name="CrystalGuardian" parent="." instance=ExtResource("3_npc")]
+position = Vector2(660, 340)
+npc_id = "crystal_guardian"
+
+[node name="MagicCrystalLake" parent="." instance=ExtResource("4_obj")]
+position = Vector2(880, 460)
+object_id = "magic_crystal_lake"
+display_name = "Magic Crystal"
+interaction_type = "collectible"
+dialogue_id = "dlg_treasure_chest"
+one_time_collect = true
+
+[node name="PortalBackCave" parent="." instance=ExtResource("4_obj")]
+position = Vector2(90, 400)
+object_id = "portal_back_cave"
+display_name = "Quay lại Letter Cave"
+interaction_type = "portal"
+target_area_id = "letter_cave"
+
+[node name="PortalToShadowGate" parent="." instance=ExtResource("4_obj")]
+position = Vector2(1180, 380)
+object_id = "portal_to_shadow_gate"
+display_name = "Đi tới The Shadow Gate"
+interaction_type = "portal"
+target_area_id = "shadow_gate"
+
+[node name="AreaHUD" parent="." instance=ExtResource("5_hud")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("6_dlg")]

@@ -1,0 +1,82 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/characters/player.tscn" id="1_player"]
+[ext_resource type="PackedScene" path="res://scenes/characters/buddy.tscn" id="2_buddy"]
+[ext_resource type="PackedScene" path="res://scenes/characters/npc.tscn" id="3_npc"]
+[ext_resource type="PackedScene" path="res://scenes/interactions/interactable_object.tscn" id="4_obj"]
+[ext_resource type="PackedScene" path="res://scenes/ui/area_hud.tscn" id="5_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="6_dlg"]
+[ext_resource type="Texture2D" path="res://assets/icons/items/signpost.svg" id="7_sign"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_h"]
+size = Vector2(1280, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_v"]
+size = Vector2(40, 720)
+
+[node name="WelcomeVillage" type="Node2D"]
+y_sort_enabled = true
+
+[node name="Ground" type="ColorRect" parent="."]
+z_index = -10
+offset_right = 1280.0
+offset_bottom = 720.0
+color = Color(0.45, 0.78, 0.42, 1)
+
+[node name="VillagePlaza" type="ColorRect" parent="."]
+z_index = -9
+offset_left = 360.0
+offset_top = 240.0
+offset_right = 920.0
+offset_bottom = 560.0
+color = Color(0.86, 0.78, 0.62, 1)
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="TopWall" type="CollisionShape2D" parent="Walls"]
+position = Vector2(640, 80)
+shape = SubResource("RectangleShape2D_wall_h")
+
+[node name="BottomWall" type="CollisionShape2D" parent="Walls"]
+position = Vector2(640, 700)
+shape = SubResource("RectangleShape2D_wall_h")
+
+[node name="LeftWall" type="CollisionShape2D" parent="Walls"]
+position = Vector2(20, 360)
+shape = SubResource("RectangleShape2D_wall_v")
+
+[node name="RightWall" type="CollisionShape2D" parent="Walls"]
+position = Vector2(1260, 360)
+shape = SubResource("RectangleShape2D_wall_v")
+
+[node name="Player" parent="." instance=ExtResource("1_player")]
+position = Vector2(320, 400)
+
+[node name="Buddy" parent="." instance=ExtResource("2_buddy")]
+position = Vector2(260, 380)
+
+[node name="ProfessorOwl" parent="." instance=ExtResource("3_npc")]
+position = Vector2(540, 330)
+npc_id = "professor_owl"
+
+[node name="Lily" parent="." instance=ExtResource("3_npc")]
+position = Vector2(850, 430)
+npc_id = "lily"
+
+[node name="SignpostVillage" parent="." instance=ExtResource("4_obj")]
+position = Vector2(1020, 360)
+object_id = "signpost_village"
+display_name = "Biển Chỉ Dẫn"
+interaction_type = "dialogue"
+dialogue_id = "dlg_signpost_village"
+
+[node name="PortalToMeadow" parent="." instance=ExtResource("4_obj")]
+position = Vector2(1190, 380)
+object_id = "portal_to_meadow"
+display_name = "Đi tới Alphabet Meadow"
+interaction_type = "portal"
+target_area_id = "alphabet_meadow"
+
+[node name="AreaHUD" parent="." instance=ExtResource("5_hud")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("6_dlg")]

@@ -1,0 +1,131 @@
+{
+  "dialogues": {
+    "dlg_owl_greeting": {
+      "lines": [
+        {
+          "speaker_id": "professor_owl",
+          "speaker_name": "Professor Owl",
+          "avatar": "res://assets/characters/professor_owl/professor_owl.svg",
+          "text_en": "Welcome, young adventurer!",
+          "text_vi": "Chào mừng nhà thám hiểm trẻ tuổi đến với Alphabet Island!"
+        },
+        {
+          "speaker_id": "buddy",
+          "speaker_name": "Buddy",
+          "avatar": "res://assets/characters/buddy_dragon/buddy_happy.svg",
+          "text_en": "Let's explore the island together!",
+          "text_vi": "Tớ là Buddy! Chúng ta hãy cùng khám phá hòn đảo này nhé!"
+        },
+        {
+          "speaker_id": "professor_owl",
+          "speaker_name": "Professor Owl",
+          "avatar": "res://assets/characters/professor_owl/professor_owl.svg",
+          "text_en": "The letters have disappeared. We need your help!",
+          "text_vi": "Thế lực The Silent Shadow đã lấy đi các chữ cái. Hãy giúp chúng ta tìm lại chúng và mở khóa Alphabet Meadow!"
+        }
+      ],
+      "on_complete_event": "quest_step_owl_met"
+    },
+    "dlg_lily_greeting": {
+      "lines": [
+        {
+          "speaker_id": "lily",
+          "speaker_name": "Lily",
+          "avatar": "res://assets/characters/npcs/npc_lily.svg",
+          "text_en": "Hello! Can you help me?",
+          "text_vi": "Chào bạn! Những biển chỉ dẫn ở Alphabet Meadow bị mất hết chữ rồi. Bạn hãy sang đó tìm các ký tự bị thất lạc giúp mình nhé!"
+        },
+        {
+          "speaker_id": "buddy",
+          "speaker_name": "Buddy",
+          "avatar": "res://assets/characters/buddy_dragon/buddy_thinking.svg",
+          "text_en": "Don't worry, Lily!",
+          "text_vi": "Đừng lo Lily ơi! Tớ và bạn ấy sẽ tìm lại chữ cái ngay!"
+        }
+      ],
+      "on_complete_event": "quest_02_started"
+    },
+    "dlg_rocky_greeting": {
+      "lines": [
+        {
+          "speaker_id": "rocky",
+          "speaker_name": "Rocky",
+          "avatar": "res://assets/characters/npcs/npc_rocky.svg",
+          "text_en": "Who goes there? Oh, a friend!",
+          "text_vi": "Ồ, một nhà thám hiểm dũng cảm! Cánh cổng The Shadow Gate đang bị phong ấn ở cuối đảo."
+        },
+        {
+          "speaker_id": "rocky",
+          "speaker_name": "Rocky",
+          "avatar": "res://assets/characters/npcs/npc_rocky.svg",
+          "text_en": "Find the Magic Crystal at Crystal Lake!",
+          "text_vi": "Hãy đến Crystal Lake gặp Crystal Guardian để tìm manh mối mở cổng nhé!"
+        }
+      ],
+      "on_complete_event": "rocky_clue_received"
+    },
+    "dlg_guardian_greeting": {
+      "lines": [
+        {
+          "speaker_id": "crystal_guardian",
+          "speaker_name": "Crystal Guardian",
+          "avatar": "res://assets/characters/npcs/npc_crystal_guardian.svg",
+          "text_en": "You have proven your courage!",
+          "text_vi": "Chúc mừng em đã tới được Crystal Lake! Hãy nhận lấy Magic Crystal và tiến tới The Shadow Gate!"
+        },
+        {
+          "speaker_id": "buddy",
+          "speaker_name": "Buddy",
+          "avatar": "res://assets/characters/buddy_dragon/buddy_celebrating.svg",
+          "text_en": "Hooray! We unlocked The Shadow Gate!",
+          "text_vi": "Tuyệt vời! Cánh cổng The Shadow Gate đã mở khóa rồi!"
+        }
+      ],
+      "on_complete_event": "shadow_gate_unlocked"
+    },
+    "dlg_signpost_village": {
+      "lines": [
+        {
+          "speaker_id": "buddy",
+          "speaker_name": "Buddy",
+          "avatar": "res://assets/characters/buddy_dragon/buddy_talking.svg",
+          "text_en": "Welcome Village → Alphabet Meadow",
+          "text_vi": "Biển chỉ dẫn: Đi về phía Đông để tới Alphabet Meadow (Đồng Cỏ Bảng Chữ Cái)."
+        }
+      ]
+    },
+    "dlg_lost_letter_stone": {
+      "lines": [
+        {
+          "speaker_id": "buddy",
+          "speaker_name": "Buddy",
+          "avatar": "res://assets/characters/buddy_dragon/buddy_surprised.svg",
+          "text_en": "Look! A glowing letter!",
+          "text_vi": "Nhìn kìa! Em đã tìm thấy một viên đá chữ cái phát sáng bị thất lạc!"
+        }
+      ]
+    },
+    "dlg_treasure_chest": {
+      "lines": [
+        {
+          "speaker_id": "buddy",
+          "speaker_name": "Buddy",
+          "avatar": "res://assets/characters/buddy_dragon/buddy_happy.svg",
+          "text_en": "A Magic Crystal!",
+          "text_vi": "Kho báu chứa một viên Magic Crystal lấp lánh! Hãy giữ nó thật cẩn thận nhé."
+        }
+      ]
+    },
+    "dlg_shadow_gate_sealed": {
+      "lines": [
+        {
+          "speaker_id": "buddy",
+          "speaker_name": "Buddy",
+          "avatar": "res://assets/characters/buddy_dragon/buddy_thinking.svg",
+          "text_en": "The Shadow Gate!",
+          "text_vi": "Đây là Cổng Bóng Tối (The Shadow Gate) — mục tiêu lớn của Đảo Bảng Chữ Cái! Ở các giai đoạn tiếp theo, chúng ta sẽ dùng toàn bộ kiến thức tiếng Anh để phá giải phong ấn này!"
+        }
+      ]
+    }
+  }
+}

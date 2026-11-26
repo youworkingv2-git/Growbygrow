@@ -1,0 +1,103 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/area_hud_ui.gd" id="1_hud"]
+
+[node name="AreaHUD" type="CanvasLayer"]
+layer = 10
+script = ExtResource("1_hud")
+
+[node name="TopBar" type="PanelContainer" parent="."]
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 12.0
+offset_top = 10.0
+offset_right = -12.0
+offset_bottom = 78.0
+grow_horizontal = 2
+
+[node name="TopHBox" type="HBoxContainer" parent="TopBar"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="AreaNameLabel" type="Label" parent="TopBar/TopHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "🏝️ Welcome Village"
+
+[node name="HudQuestLabel" type="Label" parent="TopBar/TopHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 16
+text = "📜 Nhiệm vụ"
+text_overrun_behavior = 3
+
+[node name="HudStatsLabel" type="Label" parent="TopBar/TopHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "⭐ 0 | 🪙 0 | 💎 0"
+
+[node name="MapButton" type="Button" parent="TopBar/TopHBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(130, 48)
+layout_mode = 2
+text = "🗺️ Bản Đồ"
+
+[node name="ToastPanel" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -280.0
+offset_top = 92.0
+offset_right = 280.0
+offset_bottom = 148.0
+grow_horizontal = 2
+
+[node name="ToastLabel" type="Label" parent="ToastPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Thông báo"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MobileJoystickArea" type="ColorRect" parent="."]
+unique_name_in_owner = true
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = -154.0
+offset_right = 154.0
+offset_bottom = -24.0
+grow_vertical = 0
+color = Color(1, 1, 1, 0.2)
+
+[node name="JoystickKnob" type="ColorRect" parent="MobileJoystickArea"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 45.0
+offset_top = 45.0
+offset_right = 85.0
+offset_bottom = 85.0
+mouse_filter = 2
+color = Color(1, 1, 1, 0.7)
+
+[node name="MobileInteractButton" type="Button" parent="."]
+unique_name_in_owner = true
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -150.0
+offset_top = -110.0
+offset_right = -24.0
+offset_bottom = -24.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 18
+text = "Tương Tác"

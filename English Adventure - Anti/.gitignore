@@ -1,0 +1,55 @@
+# English Adventure – Git Ignore
+
+# Environment variables – NEVER commit!
+.env
+.env.local
+.env.production
+
+# Godot
+.godot/
+*.uid
+*.import
+export_credentials.cfg
+
+# Godot exports
+builds/
+*.apk
+*.aab
+*.ipa
+*.exe
+*.x86_64
+*.app
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.code-workspace
+
+# Supabase local
+supabase/.temp/
+supabase/config.toml.bak
+
+# Node (for tools)
+node_modules/
+package-lock.json
+
+# Python (for content tools)
+__pycache__/
+*.pyc
+.venv/
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+
+# Large binary assets (manage via Git LFS or external storage)
+# Uncomment if using Git LFS:
+# *.mp3
+# *.ogg
+# *.png filter=lfs diff=lfs merge=lfs -text

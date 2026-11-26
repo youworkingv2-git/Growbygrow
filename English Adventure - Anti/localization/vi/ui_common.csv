@@ -1,0 +1,55 @@
+KEY,VI
+btn_play,Chơi
+btn_continue,Tiếp tục
+btn_back,Quay lại
+btn_home,Màn hình chính
+btn_retry,Thử lại
+btn_next,Tiếp theo
+btn_skip,Bỏ qua
+btn_start,Bắt đầu
+btn_ok,Được rồi
+btn_cancel,Hủy
+btn_save,Lưu
+btn_settings,Cài đặt
+btn_logout,Đăng xuất
+btn_login,Đăng nhập
+btn_register,Đăng ký
+btn_guest,Chơi ngay (không cần đăng ký)
+
+label_level,Cấp độ
+label_exp,Điểm kinh nghiệm
+label_gold,Vàng
+label_stars,Sao
+label_crystals,Tinh thể ma thuật
+label_streak,Ngày liên tiếp
+label_mastered,Đã thành thạo
+label_review,Ôn tập hôm nay
+label_quest,Nhiệm vụ
+label_world,Thế giới
+label_achievement,Thành tích
+label_inventory,Túi đồ
+
+msg_loading,Đang tải...
+msg_saving,Đang lưu...
+msg_syncing,Đang đồng bộ...
+msg_offline,Bạn đang ngoại tuyến. Tiến trình sẽ được lưu và đồng bộ khi có mạng.
+msg_error_network,Lỗi kết nối. Vui lòng kiểm tra mạng.
+msg_error_generic,Có lỗi xảy ra. Vui lòng thử lại.
+
+feedback_correct_1,Xuất sắc! 🌟
+feedback_correct_2,Giỏi lắm! 🎉
+feedback_correct_3,Chính xác! 👏
+feedback_correct_4,Tuyệt vời! ⭐
+feedback_correct_5,Bạn thật thông minh! 🐉
+feedback_wrong_1,Chưa đúng rồi, thử lại nhé!
+feedback_wrong_2,Gần đúng rồi! Cố lên!
+feedback_wrong_3,Buddy tin bạn làm được! Thử lại nào.
+feedback_wrong_4,Đừng bỏ cuộc! Mình cùng thử lại nhé.
+
+screen_home_title,Trang Chủ
+screen_world_map_title,Bản Đồ Thế Giới
+screen_profile_title,Hồ Sơ
+screen_settings_title,Cài Đặt
+screen_achievement_title,Thành Tích
+screen_inventory_title,Túi Đồ
+screen_dashboard_title,Bảng Học Tập
