@@ -47,7 +47,7 @@ func is_minigame_active() -> bool:
 
 
 func is_overlay_open() -> bool:
-	return active_session != null or (_ui_host != null and _ui_host.visible)
+	return active_session != null or (_ui_host != null and _ui_host.is_overlay_visible())
 
 
 func open_arcade_launcher() -> void:

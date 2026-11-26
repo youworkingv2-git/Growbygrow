@@ -50,12 +50,17 @@ var _sum_return_btn: Button
 func _ready() -> void:
 	layer = 25
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	visible = false
+	visible = true
 	_build_ui()
+	_backdrop.visible = false
 
 	MiniGameManager.launch_modal_requested.connect(_on_launch_session)
 	MiniGameManager.close_modal_requested.connect(_on_close_requested)
 	MiniGameManager.launch_arcade_requested.connect(open_arcade)
+
+
+func is_overlay_visible() -> bool:
+	return _backdrop != null and _backdrop.visible
 
 
 func _build_ui() -> void:
@@ -318,6 +323,7 @@ func _styled_btn(text_val: String, bg: Color, min_sz: Vector2) -> Button:
 	var btn := Button.new()
 	btn.text = text_val
 	btn.custom_minimum_size = min_sz
+	btn.focus_mode = Control.FOCUS_NONE
 	btn.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	btn.add_theme_font_size_override("font_size", 17)
 	btn.add_theme_color_override("font_color", Color(1, 1, 1, 1))
@@ -332,8 +338,11 @@ func _styled_btn(text_val: String, bg: Color, min_sz: Vector2) -> Button:
 	sb.content_margin_bottom = 6
 	var hsb := sb.duplicate() as StyleBoxFlat
 	hsb.bg_color = bg.lightened(0.12)
+	var psb := sb.duplicate() as StyleBoxFlat
+	psb.bg_color = bg.darkened(0.12)
 	btn.add_theme_stylebox_override("normal", sb)
 	btn.add_theme_stylebox_override("hover", hsb)
+	btn.add_theme_stylebox_override("pressed", psb)
 	return btn
 
 
@@ -342,8 +351,9 @@ func open_arcade() -> void:
 		return
 	_arcade_mode = true
 	_session = null
-	visible = true
+	_backdrop.visible = true
 	EventBus.pause_toggled.emit(true)
+	AppLogger.info("MiniGameUI", "Opened Arcade Launcher")
 	_title_lbl.text = "TRUNG TÂM TRÒ CHƠI TIẾNG ANH (8 MINI-GAMES)"
 	_diff_pill.text = "Dữ liệu đồng bộ Learning Engine"
 	_progress_lbl.text = ""
@@ -411,6 +421,7 @@ func _populate_arcade_cards() -> void:
 		if not is_template:
 			var play_btn := _styled_btn("Chơi ngay", Color(0.16, 0.56, 0.86, 1), Vector2(130, 38))
 			play_btn.pressed.connect(func() -> void:
+				AppLogger.info("MiniGameUI", "Arcade play clicked: " + gid)
 				_arcade_mode = false
 				MiniGameManager.start_minigame(gid, { "source_type": "arcade", "bypass_unlock": true }, _selected_diff_override)
 			)
@@ -420,7 +431,7 @@ func _populate_arcade_cards() -> void:
 func _on_launch_session(sess: MiniGameSession) -> void:
 	_arcade_mode = false
 	_session = sess
-	visible = true
+	_backdrop.visible = true
 	_bgm_toggle_btn.visible = true
 	_progress_bar.visible = true
 	_close_btn.text = "Thoát (Esc)"
@@ -491,6 +502,7 @@ func _start_gameplay_stage() -> void:
 		_status_hint_lbl.text = h
 	)
 	_game_host.add_child(_active_controller)
+	_active_controller.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_refresh_progress_header()
 	_active_controller.start_current_round()
 
@@ -606,9 +618,10 @@ func _return_to_world() -> void:
 
 
 func _on_exit_pressed() -> void:
+	AppLogger.info("MiniGameUI", "Exit requested (arcade_mode=%s)" % str(_arcade_mode))
 	if _arcade_mode:
 		_arcade_mode = false
-		visible = false
+		_backdrop.visible = false
 		EventBus.pause_toggled.emit(false)
 		return
 	_return_to_world()
@@ -618,7 +631,7 @@ func _on_close_requested() -> void:
 	_clear_controller()
 	_session = null
 	_arcade_mode = false
-	visible = false
+	_backdrop.visible = false
 
 
 func _clear_controller() -> void:
@@ -636,8 +649,8 @@ func _toggle_bgm_mute() -> void:
 	_bgm_toggle_btn.text = "Nhạc nền: Bật" if muted else "Nhạc nền: Tắt"
 
 
-func _unhandled_input(event: InputEvent) -> void:
-	if not visible:
+func _input(event: InputEvent) -> void:
+	if not is_overlay_visible():
 		return
 	if event is InputEventKey and event.pressed and not event.echo:
 		var k := (event as InputEventKey).keycode

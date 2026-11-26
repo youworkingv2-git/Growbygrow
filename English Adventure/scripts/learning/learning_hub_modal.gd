@@ -139,7 +139,7 @@ func _make_card(bg: Color = Color(0.11, 0.17, 0.30, 0.96), border: Color = UIDes
 	return p
 
 
-func _make_label(txt: String, size_px: int = 15, col: Color = UIDesignSystem.TEXT_PRIMARY) -> Label:
+func _make_label(txt: String, size_px: int = 15, col: Color = UIDesignSystem.TEXT_LIGHT) -> Label:
 	var lbl := Label.new()
 	lbl.text = txt
 	lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -157,12 +157,12 @@ func _render_lessons_tab() -> void:
 
 	# Smart Spaced Repetition Review Banner
 	var due_batch := LearningEngine.get_review_question_batch(6)
-	var rev_card := _make_card(Color(0.12, 0.22, 0.38, 0.98), UIDesignSystem.ACCENT_GOLD)
+	var rev_card := _make_card(Color(0.12, 0.22, 0.38, 0.98), UIDesignSystem.TEXT_GOLD)
 	var rev_row := HBoxContainer.new()
 	rev_row.add_theme_constant_override("separation", 12)
 	var rev_col := VBoxContainer.new()
 	rev_col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	rev_col.add_child(_make_label("Ôn Tập Thông Minh (Spaced Repetition)", 17, UIDesignSystem.ACCENT_GOLD))
+	rev_col.add_child(_make_label("Ôn Tập Thông Minh (Spaced Repetition)", 17, UIDesignSystem.TEXT_GOLD))
 	rev_col.add_child(_make_label("Hệ thống tự chọn %d câu hỏi dựa trên từ vựng mới học và từ bé hay nhầm." % due_batch.size(), 13, UIDesignSystem.TEXT_MUTED))
 	rev_row.add_child(rev_col)
 	var rev_btn := Button.new()
@@ -213,7 +213,7 @@ func _render_lessons_tab() -> void:
 		var t_id := str(topic.get("id", ""))
 		var topic_done := LearningEngine.progress_manager.completed_topics.has(t_id)
 		var topic_header := "%s (%s)" % [str(topic.get("title_vi", "")), "Đã hoàn thành" if topic_done else "Đang mở"]
-		content_vbox.add_child(_make_label(topic_header, 16, UIDesignSystem.ACCENT_GOLD))
+		content_vbox.add_child(_make_label(topic_header, 16, UIDesignSystem.TEXT_GOLD))
 
 		for ls in LearningEngine.path_manager.get_lessons_for_topic(t_id):
 			var lid := str(ls.get("id", ""))
@@ -228,7 +228,7 @@ func _render_lessons_tab() -> void:
 			var col_info := VBoxContainer.new()
 			col_info.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 			var status_tag := "[Đã xong] " if done else ""
-			col_info.add_child(_make_label(status_tag + str(ls.get("title_vi", "")), 16, UIDesignSystem.TEXT_PRIMARY))
+			col_info.add_child(_make_label(status_tag + str(ls.get("title_vi", "")), 16, UIDesignSystem.TEXT_LIGHT))
 			col_info.add_child(_make_label(str(ls.get("summary_vi", "")), 13, UIDesignSystem.TEXT_MUTED))
 			var rw: Dictionary = ls.get("rewards", {})
 			var meta_str := "Hoạt động: %d | Thưởng lần đầu: +%d EXP, +%d Gold" % [
@@ -289,12 +289,12 @@ func _render_phonics_tab() -> void:
 		var lo := str(sel_letter.get("letter_lower", ""))
 		var name_ipa := LearningEngine.phonics_manager.get_letter_name_ipa(sel_letter)
 		var snd_ipa := str(sel_letter.get("letter_sound_ipa", ""))
-		dv.add_child(_make_label("Chữ %s / %s  (%s)" % [up, lo, str(sel_letter.get("letter_type", ""))], 20, UIDesignSystem.ACCENT_GOLD))
+		dv.add_child(_make_label("Chữ %s / %s  (%s)" % [up, lo, str(sel_letter.get("letter_type", ""))], 20, UIDesignSystem.TEXT_GOLD))
 		dv.add_child(_make_label("• Tên chữ cái (Letter Name): %s   |   • Âm cơ bản (Letter Sound): %s" % [name_ipa, snd_ipa], 15, Color(0.55, 0.90, 1.0, 1.0)))
 		var extras: Array = sel_letter.get("additional_sounds", [])
 		if not extras.is_empty():
 			dv.add_child(_make_label("• Âm khác (học ở bậc cao hơn): " + ", ".join(PackedStringArray(extras)), 13, UIDesignSystem.TEXT_MUTED))
-		dv.add_child(_make_label("• Lưu ý sư phạm: " + str(sel_letter.get("exception_note_vi", "")), 14, UIDesignSystem.TEXT_PRIMARY))
+		dv.add_child(_make_label("• Lưu ý sư phạm: " + str(sel_letter.get("exception_note_vi", "")), 14, UIDesignSystem.TEXT_LIGHT))
 		dv.add_child(_make_label("• Cách đặt miệng: " + str(sel_letter.get("mouth_hint_vi", "")), 14, UIDesignSystem.SUCCESS))
 
 		# Audio row (honest status + optional Web TTS)
@@ -335,7 +335,7 @@ func _render_phonics_tab() -> void:
 		content_vbox.add_child(detail)
 
 	# Phonics Units (Short/Long Vowels, Digraphs, Blending)
-	content_vbox.add_child(_make_label("Nhóm âm Phonics & Ghép vần cơ bản:", 16, UIDesignSystem.ACCENT_GOLD))
+	content_vbox.add_child(_make_label("Nhóm âm Phonics & Ghép vần cơ bản:", 16, UIDesignSystem.TEXT_GOLD))
 	for unit in LearningEngine.phonics_manager.get_phonics_units():
 		var ucard := _make_card()
 		var uv := VBoxContainer.new()
@@ -402,7 +402,7 @@ func _render_vocab_tab() -> void:
 			LearningEngine.vocabulary_manager.get_ipa_for_accent(w),
 			str(w.get("meaning_vi", "")),
 			status.to_upper()
-		], 15, UIDesignSystem.ACCENT_GOLD))
+		], 15, UIDesignSystem.TEXT_GOLD))
 		col.add_child(_make_label("Ví dụ: %s (%s)" % [
 			str(w.get("example_sentence", "")),
 			str(w.get("example_translation", ""))
@@ -446,7 +446,7 @@ func _render_grammar_tab() -> void:
 		gv.add_theme_constant_override("separation", 6)
 
 		var top_row := HBoxContainer.new()
-		top_row.add_child(_make_label(str(g.get("structure", "")), 17, UIDesignSystem.ACCENT_GOLD))
+		top_row.add_child(_make_label(str(g.get("structure", "")), 17, UIDesignSystem.TEXT_GOLD))
 		top_row.get_child(0).size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		var toggle_btn := Button.new()
 		toggle_btn.text = "Đang xem" if is_sel else "Tập ghép câu"
@@ -458,7 +458,7 @@ func _render_grammar_tab() -> void:
 		top_row.add_child(toggle_btn)
 		gv.add_child(top_row)
 
-		gv.add_child(_make_label(str(g.get("explanation_vi", "")), 14, UIDesignSystem.TEXT_PRIMARY))
+		gv.add_child(_make_label(str(g.get("explanation_vi", "")), 14, UIDesignSystem.TEXT_LIGHT))
 		for ex_var in g.get("example_sentences", []):
 			if typeof(ex_var) == TYPE_DICTIONARY:
 				var ex: Dictionary = ex_var
@@ -488,11 +488,11 @@ func _render_progress_tab() -> void:
 	var summary_card := _make_card(Color(0.11, 0.19, 0.34, 0.98), UIDesignSystem.PRIMARY)
 	var sv := VBoxContainer.new()
 	sv.add_theme_constant_override("separation", 6)
-	sv.add_child(_make_label("Phân tách Điểm Học Tập vs Điểm Trò Chơi:", 16, UIDesignSystem.ACCENT_GOLD))
+	sv.add_child(_make_label("Phân tách Điểm Học Tập vs Điểm Trò Chơi:", 16, UIDesignSystem.TEXT_GOLD))
 	sv.add_child(_make_label("• Learning Score (Kết quả học tập): %d điểm" % pm.total_learning_score, 15, UIDesignSystem.SUCCESS))
 	sv.add_child(_make_label("• Game Score (Điểm thưởng trò chơi): %d điểm | Player EXP: %d | Gold: %d" % [
 		pm.total_game_score, GameStateManager.exp, GameStateManager.gold
-	], 14, UIDesignSystem.TEXT_PRIMARY))
+	], 14, UIDesignSystem.TEXT_LIGHT))
 	sv.add_child(_make_label("• Bài học đã hoàn thành: %d / %d   |   Chủ đề xong: %d" % [
 		pm.completed_lessons.size(),
 		LearningEngine.content_repo.lessons_ordered.size(),
@@ -504,7 +504,7 @@ func _render_progress_tab() -> void:
 	var skill_card := _make_card()
 	var skv := VBoxContainer.new()
 	skv.add_theme_constant_override("separation", 6)
-	skv.add_child(_make_label("Thống kê 4 kỹ năng (Listening, Speaking, Reading, Writing):", 16, UIDesignSystem.ACCENT_GOLD))
+	skv.add_child(_make_label("Thống kê 4 kỹ năng (Listening, Speaking, Reading, Writing):", 16, UIDesignSystem.TEXT_GOLD))
 	for sk in ["listening", "speaking", "reading", "writing"]:
 		var st: Dictionary = pm.skill_stats.get(sk, {})
 		var att := int(st.get("attempts", 0))
@@ -612,7 +612,7 @@ func _render_runner_question(feedback_override: Dictionary = {}) -> void:
 	back_btn.pressed.connect(func() -> void: _switch_tab("lessons"))
 	nav_row.add_child(back_btn)
 
-	nav_row.add_child(_make_label("Kỹ năng: %s" % skill.to_upper(), 14, UIDesignSystem.ACCENT_GOLD))
+	nav_row.add_child(_make_label("Kỹ năng: %s" % skill.to_upper(), 14, UIDesignSystem.TEXT_GOLD))
 	nav_row.get_child(1).size_flags_horizontal = Control.SIZE_EXPAND_FILL
 
 	var hint_btn := Button.new()
@@ -629,7 +629,7 @@ func _render_runner_question(feedback_override: Dictionary = {}) -> void:
 	var pcard := _make_card(Color(0.11, 0.18, 0.33, 0.98), UIDesignSystem.PRIMARY)
 	var pv := VBoxContainer.new()
 	pv.add_theme_constant_override("separation", 8)
-	pv.add_child(_make_label(str(q.get("prompt_vi", "")), 18, UIDesignSystem.TEXT_PRIMARY))
+	pv.add_child(_make_label(str(q.get("prompt_vi", "")), 18, UIDesignSystem.TEXT_LIGHT))
 
 	var img_path := str(q.get("image_path", ""))
 	if not img_path.is_empty() and ResourceLoader.exists(img_path) and not atype.contains("choose_image"):
@@ -642,13 +642,13 @@ func _render_runner_question(feedback_override: Dictionary = {}) -> void:
 		pv.add_child(pic)
 
 	if q.has("text_en") and not str(q.get("text_en", "")).is_empty():
-		pv.add_child(_make_label(str(q.get("text_en", "")), 22, UIDesignSystem.ACCENT_GOLD))
+		pv.add_child(_make_label(str(q.get("text_en", "")), 22, UIDesignSystem.TEXT_GOLD))
 	if q.has("pattern") and not str(q.get("pattern", "")).is_empty():
-		pv.add_child(_make_label(str(q.get("pattern", "")), 24, UIDesignSystem.ACCENT_GOLD))
+		pv.add_child(_make_label(str(q.get("pattern", "")), 24, UIDesignSystem.TEXT_GOLD))
 	if q.has("sentence_template") and not str(q.get("sentence_template", "")).is_empty():
-		pv.add_child(_make_label(str(q.get("sentence_template", "")), 20, UIDesignSystem.ACCENT_GOLD))
+		pv.add_child(_make_label(str(q.get("sentence_template", "")), 20, UIDesignSystem.TEXT_GOLD))
 	if q.has("target_text_en") and not str(q.get("target_text_en", "")).is_empty():
-		pv.add_child(_make_label(str(q.get("target_text_en", "")), 22, UIDesignSystem.ACCENT_GOLD))
+		pv.add_child(_make_label(str(q.get("target_text_en", "")), 22, UIDesignSystem.TEXT_GOLD))
 	if q.has("ipa") and not str(q.get("ipa", "")).is_empty():
 		pv.add_child(_make_label("Phát âm IPA: " + str(q.get("ipa", "")), 14, Color(0.60, 0.88, 1.0, 1.0)))
 
@@ -675,8 +675,8 @@ func _render_runner_question(feedback_override: Dictionary = {}) -> void:
 	content_vbox.add_child(pcard)
 
 	if feedback_override.has("hint_banner"):
-		var hcard := _make_card(Color(0.20, 0.18, 0.08, 0.96), UIDesignSystem.ACCENT_GOLD)
-		hcard.add_child(_make_label("Gợi ý từ Buddy: " + str(feedback_override["hint_banner"]), 14, UIDesignSystem.ACCENT_GOLD))
+		var hcard := _make_card(Color(0.20, 0.18, 0.08, 0.96), UIDesignSystem.TEXT_GOLD)
+		hcard.add_child(_make_label("Gợi ý từ Buddy: " + str(feedback_override["hint_banner"]), 14, UIDesignSystem.TEXT_GOLD))
 		content_vbox.add_child(hcard)
 
 	# Activity Input Area by Skill / Type
@@ -693,7 +693,7 @@ func _render_runner_question(feedback_override: Dictionary = {}) -> void:
 		var fv := VBoxContainer.new()
 		fv.add_theme_constant_override("separation", 6)
 		fv.add_child(_make_label(str(feedback_override.get("headline_vi", "")), 16, UIDesignSystem.SUCCESS if is_ok else Color(1.0, 0.78, 0.50, 1.0)))
-		fv.add_child(_make_label("Đáp án đúng: " + str(feedback_override.get("correct_answer", "")), 15, UIDesignSystem.TEXT_PRIMARY))
+		fv.add_child(_make_label("Đáp án đúng: " + str(feedback_override.get("correct_answer", "")), 15, UIDesignSystem.TEXT_LIGHT))
 		fv.add_child(_make_label("Giải thích: " + str(feedback_override.get("explanation_vi", "")), 14, UIDesignSystem.TEXT_MUTED))
 
 		if is_ok:
@@ -749,7 +749,7 @@ func _build_activity_input_ui(q: Dictionary, skill: String, atype: String) -> vo
 		elif atype == "listen_arrange_sentence":
 			pool_arr.shuffle()
 
-		var built_lbl := _make_label("Đang ghép: " + ("".join(PackedStringArray(_runner_assembled_tokens)) if is_letters else " ".join(PackedStringArray(_runner_assembled_tokens))), 18, UIDesignSystem.ACCENT_GOLD)
+		var built_lbl := _make_label("Đang ghép: " + ("".join(PackedStringArray(_runner_assembled_tokens)) if is_letters else " ".join(PackedStringArray(_runner_assembled_tokens))), 18, UIDesignSystem.TEXT_GOLD)
 		content_vbox.add_child(built_lbl)
 
 		var tiles_row := HBoxContainer.new()
@@ -883,16 +883,16 @@ func _render_runner_complete() -> void:
 	var cv := VBoxContainer.new()
 	cv.add_theme_constant_override("separation", 10)
 	cv.add_child(_make_label("HOÀN THÀNH BÀI HỌC!", 22, UIDesignSystem.SUCCESS))
-	cv.add_child(_make_label("Bài: " + _runner_title, 16, UIDesignSystem.ACCENT_GOLD))
+	cv.add_child(_make_label("Bài: " + _runner_title, 16, UIDesignSystem.TEXT_GOLD))
 	if not summary.is_empty():
 		var exp_g := int(summary.get("exp_granted", 0))
 		var gold_g := int(summary.get("gold_granted", 0))
 		if exp_g > 0 or gold_g > 0:
-			cv.add_child(_make_label("Phần thưởng hoàn thành lần đầu: +%d EXP | +%d Gold" % [exp_g, gold_g], 15, UIDesignSystem.ACCENT_GOLD))
+			cv.add_child(_make_label("Phần thưởng hoàn thành lần đầu: +%d EXP | +%d Gold" % [exp_g, gold_g], 15, UIDesignSystem.TEXT_GOLD))
 		else:
-			cv.add_child(_make_label("Bé đã ôn lại bài học này thành công! Tiến trình ghi nhớ đã được cập nhật.", 14, UIDesignSystem.TEXT_PRIMARY))
+			cv.add_child(_make_label("Bé đã ôn lại bài học này thành công! Tiến trình ghi nhớ đã được cập nhật.", 14, UIDesignSystem.TEXT_LIGHT))
 	else:
-		cv.add_child(_make_label("Phiên ôn tập đã hoàn tất và cập nhật lịch Spaced Repetition!", 14, UIDesignSystem.TEXT_PRIMARY))
+		cv.add_child(_make_label("Phiên ôn tập đã hoàn tất và cập nhật lịch Spaced Repetition!", 14, UIDesignSystem.TEXT_LIGHT))
 
 	var btn_row := HBoxContainer.new()
 	btn_row.add_theme_constant_override("separation", 10)

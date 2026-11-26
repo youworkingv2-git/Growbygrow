@@ -199,9 +199,9 @@ static func _build_word_matching(diff_cfg: Dictionary, context: Dictionary) -> A
 	var vm := LearningEngine.vocabulary_manager
 	var mode := str(context.get("mode", "word_image")) # "word_image" or "word_vi"
 
-	var picked := pool.slice(0, mini(pair_count, pool.size()))
 	var pairs: Array[Dictionary] = []
-	for w in picked:
+	for i in range(mini(pair_count, pool.size())):
+		var w := pool[i]
 		pairs.append({
 			"word_id": str(w.get("id", "")),
 			"word": str(w.get("word", "")),
@@ -455,9 +455,9 @@ static func _build_memory_quest(diff_cfg: Dictionary, context: Dictionary) -> Ar
 	var vm := LearningEngine.vocabulary_manager
 	var mode := str(context.get("mode", "word_image")) # "word_image" | "word_vi" | "audio_image"
 
-	var picked := pool.slice(0, mini(pair_count, pool.size()))
 	var pairs: Array[Dictionary] = []
-	for w in picked:
+	for i in range(mini(pair_count, pool.size())):
+		var w := pool[i]
 		pairs.append({
 			"word_id": str(w.get("id", "")),
 			"word": str(w.get("word", "")),

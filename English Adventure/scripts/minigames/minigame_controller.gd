@@ -65,6 +65,7 @@ func _make_action_button(text: String, bg_color: Color = Color(0.18, 0.48, 0.85,
 	var btn := Button.new()
 	btn.text = text
 	btn.custom_minimum_size = Vector2(120, 48)
+	btn.focus_mode = Control.FOCUS_NONE
 	btn.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	btn.add_theme_font_size_override("font_size", 18)
 	btn.add_theme_color_override("font_color", Color(1, 1, 1, 1))

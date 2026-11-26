@@ -108,7 +108,10 @@ func get_due_review_items(all_vocab_ids: Array[String], limit: int = 0) -> Array
 			if not already and _progress.get_item_status(wid) == "new":
 				due.append({ "item_id": wid, "priority": 10.0, "interval_days": 0.0, "status": "new" })
 
-	return due.slice(0, mini(max_items, due.size()))
+	var out: Array[Dictionary] = []
+	for i in range(mini(max_items, due.size())):
+		out.append(due[i])
+	return out
 
 
 func save_schedule() -> void:

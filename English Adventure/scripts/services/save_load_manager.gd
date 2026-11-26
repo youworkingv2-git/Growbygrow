@@ -103,7 +103,10 @@ func enqueue_sync_event(event_type: String, payload: Dictionary) -> void:
 
 
 func get_pending_sync_events() -> Array[Dictionary]:
-	return _outbox.duplicate(true)
+	var out: Array[Dictionary] = []
+	for evt in _outbox:
+		out.append(evt.duplicate(true))
+	return out
 
 
 func _load_outbox() -> void:

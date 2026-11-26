@@ -56,7 +56,7 @@ func build_feedback(
 		else:
 			learning_score_delta = 60
 			game_score_delta = 5
-		var praise := POSITIVE_PRAISES[number_of_attempts % POSITIVE_PRAISES.size()]
+		var praise: String = POSITIVE_PRAISES[number_of_attempts % POSITIVE_PRAISES.size()]
 		return {
 			"is_correct": true,
 			"headline_vi": praise,

@@ -81,7 +81,10 @@ func get_distractor_words(target_word_id: String, count: int = 2) -> Array[Dicti
 	var combined: Array[Dictionary] = []
 	combined.append_array(same_topic)
 	combined.append_array(other_topic)
-	return combined.slice(0, mini(count, combined.size()))
+	var out: Array[Dictionary] = []
+	for i in range(mini(count, combined.size())):
+		out.append(combined[i])
+	return out
 
 
 func get_ipa_for_accent(word_dict: Dictionary, accent: String = "") -> String:

@@ -186,7 +186,10 @@ func complete_active_lesson() -> Dictionary:
 ## Public API for Prompt 05 Mini-Games: returns reusable vocabulary & dynamic questions
 func get_mini_game_vocabulary_pack(topic: String = "", max_difficulty: int = 2, count: int = 8) -> Array[Dictionary]:
 	var pool := vocabulary_manager.get_words_for_difficulty(max_difficulty, topic)
-	return pool.slice(0, mini(count, pool.size()))
+	var out: Array[Dictionary] = []
+	for i in range(mini(count, pool.size())):
+		out.append(pool[i])
+	return out
 
 
 func get_review_question_batch(limit: int = 6) -> Array[Dictionary]:
@@ -195,11 +198,11 @@ func get_review_question_batch(limit: int = 6) -> Array[Dictionary]:
 		all_ids.append(str(w.get("id", "")))
 	var due := review_engine.get_due_review_items(all_ids, limit)
 	var batch: Array[Dictionary] = []
-	var skills_cycle := ["reading", "writing", "listening"]
+	var skills_cycle: Array[String] = ["reading", "writing", "listening"]
 	var idx := 0
 	for d in due:
 		var wid := str(d.get("item_id", ""))
-		var sk := skills_cycle[idx % skills_cycle.size()]
+		var sk: String = skills_cycle[idx % skills_cycle.size()]
 		var q := question_manager.build_reusable_vocab_question(wid, sk)
 		if not q.is_empty():
 			batch.append(q)
