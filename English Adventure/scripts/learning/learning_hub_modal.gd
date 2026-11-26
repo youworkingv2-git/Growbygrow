@@ -304,8 +304,9 @@ func _render_phonics_tab() -> void:
 			var w0 := LearningEngine.vocabulary_manager.get_word(str(anchor_ids_arr[0]))
 			first_anchor_word = str(w0.get("word", ""))
 
-		var audio_row := HBoxContainer.new()
-		audio_row.add_theme_constant_override("separation", 8)
+		var audio_row := HFlowContainer.new()
+		audio_row.add_theme_constant_override("h_separation", 8)
+		audio_row.add_theme_constant_override("v_separation", 6)
 		if AudioManager.can_use_browser_tts():
 			var tts_name_btn := Button.new()
 			tts_name_btn.text = "Nghe tên chữ (%s)" % up
@@ -319,13 +320,15 @@ func _render_phonics_tab() -> void:
 				UIDesignSystem.apply_button_variant(tts_sound_btn, "confirm")
 				tts_sound_btn.pressed.connect(func() -> void: AudioManager.speak_browser_tts_fallback(first_anchor_word, SettingsManager.preferred_accent, 0.80))
 				audio_row.add_child(tts_sound_btn)
-		var audio_note := _make_label("Audio .ogg thu sẵn: Đang chờ bổ sung (dùng TTS trình duyệt + IPA).", 12, Color(1.0, 0.82, 0.45, 1.0))
-		audio_row.add_child(audio_note)
-		dv.add_child(audio_row)
+		if audio_row.get_child_count() > 0:
+			dv.add_child(audio_row)
+		var audio_note := _make_label("Audio .ogg thu sẵn: Đang chờ bổ sung (hỗ trợ nghe mẫu qua TTS trình duyệt + phiên âm IPA).", 12, Color(1.0, 0.82, 0.45, 1.0))
+		dv.add_child(audio_note)
 
 		# Anchor word illustrations
-		var anchor_row := HBoxContainer.new()
-		anchor_row.add_theme_constant_override("separation", 10)
+		var anchor_row := HFlowContainer.new()
+		anchor_row.add_theme_constant_override("h_separation", 10)
+		anchor_row.add_theme_constant_override("v_separation", 8)
 		for wid_var in anchor_ids_arr:
 			var w := LearningEngine.vocabulary_manager.get_word(str(wid_var))
 			if not w.is_empty():
@@ -341,7 +344,9 @@ func _render_phonics_tab() -> void:
 					tex_rect.texture = load(img_path)
 				hb.add_child(tex_rect)
 				var w_en := str(w.get("word", ""))
-				hb.add_child(_make_label("%s (%s)\n%s" % [w_en, LearningEngine.vocabulary_manager.get_ipa_for_accent(w), str(w.get("meaning_vi", ""))], 13))
+				var chip_lbl := _make_label("%s (%s)\n%s" % [w_en, LearningEngine.vocabulary_manager.get_ipa_for_accent(w), str(w.get("meaning_vi", ""))], 13)
+				chip_lbl.autowrap_mode = TextServer.AUTOWRAP_OFF
+				hb.add_child(chip_lbl)
 				if AudioManager.can_use_browser_tts():
 					var w_btn := Button.new()
 					w_btn.text = "Nghe"
