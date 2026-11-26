@@ -65,6 +65,7 @@ func is_overlay_visible() -> bool:
 
 func _build_ui() -> void:
 	_backdrop = ColorRect.new()
+	_backdrop.theme = UIManager.shared_theme if (UIManager != null and UIManager.shared_theme != null) else UIDesignSystem.build_global_theme()
 	_backdrop.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_backdrop.color = Color(0.05, 0.08, 0.16, 0.72)
 	add_child(_backdrop)

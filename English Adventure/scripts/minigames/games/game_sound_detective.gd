@@ -98,8 +98,12 @@ func _play_clue_audio() -> void:
 	if audio == null or _current_item.is_empty():
 		return
 	var speak_t := str(_current_item.get("speak_text", ""))
+	var mode := str(_current_item.get("mode", "letter_sound"))
 	var res := audio.play_word_or_sentence(str(_current_item.get("audio_path", "")), speak_t)
-	_audio_lbl.text = "Manh mối IPA: %s — %s" % [str(_current_item.get("target_ipa", "")), str(res.get("message_vi", ""))]
+	if mode == "letter_sound" and not speak_t.is_empty():
+		_audio_lbl.text = "Manh mối IPA: %s (từ mẫu '%s') — %s" % [str(_current_item.get("target_ipa", "")), speak_t, str(res.get("message_vi", ""))]
+	else:
+		_audio_lbl.text = "Manh mối IPA: %s — %s" % [str(_current_item.get("target_ipa", "")), str(res.get("message_vi", ""))]
 
 
 func on_hint_requested() -> void:

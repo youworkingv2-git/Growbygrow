@@ -40,6 +40,8 @@ var _runner_text_input: LineEdit = null
 
 func _ready() -> void:
 	visible = false
+	if theme == null:
+		theme = UIManager.shared_theme if (UIManager != null and UIManager.shared_theme != null) else UIDesignSystem.build_global_theme()
 	add_theme_stylebox_override(
 		"panel",
 		UIDesignSystem.make_panel_style(Color(0.07, 0.11, 0.21, 0.99), UIDesignSystem.PRIMARY, 16, 2, 0, 0)
@@ -310,6 +312,7 @@ func _render_phonics_tab() -> void:
 			var tts_name_btn := Button.new()
 			tts_name_btn.text = "Nghe tên chữ (%s)" % up
 			tts_name_btn.custom_minimum_size = Vector2(170, 38)
+			tts_name_btn.focus_mode = Control.FOCUS_NONE
 			UIDesignSystem.apply_button_variant(tts_name_btn, "primary")
 			tts_name_btn.pressed.connect(func() -> void: AudioManager.speak_browser_tts_fallback(up, SettingsManager.preferred_accent, 0.86))
 			audio_row.add_child(tts_name_btn)
@@ -318,6 +321,7 @@ func _render_phonics_tab() -> void:
 				var tts_sound_btn := Button.new()
 				tts_sound_btn.text = "Nghe âm qua từ '%s'" % first_anchor_word
 				tts_sound_btn.custom_minimum_size = Vector2(210, 38)
+				tts_sound_btn.focus_mode = Control.FOCUS_NONE
 				UIDesignSystem.apply_button_variant(tts_sound_btn, "confirm")
 				tts_sound_btn.pressed.connect(func() -> void: AudioManager.speak_browser_tts_fallback(first_anchor_word, SettingsManager.preferred_accent, 0.80))
 				audio_row.add_child(tts_sound_btn)
@@ -327,8 +331,10 @@ func _render_phonics_tab() -> void:
 		dv.add_child(audio_note)
 
 		# Anchor word illustrations
-		var anchor_row := HBoxContainer.new()
-		anchor_row.add_theme_constant_override("separation", 10)
+		var anchor_row := GridContainer.new()
+		anchor_row.columns = 2
+		anchor_row.add_theme_constant_override("h_separation", 10)
+		anchor_row.add_theme_constant_override("v_separation", 8)
 		for wid_var in anchor_ids_arr:
 			var w := LearningEngine.vocabulary_manager.get_word(str(wid_var))
 			if not w.is_empty():
@@ -351,6 +357,7 @@ func _render_phonics_tab() -> void:
 					var w_btn := Button.new()
 					w_btn.text = "Nghe"
 					w_btn.custom_minimum_size = Vector2(58, 34)
+					w_btn.focus_mode = Control.FOCUS_NONE
 					UIDesignSystem.apply_button_variant(w_btn, "secondary")
 					w_btn.pressed.connect(func() -> void: AudioManager.speak_browser_tts_fallback(w_en, SettingsManager.preferred_accent, 0.82))
 					hb.add_child(w_btn)
@@ -384,7 +391,8 @@ func _render_phonics_tab() -> void:
 		if AudioManager.can_use_browser_tts() and not ex_words.is_empty():
 			var u_btn := Button.new()
 			u_btn.text = "Nghe mẫu"
-			u_btn.custom_minimum_size = Vector2(88, 32)
+			u_btn.custom_minimum_size = Vector2(94, 34)
+			u_btn.focus_mode = Control.FOCUS_NONE
 			UIDesignSystem.apply_button_variant(u_btn, "secondary")
 			var speak_sample := ", ".join(ex_words)
 			u_btn.pressed.connect(func() -> void: AudioManager.speak_browser_tts_fallback(speak_sample, SettingsManager.preferred_accent, 0.80))
@@ -701,6 +709,8 @@ func _render_runner_question(feedback_override: Dictionary = {}) -> void:
 		audio_bar.add_theme_constant_override("separation", 8)
 		var play_btn := Button.new()
 		play_btn.text = "Nghe âm thanh mẫu"
+		play_btn.custom_minimum_size = Vector2(185, 40)
+		play_btn.focus_mode = Control.FOCUS_NONE
 		UIDesignSystem.apply_button_variant(play_btn, "primary")
 		play_btn.pressed.connect(func() -> void:
 			var res := AudioManager.play_learning_audio(str(q.get("audio_path", "")), SettingsManager.preferred_accent)
@@ -710,9 +720,9 @@ func _render_runner_question(feedback_override: Dictionary = {}) -> void:
 					AudioManager.speak_browser_tts_fallback(tts_txt, SettingsManager.preferred_accent)
 		)
 		audio_bar.add_child(play_btn)
-		var audio_note := "Chưa có file âm thanh thu sẵn; hỗ trợ TTS trình duyệt + đọc chữ/IPA." if AudioManager.can_use_browser_tts() else "Chưa có file âm thanh thu sẵn (asset đang chờ bổ sung)."
-		audio_bar.add_child(_make_label(audio_note, 12, Color(1.0, 0.82, 0.45, 1.0)))
 		pv.add_child(audio_bar)
+		var audio_note := "Chưa có file âm thanh thu sẵn; hỗ trợ TTS trình duyệt + đọc chữ/IPA." if AudioManager.can_use_browser_tts() else "Chưa có file âm thanh thu sẵn (asset đang chờ bổ sung)."
+		pv.add_child(_make_label(audio_note, 12, Color(1.0, 0.82, 0.45, 1.0)))
 
 	pcard.add_child(pv)
 	content_vbox.add_child(pcard)

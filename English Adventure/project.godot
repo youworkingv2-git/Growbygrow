@@ -30,9 +30,9 @@ GameStateManager="*res://scripts/core/game_state_manager.gd"
 RewardManager="*res://scripts/progression/reward_manager.gd"
 QuestManager="*res://scripts/quest/quest_manager.gd"
 LearningEngine="*res://scripts/learning/learning_engine.gd"
+UIManager="*res://scripts/ui/managers/ui_manager.gd"
 MiniGameManager="*res://scripts/minigames/minigame_manager.gd"
 SceneRouter="*res://scripts/core/scene_router.gd"
-UIManager="*res://scripts/ui/managers/ui_manager.gd"
 
 [display]
 
@@ -69,6 +69,10 @@ buddy_help={
 "deadzone": 0.2,
 "events": []
 }
+
+[gui]
+
+theme/custom_font="res://assets/fonts/NotoSans-Regular.ttf"
 
 [internationalization]
 

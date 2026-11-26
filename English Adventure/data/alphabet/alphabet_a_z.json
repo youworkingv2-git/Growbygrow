@@ -598,11 +598,10 @@
       "additional_sounds": [
         "/z/ (is)"
       ],
-      "exception_note_vi": "Thường đọc /s/ (sister); ở cuối một số từ đọc /z/ như 'is'.",
+      "exception_note_vi": "Thường đọc /s/ (sister); khi ghép 'sh' như 'ship' sẽ đọc là /ʃ/, hoặc cuối từ đôi khi đọc /z/ như 'is'.",
       "mouth_hint_vi": "Khép hờ răng và xì nhẹ luồng hơi /s/.",
       "anchor_word_ids": [
-        "word_sister",
-        "word_ship"
+        "word_sister"
       ],
       "audio_name": {
         "en-US": "",
