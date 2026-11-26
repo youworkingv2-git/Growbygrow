@@ -170,7 +170,7 @@ func _build_future_worlds_bar() -> void:
 	for w in DataRepository.worlds:
 		var lbl := Button.new()
 		var active := bool(w.get("is_mvp_active", false))
-		lbl.text = ("%s ★" if active else "🔒 %s (Sắp ra mắt)") % str(w.get("name_en", ""))
+		lbl.text = ("[Active] %s" if active else "[Khóa] %s (Sắp ra mắt)") % str(w.get("name_en", ""))
 		lbl.disabled = not active
 		lbl.custom_minimum_size = Vector2(180, 38)
 		future_worlds_row.add_child(lbl)

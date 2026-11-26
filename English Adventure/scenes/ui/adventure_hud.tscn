@@ -293,7 +293,7 @@ text = "Đóng"
 [node name="NextBtn" type="Button" parent="DialogueBox/Margin/HBox/TextCol/ButtonsRow"]
 custom_minimum_size = Vector2(140, 42)
 layout_mode = 2
-text = "Tiếp tục →"
+text = "Tiếp tục >"
 
 [node name="QuestIntroPopup" type="PanelContainer" parent="."]
 visible = false
@@ -428,7 +428,7 @@ alignment = 1
 [node name="Title" type="Label" parent="AreaLockedPopup/Margin/VBox"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
-text = "🔒 Khu vực đang bị khóa!"
+text = "Khu vực đang bị khóa!"
 horizontal_alignment = 1
 
 [node name="Reason" type="Label" parent="AreaLockedPopup/Margin/VBox"]
@@ -473,7 +473,7 @@ alignment = 1
 layout_mode = 2
 theme_override_colors/font_color = Color(0.4, 0.88, 1, 1)
 theme_override_font_sizes/font_size = 22
-text = "✨ Mở khóa khu vực mới!"
+text = "Mở khóa khu vực mới!"
 horizontal_alignment = 1
 autowrap_mode = 3
 

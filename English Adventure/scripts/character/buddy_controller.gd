@@ -55,7 +55,7 @@ func set_mood(mood: BuddyMood) -> void:
 			mood_badge.text = "..."
 			sprite.modulate = Color.WHITE
 		BuddyMood.CELEBRATING:
-			mood_badge.text = "★"
+			mood_badge.text = "*"
 			sprite.modulate = Color(1.0, 0.96, 0.78)
 
 
@@ -94,7 +94,8 @@ func offer_contextual_help() -> void:
 			var npc_name := LocalizationManager.pick_text(npc_cfg, "name")
 			speak_tip("Hãy tìm gặp " + npc_name + " để nhận nhiệm vụ mới!", "happy", 6.0)
 			return
-	var greeting := DataRepository.buddy_config.get("area_greetings", {}).get(GameStateManager.current_area_id, {})
+	var area_greetings: Dictionary = DataRepository.buddy_config.get("area_greetings", {})
+	var greeting: Variant = area_greetings.get(GameStateManager.current_area_id, {})
 	if typeof(greeting) == TYPE_DICTIONARY and not greeting.is_empty():
 		speak_tip(LocalizationManager.pick_text(greeting, "text"), str(greeting.get("state", "happy")), 6.0)
 	else:

@@ -35,7 +35,7 @@ func _show_current_line() -> void:
 	text_en_label.text = str(line.get("text_en", ""))
 	text_vi_label.text = str(line.get("text_vi", ""))
 	progress_label.text = "%d / %d" % [_index + 1, _lines.size()]
-	next_btn.text = "Vào Làng Khởi Đầu!" if _index >= _lines.size() - 1 else "Tiếp tục →"
+	next_btn.text = "Vào Làng Khởi Đầu!" if _index >= _lines.size() - 1 else "Tiếp tục >"
 
 
 func _on_next_pressed() -> void:

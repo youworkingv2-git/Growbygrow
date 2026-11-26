@@ -37,8 +37,8 @@ func _select_character(gender: String) -> void:
 	var is_boy := gender == "boy"
 	boy_card.modulate = Color.WHITE if is_boy else Color(0.82, 0.86, 0.92, 0.9)
 	girl_card.modulate = Color.WHITE if not is_boy else Color(0.82, 0.86, 0.92, 0.9)
-	boy_select_btn.text = "Đang chọn ✓" if is_boy else "Chọn Leo"
-	girl_select_btn.text = "Đang chọn ✓" if not is_boy else "Chọn Mia"
+	boy_select_btn.text = "Đang chọn [OK]" if is_boy else "Chọn Leo"
+	girl_select_btn.text = "Đang chọn [OK]" if not is_boy else "Chọn Mia"
 
 	var cfg := DataRepository.get_character_config(gender)
 	selected_info_label.text = "%s — %s" % [

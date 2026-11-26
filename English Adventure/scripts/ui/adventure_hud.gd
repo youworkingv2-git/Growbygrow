@@ -73,6 +73,8 @@ func _ready() -> void:
 	_hide_all_modals()
 	interact_banner.visible = false
 	toast_panel.visible = false
+	for btn: Button in [map_btn, quests_btn, bag_btn, save_btn, interact_banner, touch_interact_btn, touch_jump_btn, buddy_btn, desktop_buddy_btn]:
+		btn.focus_mode = Control.FOCUS_NONE
 
 	map_btn.pressed.connect(func() -> void: SceneRouter.go_to_world_map())
 	quests_btn.pressed.connect(_open_quest_log)
@@ -261,10 +263,10 @@ func _open_quest_log() -> void:
 		var lbl := Label.new()
 		lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		var status_vi := {
-			"locked": "🔒 Chưa mở",
-			"available": "❗ Có thể nhận",
-			"active": "⚡ Đang thực hiện",
-			"completed": "✅ Đã hoàn thành"
+			"locked": "[Khóa] Chưa mở",
+			"available": "[!] Có thể nhận",
+			"active": "[>>] Đang thực hiện",
+			"completed": "[OK] Đã hoàn thành"
 		}.get(status, status)
 		var step_info := ""
 		if status == "active":
@@ -304,6 +306,6 @@ func _apply_responsive() -> void:
 	var compact := SceneRouter.is_mobile_or_compact()
 	mobile_controls.visible = compact or OS.has_feature("mobile")
 	desktop_buddy_btn.visible = not mobile_controls.visible
-	var vp := get_viewport_rect().size
+	var vp: Vector2 = get_viewport().get_visible_rect().size
 	top_row.vertical = vp.x < 780.0
 	quest_tracker_panel.offset_top = 115.0 if top_row.vertical else 76.0

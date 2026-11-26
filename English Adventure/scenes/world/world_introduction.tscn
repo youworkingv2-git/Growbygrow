@@ -106,4 +106,4 @@ text = "1 / 4"
 custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
 theme_override_font_sizes/font_size = 18
-text = "Tiếp tục →"
+text = "Tiếp tục >"

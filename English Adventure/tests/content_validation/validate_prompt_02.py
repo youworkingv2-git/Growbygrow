@@ -81,6 +81,8 @@ def parse_tscn_nodes(tscn_path: Path):
         elif parent == ".":
             nodes.add(name)
         else:
+            if parent not in nodes:
+                errors.append(f"{tscn_path.relative_to(ROOT)}: node '{name}' references missing parent '{parent}'")
             nodes.add(f"{parent}/{name}")
     return root_name, nodes
 
@@ -112,6 +114,8 @@ def check_onready_paths():
             if not gd_path.exists():
                 continue
             gd_text = gd_path.read_text(encoding="utf-8")
+            if re.search(r'^extends\s+(CanvasLayer|Node)\b', gd_text, re.M) and "get_viewport_rect" in gd_text:
+                errors.append(f"{gd_path.relative_to(ROOT)}: CanvasLayer/Node cannot call get_viewport_rect() (use get_viewport().get_visible_rect())")
             for om in re.finditer(r'@onready\s+var\s+\w+[^=]*=\s*\$([A-Za-z0-9_/]+)', gd_text):
                 rel = om.group(1)
                 full_target = rel if node_prefix == "" else f"{node_prefix}/{rel}"

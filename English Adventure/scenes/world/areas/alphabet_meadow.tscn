@@ -15,8 +15,10 @@ radius = 36.0
 [node name="AlphabetMeadow" type="Node2D"]
 
 [node name="Ground" type="ColorRect" parent="."]
-offset_right = 1280.0
-offset_bottom = 720.0
+offset_left = -600.0
+offset_top = -400.0
+offset_right = 1880.0
+offset_bottom = 1120.0
 color = Color(0.38, 0.76, 0.45, 1)
 
 [node name="MeadowPath" type="ColorRect" parent="."]

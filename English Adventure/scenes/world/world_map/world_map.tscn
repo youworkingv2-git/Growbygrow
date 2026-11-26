@@ -41,7 +41,7 @@ text = "BẢN ĐỒ ĐẢO BẢNG CHỮ CÁI (ALPHABET ISLAND)"
 [node name="BackToAreaBtn" type="Button" parent="MainVBox/HeaderBar"]
 custom_minimum_size = Vector2(180, 44)
 layout_mode = 2
-text = "← Quay lại khám phá"
+text = "< Quay lại khám phá"
 
 [node name="BodySplit" type="BoxContainer" parent="MainVBox"]
 layout_mode = 2
@@ -173,7 +173,7 @@ alignment = 1
 [node name="Title" type="Label" parent="AreaLockedPopup/Margin/VBox"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
-text = "🔒 Khu vực đang bị phong ấn!"
+text = "Khu vực đang bị phong ấn!"
 horizontal_alignment = 1
 
 [node name="ReasonLabel" type="Label" parent="AreaLockedPopup/Margin/VBox"]

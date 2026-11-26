@@ -40,7 +40,17 @@ func show_line(line_data: Dictionary, index: int, total: int, allow_close: bool 
 	_char_timer = 0.0
 	_is_typing = true
 	text_vi_label.text = ""
-	next_btn.text = "Hoàn tất" if index >= total - 1 else "Tiếp tục →"
+	next_btn.text = "Hoàn tất" if index >= total - 1 else "Tiếp tục >"
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if not visible:
+		return
+	if event is InputEventKey and event.pressed and not event.echo:
+		var kc: Key = (event as InputEventKey).keycode
+		if kc == KEY_E or kc == KEY_ENTER or kc == KEY_KP_ENTER or kc == KEY_SPACE:
+			get_viewport().set_input_as_handled()
+			_on_next_pressed()
 
 
 func _process(delta: float) -> void:
