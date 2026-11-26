@@ -54,7 +54,7 @@ var _cam_mouse_drag: bool = false
 @onready var mobile_controls: Control = $MobileControls
 @onready var touch_camera_pad: Control = $MobileControls/TouchCameraPad
 @onready var joystick: Control = $MobileControls/VirtualJoystick
-@onready var right_pad: VBoxContainer = $MobileControls/RightPad
+@onready var touch_right_pad: VBoxContainer = $MobileControls/RightPad
 @onready var touch_interact_btn: Button = $MobileControls/RightPad/TouchInteractBtn
 @onready var touch_jump_btn: Button = $MobileControls/RightPad/TouchJumpBtn
 @onready var buddy_btn: Button = $MobileControls/RightPad/BuddyBtn
@@ -624,10 +624,10 @@ func _apply_responsive() -> void:
 	joystick.offset_bottom = -touch_bottom_base
 	joystick.offset_top = -touch_bottom_base - joy_sz
 
-	right_pad.offset_right = -14.0 - float(right_pad)
-	right_pad.offset_left = -14.0 - float(right_pad) - (126.0 if vp.x < 680.0 else 138.0)
-	right_pad.offset_bottom = -touch_bottom_base
-	right_pad.offset_top = -touch_bottom_base - 156.0
+	touch_right_pad.offset_right = -14.0 - float(right_pad)
+	touch_right_pad.offset_left = -14.0 - float(right_pad) - (126.0 if vp.x < 680.0 else 138.0)
+	touch_right_pad.offset_bottom = -touch_bottom_base
+	touch_right_pad.offset_top = -touch_bottom_base - 156.0
 
 	if compact:
 		save_btn.visible = false
