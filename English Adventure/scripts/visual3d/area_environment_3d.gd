@@ -158,19 +158,20 @@ func _add_rock(pos: Vector3, radius: float, color: Color = Color(0.46, 0.49, 0.5
 
 func _add_hills_backdrop(hill_color: Color) -> void:
 	var h_mat := _mat(hill_color, 0.82)
+	# Keep backdrop hills safely outside playable + 6.8m camera orbit radius so camera never clips inside a hill
 	var positions := [
-		Vector3(-24, -1.0, -16), Vector3(-10, -0.5, -18), Vector3(6, -0.8, -19), Vector3(22, -1.0, -16),
-		Vector3(-25, -1.2, 6), Vector3(25, -1.2, 6), Vector3(-18, -1.5, 17), Vector3(18, -1.5, 17)
+		Vector3(-28, -1.0, -26), Vector3(-11, -0.6, -29), Vector3(9, -0.8, -30), Vector3(28, -1.0, -26),
+		Vector3(-33, -1.2, 4), Vector3(33, -1.2, 4), Vector3(-24, -1.4, 26), Vector3(24, -1.4, 26)
 	]
 	for i in range(positions.size()):
 		var sm := SphereMesh.new()
-		sm.radius = 8.0 + float(i % 3) * 2.5
-		sm.height = 7.0 + float(i % 2) * 2.5
+		sm.radius = 7.5 + float(i % 3) * 1.5
+		sm.height = 6.5 + float(i % 2) * 2.0
 		_mesh(self, "Hill_%d" % i, sm, h_mat, positions[i], Vector3.ZERO, false)
 
 
 func _build_welcome_village() -> void:
-	_add_ground_plane(74.0, 52.0, Color(0.26, 0.58, 0.30))
+	_add_ground_plane(92.0, 74.0, Color(0.26, 0.58, 0.30))
 	_add_hills_backdrop(Color(0.22, 0.50, 0.28))
 
 	# Raised lush village lawn
@@ -263,7 +264,7 @@ func _build_welcome_village() -> void:
 
 
 func _build_alphabet_meadow() -> void:
-	_add_ground_plane(74.0, 52.0, Color(0.34, 0.74, 0.42))
+	_add_ground_plane(92.0, 74.0, Color(0.34, 0.74, 0.42))
 	_add_hills_backdrop(Color(0.28, 0.64, 0.34))
 
 	var path_mat := _mat(Color(0.88, 0.80, 0.54), 0.76)
@@ -319,7 +320,7 @@ func _build_letter_cave() -> void:
 
 
 func _build_crystal_lake() -> void:
-	_add_ground_plane(74.0, 52.0, Color(0.28, 0.68, 0.54))
+	_add_ground_plane(92.0, 74.0, Color(0.28, 0.68, 0.54))
 	_add_hills_backdrop(Color(0.22, 0.56, 0.48))
 
 	# Sandy shoreline around lake
