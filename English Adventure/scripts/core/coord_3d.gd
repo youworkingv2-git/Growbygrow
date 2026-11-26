@@ -5,6 +5,8 @@ extends RefCounted
 
 const PIXELS_PER_METER := 32.0
 const ORIGIN_2D := Vector2(640.0, 360.0)
+const WORLD_HALF_X: float = 19.2
+const WORLD_HALF_Z: float = 10.6
 
 
 static func to_3d(pos_2d: Vector2, height_y: float = 0.0) -> Vector3:

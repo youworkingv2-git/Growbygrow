@@ -80,7 +80,7 @@ func _refresh_visuals() -> void:
 		_: visual_kind = "signpost"
 
 	_prop_root = PropFactory3D.build_interactable_prop(visual_kind)
-	var loaded := visual_slot.attach_or_placeholder(_prop_root)
+	var loaded: Node3D = visual_slot.attach_or_placeholder(_prop_root)
 	_prop_root = loaded
 
 	match object_type:

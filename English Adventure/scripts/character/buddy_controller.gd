@@ -31,7 +31,7 @@ func _ready() -> void:
 	if not override_glb.is_empty():
 		visual_slot.override_model_path = override_glb
 	_rig = CharacterRig3D.build_character("buddy")
-	var loaded := visual_slot.attach_or_placeholder(_rig)
+	var loaded: Node3D = visual_slot.attach_or_placeholder(_rig)
 	if not (loaded is CharacterRig3D):
 		_rig = null
 

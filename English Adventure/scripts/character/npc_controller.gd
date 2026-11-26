@@ -51,7 +51,7 @@ func _refresh_visuals() -> void:
 	if not override_glb.is_empty():
 		visual_slot.override_model_path = override_glb
 	_rig = CharacterRig3D.build_character(npc_id)
-	var loaded := visual_slot.attach_or_placeholder(_rig)
+	var loaded: Node3D = visual_slot.attach_or_placeholder(_rig)
 	if not (loaded is CharacterRig3D):
 		_rig = null
 	name_label.text = LocalizationManager.pick_text(npc_data, "name")
