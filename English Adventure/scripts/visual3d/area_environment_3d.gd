@@ -170,8 +170,8 @@ func _add_hills_backdrop(hill_color: Color) -> void:
 
 
 func _build_welcome_village() -> void:
-	_add_ground_plane(74.0, 52.0, Color(0.36, 0.72, 0.36))
-	_add_hills_backdrop(Color(0.28, 0.62, 0.32))
+	_add_ground_plane(74.0, 52.0, Color(0.26, 0.58, 0.30))
+	_add_hills_backdrop(Color(0.22, 0.50, 0.28))
 
 	# Raised lush village lawn
 	var lawn := CylinderMesh.new()
@@ -179,7 +179,7 @@ func _build_welcome_village() -> void:
 	lawn.bottom_radius = 19.2
 	lawn.height = 0.14
 	lawn.radial_segments = 32
-	_mesh(self, "VillageLawn", lawn, _mat(Color(0.46, 0.80, 0.42), 0.82), Vector3(0, 0.01, 0), Vector3.ZERO, false)
+	_mesh(self, "VillageLawn", lawn, _mat(Color(0.35, 0.68, 0.36), 0.86), Vector3(0, 0.01, 0), Vector3.ZERO, false)
 
 	# Cobblestone central plaza
 	var plaza_rim := CylinderMesh.new()
@@ -187,17 +187,17 @@ func _build_welcome_village() -> void:
 	plaza_rim.bottom_radius = 6.4
 	plaza_rim.height = 0.08
 	plaza_rim.radial_segments = 28
-	_mesh(self, "PlazaBorder", plaza_rim, _mat(Color(0.76, 0.64, 0.42), 0.75), Vector3(0, 0.03, 1.5), Vector3.ZERO, false)
+	_mesh(self, "PlazaBorder", plaza_rim, _mat(Color(0.64, 0.52, 0.34), 0.82), Vector3(0, 0.03, 1.5), Vector3.ZERO, false)
 
 	var plaza_inner := CylinderMesh.new()
 	plaza_inner.top_radius = 5.6
 	plaza_inner.bottom_radius = 5.7
 	plaza_inner.height = 0.09
 	plaza_inner.radial_segments = 28
-	_mesh(self, "PlazaSurface", plaza_inner, _mat(Color(0.92, 0.85, 0.66), 0.68), Vector3(0, 0.04, 1.5), Vector3.ZERO, false)
+	_mesh(self, "PlazaSurface", plaza_inner, _mat(Color(0.82, 0.72, 0.50), 0.78), Vector3(0, 0.04, 1.5), Vector3.ZERO, false)
 
 	# Pathways connecting landmarks
-	var path_mat := _mat(Color(0.88, 0.79, 0.56), 0.76)
+	var path_mat := _mat(Color(0.76, 0.66, 0.44), 0.80)
 	var trails_root := Node3D.new()
 	trails_root.name = "VillageTrails"
 	add_child(trails_root)

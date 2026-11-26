@@ -36,18 +36,18 @@ script = ExtResource("2_slot")
 asset_id = "npc"
 
 [node name="NameLabel3D" type="Label3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.72, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.92, 0)
 billboard = 1
 no_depth_test = true
 modulate = Color(1, 1, 1, 1)
 outline_modulate = Color(0.06, 0.09, 0.16, 1)
 text = "NPC"
-font_size = 38
-outline_size = 10
+font_size = 42
+outline_size = 12
 
 [node name="QuestBadge3D" type="Label3D" parent="."]
 visible = false
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.08, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.34, 0)
 billboard = 1
 no_depth_test = true
 modulate = Color(0.98, 0.75, 0.14, 1)
