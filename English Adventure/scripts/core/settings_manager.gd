@@ -17,6 +17,7 @@ var resolution_index: int = 0
 var control_mode: String = "auto" # auto | keyboard | touch
 var reduced_motion: bool = false
 var graphics_quality: String = "medium" # low | medium | high
+var camera_sensitivity: float = 1.0 # 0.4 .. 2.0
 
 
 func _ready() -> void:
@@ -55,6 +56,7 @@ func load_settings() -> void:
 	reduced_motion = bool(d.get("reduced_motion", false))
 	var gq := str(d.get("graphics_quality", default_graphics_quality()))
 	graphics_quality = gq if gq in ["low", "medium", "high"] else "medium"
+	camera_sensitivity = clampf(float(d.get("camera_sensitivity", 1.0)), 0.4, 2.0)
 
 
 func save_settings() -> bool:
@@ -66,7 +68,8 @@ func save_settings() -> bool:
 		"resolution_index": resolution_index,
 		"control_mode": control_mode,
 		"reduced_motion": reduced_motion,
-		"graphics_quality": graphics_quality
+		"graphics_quality": graphics_quality,
+		"camera_sensitivity": camera_sensitivity
 	}
 	var f := FileAccess.open(SETTINGS_PATH, FileAccess.WRITE)
 	if f == null:

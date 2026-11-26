@@ -44,11 +44,12 @@ flowchart TD
 
 ## 2. CHI TIẾT CÁC LUỒNG QUAN TRỌNG & BẢO VỆ DỮ LIỆU
 
-1. **Splash → Main Menu:** Khởi tạo theme, localization, settings, hiển thị animation logo + thanh tải mượt, sau đó gọi `SceneRouter.go_to_main_menu()`.
+1. **Splash → Main Menu:** Khởi tạo theme, localization, settings, hiển thị nền thế giới 3D `Diorama3DStage` kèm animation logo + `LoadingIndicatorWidget` + thanh tải mượt, sau đó gọi `SceneRouter.go_to_main_menu()`.
 2. **Main Menu → Continue / New Game:**
    - Nút `Continue` kiểm tra `SaveLoadManager.has_save_data()` và dữ liệu đọc được hợp lệ; nếu chưa có save thì `disabled = true`.
    - Nút `New Game` mở `ConfirmationDialog` cảnh báo trước khi reset dữ liệu nếu đã tồn tại file save hợp lệ.
-3. **Character Selection:** Yêu cầu người chơi chọn `Boy Adventurer` hoặc `Girl Adventurer` và nhập biệt danh tối thiểu 2 ký tự (kèm gợi ý tên nhanh) trước khi xác nhận để tránh chọn nhầm.
-4. **World Map Guard:** Mọi chuyển cảnh vào khu vực (`SceneRouter.enter_area(area_id)`) đều kiểm tra `GameStateManager.is_area_unlocked(area_id)`. Khu vực bị khóa không cho nút `Enter` và hiển thị rõ lý do mở khóa.
-5. **Sequential Popup Flow trong Gameplay:** Khi tương tác vật thể/NPC vừa mở thoại vừa hoàn thành nhiệm vụ và mở khóa khu vực mới, hệ thống xếp hàng tuần tự: `DialogueBox` → (đóng thoại) → `QuestCompletedPopup` (`RewardDisplay`) → (nhấn *Tuyệt vời!*) → `AreaUnlockedPopup`, tuyệt đối không mở chồng 3 bảng cùng lúc và chống cộng thưởng lặp qua khóa `_reward_claim_locked`.
-6. **Safe Exit from Pause / Settings:** `UIManager.request_exit_to_main_menu()` kiểm tra nếu còn nhiệm vụ đang làm (`active_quests`), hiển thị `ConfirmationDialog` xác nhận lưu toàn bộ tiến trình trước khi về Main Menu.
+3. **Character Selection:** Hiển thị mô hình 3D đầy đủ của `Boy Adventurer` và `Girl Adventurer` trên bệ xoay (có thể kéo xoay 360°), yêu cầu nhập biệt danh tối thiểu 2 ký tự trước khi bấm `Confirm`.
+4. **World Map Guard:** Mọi chuyển cảnh vào khu vực (`SceneRouter.enter_area(area_id)`) đều kiểm tra `GameStateManager.is_area_unlocked(area_id)`. Khu vực bị khóa không cho nút `Enter` và hiển thị rõ lý do mở khóa trên sa bàn 3D Isometric.
+5. **In-game Shortcuts & Dialogue Framing:** Khi chơi, người chơi có thể bấm `Tab` để mở/đóng Sổ tay Nhiệm vụ, `M` để mở Bản đồ Đảo, `H` để hỏi Buddy, `Esc` để mở Pause Menu. Khi hội thoại mở, HUD tự thu gọn và làm dịu thanh trên để tập trung vào NPC/nhân vật 3D.
+6. **Sequential Popup Flow trong Gameplay:** Khi tương tác vật thể/NPC vừa mở thoại vừa hoàn thành nhiệm vụ và mở khóa khu vực mới, hệ thống xếp hàng tuần tự: `DialogueBox` → (đóng thoại) → `QuestCompletedPopup` (`RewardDisplay`) → (nhấn *Tuyệt vời!*) → `AreaUnlockedPopup`, tuyệt đối không mở chồng 3 bảng cùng lúc và chống cộng thưởng lặp qua khóa `_reward_claim_locked`.
+7. **Safe Exit from Pause / Settings:** `UIManager.request_exit_to_main_menu()` kiểm tra nếu còn nhiệm vụ đang làm (`active_quests`), hiển thị `ConfirmationDialog` xác nhận lưu toàn bộ tiến trình trước khi về Main Menu.

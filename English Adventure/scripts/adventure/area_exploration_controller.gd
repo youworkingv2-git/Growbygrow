@@ -189,6 +189,7 @@ func _connect_systems() -> void:
 	hud.jump_pressed.connect(func() -> void: _player.trigger_jump())
 	hud.buddy_help_pressed.connect(func() -> void: _buddy.offer_contextual_help())
 	hud.joystick_changed.connect(func(vec: Vector2) -> void: _player.set_virtual_joystick(vec))
+	hud.camera_look_delta.connect(func(delta_px: Vector2) -> void: _player.apply_look_delta(delta_px))
 	hud.overlay_blocking_changed.connect(func(blocked: bool) -> void: interaction_manager.set_ui_blocked(blocked))
 	hud.quest_accepted.connect(func(qid: String) -> void:
 		QuestManager.start_quest(qid)

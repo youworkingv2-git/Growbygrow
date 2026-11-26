@@ -13,6 +13,14 @@ extends CharacterBody3D
 @export var world_half_extent_x: float = 20.0
 @export var world_half_extent_z: float = 11.5
 
+@export_group("Third-person Camera Manager")
+@export_range(4.0, 10.5, 0.2) var camera_distance: float = 6.8
+@export_range(0.9, 2.5, 0.05) var camera_height: float = 1.35
+@export_range(0.4, 2.0, 0.1) var camera_sensitivity: float = 1.0
+@export_range(3.0, 16.0, 0.5) var camera_smoothing: float = 8.5
+@export_range(0.8, 3.5, 0.1) var camera_rotation_speed: float = 1.9
+@export var camera_collision: bool = true
+
 var virtual_move_vector: Vector2 = Vector2.ZERO
 var movement_locked: bool = false
 var _last_facing: Vector3 = Vector3.BACK
@@ -35,9 +43,28 @@ var _dialogue_focus_pos: Vector3 = Vector3.ZERO
 
 func _ready() -> void:
 	apply_character_visual(GameStateManager.selected_character)
+	_sync_camera_settings()
 	EventBus.dialogue_started.connect(_on_dialogue_started)
 	EventBus.dialogue_ended.connect(_on_dialogue_ended)
 	EventBus.pause_toggled.connect(_on_pause_toggled)
+	EventBus.settings_changed.connect(_sync_camera_settings)
+
+
+func _sync_camera_settings() -> void:
+	camera_sensitivity = SettingsManager.camera_sensitivity
+	if spring_arm != null:
+		spring_arm.collision_mask = 2 if camera_collision else 0
+		if not _dialogue_focus_active:
+			spring_arm.spring_length = clampf(camera_distance, 4.0, 10.5)
+
+
+func apply_look_delta(delta_px: Vector2) -> void:
+	if _dialogue_locked or _pause_locked or UIManager.is_modal_open():
+		return
+	var yaw_step := clampf(delta_px.x * 0.0055 * camera_sensitivity, -0.14, 0.14)
+	var pitch_step := clampf(delta_px.y * 0.0042 * camera_sensitivity, -0.10, 0.10)
+	_cam_yaw -= yaw_step
+	_cam_pitch = clampf(_cam_pitch - pitch_step, -0.92, -0.18)
 
 
 func apply_character_visual(gender_id: String) -> void:
@@ -110,13 +137,14 @@ func _unhandled_input(event: InputEvent) -> void:
 		if mb.button_index == MOUSE_BUTTON_RIGHT or mb.button_index == MOUSE_BUTTON_MIDDLE:
 			_orbit_dragging = mb.pressed
 		elif mb.button_index == MOUSE_BUTTON_WHEEL_UP and mb.pressed:
-			spring_arm.spring_length = clampf(spring_arm.spring_length - 0.55, 4.0, 10.5)
+			camera_distance = clampf(camera_distance - 0.55, 4.0, 10.5)
+			spring_arm.spring_length = camera_distance
 		elif mb.button_index == MOUSE_BUTTON_WHEEL_DOWN and mb.pressed:
-			spring_arm.spring_length = clampf(spring_arm.spring_length + 0.55, 4.0, 10.5)
+			camera_distance = clampf(camera_distance + 0.55, 4.0, 10.5)
+			spring_arm.spring_length = camera_distance
 	elif event is InputEventMouseMotion and _orbit_dragging:
 		var mm := event as InputEventMouseMotion
-		_cam_yaw -= mm.relative.x * 0.0065
-		_cam_pitch = clampf(_cam_pitch - mm.relative.y * 0.005, -0.92, -0.18)
+		apply_look_delta(mm.relative)
 
 
 func _physics_process(delta: float) -> void:
@@ -137,9 +165,9 @@ func _physics_process(delta: float) -> void:
 
 	# Optional Q / C keyboard camera rotation for laptop trackpads
 	if Input.is_key_pressed(KEY_Q):
-		_cam_yaw += 1.9 * delta
+		_cam_yaw += camera_rotation_speed * camera_sensitivity * delta
 	if Input.is_key_pressed(KEY_C):
-		_cam_yaw -= 1.9 * delta
+		_cam_yaw -= camera_rotation_speed * camera_sensitivity * delta
 
 	var input_vec := _read_keyboard_vector()
 	if virtual_move_vector.length() > 0.1:
@@ -182,21 +210,22 @@ func _physics_process(delta: float) -> void:
 func _update_camera(delta: float) -> void:
 	if camera_pivot == null:
 		return
-	var target_pivot_pos := Vector3(0.0, 1.35, 0.0)
+	var target_pivot_pos := Vector3(0.0, camera_height, 0.0)
 	var target_pitch := _cam_pitch
-	var target_len := spring_arm.spring_length
+	var target_len := clampf(camera_distance, 4.0, 10.5)
 
 	if _dialogue_focus_active:
 		var mid := (_dialogue_focus_pos - global_position) * 0.45
-		target_pivot_pos = Vector3(mid.x, 1.45, mid.z)
+		target_pivot_pos = Vector3(mid.x, camera_height + 0.1, mid.z)
 		target_pitch = -0.32
 		target_len = 5.2
 
-	camera_pivot.position = camera_pivot.position.lerp(target_pivot_pos, minf(1.0, delta * 6.5))
-	camera_pivot.rotation.y = lerp_angle(camera_pivot.rotation.y, _cam_yaw, minf(1.0, delta * 9.0))
-	camera_pivot.rotation.x = lerpf(camera_pivot.rotation.x, target_pitch, minf(1.0, delta * 8.0))
-	if _dialogue_focus_active:
-		spring_arm.spring_length = lerpf(spring_arm.spring_length, target_len, minf(1.0, delta * 5.0))
+	var pos_alpha := minf(1.0, delta * maxf(2.0, camera_smoothing * 0.78))
+	var rot_alpha := minf(1.0, delta * maxf(2.5, camera_smoothing))
+	camera_pivot.position = camera_pivot.position.lerp(target_pivot_pos, pos_alpha)
+	camera_pivot.rotation.y = lerp_angle(camera_pivot.rotation.y, _cam_yaw, rot_alpha)
+	camera_pivot.rotation.x = lerpf(camera_pivot.rotation.x, target_pitch, rot_alpha)
+	spring_arm.spring_length = lerpf(spring_arm.spring_length, target_len, minf(1.0, delta * 6.0))
 
 
 func _read_keyboard_vector() -> Vector2:

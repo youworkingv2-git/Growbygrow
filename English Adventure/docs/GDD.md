@@ -231,9 +231,10 @@ Mỗi lần người chơi tương tác với một từ/kiến thức (`learnin
 
 ---
 
-## 7. TRẢI NGHIỆM UI/UX ĐÃ TRIỂN KHAI (CẬP NHẬT PROMPT 03)
+## 7. TRẢI NGHIỆM UI/UX 3D & CAMERA GÓC NHÌN THỨ BA (CẬP NHẬT PROMPT 03)
 
-- Hệ thống UI/UX theo phong cách **Fantasy Cartoon Adventure** (`UIDesignSystem` + `UIManager` + `UIAnimator` + `ResponsiveHelper`) đã kết nối trực tiếp với vòng lặp khám phá Alphabet Island:
-  - Luồng khởi động đầy đủ: `Splash Screen` → `Main Menu` (`Continue` chỉ bật khi có dữ liệu lưu hợp lệ, `New Game` có hộp thoại xác nhận ghi đè) → `Character Selection` → `World Introduction` → `World Map` / `Area Exploration`.
-  - `AdventureHUD` hiển thị gọn ở các cạnh màn hình (Avatar, Level, thanh EXP thực, Gold, Magic Crystals, Nhiệm vụ hiện tại, Bottom Dock & Touch Controls), tự ẩn khi hội thoại hoặc mở popup, kèm `Pause Menu` (`Resume`, `World Map`, `Quest`, `Settings`, `Save & Exit`), `Dialogue UI`, `Quest Log`, `Reward Popup`, `Inventory UI` (kết nối túi đồ thực tế) và hệ thống `Notification Stack`.
-  - Thiết kế hỗ trợ chuột, bàn phím và cảm ứng (responsive cho Desktop, Tablet, Mobile) kèm tùy chọn `Reduced Motion` cho trẻ nhỏ.
+- Hệ thống UI/UX theo phong cách **High-quality Stylized 3D Fantasy Cartoon** (`UIDesignSystem` + `UIManager` + `UIAnimator` + `ResponsiveHelper`) đã kết nối trực tiếp với thế giới 3D Alphabet Island:
+  - Luồng khởi động có nền/mô hình 3D xuyên suốt: `Splash Screen` (3D Welcome Diorama) → `Main Menu` (`Continue` chỉ bật khi có dữ liệu lưu hợp lệ, `New Game` có hộp thoại xác nhận ghi đè) → `Character Selection` (kéo xoay nhân vật 3D 360°) → `World Introduction` (3D Alphabet Island) → `World Map` (Bản đồ 3D Isometric 5 khu vực) / `Area Exploration` (Gameplay 3D góc nhìn thứ ba).
+  - `PlayerController` trang bị Third-person Camera (`SpringArm3D` tránh xuyên vật thể, xoay bằng chuột/`Q`/`C` hoặc `TouchCameraPad` bên phải trên mobile, zoom cuộn chuột, độ nhạy chỉnh trong Settings).
+  - `AdventureHUD` hiển thị gọn ở các cạnh màn hình (Avatar, Level, thanh EXP thực, Gold, Magic Crystals, Nhiệm vụ hiện tại, Bottom Dock & Touch Controls không chồng lấp), tự thu gọn/làm dịu khi hội thoại hoặc mở popup, kèm `Pause Menu` (`Resume`, `World Map`, `Quest`, `Settings`, `Save & Exit`), `Dialogue UI`, `Quest Log`, `Reward Popup`, `Inventory UI` (kết nối túi đồ thực tế) và hệ thống `Notification Stack`.
+  - Thiết kế hỗ trợ chuột, bàn phím (`WASD`, `Space`, `E`, `H`, `Tab`, `M`, `Esc`) và cảm ứng đa điểm kèm tùy chọn `Reduced Motion` cho trẻ nhỏ.

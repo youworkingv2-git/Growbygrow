@@ -24,6 +24,7 @@
    - Các modal (`SettingsModal`, `ConfirmationDialog`, `PauseMenu`, `QuestLogModal`, `BagModal`, `DialogueBox`, `QuestCompletedPopup`) tự tính kích thước tối đa không vượt quá `viewport.size - margin`, có `ScrollContainer` bảo vệ khi chiều cao màn hình nhỏ (Mobile Landscape).
 3. **Safe Area Inset (`ResponsiveHelper.apply_safe_area_margins`):**
    - Đọc `DisplayServer.get_display_safe_area()` và chuyển đổi sang tọa độ giao diện để tránh vùng tai thỏ / camera notch / thanh điều hướng hệ thống trên Android & iOS.
-4. **Tùy chọn Chế độ Điều khiển (`SettingsManager.control_mode`):**
-   - `auto`: Tự hiện Virtual Joystick & Touch Pad trên thiết bị cảm ứng / màn hình nhỏ hoặc ngay khi phát hiện `InputEventScreenTouch`.
+4. **Tùy chọn Chế độ Điều khiển & Cảm ứng Mobile (`SettingsManager.control_mode`):**
+   - `auto`: Tự hiện `VirtualJoystick` (góc dưới trái), `TouchCameraPad` (vùng vuốt xoay camera bên phải) và cụm nút chạm `Hỏi Buddy` / `Nhảy` / `Tương tác` trên thiết bị cảm ứng hoặc màn hình nhỏ.
+   - `VirtualJoystick` và `RightPad` được căn phía trên `BottomDock` (`offset_bottom = -74 - bottom_pad`) để tuyệt đối không đè lên thanh `Bản đồ` / `Nhiệm vụ` / `Túi đồ` trên cả màn hình dọc (`360x640`) và ngang (`640x360`).
    - `keyboard` / `touch`: Cho phép người chơi chuyển thủ công ngay trong Settings (hữu ích khi test hoặc dùng tablet gắn bàn phím).

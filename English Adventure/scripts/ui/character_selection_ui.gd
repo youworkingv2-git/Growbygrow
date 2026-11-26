@@ -7,6 +7,8 @@ const RANDOM_NAMES_GIRL := ["Mia", "Linh", "An", "Vy", "Chi"]
 
 var _selected_gender: String = "boy"
 var _is_submitting: bool = false
+var _drag_boy: bool = false
+var _drag_girl: bool = false
 
 @onready var root_margin: MarginContainer = $RootMargin
 @onready var back_btn: Button = $RootMargin/Scroll/VBox/HeaderRow/BackBtn
@@ -16,6 +18,8 @@ var _is_submitting: bool = false
 @onready var girl_select_btn: Button = $RootMargin/Scroll/VBox/CardsRow/GirlCard/Margin/VBox/SelectGirlBtn
 @onready var boy_preview: SubViewportContainer = $RootMargin/Scroll/VBox/CardsRow/BoyCard/Margin/VBox/Preview
 @onready var girl_preview: SubViewportContainer = $RootMargin/Scroll/VBox/CardsRow/GirlCard/Margin/VBox/Preview
+@onready var boy_stage: Diorama3DStage = $RootMargin/Scroll/VBox/CardsRow/BoyCard/Margin/VBox/Preview/SubViewport/Stage3D
+@onready var girl_stage: Diorama3DStage = $RootMargin/Scroll/VBox/CardsRow/GirlCard/Margin/VBox/Preview/SubViewport/Stage3D
 @onready var boy_desc: Label = $RootMargin/Scroll/VBox/CardsRow/BoyCard/Margin/VBox/Desc
 @onready var girl_desc: Label = $RootMargin/Scroll/VBox/CardsRow/GirlCard/Margin/VBox/Desc
 @onready var cards_row: BoxContainer = $RootMargin/Scroll/VBox/CardsRow
@@ -35,6 +39,10 @@ func _ready() -> void:
 	back_btn.pressed.connect(func() -> void: SceneRouter.go_to_main_menu())
 	boy_select_btn.pressed.connect(func() -> void: _select_character("boy"))
 	girl_select_btn.pressed.connect(func() -> void: _select_character("girl"))
+	boy_preview.gui_input.connect(func(ev: InputEvent) -> void: _on_preview_drag(ev, true))
+	girl_preview.gui_input.connect(func(ev: InputEvent) -> void: _on_preview_drag(ev, false))
+	boy_preview.tooltip_text = LocalizationManager.tr_key("char_drag_hint", "Kéo để xoay 360°")
+	girl_preview.tooltip_text = LocalizationManager.tr_key("char_drag_hint", "Kéo để xoay 360°")
 	random_name_btn.pressed.connect(_on_random_name_pressed)
 	confirm_btn.pressed.connect(_on_confirm_pressed)
 	EventBus.viewport_breakpoint_changed.connect(_on_breakpoint_changed)
@@ -74,6 +82,25 @@ func _select_character(gender: String) -> void:
 
 	var active_preview := boy_preview if is_boy else girl_preview
 	UIAnimator.animate_pulse_once(active_preview)
+
+
+func _on_preview_drag(event: InputEvent, is_boy: bool) -> void:
+	var stage := boy_stage if is_boy else girl_stage
+	if event is InputEventMouseButton:
+		var mb := event as InputEventMouseButton
+		if mb.button_index == MOUSE_BUTTON_LEFT:
+			if is_boy:
+				_drag_boy = mb.pressed
+			else:
+				_drag_girl = mb.pressed
+			if mb.pressed:
+				_select_character("boy" if is_boy else "girl")
+	elif event is InputEventMouseMotion:
+		var active := _drag_boy if is_boy else _drag_girl
+		if active and stage != null:
+			stage.rotate_turntable((event as InputEventMouseMotion).relative.x * 0.015)
+	elif event is InputEventScreenDrag and stage != null:
+		stage.rotate_turntable((event as InputEventScreenDrag).relative.x * 0.015)
 
 
 func _on_random_name_pressed() -> void:

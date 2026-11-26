@@ -48,9 +48,12 @@ Dự án đã hoàn thành **Prompt 01 (Kiến trúc & Database)**, **Prompt 02 
 | [`docs/SCREEN_FLOW.md`](docs/SCREEN_FLOW.md) | Sơ đồ điều hướng & quy tắc bảo vệ luồng màn hình (Prompt 03) |
 | [`docs/RESPONSIVE_UI.md`](docs/RESPONSIVE_UI.md) | Kiến trúc Responsive đa thiết bị (Desktop, Tablet, Mobile) (Prompt 03) |
 | [`docs/ACCESSIBILITY.md`](docs/ACCESSIBILITY.md) | Nguyên tắc UX thân thiện trẻ 10 tuổi & hỗ trợ tiếp cận (Prompt 03) |
-| [`docs/UI_TEST_REPORT.md`](docs/UI_TEST_REPORT.md) | Báo cáo kiểm thử thực tế giao diện Prompt 03 |
-| [`docs/VISUAL_3D_ARCHITECTURE.md`](docs/VISUAL_3D_ARCHITECTURE.md) | Kiến trúc 3D Visual Direction, Camera thứ ba, Ánh sáng & Tối ưu Low/Medium/High |
-| [`docs/ASSET_3D_PIPELINE.md`](docs/ASSET_3D_PIPELINE.md) | Danh sách Asset 3D, Polygon Budget, Texture Spec & Quy trình thay thế `.glb` |
+| [`docs/UI_TEST_REPORT.md`](docs/UI_TEST_REPORT.md) | Báo cáo kiểm thử thực tế giao diện 3D & UI/UX (Prompt 03) |
+| [`docs/3D_VISUAL_DIRECTION.md`](docs/3D_VISUAL_DIRECTION.md) | Định hướng hình ảnh 3D Fantasy Cartoon & hệ thống Camera góc nhìn thứ ba |
+| [`docs/3D_PERFORMANCE.md`](docs/3D_PERFORMANCE.md) | Đánh giá Renderer, tối ưu đa nền tảng & cấu hình Low / Medium / High |
+| [`docs/ASSET_PIPELINE.md`](docs/ASSET_PIPELINE.md) | Tổng hợp Asset 3D/UI/Audio, trạng thái Placeholder & quy trình thay thế |
+| [`docs/VISUAL_3D_ARCHITECTURE.md`](docs/VISUAL_3D_ARCHITECTURE.md) | Kiến trúc kỹ thuật 3D, `Coord3D` & cây Scene 3D |
+| [`docs/ASSET_3D_PIPELINE.md`](docs/ASSET_3D_PIPELINE.md) | Chi tiết Polygon Budget, Texture Spec & slot `Asset3DSlot` |
 | [`docs/DATABASE_SCHEMA.md`](docs/DATABASE_SCHEMA.md) | Thiết kế chi tiết 32 bảng PostgreSQL trên Supabase, RLS, bảo mật trẻ em & migration |
 | [`docs/ERD.md`](docs/ERD.md) | Sơ đồ thực thể liên kết (ERD) bằng Mermaid & giải thích quan hệ dữ liệu |
 | [`docs/LEARNING_CONTENT_SPEC.md`](docs/LEARNING_CONTENT_SPEC.md) | Chuẩn dữ liệu học tập độc lập code (Vocabulary, Phonics, Grammar, 4 Skills, Validation) |

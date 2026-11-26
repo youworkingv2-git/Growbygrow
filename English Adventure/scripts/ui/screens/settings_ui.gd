@@ -33,6 +33,10 @@ signal main_menu_requested()
 @onready var quality_label: Label = $Center/Card/Margin/VBox/Scroll/Form/QualityRow/Label
 @onready var quality_option: OptionButton = $Center/Card/Margin/VBox/Scroll/Form/QualityRow/Option
 
+@onready var cam_sens_label: Label = $Center/Card/Margin/VBox/Scroll/Form/CameraSensRow/Label
+@onready var cam_sens_slider: HSlider = $Center/Card/Margin/VBox/Scroll/Form/CameraSensRow/Slider
+@onready var cam_sens_val: Label = $Center/Card/Margin/VBox/Scroll/Form/CameraSensRow/Val
+
 @onready var fullscreen_check: CheckButton = $Center/Card/Margin/VBox/Scroll/Form/FullscreenCheck
 @onready var reduced_motion_check: CheckButton = $Center/Card/Margin/VBox/Scroll/Form/ReducedMotionCheck
 
@@ -97,6 +101,11 @@ func _ready() -> void:
 		SettingsManager.graphics_quality = levels[clampi(idx, 0, 2)]
 		EventBus.settings_changed.emit()
 	)
+	cam_sens_slider.value_changed.connect(func(v: float) -> void:
+		SettingsManager.camera_sensitivity = clampf(v, 0.4, 2.0)
+		cam_sens_val.text = "%d%%" % int(round(SettingsManager.camera_sensitivity * 100.0))
+		EventBus.settings_changed.emit()
+	)
 	fullscreen_check.toggled.connect(func(pressed: bool) -> void:
 		SettingsManager.fullscreen = pressed
 		SettingsManager.apply_settings()
@@ -150,6 +159,8 @@ func _sync_from_settings() -> void:
 	res_option.disabled = not SettingsManager.supports_resolution_change()
 	var q_idx := ["low", "medium", "high"].find(SettingsManager.graphics_quality)
 	quality_option.selected = maxi(0, q_idx)
+	cam_sens_slider.value = SettingsManager.camera_sensitivity
+	cam_sens_val.text = "%d%%" % int(round(SettingsManager.camera_sensitivity * 100.0))
 
 	fullscreen_check.button_pressed = SettingsManager.fullscreen
 	fullscreen_check.disabled = not SettingsManager.supports_fullscreen_toggle()
@@ -165,6 +176,7 @@ func _refresh_texts() -> void:
 	control_label.text = LocalizationManager.tr_key("settings_controls", "Chế độ điều khiển")
 	res_label.text = LocalizationManager.tr_key("settings_resolution", "Độ phân giải")
 	quality_label.text = LocalizationManager.tr_key("settings_graphics_quality", "Chất lượng đồ họa 3D")
+	cam_sens_label.text = LocalizationManager.tr_key("settings_camera_sensitivity", "Độ nhạy Camera 3D")
 	if quality_option.item_count >= 3:
 		if LocalizationManager.get_locale() == "en":
 			quality_option.set_item_text(0, "Low (Mobile / Battery Saver)")

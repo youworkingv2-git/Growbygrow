@@ -27,6 +27,7 @@
 | `ERROR` | `#FB7185` | Cảnh báo lỗi dịu mắt (Warm Coral — không gây tâm lý sợ sai) |
 | `LOCKED` / `LOCKED_DARK` | `#64748B` / `#475569` | Khu vực / nhiệm vụ / nút đang bị khóa |
 | `REWARD` / `CRYSTAL` | `#FACC15` / `#38BDF8` | Phần thưởng Gold, Stars, Magic Crystals |
+| `MAGIC` / `MAGIC_DARK` | `#A855F7` / `#7E22CE` | Điểm nhấn phép thuật, tinh thể & cổng dịch chuyển |
 | `BORDER_DEFAULT` / `BORDER_FOCUS` | `#476B9E` / `#FDE047` | Viền mặc định & viền Focus cho bàn phím/tay cầm |
 | `TEXT_LIGHT` / `TEXT_MUTED` / `TEXT_EN` | `#F8FAFC` / `#CBD5E1` / `#60C5FF` | Chữ chính tiếng Việt, chú thích, nội dung học tiếng Anh |
 
@@ -36,7 +37,8 @@
 
 | Token | Kích thước (`px`) | Vai trò |
 |---|---|---|
-| `FONT_HEADING` | `26` | Tiêu đề màn hình / Logo / Banner lớn |
+| `FONT_MAIN_TITLE` | `32` | Tiêu đề chính Splash Screen & Main Menu |
+| `FONT_HEADING` | `26` | Tiêu đề màn hình / Banner lớn |
 | `FONT_SUBHEADING` | `20` | Tiêu đề bảng, popup, khu vực |
 | `FONT_LEARNING` | `19` | Nội dung học tiếng Anh (rõ nét, không dùng font trang trí) |
 | `FONT_BUTTON` | `17` | Nhãn nút bấm chính & phụ |

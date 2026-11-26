@@ -251,10 +251,10 @@ Mặc dù GDScript là ngôn ngữ dynamic/gradual typing, các service cốt l�
 
 Các thành phần đã triển khai thành GDScript & Scene thực thi trong `project.godot`:
 - **Autoloads đã đăng ký (`[autoload]`):** `AppLogger`, `EventBus`, `LocalizationManager`, `DataRepository`, `SaveLoadManager`, `GameStateManager`, `QuestManager`, `SettingsManager`, `AudioManager`, `UIManager`, `SceneRouter`.
-- **Hệ thống Adventure & Character (Prompt 02):** `AreaExplorationController`, `UnlockEvaluator`, `InteractionManager`, `InteractableObject`, `PlayerController`, `CharacterAnimator`, `BuddyController`, `NpcController`, `DialogueManager`.
-- **Hệ thống UI/UX, Audio Bus & Settings (Prompt 03):**
+- **Hệ thống Adventure & Character 3D (Prompt 02 + Addendum 3D):** `AreaExplorationController` (`Node3D`), `Coord3D`, `WorldEnvironment3DController`, `AreaEnvironment3D`, `PropFactory3D`, `CharacterRig3D` (placeholder 3D đa khối có khớp cho 7 nhân vật), `Asset3DSlot` (hệ thống thay thế `.glb`), `UnlockEvaluator`, `InteractionManager`, `InteractableObject`, `PlayerController` (Third-person Camera `SpringArm3D` + TouchCameraPad), `CharacterAnimator`, `BuddyController`, `NpcController`, `DialogueManager`.
+- **Hệ thống UI/UX 3D, Audio Bus & Settings (Prompt 03):**
   - `UIDesignSystem`, `UIManager`, `UIAnimator`, `ResponsiveHelper` cùng các component dùng chung (`AdventureConfirmDialog`, `RewardDisplay`, `QuestCardWidget`, `WorldCardWidget`, `AvatarBadge`, `LoadingIndicatorWidget`).
-  - Các màn hình thực thi: `MainEntry` (Splash), `MainMenuUI`, `CharacterSelectionUI`, `WorldIntroductionUI`, `WorldMapUI`, `AdventureHUD` (Status Bar + Quest Tracker + Bottom Dock + Dialogue Box + Quest Log + Bag Modal + Popups), `PauseMenuUI`, `SettingsModalUI`.
-  - `SettingsManager` lưu `user://settings.json` và áp dụng động ngôn ngữ (`vi`/`en`), âm lượng bus `Music`/`SFX`, chế độ điều khiển (`auto`/`keyboard`/`touch`), fullscreen, resolution (Desktop) và `reduced_motion`.
-  - `AudioManager` tạo bus `Music` & `SFX`, kết nối sự kiện UI/Gameplay và báo trung thực khi chưa có file audio đính kèm.
+  - Các màn hình thực thi có nền 3D (`Diorama3DStage`, `AlphabetIsland3DMap`): `MainEntry` (Splash 3D), `MainMenuUI`, `CharacterSelectionUI` (xoay 360°), `WorldIntroductionUI`, `WorldMapUI` (Isometric 3D), `AdventureHUD` (Status Bar + Quest Tracker + Bottom Dock + VirtualJoystick + TouchCameraPad + Dialogue Box + Quest Log + Bag Modal + Popups), `PauseMenuUI`, `SettingsModalUI`.
+  - `SettingsManager` lưu `user://settings.json` và áp dụng động ngôn ngữ (`vi`/`en`), âm lượng bus `Music`/`SFX`, `graphics_quality` (`low`/`medium`/`high`), `camera_sensitivity`, chế độ điều khiển (`auto`/`keyboard`/`touch`), fullscreen, resolution (Desktop) và `reduced_motion`.
+  - `AudioManager` tạo bus `Music` & `SFX`, kết nối sự kiện UI/Gameplay (`button_click`, `popup_open`, `popup_close`, `quest_complete`, `reward_received`, `area_unlocked`) và báo trung thực khi chưa có file audio đính kèm.
 - **Điểm nối cho Prompt 04+:** `EventBus.learning_hook_requested` và `quest.learning_hook` sẵn sàng kết nối `LearningEngine` & 5 Mini-games mà không cần sửa kiến trúc thế giới, nhân vật hay UI/UX.

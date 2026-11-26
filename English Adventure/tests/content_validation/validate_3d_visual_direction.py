@@ -30,6 +30,7 @@ SCENE_3D_CHECKS = [
 ]
 
 UI_3D_SUBVIEWPORT_SCENES = [
+    "scenes/boot/main_entry.tscn",
     "scenes/world/world_map/world_map.tscn",
     "scenes/authentication/character_selection.tscn",
     "scenes/ui/main_menu/main_menu.tscn",

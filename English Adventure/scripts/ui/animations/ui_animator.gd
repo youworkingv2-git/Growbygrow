@@ -47,6 +47,7 @@ static func attach_button_feedback(btn: Button) -> void:
 static func animate_popup_open(panel: Control) -> void:
 	if panel == null:
 		return
+	AudioManager.play_sfx("popup_open")
 	panel.visible = true
 	if is_reduced():
 		panel.modulate.a = 1.0
@@ -63,6 +64,7 @@ static func animate_popup_open(panel: Control) -> void:
 static func animate_popup_close(panel: Control, on_finished: Callable = Callable()) -> void:
 	if panel == null:
 		return
+	AudioManager.play_sfx("popup_close")
 	if is_reduced():
 		panel.visible = false
 		if on_finished.is_valid():

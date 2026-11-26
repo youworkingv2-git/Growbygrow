@@ -47,7 +47,8 @@ Tài liệu này tổng hợp kết quả kiểm tra tính nhất quán của **
 - [x] `UIAnimator` (`scripts/ui/animations/ui_animator.gd`) & `ResponsiveHelper` (`scripts/ui/responsive/responsive_helper.gd`): Tween mượt, hỗ trợ `reduced_motion` và `safe_area`.
 - [x] Components dùng chung (`scenes/ui/common/`, `scripts/ui/components/`): `AdventureConfirmDialog`, `RewardDisplay`, `QuestCardWidget`, `WorldCardWidget`, `AvatarBadge`, `LoadingIndicatorWidget`.
 - [x] Các màn hình chính & In-game UI: `MainEntry` (Splash), `MainMenuUI`, `CharacterSelectionUI`, `WorldIntroductionUI`, `WorldMapUI`, `AdventureHUD`, `DialogueBoxUI`, `QuestLog`, `QuestCompletedPopup`, `BagModal`, `PauseMenuUI`, `SettingsModalUI`.
-- [x] `SettingsManager` (`user://settings.json`) & `AudioManager` (`Music` / `SFX` buses, ghi nhận rõ audio files còn thiếu trong Settings UI).
+- [x] `AdventureHUD` & Third-person Camera 3D: `PlayerController` (`SpringArm3D` collision, `camera_distance`, `camera_height`, `camera_sensitivity`, `camera_smoothing`, `camera_rotation_speed`), `TouchCameraPad` vuốt xoay camera trên Mobile, phím tắt `Tab` (Sổ tay Nhiệm vụ) / `M` (Bản đồ) / `H` (Buddy) / `Esc` (Pause).
+- [x] `SettingsManager` (`user://settings.json`) & `AudioManager` (`Music` / `SFX` buses): Đã tích hợp `camera_sensitivity`, `graphics_quality` (`low`/`medium`/`high`), `music_volume`, `sfx_volume`, `language`, `control_mode`, `reduced_motion`, `fullscreen`, `resolution` (Desktop), và ghi nhận rõ khi audio files còn thiếu.
 
 ### 2.7. Việc cần làm trong Prompt 04+ (Learning Engine, Mini-games & Audio Assets)
 - [ ] Triển khai `LearningEngine`, `VocabularyRepository`, `PhonicsRepository`, `GrammarPatternEngine` và dữ liệu 26 chữ cái + 100–150 từ vựng.

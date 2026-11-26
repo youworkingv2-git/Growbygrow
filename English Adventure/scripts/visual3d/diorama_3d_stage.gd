@@ -8,6 +8,7 @@ var _turntable: Node3D
 var _buddy: CharacterRig3D
 var _hero: CharacterRig3D
 var _time: float = 0.0
+var _manual_spin_pause: float = 0.0
 
 
 func _ready() -> void:
@@ -121,8 +122,16 @@ func _build_welcome_diorama() -> void:
 	_turntable.add_child(_buddy)
 
 
+func rotate_turntable(delta_yaw: float) -> void:
+	if _turntable != null:
+		_turntable.rotation.y += delta_yaw
+		_manual_spin_pause = 1.6
+
+
 func _process(delta: float) -> void:
 	_time += delta
+	if _manual_spin_pause > 0.0:
+		_manual_spin_pause = maxf(0.0, _manual_spin_pause - delta)
 	if stage_mode == "welcome_diorama":
 		_turntable.rotation.y = sin(_time * 0.45) * 0.22
 		if _buddy != null:
@@ -132,6 +141,7 @@ func _process(delta: float) -> void:
 			if _buddy.right_wing_pivot != null:
 				_buddy.right_wing_pivot.rotation.z = -sin(_time * 9.0) * 0.35
 	else:
-		_turntable.rotation.y += delta * 0.75
+		if _manual_spin_pause <= 0.0:
+			_turntable.rotation.y += delta * 0.75
 		if _hero != null and _hero.body_pivot != null:
 			_hero.body_pivot.position.y = sin(_time * 2.8) * 0.025

@@ -7,6 +7,7 @@ signal interact_pressed()
 signal jump_pressed()
 signal buddy_help_pressed()
 signal joystick_changed(vec: Vector2)
+signal camera_look_delta(delta_px: Vector2)
 signal quest_accepted(quest_id: String)
 signal overlay_blocking_changed(blocked: bool)
 
@@ -20,6 +21,8 @@ var _has_focused_target: bool = false
 var _touch_input_seen: bool = false
 var _reward_claim_locked: bool = false
 var _dialogue_active: bool = false
+var _cam_touch_idx: int = -1
+var _cam_mouse_drag: bool = false
 
 @onready var top_bar: PanelContainer = $TopBar
 @onready var avatar_icon: TextureRect = $TopBar/Margin/Row/ProfileBox/Avatar
@@ -49,7 +52,9 @@ var _dialogue_active: bool = false
 @onready var toast_timer: Timer = $ToastTimer
 
 @onready var mobile_controls: Control = $MobileControls
+@onready var touch_camera_pad: Control = $MobileControls/TouchCameraPad
 @onready var joystick: Control = $MobileControls/VirtualJoystick
+@onready var right_pad: VBoxContainer = $MobileControls/RightPad
 @onready var touch_interact_btn: Button = $MobileControls/RightPad/TouchInteractBtn
 @onready var touch_jump_btn: Button = $MobileControls/RightPad/TouchJumpBtn
 @onready var buddy_btn: Button = $MobileControls/RightPad/BuddyBtn
@@ -125,6 +130,7 @@ func _ready() -> void:
 	buddy_btn.pressed.connect(func() -> void: buddy_help_pressed.emit())
 	desktop_buddy_btn.pressed.connect(func() -> void: buddy_help_pressed.emit())
 	joystick.vector_changed.connect(func(v: Vector2) -> void: joystick_changed.emit(v))
+	touch_camera_pad.gui_input.connect(_on_touch_camera_pad_input)
 
 	qi_accept_btn.pressed.connect(_on_accept_quest_pressed)
 	qi_later_btn.pressed.connect(func() -> void:
@@ -252,10 +258,35 @@ func _sync_overlay_visibility() -> void:
 	interact_banner.visible = (not blocked) and _has_focused_target
 	bottom_dock.visible = not blocked
 	quest_tracker_panel.visible = not dlg_open
+	top_bar.modulate.a = 0.55 if dlg_open else 1.0
 	var use_touch := SceneRouter.is_mobile_or_compact() or _touch_input_seen
 	mobile_controls.visible = use_touch and (not blocked)
 	desktop_buddy_btn.visible = (not blocked) and (not use_touch)
 	overlay_blocking_changed.emit(blocked)
+
+
+func _on_touch_camera_pad_input(event: InputEvent) -> void:
+	if _is_any_modal_or_dialogue_open():
+		_cam_touch_idx = -1
+		_cam_mouse_drag = false
+		return
+	if event is InputEventScreenTouch:
+		var st := event as InputEventScreenTouch
+		if st.pressed and _cam_touch_idx == -1:
+			_cam_touch_idx = st.index
+		elif not st.pressed and st.index == _cam_touch_idx:
+			_cam_touch_idx = -1
+	elif event is InputEventScreenDrag:
+		var sd := event as InputEventScreenDrag
+		if sd.index == _cam_touch_idx:
+			camera_look_delta.emit(sd.relative)
+	elif event is InputEventMouseButton:
+		var mb := event as InputEventMouseButton
+		if mb.button_index == MOUSE_BUTTON_LEFT:
+			_cam_mouse_drag = mb.pressed
+	elif event is InputEventMouseMotion and _cam_mouse_drag:
+		var mm := event as InputEventMouseMotion
+		camera_look_delta.emit(mm.relative)
 
 
 func _input(event: InputEvent) -> void:
@@ -263,7 +294,8 @@ func _input(event: InputEvent) -> void:
 		_touch_input_seen = true
 		_apply_responsive()
 	elif event is InputEventKey and event.pressed and not event.echo:
-		if (event as InputEventKey).keycode == KEY_ESCAPE:
+		var kc: Key = (event as InputEventKey).keycode
+		if kc == KEY_ESCAPE:
 			if UIManager.is_modal_open():
 				return
 			if quest_log_modal.visible:
@@ -272,6 +304,15 @@ func _input(event: InputEvent) -> void:
 				UIAnimator.animate_popup_close(bag_modal, func() -> void: _sync_overlay_visibility())
 			elif not dialogue_box.visible:
 				_toggle_pause_menu()
+		elif kc == KEY_TAB and not _dialogue_active and not dialogue_box.visible and not pause_menu.visible and not UIManager.is_modal_open():
+			if quest_log_modal.visible:
+				UIAnimator.animate_popup_close(quest_log_modal, func() -> void: _sync_overlay_visibility())
+			else:
+				_open_quest_log()
+			get_viewport().set_input_as_handled()
+		elif kc == KEY_M and not _is_any_modal_or_dialogue_open():
+			SceneRouter.go_to_world_map()
+			get_viewport().set_input_as_handled()
 
 
 func _toggle_pause_menu() -> void:
@@ -470,6 +511,10 @@ func _refresh_localized_labels() -> void:
 	save_btn.text = LocalizationManager.tr_key("btn_save", "Lưu")
 	settings_btn.text = LocalizationManager.tr_key("btn_settings", "Cài đặt")
 	pause_btn.text = LocalizationManager.tr_key("btn_pause", "Menu")
+	buddy_btn.text = LocalizationManager.tr_key("btn_buddy", "Hỏi Buddy")
+	desktop_buddy_btn.text = "%s [H]" % LocalizationManager.tr_key("btn_buddy", "Hỏi Buddy")
+	touch_jump_btn.text = LocalizationManager.tr_key("btn_jump", "Nhảy")
+	touch_interact_btn.text = LocalizationManager.tr_key("btn_interact_mobile", "Tương tác")
 	_refresh_quest_tracker()
 
 
@@ -561,14 +606,28 @@ func _apply_responsive() -> void:
 	area_title_label.visible = vp.x >= 680.0
 	settings_btn.visible = vp.x >= 620.0
 	quest_tracker_panel.offset_left = 10.0 + float(left_pad)
+	quest_tracker_panel.offset_right = minf(330.0, vp.x - 20.0 - float(right_pad))
 	quest_tracker_panel.offset_top = 72.0 + float(top_pad)
 	quest_tracker_panel.offset_bottom = 146.0 + float(top_pad)
 
-	var dock_w := minf(530.0, vp.x - 24.0)
+	var dock_w := minf(530.0, vp.x - 24.0 - float(left_pad + right_pad))
 	bottom_dock.offset_left = -dock_w * 0.5
 	bottom_dock.offset_right = dock_w * 0.5
 	bottom_dock.offset_bottom = -10.0 - float(bottom_pad)
 	bottom_dock.offset_top = -62.0 - float(bottom_pad)
+
+	# Keep touch Joystick & RightPad safely above BottomDock with zero overlap
+	var touch_bottom_base := 74.0 + float(bottom_pad)
+	var joy_sz := 122.0 if vp.x < 680.0 else 140.0
+	joystick.offset_left = 14.0 + float(left_pad)
+	joystick.offset_right = 14.0 + float(left_pad) + joy_sz
+	joystick.offset_bottom = -touch_bottom_base
+	joystick.offset_top = -touch_bottom_base - joy_sz
+
+	right_pad.offset_right = -14.0 - float(right_pad)
+	right_pad.offset_left = -14.0 - float(right_pad) - (126.0 if vp.x < 680.0 else 138.0)
+	right_pad.offset_bottom = -touch_bottom_base
+	right_pad.offset_top = -touch_bottom_base - 156.0
 
 	if compact:
 		save_btn.visible = false

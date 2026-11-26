@@ -31,11 +31,14 @@ const LOCKED := Color("#64748B")
 const LOCKED_DARK := Color("#475569")
 const REWARD := Color("#FACC15")
 const CRYSTAL := Color("#38BDF8")
+const MAGIC := Color("#A855F7")
+const MAGIC_DARK := Color("#7E22CE")
 
 const BORDER_DEFAULT := Color("#476B9E")
 const BORDER_FOCUS := Color("#FDE047")
 
 # --- 3.2 Typography Scale ---
+const FONT_MAIN_TITLE := 32
 const FONT_HEADING := 26
 const FONT_SUBHEADING := 20
 const FONT_BODY := 16
