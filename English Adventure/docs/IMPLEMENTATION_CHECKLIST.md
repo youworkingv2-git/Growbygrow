@@ -51,9 +51,11 @@ Tài liệu này tổng hợp kết quả kiểm tra tính nhất quán của **
 - [x] `SettingsManager` (`user://settings.json`) & `AudioManager` (`Music` / `SFX` buses): Đã tích hợp `camera_sensitivity`, `graphics_quality` (`low`/`medium`/`high`), `music_volume`, `sfx_volume`, `language`, `control_mode`, `reduced_motion`, `fullscreen`, `resolution` (Desktop), và ghi nhận rõ khi audio files còn thiếu.
 
 ### 2.7. Việc cần làm trong Prompt 04+ (Learning Engine, Mini-games & Audio Assets)
-- [ ] Triển khai `LearningEngine`, `VocabularyRepository`, `PhonicsRepository`, `GrammarPatternEngine` và dữ liệu 26 chữ cái + 100–150 từ vựng.
-- [ ] Bổ sung file âm thanh thực tế (`assets/audio/sfx/`, `assets/audio/bgm/`, giọng `en-US`, giọng Buddy) và gắn vào `AudioManager`.
-- [ ] Kết nối `EventBus.learning_hook_requested` từ các nhiệm vụ sang các mini-game đầu tiên.
+- [x] Triển khai `LearningEngine` (13 module core + `LearningHubModal`), `learning_curriculum.json`, `spaced_repetition_config.json`, 26 chữ cái A–Z, 32 từ vựng (+ 32 SVG), 10 nhóm Phonics, 15 cấu trúc câu, và 42 bài 4 kỹ năng (`validate_prompt_04.py` PASS) *(hoàn thành ở Prompt 04)*.
+- [x] Kết nối `EventBus.learning_hook_requested` từ Quest System & vật thể 3D sang `LearningHubModal` *(hoàn thành ở Prompt 04)*.
+- [x] Tạo migration DB `0003_learning_engine_extensions.sql` với RLS đầy đủ *(hoàn thành ở Prompt 04)*.
+- [ ] Bổ sung file âm thanh thực tế (`assets/audio/sfx/`, `assets/audio/bgm/`, giọng `en-US` / `en-GB`, giọng Buddy) và gắn vào `AudioManager` (hiện đang đánh dấu `missing_asset`).
+- [ ] Xây dựng 5 mini-game hoàn chỉnh sử dụng dữ liệu từ `LearningEngine` & tích hợp AI Pronunciation Assessment thật (Prompt 05).
 
 ### 2.3. Content Schemas & Validator (`data/` & `tests/content_validation/`)
 - [ ] Tạo các JSON Schema chuẩn trong `data/schemas/` (`vocabulary.schema.json`, `phonics.schema.json`, `grammar.schema.json`, `quest.schema.json`).

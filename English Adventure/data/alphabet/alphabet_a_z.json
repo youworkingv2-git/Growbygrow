@@ -1,0 +1,840 @@
+{
+  "world_id": "world_01",
+  "letters": [
+    {
+      "id": "letter_a",
+      "order_index": 1,
+      "letter_upper": "A",
+      "letter_lower": "a",
+      "letter_type": "vowel",
+      "letter_name_ipa": {
+        "en-US": "/eɪ/",
+        "en-GB": "/eɪ/"
+      },
+      "letter_sound_ipa": "/æ/",
+      "additional_sounds": [
+        "/eɪ/ (cake)",
+        "/ɑː/ (father)"
+      ],
+      "exception_note_vi": "Ở Pre-A1, bé học âm ngắn /æ/ như apple. Ở bậc cao hơn, A còn đọc là /eɪ/ như cake.",
+      "mouth_hint_vi": "Mở miệng vừa, hạ nhẹ cằm và phát âm /æ/.",
+      "anchor_word_ids": [
+        "word_apple",
+        "word_bag"
+      ],
+      "audio_name": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "audio_sound": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "difficulty": 1,
+      "cefr_level": "Pre-A1"
+    },
+    {
+      "id": "letter_b",
+      "order_index": 2,
+      "letter_upper": "B",
+      "letter_lower": "b",
+      "letter_type": "consonant",
+      "letter_name_ipa": {
+        "en-US": "/biː/",
+        "en-GB": "/biː/"
+      },
+      "letter_sound_ipa": "/b/",
+      "additional_sounds": [],
+      "exception_note_vi": "Âm /b/ là phụ âm bật môi, gần giống chữ B tiếng Việt nhưng bật hơi nhẹ hơn.",
+      "mouth_hint_vi": "Mím nhẹ hai môi rồi bật ra âm /b/.",
+      "anchor_word_ids": [
+        "word_ball",
+        "word_banana",
+        "word_book"
+      ],
+      "audio_name": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "audio_sound": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "difficulty": 1,
+      "cefr_level": "Pre-A1"
+    },
+    {
+      "id": "letter_c",
+      "order_index": 3,
+      "letter_upper": "C",
+      "letter_lower": "c",
+      "letter_type": "consonant",
+      "letter_name_ipa": {
+        "en-US": "/siː/",
+        "en-GB": "/siː/"
+      },
+      "letter_sound_ipa": "/k/",
+      "additional_sounds": [
+        "/s/ (city)"
+      ],
+      "exception_note_vi": "Chữ C thường đọc /k/ (cat). Trước e, i, y sẽ đọc /s/ (sẽ học ở A1).",
+      "mouth_hint_vi": "Đẩy nhẹ luồng hơi từ cuống họng tạo âm /k/.",
+      "anchor_word_ids": [
+        "word_cat",
+        "word_cake"
+      ],
+      "audio_name": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "audio_sound": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "difficulty": 1,
+      "cefr_level": "Pre-A1"
+    },
+    {
+      "id": "letter_d",
+      "order_index": 4,
+      "letter_upper": "D",
+      "letter_lower": "d",
+      "letter_type": "consonant",
+      "letter_name_ipa": {
+        "en-US": "/diː/",
+        "en-GB": "/diː/"
+      },
+      "letter_sound_ipa": "/d/",
+      "additional_sounds": [],
+      "exception_note_vi": "Âm /d/ đặt đầu lưỡi sau răng trên và bật nhẹ.",
+      "mouth_hint_vi": "Chạm đầu lưỡi lên vòm miệng ngay sau răng trên.",
+      "anchor_word_ids": [
+        "word_dog",
+        "word_dad",
+        "word_duck"
+      ],
+      "audio_name": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "audio_sound": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "difficulty": 1,
+      "cefr_level": "Pre-A1"
+    },
+    {
+      "id": "letter_e",
+      "order_index": 5,
+      "letter_upper": "E",
+      "letter_lower": "e",
+      "letter_type": "vowel",
+      "letter_name_ipa": {
+        "en-US": "/iː/",
+        "en-GB": "/iː/"
+      },
+      "letter_sound_ipa": "/ɛ/",
+      "additional_sounds": [
+        "/iː/ (he)"
+      ],
+      "exception_note_vi": "Ở Pre-A1 học âm ngắn /ɛ/ như elephant. Âm dài /iː/ học ở phần Long Vowels.",
+      "mouth_hint_vi": "Mở nhẹ khóe miệng sang hai bên, đọc ngắn gọn /ɛ/.",
+      "anchor_word_ids": [
+        "word_elephant",
+        "word_pen",
+        "word_red"
+      ],
+      "audio_name": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "audio_sound": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "difficulty": 1,
+      "cefr_level": "Pre-A1"
+    },
+    {
+      "id": "letter_f",
+      "order_index": 6,
+      "letter_upper": "F",
+      "letter_lower": "f",
+      "letter_type": "consonant",
+      "letter_name_ipa": {
+        "en-US": "/ɛf/",
+        "en-GB": "/ɛf/"
+      },
+      "letter_sound_ipa": "/f/",
+      "additional_sounds": [],
+      "exception_note_vi": "Răng trên chạm nhẹ môi dưới và thổi hơi.",
+      "mouth_hint_vi": "Đặt nhẹ răng cửa trên lên môi dưới rồi thổi /f/.",
+      "anchor_word_ids": [
+        "word_fish",
+        "word_four",
+        "word_five"
+      ],
+      "audio_name": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "audio_sound": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "difficulty": 1,
+      "cefr_level": "Pre-A1"
+    },
+    {
+      "id": "letter_g",
+      "order_index": 7,
+      "letter_upper": "G",
+      "letter_lower": "g",
+      "letter_type": "consonant",
+      "letter_name_ipa": {
+        "en-US": "/dʒiː/",
+        "en-GB": "/dʒiː/"
+      },
+      "letter_sound_ipa": "/g/",
+      "additional_sounds": [
+        "/dʒ/ (giraffe)"
+      ],
+      "exception_note_vi": "Chữ G thường đọc /g/ (green). Một số từ trước e, i đọc /dʒ/ (học ở A1).",
+      "mouth_hint_vi": "Nâng phần cuống lưỡi và phát âm /g/.",
+      "anchor_word_ids": [
+        "word_green",
+        "word_bag"
+      ],
+      "audio_name": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "audio_sound": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "difficulty": 1,
+      "cefr_level": "Pre-A1"
+    },
+    {
+      "id": "letter_h",
+      "order_index": 8,
+      "letter_upper": "H",
+      "letter_lower": "h",
+      "letter_type": "consonant",
+      "letter_name_ipa": {
+        "en-US": "/eɪtʃ/",
+        "en-GB": "/eɪtʃ/"
+      },
+      "letter_sound_ipa": "/h/",
+      "additional_sounds": [
+        "câm (hour)"
+      ],
+      "exception_note_vi": "Âm /h/ thổi hơi nhẹ từ cổ họng, đôi khi câm ở đầu vài từ đặc biệt (học ở A1+).",
+      "mouth_hint_vi": "Há nhẹ miệng và thở ra một hơi ấm /h/.",
+      "anchor_word_ids": [
+        "word_chair"
+      ],
+      "audio_name": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "audio_sound": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "difficulty": 1,
+      "cefr_level": "Pre-A1"
+    },
+    {
+      "id": "letter_i",
+      "order_index": 9,
+      "letter_upper": "I",
+      "letter_lower": "i",
+      "letter_type": "vowel",
+      "letter_name_ipa": {
+        "en-US": "/aɪ/",
+        "en-GB": "/aɪ/"
+      },
+      "letter_sound_ipa": "/ɪ/",
+      "additional_sounds": [
+        "/aɪ/ (five)"
+      ],
+      "exception_note_vi": "Ở Pre-A1 tập trung âm ngắn /ɪ/ (fish, pink). Trong từ five có âm dài /aɪ/.",
+      "mouth_hint_vi": "Môi hơi kéo ngang, đọc ngắn và dứt khoát /ɪ/.",
+      "anchor_word_ids": [
+        "word_fish",
+        "word_milk",
+        "word_pink"
+      ],
+      "audio_name": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "audio_sound": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "difficulty": 1,
+      "cefr_level": "Pre-A1"
+    },
+    {
+      "id": "letter_j",
+      "order_index": 10,
+      "letter_upper": "J",
+      "letter_lower": "j",
+      "letter_type": "consonant",
+      "letter_name_ipa": {
+        "en-US": "/dʒeɪ/",
+        "en-GB": "/dʒeɪ/"
+      },
+      "letter_sound_ipa": "/dʒ/",
+      "additional_sounds": [],
+      "exception_note_vi": "Âm /dʒ/ tròn môi và rung nhẹ dây thanh quản.",
+      "mouth_hint_vi": "Chu nhẹ môi và bật âm /dʒ/ có rung họng.",
+      "anchor_word_ids": [
+        "word_orange"
+      ],
+      "audio_name": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "audio_sound": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "difficulty": 1,
+      "cefr_level": "Pre-A1"
+    },
+    {
+      "id": "letter_k",
+      "order_index": 11,
+      "letter_upper": "K",
+      "letter_lower": "k",
+      "letter_type": "consonant",
+      "letter_name_ipa": {
+        "en-US": "/keɪ/",
+        "en-GB": "/keɪ/"
+      },
+      "letter_sound_ipa": "/k/",
+      "additional_sounds": [
+        "câm trước n (know)"
+      ],
+      "exception_note_vi": "Chữ K đọc /k/ giống C cứng; khi đứng trước N ở đầu từ sẽ câm (học sau).",
+      "mouth_hint_vi": "Bật âm /k/ gọn ở cuống lưỡi.",
+      "anchor_word_ids": [
+        "word_book",
+        "word_cake",
+        "word_milk"
+      ],
+      "audio_name": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "audio_sound": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "difficulty": 1,
+      "cefr_level": "Pre-A1"
+    },
+    {
+      "id": "letter_l",
+      "order_index": 12,
+      "letter_upper": "L",
+      "letter_lower": "l",
+      "letter_type": "consonant",
+      "letter_name_ipa": {
+        "en-US": "/ɛl/",
+        "en-GB": "/ɛl/"
+      },
+      "letter_sound_ipa": "/l/",
+      "additional_sounds": [],
+      "exception_note_vi": "Đầu lưỡi chạm nhẹ lợi trên khi phát âm /l/.",
+      "mouth_hint_vi": "Đặt đầu lưỡi lên lợi trên và phát âm /l/.",
+      "anchor_word_ids": [
+        "word_blue",
+        "word_ball",
+        "word_yellow"
+      ],
+      "audio_name": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "audio_sound": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "difficulty": 1,
+      "cefr_level": "Pre-A1"
+    },
+    {
+      "id": "letter_m",
+      "order_index": 13,
+      "letter_upper": "M",
+      "letter_lower": "m",
+      "letter_type": "consonant",
+      "letter_name_ipa": {
+        "en-US": "/ɛm/",
+        "en-GB": "/ɛm/"
+      },
+      "letter_sound_ipa": "/m/",
+      "additional_sounds": [],
+      "exception_note_vi": "Mím hai môi để âm vang qua mũi.",
+      "mouth_hint_vi": "Khép hai môi nhẹ nhàng và ngân âm /m/.",
+      "anchor_word_ids": [
+        "word_mom",
+        "word_milk"
+      ],
+      "audio_name": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "audio_sound": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "difficulty": 1,
+      "cefr_level": "Pre-A1"
+    },
+    {
+      "id": "letter_n",
+      "order_index": 14,
+      "letter_upper": "N",
+      "letter_lower": "n",
+      "letter_type": "consonant",
+      "letter_name_ipa": {
+        "en-US": "/ɛn/",
+        "en-GB": "/ɛn/"
+      },
+      "letter_sound_ipa": "/n/",
+      "additional_sounds": [],
+      "exception_note_vi": "Đầu lưỡi chạm lợi trên, âm đi qua mũi.",
+      "mouth_hint_vi": "Chạm đầu lưỡi lên lợi trên, đọc /n/.",
+      "anchor_word_ids": [
+        "word_one",
+        "word_pen",
+        "word_green"
+      ],
+      "audio_name": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "audio_sound": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "difficulty": 1,
+      "cefr_level": "Pre-A1"
+    },
+    {
+      "id": "letter_o",
+      "order_index": 15,
+      "letter_upper": "O",
+      "letter_lower": "o",
+      "letter_type": "vowel",
+      "letter_name_ipa": {
+        "en-US": "/oʊ/",
+        "en-GB": "/oʊ/"
+      },
+      "letter_sound_ipa": "/ɒ/",
+      "additional_sounds": [
+        "/oʊ/ (go)",
+        "/ʌ/ (mom)"
+      ],
+      "exception_note_vi": "Trong tiếng Anh-Mỹ âm ngắn O gần /ɑː/, Anh-Anh là /ɒ/. Từ 'mom' đọc /ɑː/ hoặc /ɒ/.",
+      "mouth_hint_vi": "Tròn môi nhẹ và đọc ngắn gọn âm /ɒ/.",
+      "anchor_word_ids": [
+        "word_orange",
+        "word_dog"
+      ],
+      "audio_name": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "audio_sound": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "difficulty": 1,
+      "cefr_level": "Pre-A1"
+    },
+    {
+      "id": "letter_p",
+      "order_index": 16,
+      "letter_upper": "P",
+      "letter_lower": "p",
+      "letter_type": "consonant",
+      "letter_name_ipa": {
+        "en-US": "/piː/",
+        "en-GB": "/piː/"
+      },
+      "letter_sound_ipa": "/p/",
+      "additional_sounds": [],
+      "exception_note_vi": "Âm /p/ bật hơi rõ hơn chữ P tiếng Việt.",
+      "mouth_hint_vi": "Mím môi rồi bật mạnh một luồng hơi /p/.",
+      "anchor_word_ids": [
+        "word_pen",
+        "word_pink",
+        "word_apple"
+      ],
+      "audio_name": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "audio_sound": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "difficulty": 1,
+      "cefr_level": "Pre-A1"
+    },
+    {
+      "id": "letter_q",
+      "order_index": 17,
+      "letter_upper": "Q",
+      "letter_lower": "q",
+      "letter_type": "consonant",
+      "letter_name_ipa": {
+        "en-US": "/kjuː/",
+        "en-GB": "/kjuː/"
+      },
+      "letter_sound_ipa": "/kw/",
+      "additional_sounds": [],
+      "exception_note_vi": "Trong tiếng Anh chữ Q hầu như luôn đi cùng U để tạo âm /kw/.",
+      "mouth_hint_vi": "Chu môi nhẹ rồi bật âm /kw/.",
+      "anchor_word_ids": [
+        "word_two"
+      ],
+      "audio_name": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "audio_sound": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "difficulty": 1,
+      "cefr_level": "Pre-A1"
+    },
+    {
+      "id": "letter_r",
+      "order_index": 18,
+      "letter_upper": "R",
+      "letter_lower": "r",
+      "letter_type": "consonant",
+      "letter_name_ipa": {
+        "en-US": "/ɑːr/",
+        "en-GB": "/ɑːr/"
+      },
+      "letter_sound_ipa": "/r/",
+      "additional_sounds": [],
+      "exception_note_vi": "Lưỡi hơi cuộn nhẹ vào trong, không chạm vòm miệng.",
+      "mouth_hint_vi": "Cong nhẹ đầu lưỡi lên trên mà không chạm hàm trên.",
+      "anchor_word_ids": [
+        "word_red",
+        "word_brother"
+      ],
+      "audio_name": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "audio_sound": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "difficulty": 1,
+      "cefr_level": "Pre-A1"
+    },
+    {
+      "id": "letter_s",
+      "order_index": 19,
+      "letter_upper": "S",
+      "letter_lower": "s",
+      "letter_type": "consonant",
+      "letter_name_ipa": {
+        "en-US": "/ɛs/",
+        "en-GB": "/ɛs/"
+      },
+      "letter_sound_ipa": "/s/",
+      "additional_sounds": [
+        "/z/ (is)"
+      ],
+      "exception_note_vi": "Thường đọc /s/ (sister); ở cuối một số từ đọc /z/ như 'is'.",
+      "mouth_hint_vi": "Khép hờ răng và xì nhẹ luồng hơi /s/.",
+      "anchor_word_ids": [
+        "word_sister",
+        "word_ship"
+      ],
+      "audio_name": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "audio_sound": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "difficulty": 1,
+      "cefr_level": "Pre-A1"
+    },
+    {
+      "id": "letter_t",
+      "order_index": 20,
+      "letter_upper": "T",
+      "letter_lower": "t",
+      "letter_type": "consonant",
+      "letter_name_ipa": {
+        "en-US": "/tiː/",
+        "en-GB": "/tiː/"
+      },
+      "letter_sound_ipa": "/t/",
+      "additional_sounds": [],
+      "exception_note_vi": "Đầu lưỡi chạm lợi trên và bật hơi nhẹ /t/.",
+      "mouth_hint_vi": "Đặt đầu lưỡi sau răng trên và bật hơi gọn /t/.",
+      "anchor_word_ids": [
+        "word_two",
+        "word_three",
+        "word_cat"
+      ],
+      "audio_name": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "audio_sound": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "difficulty": 1,
+      "cefr_level": "Pre-A1"
+    },
+    {
+      "id": "letter_u",
+      "order_index": 21,
+      "letter_upper": "U",
+      "letter_lower": "u",
+      "letter_type": "vowel",
+      "letter_name_ipa": {
+        "en-US": "/juː/",
+        "en-GB": "/juː/"
+      },
+      "letter_sound_ipa": "/ʌ/",
+      "additional_sounds": [
+        "/juː/ (unit)",
+        "/uː/ (blue)"
+      ],
+      "exception_note_vi": "Ở Pre-A1 làm quen âm ngắn /ʌ/ (duck). Trong 'blue' u+e đọc /uː/.",
+      "mouth_hint_vi": "Thả lỏng môi và phát âm ngắn gọn /ʌ/.",
+      "anchor_word_ids": [
+        "word_duck"
+      ],
+      "audio_name": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "audio_sound": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "difficulty": 1,
+      "cefr_level": "Pre-A1"
+    },
+    {
+      "id": "letter_v",
+      "order_index": 22,
+      "letter_upper": "V",
+      "letter_lower": "v",
+      "letter_type": "consonant",
+      "letter_name_ipa": {
+        "en-US": "/viː/",
+        "en-GB": "/viː/"
+      },
+      "letter_sound_ipa": "/v/",
+      "additional_sounds": [],
+      "exception_note_vi": "Răng trên chạm môi dưới và rung cổ họng.",
+      "mouth_hint_vi": "Đặt răng trên chạm nhẹ môi dưới và rung âm /v/.",
+      "anchor_word_ids": [
+        "word_five"
+      ],
+      "audio_name": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "audio_sound": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "difficulty": 1,
+      "cefr_level": "Pre-A1"
+    },
+    {
+      "id": "letter_w",
+      "order_index": 23,
+      "letter_upper": "W",
+      "letter_lower": "w",
+      "letter_type": "consonant",
+      "letter_name_ipa": {
+        "en-US": "/ˈdʌb.əl.juː/",
+        "en-GB": "/ˈdʌb.əl.juː/"
+      },
+      "letter_sound_ipa": "/w/",
+      "additional_sounds": [],
+      "exception_note_vi": "Chu tròn môi như sắp đọc 'u' rồi mở nhanh sang nguyên âm sau.",
+      "mouth_hint_vi": "Chu tròn môi nhỏ rồi mở ra đọc /w/.",
+      "anchor_word_ids": [
+        "word_water"
+      ],
+      "audio_name": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "audio_sound": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "difficulty": 1,
+      "cefr_level": "Pre-A1"
+    },
+    {
+      "id": "letter_x",
+      "order_index": 24,
+      "letter_upper": "X",
+      "letter_lower": "x",
+      "letter_type": "consonant",
+      "letter_name_ipa": {
+        "en-US": "/ɛks/",
+        "en-GB": "/ɛks/"
+      },
+      "letter_sound_ipa": "/ks/",
+      "additional_sounds": [
+        "/gz/ (exam)"
+      ],
+      "exception_note_vi": "Thường đọc là /ks/ ở cuối từ như 'box' hoặc 'six'.",
+      "mouth_hint_vi": "Phát âm nối nhanh /k/ và /s/.",
+      "anchor_word_ids": [
+        "word_five"
+      ],
+      "audio_name": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "audio_sound": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "difficulty": 1,
+      "cefr_level": "Pre-A1"
+    },
+    {
+      "id": "letter_y",
+      "order_index": 25,
+      "letter_upper": "Y",
+      "letter_lower": "y",
+      "letter_type": "consonant",
+      "letter_name_ipa": {
+        "en-US": "/waɪ/",
+        "en-GB": "/waɪ/"
+      },
+      "letter_sound_ipa": "/j/",
+      "additional_sounds": [
+        "/aɪ/ (my)",
+        "/i/ (happy)"
+      ],
+      "exception_note_vi": "Đầu từ đọc /j/ (yellow). Cuối từ có thể là nguyên âm /i/ hoặc /aɪ/.",
+      "mouth_hint_vi": "Nâng nhẹ giữa lưỡi tạo âm /j/ như trong 'yellow'.",
+      "anchor_word_ids": [
+        "word_yellow"
+      ],
+      "audio_name": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "audio_sound": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "difficulty": 1,
+      "cefr_level": "Pre-A1"
+    },
+    {
+      "id": "letter_z",
+      "order_index": 26,
+      "letter_upper": "Z",
+      "letter_lower": "z",
+      "letter_type": "consonant",
+      "letter_name_ipa": {
+        "en-US": "/ziː/",
+        "en-GB": "/zɛd/"
+      },
+      "letter_sound_ipa": "/z/",
+      "additional_sounds": [],
+      "exception_note_vi": "Giống âm /s/ nhưng rung dây thanh quản; Anh-Anh gọi tên là /zɛd/.",
+      "mouth_hint_vi": "Khép hờ răng, thổi hơi và rung cổ họng /z/.",
+      "anchor_word_ids": [
+        "word_one"
+      ],
+      "audio_name": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "audio_sound": {
+        "en-US": "",
+        "en-GB": "",
+        "audio_status": "missing_asset"
+      },
+      "difficulty": 1,
+      "cefr_level": "Pre-A1"
+    }
+  ]
+}

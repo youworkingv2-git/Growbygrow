@@ -172,6 +172,7 @@ func _complete_quest(quest_id: String) -> void:
 			GameStateManager.flags[str(flag_name)] = true
 
 	EventBus.quest_completed.emit(quest_id, rewards)
+	trigger_learning_hook_for_quest(quest_id)
 	GameStateManager.evaluate_all_unlocks(true)
 	GameStateManager.save_now("quest_completed_" + quest_id)
 	AppLogger.info("QuestManager", "Quest completed: " + quest_id)

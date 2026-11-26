@@ -11,10 +11,14 @@ var missing_audio_notice: String = "Chưa có file âm thanh trong assets/audio/
 var _music_bus_idx: int = -1
 var _sfx_bus_idx: int = -1
 var _players_by_key: Dictionary = {}
+var _voice_player: AudioStreamPlayer = null
 
 
 func _ready() -> void:
 	_ensure_audio_buses()
+	_voice_player = AudioStreamPlayer.new()
+	_voice_player.bus = BUS_SFX
+	add_child(_voice_player)
 	_apply_volumes_from_settings()
 	EventBus.settings_changed.connect(_apply_volumes_from_settings)
 	EventBus.quest_completed.connect(func(_qid: String, _rw: Dictionary) -> void: play_sfx("quest_complete"))
@@ -72,3 +76,31 @@ func play_sfx(event_key: String) -> void:
 		# No bundled audio asset yet — cleanly log at debug level only for major gameplay cues
 		if event_key in ["quest_complete", "reward_received", "area_unlocked"]:
 			AppLogger.debug("AudioManager", "SFX hook triggered (asset pending): " + event_key)
+
+
+func play_learning_audio(audio_path: String, _accent: String = "") -> Dictionary:
+	if not audio_path.is_empty() and ResourceLoader.exists(audio_path):
+		var stream := load(audio_path) as AudioStream
+		if stream != null and _voice_player != null:
+			_voice_player.stream = stream
+			_voice_player.play()
+			return { "played_bundled": true, "status": "ok", "message_vi": "Đang phát âm thanh mẫu." }
+	return {
+		"played_bundled": false,
+		"status": "missing_asset",
+		"message_vi": "Chưa có file âm thanh thu sẵn (asset âm thanh đang chờ bổ sung)."
+	}
+
+
+func can_use_browser_tts() -> bool:
+	return OS.has_feature("web")
+
+
+func speak_browser_tts_fallback(text: String, accent: String = "en-US") -> bool:
+	if not OS.has_feature("web") or text.strip_edges().is_empty():
+		return false
+	var lang := "en-GB" if accent == "en-GB" else "en-US"
+	var safe_text := JSON.stringify(text)
+	var js := "(function(){ if ('speechSynthesis' in window) { window.speechSynthesis.cancel(); var u = new SpeechSynthesisUtterance(" + safe_text + "); u.lang = '" + lang + "'; u.rate = 0.88; window.speechSynthesis.speak(u); return true; } return false; })();"
+	var ok: Variant = JavaScriptBridge.eval(js)
+	return bool(ok)

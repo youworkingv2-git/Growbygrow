@@ -1,0 +1,694 @@
+{
+  "world_id": "world_01",
+  "structures": [
+    {
+      "id": "gram_01",
+      "world_id": "world_01",
+      "structure": "I am ...",
+      "explanation_vi": "Dùng để giới thiệu tên hoặc bản thân mình: 'Tôi là ...'.",
+      "example_sentences": [
+        {
+          "en": "I am Leo.",
+          "vi": "Tôi là Leo.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        },
+        {
+          "en": "I am a student.",
+          "vi": "Tôi là học sinh.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        }
+      ],
+      "difficulty": 1,
+      "cefr_level": "Pre-A1",
+      "common_mistakes_vi": [
+        "Quên động từ 'am' (viết nhầm thành 'I Leo')."
+      ],
+      "substitution_slots": [
+        {
+          "slot": "name_or_role",
+          "options": [
+            "Leo",
+            "Mia",
+            "a student",
+            "happy"
+          ]
+        }
+      ],
+      "practice_activities": [
+        "reading_fill_blank",
+        "writing_arrange_words"
+      ]
+    },
+    {
+      "id": "gram_02",
+      "world_id": "world_01",
+      "structure": "You are ...",
+      "explanation_vi": "Dùng để nói về người đang trò chuyện cùng mình: 'Bạn là ...'.",
+      "example_sentences": [
+        {
+          "en": "You are my friend.",
+          "vi": "Bạn là bạn của tôi.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        },
+        {
+          "en": "You are kind.",
+          "vi": "Bạn thật tốt bụng.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        }
+      ],
+      "difficulty": 1,
+      "cefr_level": "Pre-A1",
+      "common_mistakes_vi": [
+        "Nhầm 'are' thành 'is' khi đi với 'You'."
+      ],
+      "substitution_slots": [
+        {
+          "slot": "complement",
+          "options": [
+            "my friend",
+            "happy",
+            "kind",
+            "a helper"
+          ]
+        }
+      ],
+      "practice_activities": [
+        "reading_fill_blank",
+        "writing_arrange_words"
+      ]
+    },
+    {
+      "id": "gram_03",
+      "world_id": "world_01",
+      "structure": "This is ...",
+      "explanation_vi": "Dùng để giới thiệu vật hoặc người ở gần mình: 'Đây là ...'.",
+      "example_sentences": [
+        {
+          "en": "This is an apple.",
+          "vi": "Đây là một quả táo.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        },
+        {
+          "en": "This is my mom.",
+          "vi": "Đây là mẹ của tôi.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        }
+      ],
+      "difficulty": 1,
+      "cefr_level": "Pre-A1",
+      "common_mistakes_vi": [
+        "Dùng 'a' trước nguyên âm thay vì 'an' (ví dụ đúng: an apple)."
+      ],
+      "substitution_slots": [
+        {
+          "slot": "noun_phrase",
+          "options": [
+            "an apple",
+            "a cat",
+            "my book",
+            "my sister"
+          ]
+        }
+      ],
+      "practice_activities": [
+        "reading_fill_blank",
+        "writing_arrange_words"
+      ]
+    },
+    {
+      "id": "gram_04",
+      "world_id": "world_01",
+      "structure": "That is ...",
+      "explanation_vi": "Dùng để chỉ vật hoặc người ở xa mình: 'Kia là ...'.",
+      "example_sentences": [
+        {
+          "en": "That is a blue bird.",
+          "vi": "Kia là một chú chim xanh.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        },
+        {
+          "en": "That is a big ship.",
+          "vi": "Kia là một con tàu lớn.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        }
+      ],
+      "difficulty": 1,
+      "cefr_level": "Pre-A1",
+      "common_mistakes_vi": [
+        "Nhầm 'This' (gần) với 'That' (xa)."
+      ],
+      "substitution_slots": [
+        {
+          "slot": "noun_phrase",
+          "options": [
+            "a blue bird",
+            "an elephant",
+            "a ship",
+            "a yellow duck"
+          ]
+        }
+      ],
+      "practice_activities": [
+        "reading_fill_blank",
+        "writing_arrange_words"
+      ]
+    },
+    {
+      "id": "gram_05",
+      "world_id": "world_01",
+      "structure": "It is ...",
+      "explanation_vi": "Dùng để nói về một đồ vật, con vật hoặc màu sắc: 'Nó là ...'.",
+      "example_sentences": [
+        {
+          "en": "It is a red ball.",
+          "vi": "Nó là một quả bóng đỏ.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        },
+        {
+          "en": "It is yellow.",
+          "vi": "Nó có màu vàng.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        }
+      ],
+      "difficulty": 1,
+      "cefr_level": "Pre-A1",
+      "common_mistakes_vi": [
+        "Quên chữ 'It' khi trả lời câu hỏi 'What is this?'."
+      ],
+      "substitution_slots": [
+        {
+          "slot": "complement",
+          "options": [
+            "a red ball",
+            "a dog",
+            "blue",
+            "green"
+          ]
+        }
+      ],
+      "practice_activities": [
+        "reading_fill_blank",
+        "writing_arrange_words"
+      ]
+    },
+    {
+      "id": "gram_06",
+      "world_id": "world_01",
+      "structure": "I have ...",
+      "explanation_vi": "Dùng để nói mình đang sở hữu hoặc có cái gì: 'Tôi có ...'.",
+      "example_sentences": [
+        {
+          "en": "I have a pen.",
+          "vi": "Tôi có một cây bút.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        },
+        {
+          "en": "I have two books.",
+          "vi": "Tôi có hai quyển sách.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        }
+      ],
+      "difficulty": 1,
+      "cefr_level": "Pre-A1",
+      "common_mistakes_vi": [
+        "Thêm 's' sai hoặc quên 's' khi số lượng từ 2 trở lên (two books)."
+      ],
+      "substitution_slots": [
+        {
+          "slot": "object",
+          "options": [
+            "a pen",
+            "a bag",
+            "two books",
+            "five balls"
+          ]
+        }
+      ],
+      "practice_activities": [
+        "reading_fill_blank",
+        "writing_arrange_words"
+      ]
+    },
+    {
+      "id": "gram_07",
+      "world_id": "world_01",
+      "structure": "I like ...",
+      "explanation_vi": "Dùng để nói về sở thích của mình: 'Tôi thích ...'.",
+      "example_sentences": [
+        {
+          "en": "I like apples.",
+          "vi": "Tôi thích táo.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        },
+        {
+          "en": "I like cats.",
+          "vi": "Tôi thích mèo.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        }
+      ],
+      "difficulty": 1,
+      "cefr_level": "Pre-A1",
+      "common_mistakes_vi": [
+        "Khi thích chung chung một loại quả/vật, nhớ thêm 's' số nhiều: apples, bananas, cats."
+      ],
+      "substitution_slots": [
+        {
+          "slot": "liked_item",
+          "options": [
+            "apples",
+            "bananas",
+            "milk",
+            "cats",
+            "dogs"
+          ]
+        }
+      ],
+      "practice_activities": [
+        "reading_fill_blank",
+        "writing_arrange_words"
+      ]
+    },
+    {
+      "id": "gram_08",
+      "world_id": "world_01",
+      "structure": "I can ...",
+      "explanation_vi": "Dùng để nói khả năng làm một việc gì đó: 'Tôi có thể ...'.",
+      "example_sentences": [
+        {
+          "en": "I can read.",
+          "vi": "Tôi có thể đọc.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        },
+        {
+          "en": "I can say hello.",
+          "vi": "Tôi có thể nói xin chào.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        }
+      ],
+      "difficulty": 1,
+      "cefr_level": "Pre-A1",
+      "common_mistakes_vi": [
+        "Thêm 'to' sau 'can' (sai: I can to read)."
+      ],
+      "substitution_slots": [
+        {
+          "slot": "action",
+          "options": [
+            "read",
+            "write",
+            "listen",
+            "sing",
+            "jump"
+          ]
+        }
+      ],
+      "practice_activities": [
+        "reading_fill_blank",
+        "writing_arrange_words"
+      ]
+    },
+    {
+      "id": "gram_09",
+      "world_id": "world_01",
+      "structure": "I want ...",
+      "explanation_vi": "Dùng để diễn đạt mong muốn lịch sự: 'Tôi muốn ...'.",
+      "example_sentences": [
+        {
+          "en": "I want water.",
+          "vi": "Tôi muốn nước.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        },
+        {
+          "en": "I want a banana.",
+          "vi": "Tôi muốn một quả chuối.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        }
+      ],
+      "difficulty": 1,
+      "cefr_level": "Pre-A1",
+      "common_mistakes_vi": [
+        "Quên 'a/an' trước danh từ đếm được số ít như banana."
+      ],
+      "substitution_slots": [
+        {
+          "slot": "item",
+          "options": [
+            "water",
+            "milk",
+            "a banana",
+            "a cake"
+          ]
+        }
+      ],
+      "practice_activities": [
+        "reading_fill_blank",
+        "writing_arrange_words"
+      ]
+    },
+    {
+      "id": "gram_10",
+      "world_id": "world_01",
+      "structure": "What is this?",
+      "explanation_vi": "Câu hỏi dùng để hỏi tên một vật ở gần: 'Đây là cái gì?'.",
+      "example_sentences": [
+        {
+          "en": "What is this? - It is a book.",
+          "vi": "Đây là cái gì? - Nó là quyển sách.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        },
+        {
+          "en": "What is this? - It is a pen.",
+          "vi": "Đây là cái gì? - Nó là cây bút.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        }
+      ],
+      "difficulty": 2,
+      "cefr_level": "Pre-A1",
+      "common_mistakes_vi": [
+        "Trả lời 'This is...' không sai nhưng tự nhiên nhất là 'It is...'."
+      ],
+      "substitution_slots": [
+        {
+          "slot": "answer_item",
+          "options": [
+            "a book",
+            "a pen",
+            "an orange",
+            "a chair"
+          ]
+        }
+      ],
+      "practice_activities": [
+        "reading_fill_blank",
+        "writing_arrange_words"
+      ]
+    },
+    {
+      "id": "gram_11",
+      "world_id": "world_01",
+      "structure": "What is your name?",
+      "explanation_vi": "Câu hỏi tên người khác: 'Tên của bạn là gì?'.",
+      "example_sentences": [
+        {
+          "en": "What is your name? - My name is Leo.",
+          "vi": "Tên bạn là gì? - Tên mình là Leo.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        },
+        {
+          "en": "What is your name? - I am Mia.",
+          "vi": "Tên bạn là gì? - Mình là Mia.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        }
+      ],
+      "difficulty": 2,
+      "cefr_level": "Pre-A1",
+      "common_mistakes_vi": [
+        "Nhầm 'your' (của bạn) với 'my' (của tôi)."
+      ],
+      "substitution_slots": [
+        {
+          "slot": "name",
+          "options": [
+            "Leo",
+            "Mia",
+            "Buddy",
+            "Lily"
+          ]
+        }
+      ],
+      "practice_activities": [
+        "reading_fill_blank",
+        "writing_arrange_words"
+      ]
+    },
+    {
+      "id": "gram_12",
+      "world_id": "world_01",
+      "structure": "How are you?",
+      "explanation_vi": "Câu hỏi thăm sức khỏe/cảm xúc: 'Bạn có khỏe không?'.",
+      "example_sentences": [
+        {
+          "en": "How are you? - I am good, thank you!",
+          "vi": "Bạn khỏe không? - Mình khỏe, cảm ơn!",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        },
+        {
+          "en": "How are you? - I am happy.",
+          "vi": "Bạn khỏe không? - Mình rất vui.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        }
+      ],
+      "difficulty": 2,
+      "cefr_level": "Pre-A1",
+      "common_mistakes_vi": [
+        "Trả lời 'I am fine/good' thay vì chỉ nói 'Yes'."
+      ],
+      "substitution_slots": [
+        {
+          "slot": "feeling",
+          "options": [
+            "good",
+            "happy",
+            "fine",
+            "great"
+          ]
+        }
+      ],
+      "practice_activities": [
+        "reading_fill_blank",
+        "writing_arrange_words"
+      ]
+    },
+    {
+      "id": "gram_13",
+      "world_id": "world_01",
+      "structure": "Where is ...?",
+      "explanation_vi": "Câu hỏi vị trí: '... ở đâu?'.",
+      "example_sentences": [
+        {
+          "en": "Where is my bag?",
+          "vi": "Cái cặp của mình ở đâu?",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        },
+        {
+          "en": "Where is the cat?",
+          "vi": "Con mèo ở đâu?",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        }
+      ],
+      "difficulty": 2,
+      "cefr_level": "Pre-A1",
+      "common_mistakes_vi": [
+        "Quên 'is' trong câu hỏi Where."
+      ],
+      "substitution_slots": [
+        {
+          "slot": "target",
+          "options": [
+            "my bag",
+            "the cat",
+            "my pen",
+            "Professor Owl"
+          ]
+        }
+      ],
+      "practice_activities": [
+        "reading_fill_blank",
+        "writing_arrange_words"
+      ]
+    },
+    {
+      "id": "gram_14",
+      "world_id": "world_01",
+      "structure": "Is this ...?",
+      "explanation_vi": "Câu hỏi Đúng/Không về vật ở gần: 'Đây có phải là ... không?'.",
+      "example_sentences": [
+        {
+          "en": "Is this an apple? - Yes, it is.",
+          "vi": "Đây có phải quả táo không? - Đúng vậy.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        },
+        {
+          "en": "Is this a dog? - No, it is a cat.",
+          "vi": "Đây có phải con chó không? - Không, đó là con mèo.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        }
+      ],
+      "difficulty": 2,
+      "cefr_level": "Pre-A1",
+      "common_mistakes_vi": [
+        "Đảo 'This is' thành 'Is this' khi đặt câu hỏi."
+      ],
+      "substitution_slots": [
+        {
+          "slot": "item",
+          "options": [
+            "an apple",
+            "a dog",
+            "a book",
+            "a ball"
+          ]
+        }
+      ],
+      "practice_activities": [
+        "reading_fill_blank",
+        "writing_arrange_words"
+      ]
+    },
+    {
+      "id": "gram_15",
+      "world_id": "world_01",
+      "structure": "Do you like ...?",
+      "explanation_vi": "Câu hỏi sở thích: 'Bạn có thích ... không?'.",
+      "example_sentences": [
+        {
+          "en": "Do you like milk? - Yes, I do.",
+          "vi": "Bạn có thích sữa không? - Có, mình thích.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        },
+        {
+          "en": "Do you like bananas? - No, I don't.",
+          "vi": "Bạn có thích chuối không? - Không, mình không thích.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        }
+      ],
+      "difficulty": 2,
+      "cefr_level": "Pre-A1",
+      "common_mistakes_vi": [
+        "Quên trợ động từ 'Do' ở đầu câu hỏi."
+      ],
+      "substitution_slots": [
+        {
+          "slot": "topic_item",
+          "options": [
+            "milk",
+            "apples",
+            "bananas",
+            "cats",
+            "blue"
+          ]
+        }
+      ],
+      "practice_activities": [
+        "reading_fill_blank",
+        "writing_arrange_words"
+      ]
+    }
+  ],
+  "model_sentences": [
+    {
+      "id": "sent_01",
+      "en": "Hello! I am Leo.",
+      "vi": "Xin chào! Mình là Leo.",
+      "grammar_id": "gram_01",
+      "audio_status": "missing_asset"
+    },
+    {
+      "id": "sent_02",
+      "en": "This is an apple.",
+      "vi": "Đây là một quả táo.",
+      "grammar_id": "gram_03",
+      "audio_status": "missing_asset"
+    },
+    {
+      "id": "sent_03",
+      "en": "It is a red ball.",
+      "vi": "Nó là một quả bóng màu đỏ.",
+      "grammar_id": "gram_05",
+      "audio_status": "missing_asset"
+    },
+    {
+      "id": "sent_04",
+      "en": "I have two books.",
+      "vi": "Mình có hai quyển sách.",
+      "grammar_id": "gram_06",
+      "audio_status": "missing_asset"
+    },
+    {
+      "id": "sent_05",
+      "en": "I like milk and cake.",
+      "vi": "Mình thích sữa và bánh ngọt.",
+      "grammar_id": "gram_07",
+      "audio_status": "missing_asset"
+    },
+    {
+      "id": "sent_06",
+      "en": "I like yellow bananas.",
+      "vi": "Mình thích những quả chuối màu vàng.",
+      "grammar_id": "gram_07",
+      "audio_status": "missing_asset"
+    },
+    {
+      "id": "sent_07",
+      "en": "I can read English.",
+      "vi": "Mình có thể đọc tiếng Anh.",
+      "grammar_id": "gram_08",
+      "audio_status": "missing_asset"
+    },
+    {
+      "id": "sent_08",
+      "en": "What is your name?",
+      "vi": "Tên của bạn là gì?",
+      "grammar_id": "gram_11",
+      "audio_status": "missing_asset"
+    },
+    {
+      "id": "sent_09",
+      "en": "How are you? I am happy!",
+      "vi": "Bạn khỏe không? Mình rất vui!",
+      "grammar_id": "gram_12",
+      "audio_status": "missing_asset"
+    },
+    {
+      "id": "sent_10",
+      "en": "Where is my blue bag?",
+      "vi": "Chiếc cặp màu xanh dương của mình ở đâu?",
+      "grammar_id": "gram_13",
+      "audio_status": "missing_asset"
+    },
+    {
+      "id": "sent_11",
+      "en": "Is this a cat? Yes, it is.",
+      "vi": "Đây có phải con mèo không? Đúng rồi.",
+      "grammar_id": "gram_14",
+      "audio_status": "missing_asset"
+    },
+    {
+      "id": "sent_12",
+      "en": "Do you like apples?",
+      "vi": "Bạn có thích táo không?",
+      "grammar_id": "gram_15",
+      "audio_status": "missing_asset"
+    }
+  ]
+}

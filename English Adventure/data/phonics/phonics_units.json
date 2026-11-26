@@ -1,0 +1,452 @@
+{
+  "world_id": "world_01",
+  "default_accent": "en-US",
+  "supported_accents": [
+    "en-US",
+    "en-GB"
+  ],
+  "categories": [
+    "alphabet",
+    "letter_names",
+    "letter_sounds",
+    "short_vowels",
+    "long_vowels",
+    "consonants",
+    "consonant_digraphs",
+    "vowel_teams",
+    "common_sound_patterns",
+    "basic_word_blending"
+  ],
+  "units": [
+    {
+      "id": "ph_short_a",
+      "category": "short_vowels",
+      "grapheme": "a",
+      "phoneme_ipa": "/æ/",
+      "title_vi": "Nguyên âm ngắn A (/æ/)",
+      "explanation_vi": "Âm A ngắn xuất hiện trong apple, cat, bag.",
+      "examples": [
+        {
+          "word_id": "word_apple",
+          "word": "apple",
+          "segments": [
+            "æ",
+            "p",
+            "ə",
+            "l"
+          ]
+        },
+        {
+          "word_id": "word_cat",
+          "word": "cat",
+          "segments": [
+            "k",
+            "æ",
+            "t"
+          ]
+        }
+      ],
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "cefr_level": "Pre-A1"
+    },
+    {
+      "id": "ph_short_e",
+      "category": "short_vowels",
+      "grapheme": "e",
+      "phoneme_ipa": "/ɛ/",
+      "title_vi": "Nguyên âm ngắn E (/ɛ/)",
+      "explanation_vi": "Âm E ngắn như trong pen, red, elephant.",
+      "examples": [
+        {
+          "word_id": "word_pen",
+          "word": "pen",
+          "segments": [
+            "p",
+            "ɛ",
+            "n"
+          ]
+        },
+        {
+          "word_id": "word_red",
+          "word": "red",
+          "segments": [
+            "r",
+            "ɛ",
+            "d"
+          ]
+        }
+      ],
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "cefr_level": "Pre-A1"
+    },
+    {
+      "id": "ph_short_i",
+      "category": "short_vowels",
+      "grapheme": "i",
+      "phoneme_ipa": "/ɪ/",
+      "title_vi": "Nguyên âm ngắn I (/ɪ/)",
+      "explanation_vi": "Âm I ngắn gọn như trong fish, milk, pink.",
+      "examples": [
+        {
+          "word_id": "word_fish",
+          "word": "fish",
+          "segments": [
+            "f",
+            "ɪ",
+            "ʃ"
+          ]
+        },
+        {
+          "word_id": "word_milk",
+          "word": "milk",
+          "segments": [
+            "m",
+            "ɪ",
+            "l",
+            "k"
+          ]
+        }
+      ],
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "cefr_level": "Pre-A1"
+    },
+    {
+      "id": "ph_short_o",
+      "category": "short_vowels",
+      "grapheme": "o",
+      "phoneme_ipa": "/ɒ/",
+      "title_vi": "Nguyên âm ngắn O (/ɒ/ - /ɑː/)",
+      "explanation_vi": "Âm O ngắn như trong dog, orange, mom.",
+      "examples": [
+        {
+          "word_id": "word_dog",
+          "word": "dog",
+          "segments": [
+            "d",
+            "ɒ",
+            "g"
+          ]
+        },
+        {
+          "word_id": "word_mom",
+          "word": "mom",
+          "segments": [
+            "m",
+            "ɑː",
+            "m"
+          ]
+        }
+      ],
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "cefr_level": "Pre-A1"
+    },
+    {
+      "id": "ph_short_u",
+      "category": "short_vowels",
+      "grapheme": "u",
+      "phoneme_ipa": "/ʌ/",
+      "title_vi": "Nguyên âm ngắn U (/ʌ/)",
+      "explanation_vi": "Âm U ngắn như trong duck.",
+      "examples": [
+        {
+          "word_id": "word_duck",
+          "word": "duck",
+          "segments": [
+            "d",
+            "ʌ",
+            "k"
+          ]
+        }
+      ],
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "cefr_level": "Pre-A1"
+    },
+    {
+      "id": "ph_long_a",
+      "category": "long_vowels",
+      "grapheme": "a_e",
+      "phoneme_ipa": "/eɪ/",
+      "title_vi": "Nguyên âm dài A (/eɪ/)",
+      "explanation_vi": "Khi có chữ E câm ở cuối như 'cake', âm A đọc dài thành /eɪ/.",
+      "examples": [
+        {
+          "word_id": "word_cake",
+          "word": "cake",
+          "segments": [
+            "k",
+            "eɪ",
+            "k"
+          ]
+        }
+      ],
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "cefr_level": "Pre-A1"
+    },
+    {
+      "id": "ph_long_i",
+      "category": "long_vowels",
+      "grapheme": "i_e",
+      "phoneme_ipa": "/aɪ/",
+      "title_vi": "Nguyên âm dài I (/aɪ/)",
+      "explanation_vi": "Trong từ 'five', i + phụ âm + e tạo âm dài /aɪ/.",
+      "examples": [
+        {
+          "word_id": "word_five",
+          "word": "five",
+          "segments": [
+            "f",
+            "aɪ",
+            "v"
+          ]
+        }
+      ],
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "cefr_level": "Pre-A1"
+    },
+    {
+      "id": "ph_cons_b",
+      "category": "consonants",
+      "grapheme": "b",
+      "phoneme_ipa": "/b/",
+      "title_vi": "Phụ âm B (/b/)",
+      "explanation_vi": "Phụ âm /b/ xuất hiện ở ball, book, bag.",
+      "examples": [
+        {
+          "word_id": "word_ball",
+          "word": "ball",
+          "segments": [
+            "b",
+            "ɔː",
+            "l"
+          ]
+        },
+        {
+          "word_id": "word_bag",
+          "word": "bag",
+          "segments": [
+            "b",
+            "æ",
+            "g"
+          ]
+        }
+      ],
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "cefr_level": "Pre-A1"
+    },
+    {
+      "id": "ph_digraph_sh",
+      "category": "consonant_digraphs",
+      "grapheme": "sh",
+      "phoneme_ipa": "/ʃ/",
+      "title_vi": "Tổ hợp phụ âm SH (/ʃ/)",
+      "explanation_vi": "Hai chữ S + H ghép lại tạo âm /ʃ/ (chu môi thổi nhẹ), như trong 'ship' và 'fish'.",
+      "examples": [
+        {
+          "word_id": "word_ship",
+          "word": "ship",
+          "segments": [
+            "ʃ",
+            "ɪ",
+            "p"
+          ]
+        },
+        {
+          "word_id": "word_fish",
+          "word": "fish",
+          "segments": [
+            "f",
+            "ɪ",
+            "ʃ"
+          ]
+        }
+      ],
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "cefr_level": "Pre-A1"
+    },
+    {
+      "id": "ph_digraph_ch",
+      "category": "consonant_digraphs",
+      "grapheme": "ch",
+      "phoneme_ipa": "/tʃ/",
+      "title_vi": "Tổ hợp phụ âm CH (/tʃ/)",
+      "explanation_vi": "Hai chữ C + H ghép lại tạo âm bật /tʃ/ như trong 'chair'.",
+      "examples": [
+        {
+          "word_id": "word_chair",
+          "word": "chair",
+          "segments": [
+            "tʃ",
+            "ɛr"
+          ]
+        }
+      ],
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "cefr_level": "Pre-A1"
+    },
+    {
+      "id": "ph_digraph_th",
+      "category": "consonant_digraphs",
+      "grapheme": "th",
+      "phoneme_ipa": "/θ/",
+      "title_vi": "Tổ hợp phụ âm TH (/θ/)",
+      "explanation_vi": "Đặt nhẹ đầu lưỡi giữa hai hàm răng và thổi hơi /θ/ như trong 'three'.",
+      "examples": [
+        {
+          "word_id": "word_three",
+          "word": "three",
+          "segments": [
+            "θ",
+            "r",
+            "iː"
+          ]
+        }
+      ],
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "cefr_level": "Pre-A1"
+    },
+    {
+      "id": "ph_team_ee",
+      "category": "vowel_teams",
+      "grapheme": "ee",
+      "phoneme_ipa": "/iː/",
+      "title_vi": "Tổ hợp nguyên âm EE (/iː/)",
+      "explanation_vi": "Hai chữ E đứng cạnh nhau đọc kéo dài thành /iː/ như trong 'green', 'three'.",
+      "examples": [
+        {
+          "word_id": "word_green",
+          "word": "green",
+          "segments": [
+            "g",
+            "r",
+            "iː",
+            "n"
+          ]
+        },
+        {
+          "word_id": "word_three",
+          "word": "three",
+          "segments": [
+            "θ",
+            "r",
+            "iː"
+          ]
+        }
+      ],
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "cefr_level": "Pre-A1"
+    },
+    {
+      "id": "ph_team_oo",
+      "category": "vowel_teams",
+      "grapheme": "oo",
+      "phoneme_ipa": "/ʊ/",
+      "title_vi": "Tổ hợp nguyên âm OO (/ʊ/)",
+      "explanation_vi": "Hai chữ O trong 'book' đọc ngắn /ʊ/.",
+      "examples": [
+        {
+          "word_id": "word_book",
+          "word": "book",
+          "segments": [
+            "b",
+            "ʊ",
+            "k"
+          ]
+        }
+      ],
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "cefr_level": "Pre-A1"
+    },
+    {
+      "id": "ph_pattern_at",
+      "category": "common_sound_patterns",
+      "grapheme": "-at",
+      "phoneme_ipa": "/æt/",
+      "title_vi": "Mẫu âm quen thuộc -at",
+      "explanation_vi": "Ghép phụ âm đầu với cụm -at (/æt/) để đọc nhanh các từ như cat, bat, hat.",
+      "examples": [
+        {
+          "word_id": "word_cat",
+          "word": "cat",
+          "segments": [
+            "c",
+            "-at"
+          ]
+        }
+      ],
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "cefr_level": "Pre-A1"
+    },
+    {
+      "id": "ph_blend_cvc",
+      "category": "basic_word_blending",
+      "grapheme": "C-V-C",
+      "phoneme_ipa": "/k-æ-t/",
+      "title_vi": "Ghép âm tạo từ đơn giản (Blending)",
+      "explanation_vi": "Đọc nối từng âm từ trái sang phải: /k/ + /æ/ + /t/ -> cat; /b/ + /æ/ + /g/ -> bag.",
+      "examples": [
+        {
+          "word_id": "word_cat",
+          "word": "cat",
+          "segments": [
+            "c",
+            "a",
+            "t"
+          ]
+        },
+        {
+          "word_id": "word_dog",
+          "word": "dog",
+          "segments": [
+            "d",
+            "o",
+            "g"
+          ]
+        },
+        {
+          "word_id": "word_pen",
+          "word": "pen",
+          "segments": [
+            "p",
+            "e",
+            "n"
+          ]
+        },
+        {
+          "word_id": "word_bag",
+          "word": "bag",
+          "segments": [
+            "b",
+            "a",
+            "g"
+          ]
+        },
+        {
+          "word_id": "word_ship",
+          "word": "ship",
+          "segments": [
+            "sh",
+            "i",
+            "p"
+          ]
+        }
+      ],
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "cefr_level": "Pre-A1"
+    }
+  ]
+}

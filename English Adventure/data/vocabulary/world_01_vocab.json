@@ -1,0 +1,964 @@
+{
+  "world_id": "world_01",
+  "vocabulary": [
+    {
+      "id": "word_apple",
+      "word": "apple",
+      "ipa_us": "/ˈæp.əl/",
+      "ipa_uk": "/ˈæp.əl/",
+      "meaning_vi": "Quả táo",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/apple.svg",
+      "example_sentence": "I eat an apple.",
+      "example_translation": "Tôi ăn một quả táo.",
+      "topic": "food",
+      "category": "food",
+      "world_id": "world_01",
+      "cefr_level": "Pre-A1",
+      "difficulty": 1,
+      "related_words": [
+        "word_banana",
+        "word_orange"
+      ],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ]
+    },
+    {
+      "id": "word_banana",
+      "word": "banana",
+      "ipa_us": "/bəˈnæn.ə/",
+      "ipa_uk": "/bəˈnɑː.nə/",
+      "meaning_vi": "Quả chuối",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/banana.svg",
+      "example_sentence": "I like a yellow banana.",
+      "example_translation": "Tôi thích một quả chuối vàng.",
+      "topic": "food",
+      "category": "food",
+      "world_id": "world_01",
+      "cefr_level": "Pre-A1",
+      "difficulty": 1,
+      "related_words": [
+        "word_apple",
+        "word_yellow"
+      ],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ]
+    },
+    {
+      "id": "word_orange",
+      "word": "orange",
+      "ipa_us": "/ˈɔːr.ɪndʒ/",
+      "ipa_uk": "/ˈɒr.ɪndʒ/",
+      "meaning_vi": "Quả cam",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/orange.svg",
+      "example_sentence": "This is an orange.",
+      "example_translation": "Đây là một quả cam.",
+      "topic": "food",
+      "category": "food",
+      "world_id": "world_01",
+      "cefr_level": "Pre-A1",
+      "difficulty": 1,
+      "related_words": [
+        "word_apple",
+        "word_banana"
+      ],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ]
+    },
+    {
+      "id": "word_milk",
+      "word": "milk",
+      "ipa_us": "/mɪlk/",
+      "ipa_uk": "/mɪlk/",
+      "meaning_vi": "Sữa",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/milk.svg",
+      "example_sentence": "I drink milk every morning.",
+      "example_translation": "Tôi uống sữa mỗi buổi sáng.",
+      "topic": "food",
+      "category": "food",
+      "world_id": "world_01",
+      "cefr_level": "Pre-A1",
+      "difficulty": 1,
+      "related_words": [
+        "word_water",
+        "word_cake"
+      ],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ]
+    },
+    {
+      "id": "word_cake",
+      "word": "cake",
+      "ipa_us": "/keɪk/",
+      "ipa_uk": "/keɪk/",
+      "meaning_vi": "Bánh ngọt",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/cake.svg",
+      "example_sentence": "I want a small cake.",
+      "example_translation": "Tôi muốn một chiếc bánh nhỏ.",
+      "topic": "food",
+      "category": "food",
+      "world_id": "world_01",
+      "cefr_level": "Pre-A1",
+      "difficulty": 1,
+      "related_words": [
+        "word_milk",
+        "word_apple"
+      ],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ]
+    },
+    {
+      "id": "word_water",
+      "word": "water",
+      "ipa_us": "/ˈwɔː.tər/",
+      "ipa_uk": "/ˈwɔː.tər/",
+      "meaning_vi": "Nước",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/water.svg",
+      "example_sentence": "I have cold water.",
+      "example_translation": "Tôi có nước mát.",
+      "topic": "food",
+      "category": "food",
+      "world_id": "world_01",
+      "cefr_level": "Pre-A1",
+      "difficulty": 1,
+      "related_words": [
+        "word_milk"
+      ],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ]
+    },
+    {
+      "id": "word_cat",
+      "word": "cat",
+      "ipa_us": "/kæt/",
+      "ipa_uk": "/kæt/",
+      "meaning_vi": "Con mèo",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/cat.svg",
+      "example_sentence": "The cat is cute.",
+      "example_translation": "Con mèo thật dễ thương.",
+      "topic": "animals",
+      "category": "animals",
+      "world_id": "world_01",
+      "cefr_level": "Pre-A1",
+      "difficulty": 1,
+      "related_words": [
+        "word_dog",
+        "word_bird"
+      ],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ]
+    },
+    {
+      "id": "word_dog",
+      "word": "dog",
+      "ipa_us": "/dɔːɡ/",
+      "ipa_uk": "/dɒɡ/",
+      "meaning_vi": "Con chó",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/dog.svg",
+      "example_sentence": "I have a brown dog.",
+      "example_translation": "Tôi có một chú chó nâu.",
+      "topic": "animals",
+      "category": "animals",
+      "world_id": "world_01",
+      "cefr_level": "Pre-A1",
+      "difficulty": 1,
+      "related_words": [
+        "word_cat",
+        "word_duck"
+      ],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ]
+    },
+    {
+      "id": "word_bird",
+      "word": "bird",
+      "ipa_us": "/bɜːrd/",
+      "ipa_uk": "/bɜːd/",
+      "meaning_vi": "Con chim",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/bird.svg",
+      "example_sentence": "The blue bird can fly.",
+      "example_translation": "Chú chim xanh có thể bay.",
+      "topic": "animals",
+      "category": "animals",
+      "world_id": "world_01",
+      "cefr_level": "Pre-A1",
+      "difficulty": 1,
+      "related_words": [
+        "word_duck",
+        "word_cat"
+      ],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ]
+    },
+    {
+      "id": "word_fish",
+      "word": "fish",
+      "ipa_us": "/fɪʃ/",
+      "ipa_uk": "/fɪʃ/",
+      "meaning_vi": "Con cá",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/fish.svg",
+      "example_sentence": "The fish can swim.",
+      "example_translation": "Con cá có thể bơi.",
+      "topic": "animals",
+      "category": "animals",
+      "world_id": "world_01",
+      "cefr_level": "Pre-A1",
+      "difficulty": 1,
+      "related_words": [
+        "word_water",
+        "word_duck"
+      ],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ]
+    },
+    {
+      "id": "word_duck",
+      "word": "duck",
+      "ipa_us": "/dʌk/",
+      "ipa_uk": "/dʌk/",
+      "meaning_vi": "Con vịt",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/duck.svg",
+      "example_sentence": "Look at the yellow duck.",
+      "example_translation": "Hãy nhìn chú vịt vàng kia.",
+      "topic": "animals",
+      "category": "animals",
+      "world_id": "world_01",
+      "cefr_level": "Pre-A1",
+      "difficulty": 1,
+      "related_words": [
+        "word_bird",
+        "word_fish"
+      ],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ]
+    },
+    {
+      "id": "word_elephant",
+      "word": "elephant",
+      "ipa_us": "/ˈel.ə.fənt/",
+      "ipa_uk": "/ˈel.ɪ.fənt/",
+      "meaning_vi": "Con voi",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/elephant.svg",
+      "example_sentence": "That is a big elephant.",
+      "example_translation": "Kia là một con voi to lớn.",
+      "topic": "animals",
+      "category": "animals",
+      "world_id": "world_01",
+      "cefr_level": "Pre-A1",
+      "difficulty": 2,
+      "related_words": [
+        "word_cat",
+        "word_dog"
+      ],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ]
+    },
+    {
+      "id": "word_red",
+      "word": "red",
+      "ipa_us": "/red/",
+      "ipa_uk": "/red/",
+      "meaning_vi": "Màu đỏ",
+      "part_of_speech": "adjective",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/red.svg",
+      "example_sentence": "My apple is red.",
+      "example_translation": "Quả táo của tôi màu đỏ.",
+      "topic": "colors",
+      "category": "colors",
+      "world_id": "world_01",
+      "cefr_level": "Pre-A1",
+      "difficulty": 1,
+      "related_words": [
+        "word_blue",
+        "word_apple"
+      ],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ]
+    },
+    {
+      "id": "word_blue",
+      "word": "blue",
+      "ipa_us": "/bluː/",
+      "ipa_uk": "/bluː/",
+      "meaning_vi": "Màu xanh dương",
+      "part_of_speech": "adjective",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/blue.svg",
+      "example_sentence": "The sky is blue.",
+      "example_translation": "Bầu trời có màu xanh dương.",
+      "topic": "colors",
+      "category": "colors",
+      "world_id": "world_01",
+      "cefr_level": "Pre-A1",
+      "difficulty": 1,
+      "related_words": [
+        "word_green",
+        "word_red"
+      ],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ]
+    },
+    {
+      "id": "word_green",
+      "word": "green",
+      "ipa_us": "/ɡriːn/",
+      "ipa_uk": "/ɡriːn/",
+      "meaning_vi": "Màu xanh lá",
+      "part_of_speech": "adjective",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/green.svg",
+      "example_sentence": "I see a green leaf.",
+      "example_translation": "Tôi thấy một chiếc lá xanh.",
+      "topic": "colors",
+      "category": "colors",
+      "world_id": "world_01",
+      "cefr_level": "Pre-A1",
+      "difficulty": 1,
+      "related_words": [
+        "word_blue",
+        "word_yellow"
+      ],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ]
+    },
+    {
+      "id": "word_yellow",
+      "word": "yellow",
+      "ipa_us": "/ˈjel.oʊ/",
+      "ipa_uk": "/ˈjel.əʊ/",
+      "meaning_vi": "Màu vàng",
+      "part_of_speech": "adjective",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/yellow.svg",
+      "example_sentence": "The banana is yellow.",
+      "example_translation": "Quả chuối có màu vàng.",
+      "topic": "colors",
+      "category": "colors",
+      "world_id": "world_01",
+      "cefr_level": "Pre-A1",
+      "difficulty": 1,
+      "related_words": [
+        "word_banana",
+        "word_red"
+      ],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ]
+    },
+    {
+      "id": "word_pink",
+      "word": "pink",
+      "ipa_us": "/pɪŋk/",
+      "ipa_uk": "/pɪŋk/",
+      "meaning_vi": "Màu hồng",
+      "part_of_speech": "adjective",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/pink.svg",
+      "example_sentence": "She likes a pink bag.",
+      "example_translation": "Cô ấy thích chiếc cặp màu hồng.",
+      "topic": "colors",
+      "category": "colors",
+      "world_id": "world_01",
+      "cefr_level": "Pre-A1",
+      "difficulty": 1,
+      "related_words": [
+        "word_red",
+        "word_bag"
+      ],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ]
+    },
+    {
+      "id": "word_one",
+      "word": "one",
+      "ipa_us": "/wʌn/",
+      "ipa_uk": "/wʌn/",
+      "meaning_vi": "Số một",
+      "part_of_speech": "number",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/one.svg",
+      "example_sentence": "I have one book.",
+      "example_translation": "Tôi có một quyển sách.",
+      "topic": "numbers",
+      "category": "numbers",
+      "world_id": "world_01",
+      "cefr_level": "Pre-A1",
+      "difficulty": 1,
+      "related_words": [
+        "word_two",
+        "word_three"
+      ],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ]
+    },
+    {
+      "id": "word_two",
+      "word": "two",
+      "ipa_us": "/tuː/",
+      "ipa_uk": "/tuː/",
+      "meaning_vi": "Số hai",
+      "part_of_speech": "number",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/two.svg",
+      "example_sentence": "I have two pens.",
+      "example_translation": "Tôi có hai cây bút.",
+      "topic": "numbers",
+      "category": "numbers",
+      "world_id": "world_01",
+      "cefr_level": "Pre-A1",
+      "difficulty": 1,
+      "related_words": [
+        "word_one",
+        "word_three"
+      ],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ]
+    },
+    {
+      "id": "word_three",
+      "word": "three",
+      "ipa_us": "/θriː/",
+      "ipa_uk": "/θriː/",
+      "meaning_vi": "Số ba",
+      "part_of_speech": "number",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/three.svg",
+      "example_sentence": "I see three birds.",
+      "example_translation": "Tôi thấy ba chú chim.",
+      "topic": "numbers",
+      "category": "numbers",
+      "world_id": "world_01",
+      "cefr_level": "Pre-A1",
+      "difficulty": 1,
+      "related_words": [
+        "word_two",
+        "word_four"
+      ],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ]
+    },
+    {
+      "id": "word_four",
+      "word": "four",
+      "ipa_us": "/fɔːr/",
+      "ipa_uk": "/fɔːr/",
+      "meaning_vi": "Số bốn",
+      "part_of_speech": "number",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/four.svg",
+      "example_sentence": "There are four apples.",
+      "example_translation": "Có bốn quả táo.",
+      "topic": "numbers",
+      "category": "numbers",
+      "world_id": "world_01",
+      "cefr_level": "Pre-A1",
+      "difficulty": 1,
+      "related_words": [
+        "word_three",
+        "word_five"
+      ],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ]
+    },
+    {
+      "id": "word_five",
+      "word": "five",
+      "ipa_us": "/faɪv/",
+      "ipa_uk": "/faɪv/",
+      "meaning_vi": "Số năm",
+      "part_of_speech": "number",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/five.svg",
+      "example_sentence": "I have five red balls.",
+      "example_translation": "Tôi có năm quả bóng đỏ.",
+      "topic": "numbers",
+      "category": "numbers",
+      "world_id": "world_01",
+      "cefr_level": "Pre-A1",
+      "difficulty": 1,
+      "related_words": [
+        "word_four",
+        "word_ball"
+      ],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ]
+    },
+    {
+      "id": "word_mom",
+      "word": "mom",
+      "ipa_us": "/mɑːm/",
+      "ipa_uk": "/mɒm/",
+      "meaning_vi": "Mẹ",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/mom.svg",
+      "example_sentence": "I love my mom.",
+      "example_translation": "Tôi yêu mẹ của tôi.",
+      "topic": "family",
+      "category": "family",
+      "world_id": "world_01",
+      "cefr_level": "Pre-A1",
+      "difficulty": 1,
+      "related_words": [
+        "word_dad",
+        "word_sister"
+      ],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ]
+    },
+    {
+      "id": "word_dad",
+      "word": "dad",
+      "ipa_us": "/dæd/",
+      "ipa_uk": "/dæd/",
+      "meaning_vi": "Bố",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/dad.svg",
+      "example_sentence": "My dad is kind.",
+      "example_translation": "Bố của tôi rất tốt bụng.",
+      "topic": "family",
+      "category": "family",
+      "world_id": "world_01",
+      "cefr_level": "Pre-A1",
+      "difficulty": 1,
+      "related_words": [
+        "word_mom",
+        "word_brother"
+      ],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ]
+    },
+    {
+      "id": "word_sister",
+      "word": "sister",
+      "ipa_us": "/ˈsɪs.tər/",
+      "ipa_uk": "/ˈsɪs.tər/",
+      "meaning_vi": "Chị / Em gái",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/sister.svg",
+      "example_sentence": "This is my sister.",
+      "example_translation": "Đây là chị gái của tôi.",
+      "topic": "family",
+      "category": "family",
+      "world_id": "world_01",
+      "cefr_level": "Pre-A1",
+      "difficulty": 1,
+      "related_words": [
+        "word_brother",
+        "word_mom"
+      ],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ]
+    },
+    {
+      "id": "word_brother",
+      "word": "brother",
+      "ipa_us": "/ˈbrʌð.ər/",
+      "ipa_uk": "/ˈbrʌð.ər/",
+      "meaning_vi": "Anh / Em trai",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/brother.svg",
+      "example_sentence": "He is my brother.",
+      "example_translation": "Bạn ấy là anh trai của tôi.",
+      "topic": "family",
+      "category": "family",
+      "world_id": "world_01",
+      "cefr_level": "Pre-A1",
+      "difficulty": 1,
+      "related_words": [
+        "word_sister",
+        "word_dad"
+      ],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ]
+    },
+    {
+      "id": "word_ball",
+      "word": "ball",
+      "ipa_us": "/bɔːl/",
+      "ipa_uk": "/bɔːl/",
+      "meaning_vi": "Quả bóng",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/ball.svg",
+      "example_sentence": "I play with a ball.",
+      "example_translation": "Tôi chơi với một quả bóng.",
+      "topic": "objects",
+      "category": "objects",
+      "world_id": "world_01",
+      "cefr_level": "Pre-A1",
+      "difficulty": 1,
+      "related_words": [
+        "word_five",
+        "word_red"
+      ],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ]
+    },
+    {
+      "id": "word_book",
+      "word": "book",
+      "ipa_us": "/bʊk/",
+      "ipa_uk": "/bʊk/",
+      "meaning_vi": "Quyển sách",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/book.svg",
+      "example_sentence": "Open your book, please.",
+      "example_translation": "Hãy mở sách của bạn ra nhé.",
+      "topic": "objects",
+      "category": "objects",
+      "world_id": "world_01",
+      "cefr_level": "Pre-A1",
+      "difficulty": 1,
+      "related_words": [
+        "word_pen",
+        "word_bag"
+      ],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ]
+    },
+    {
+      "id": "word_pen",
+      "word": "pen",
+      "ipa_us": "/pen/",
+      "ipa_uk": "/pen/",
+      "meaning_vi": "Cây bút",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/pen.svg",
+      "example_sentence": "This is my yellow pen.",
+      "example_translation": "Đây là cây bút màu vàng của tôi.",
+      "topic": "objects",
+      "category": "objects",
+      "world_id": "world_01",
+      "cefr_level": "Pre-A1",
+      "difficulty": 1,
+      "related_words": [
+        "word_book",
+        "word_bag"
+      ],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ]
+    },
+    {
+      "id": "word_bag",
+      "word": "bag",
+      "ipa_us": "/bæɡ/",
+      "ipa_uk": "/bæɡ/",
+      "meaning_vi": "Cái cặp / Túi",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/bag.svg",
+      "example_sentence": "My book is in the bag.",
+      "example_translation": "Quyển sách của tôi ở trong cặp.",
+      "topic": "objects",
+      "category": "objects",
+      "world_id": "world_01",
+      "cefr_level": "Pre-A1",
+      "difficulty": 1,
+      "related_words": [
+        "word_book",
+        "word_pen"
+      ],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ]
+    },
+    {
+      "id": "word_chair",
+      "word": "chair",
+      "ipa_us": "/tʃer/",
+      "ipa_uk": "/tʃeər/",
+      "meaning_vi": "Cái ghế",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/chair.svg",
+      "example_sentence": "Sit on the chair.",
+      "example_translation": "Hãy ngồi lên ghế.",
+      "topic": "objects",
+      "category": "objects",
+      "world_id": "world_01",
+      "cefr_level": "Pre-A1",
+      "difficulty": 1,
+      "related_words": [
+        "word_book",
+        "word_bag"
+      ],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ]
+    },
+    {
+      "id": "word_ship",
+      "word": "ship",
+      "ipa_us": "/ʃɪp/",
+      "ipa_uk": "/ʃɪp/",
+      "meaning_vi": "Con tàu",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/ship.svg",
+      "example_sentence": "The ship is on the blue sea.",
+      "example_translation": "Con tàu đang ở trên biển xanh.",
+      "topic": "objects",
+      "category": "objects",
+      "world_id": "world_01",
+      "cefr_level": "Pre-A1",
+      "difficulty": 2,
+      "related_words": [
+        "word_blue",
+        "word_water"
+      ],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ]
+    }
+  ]
+}

@@ -337,10 +337,12 @@ data/
 ```
 
 **Quy tắc đánh ID thống nhất:**
-- Từ vựng: `word_001` .. `word_999` (hoặc `w01_apple` nếu theo slug, **nhất quán 1 quy ước `word_NNN` để giữ ổn định tham chiếu kể cả khi đổi chính tả/câu ví dụ**).
-- Phonics: `phonics_<letter>_<variant>` (ví dụ `phonics_a_short`, `phonics_b`).
-- Grammar: `gram_NNN`.
-- Quests: `quest_w01_01` .. `quest_w01_18`.
+- Từ vựng: `word_001` .. `word_999` (hoặc `word_<slug>` như `word_apple` trong pack `world_01_vocab.json`, **nhất quán duy nhất một ID chuẩn để tái sử dụng đa kỹ năng**).
+- Phonics: `phonics_<letter>_<variant>` / `ph_<group>` (ví dụ `letter_a`, `ph_short_a`, `ph_digraph_sh`).
+- Grammar: `gram_01` .. `gram_15`.
+- Quests: `quest_01_new_adventure` .. `quest_03_mysterious_gate`.
+
+> **Cập nhật Prompt 04:** Toàn bộ bộ dữ liệu mẫu chạy thực tế đã được tạo tại `data/curriculum/`, `data/alphabet/`, `data/phonics/`, `data/vocabulary/`, `data/grammar/`, `data/listening/`, `data/reading/`, `data/writing/`, `data/speaking/` và được kiểm tra tự động bởi `tests/content_validation/validate_prompt_04.py`. Vì chưa có file âm thanh `.ogg` thu sẵn, mọi trường audio đều được đánh dấu trung thực `audio_status: "missing_asset"` với `audio_path: ""` thay vì đường dẫn giả.
 
 ---
 

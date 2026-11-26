@@ -44,6 +44,7 @@ var _cam_mouse_drag: bool = false
 @onready var quests_btn: Button = $BottomDock/Margin/Row/QuestsBtn
 @onready var bag_btn: Button = $BottomDock/Margin/Row/BagBtn
 @onready var desktop_buddy_btn: Button = $BottomDock/Margin/Row/DesktopBuddyBtn
+@onready var learn_btn: Button = $BottomDock/Margin/Row/LearnBtn
 @onready var save_btn: Button = $BottomDock/Margin/Row/SaveBtn
 
 @onready var interact_banner: Button = $InteractBanner
@@ -92,6 +93,7 @@ var _cam_mouse_drag: bool = false
 @onready var bag_close_btn: Button = $BagModal/Margin/VBox/Header/CloseBtn
 
 @onready var pause_menu: PauseMenuUI = $PauseMenu
+@onready var learning_hub_modal: LearningHubModal = $LearningHubModal
 
 
 func _ready() -> void:
@@ -101,7 +103,7 @@ func _ready() -> void:
 	toast_panel.visible = false
 
 	for btn: Button in [
-		map_btn, quests_btn, bag_btn, save_btn, settings_btn, pause_btn,
+		map_btn, quests_btn, bag_btn, learn_btn, save_btn, settings_btn, pause_btn,
 		interact_banner, touch_interact_btn, touch_jump_btn, buddy_btn, desktop_buddy_btn
 	]:
 		btn.focus_mode = Control.FOCUS_NONE
@@ -116,6 +118,7 @@ func _ready() -> void:
 	map_btn.pressed.connect(func() -> void: SceneRouter.go_to_world_map())
 	quests_btn.pressed.connect(_open_quest_log)
 	bag_btn.pressed.connect(_open_bag)
+	learn_btn.pressed.connect(func() -> void: open_learning_hub())
 	settings_btn.pressed.connect(func() -> void:
 		UIManager.open_settings(true)
 	)
@@ -162,6 +165,7 @@ func _ready() -> void:
 	toast_timer.timeout.connect(func() -> void: toast_panel.visible = false)
 
 	pause_menu.resumed.connect(func() -> void: _sync_overlay_visibility())
+	learning_hub_modal.closed.connect(func() -> void: _sync_overlay_visibility())
 	pause_menu.world_map_requested.connect(func() -> void: SceneRouter.go_to_world_map())
 	pause_menu.quests_requested.connect(func() -> void: _open_quest_log())
 	pause_menu.settings_requested.connect(func() -> void: UIManager.open_settings(true))
@@ -210,7 +214,8 @@ func _apply_design_system() -> void:
 	UIDesignSystem.apply_button_variant(quests_btn, "secondary")
 	UIDesignSystem.apply_button_variant(bag_btn, "secondary")
 	UIDesignSystem.apply_button_variant(desktop_buddy_btn, "reward")
-	UIDesignSystem.apply_button_variant(save_btn, "confirm")
+	UIDesignSystem.apply_button_variant(learn_btn, "confirm")
+	UIDesignSystem.apply_button_variant(save_btn, "primary")
 	UIDesignSystem.apply_button_variant(settings_btn, "icon")
 	UIDesignSystem.apply_button_variant(pause_btn, "secondary")
 	UIDesignSystem.apply_button_variant(interact_banner, "reward")
@@ -232,6 +237,7 @@ func is_blocking_overlay_above_dialogue() -> bool:
 		or area_unlocked_popup.visible
 		or quest_log_modal.visible
 		or bag_modal.visible
+		or learning_hub_modal.visible
 		or pause_menu.visible
 		or UIManager.is_modal_open()
 	)
@@ -247,6 +253,7 @@ func _is_any_modal_or_dialogue_open() -> bool:
 		or area_unlocked_popup.visible
 		or quest_log_modal.visible
 		or bag_modal.visible
+		or learning_hub_modal.visible
 		or pause_menu.visible
 		or UIManager.is_modal_open()
 	)
@@ -298,12 +305,20 @@ func _input(event: InputEvent) -> void:
 		if kc == KEY_ESCAPE:
 			if UIManager.is_modal_open():
 				return
-			if quest_log_modal.visible:
+			if learning_hub_modal.visible:
+				learning_hub_modal.close_modal()
+			elif quest_log_modal.visible:
 				UIAnimator.animate_popup_close(quest_log_modal, func() -> void: _sync_overlay_visibility())
 			elif bag_modal.visible:
 				UIAnimator.animate_popup_close(bag_modal, func() -> void: _sync_overlay_visibility())
 			elif not dialogue_box.visible:
 				_toggle_pause_menu()
+		elif kc == KEY_L and not _dialogue_active and not dialogue_box.visible and not pause_menu.visible and not UIManager.is_modal_open():
+			if learning_hub_modal.visible:
+				learning_hub_modal.close_modal()
+			else:
+				open_learning_hub()
+			get_viewport().set_input_as_handled()
 		elif kc == KEY_TAB and not _dialogue_active and not dialogue_box.visible and not pause_menu.visible and not UIManager.is_modal_open():
 			if quest_log_modal.visible:
 				UIAnimator.animate_popup_close(quest_log_modal, func() -> void: _sync_overlay_visibility())
@@ -345,7 +360,16 @@ func _hide_all_modals() -> void:
 	area_unlocked_popup.visible = false
 	quest_log_modal.visible = false
 	bag_modal.visible = false
+	learning_hub_modal.visible = false
 	pause_menu.visible = false
+
+
+func open_learning_hub(initial_lesson_id: String = "") -> void:
+	var req := initial_lesson_id
+	if req.is_empty():
+		req = LearningEngine.consume_requested_lesson()
+	learning_hub_modal.open_hub(req)
+	_sync_overlay_visibility()
 
 
 func set_area_header(area_data: Dictionary) -> void:
@@ -508,6 +532,7 @@ func _refresh_localized_labels() -> void:
 	map_btn.text = LocalizationManager.tr_key("btn_map", "Bản đồ")
 	quests_btn.text = LocalizationManager.tr_key("btn_quests", "Nhiệm vụ")
 	bag_btn.text = LocalizationManager.tr_key("btn_bag", "Túi đồ")
+	learn_btn.text = "%s [L]" % LocalizationManager.tr_key("btn_learn", "Học tập")
 	save_btn.text = LocalizationManager.tr_key("btn_save", "Lưu")
 	settings_btn.text = LocalizationManager.tr_key("btn_settings", "Cài đặt")
 	pause_btn.text = LocalizationManager.tr_key("btn_pause", "Menu")
@@ -610,7 +635,7 @@ func _apply_responsive() -> void:
 	quest_tracker_panel.offset_top = 72.0 + float(top_pad)
 	quest_tracker_panel.offset_bottom = 146.0 + float(top_pad)
 
-	var dock_w := minf(530.0, vp.x - 24.0 - float(left_pad + right_pad))
+	var dock_w := minf(636.0, vp.x - 24.0 - float(left_pad + right_pad))
 	bottom_dock.offset_left = -dock_w * 0.5
 	bottom_dock.offset_right = dock_w * 0.5
 	bottom_dock.offset_bottom = -10.0 - float(bottom_pad)
@@ -640,5 +665,12 @@ func _apply_responsive() -> void:
 	var bag_half_w := minf(280.0, (vp.x - 28.0) * 0.5)
 	bag_modal.offset_left = -bag_half_w
 	bag_modal.offset_right = bag_half_w
+
+	var hub_half_w := minf(460.0, (vp.x - 24.0) * 0.5)
+	var hub_half_h := minf(290.0, (vp.y - 36.0) * 0.5)
+	learning_hub_modal.offset_left = -hub_half_w
+	learning_hub_modal.offset_right = hub_half_w
+	learning_hub_modal.offset_top = -hub_half_h
+	learning_hub_modal.offset_bottom = hub_half_h
 
 	_sync_overlay_visibility()

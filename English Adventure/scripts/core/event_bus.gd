@@ -36,3 +36,7 @@ signal save_completed(success: bool)
 
 # Extension hook for Learning Engine & Mini-game launch
 signal learning_hook_requested(hook_payload: Dictionary)
+signal lesson_started(lesson_id: String)
+signal lesson_completed(lesson_id: String, summary: Dictionary)
+signal learning_activity_answered(attempt_record: Dictionary)
+signal learning_progress_updated()

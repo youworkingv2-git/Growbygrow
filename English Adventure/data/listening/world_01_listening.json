@@ -1,0 +1,352 @@
+{
+  "world_id": "world_01",
+  "items": [
+    {
+      "id": "list_01",
+      "activity_type": "listen_word_choose_image",
+      "prompt_vi": "Nghe từ mẫu và chọn hình đúng:",
+      "transcript_en": "apple",
+      "ipa": "/ˈæp.əl/",
+      "word_id": "word_apple",
+      "options": [
+        {
+          "id": "a",
+          "label_en": "apple",
+          "word_id": "word_apple",
+          "is_correct": true
+        },
+        {
+          "id": "b",
+          "label_en": "banana",
+          "word_id": "word_banana",
+          "is_correct": false
+        },
+        {
+          "id": "c",
+          "label_en": "orange",
+          "word_id": "word_orange",
+          "is_correct": false
+        }
+      ],
+      "explanation_vi": "'Apple' là quả táo (phát âm /ˈæp.əl/).",
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "difficulty": 1
+    },
+    {
+      "id": "list_02",
+      "activity_type": "listen_word_choose_image",
+      "prompt_vi": "Nghe từ mẫu và chọn hình con vật đúng:",
+      "transcript_en": "cat",
+      "ipa": "/kæt/",
+      "word_id": "word_cat",
+      "options": [
+        {
+          "id": "a",
+          "label_en": "cat",
+          "word_id": "word_cat",
+          "is_correct": true
+        },
+        {
+          "id": "b",
+          "label_en": "dog",
+          "word_id": "word_dog",
+          "is_correct": false
+        },
+        {
+          "id": "c",
+          "label_en": "duck",
+          "word_id": "word_duck",
+          "is_correct": false
+        }
+      ],
+      "explanation_vi": "'Cat' nghĩa là con mèo, bắt đầu bằng âm /k/.",
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "difficulty": 1
+    },
+    {
+      "id": "list_03",
+      "activity_type": "listen_word_choose_image",
+      "prompt_vi": "Nghe từ mẫu và chọn hình đồ vật đúng:",
+      "transcript_en": "ball",
+      "ipa": "/bɔːl/",
+      "word_id": "word_ball",
+      "options": [
+        {
+          "id": "a",
+          "label_en": "book",
+          "word_id": "word_book",
+          "is_correct": false
+        },
+        {
+          "id": "b",
+          "label_en": "ball",
+          "word_id": "word_ball",
+          "is_correct": true
+        },
+        {
+          "id": "c",
+          "label_en": "pen",
+          "word_id": "word_pen",
+          "is_correct": false
+        }
+      ],
+      "explanation_vi": "'Ball' là quả bóng, bắt đầu bằng âm /b/.",
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "difficulty": 1
+    },
+    {
+      "id": "list_04",
+      "activity_type": "listen_word_choose_meaning",
+      "prompt_vi": "Nghe từ tiếng Anh và chọn nghĩa tiếng Việt đúng:",
+      "transcript_en": "milk",
+      "ipa": "/mɪlk/",
+      "word_id": "word_milk",
+      "options": [
+        {
+          "id": "a",
+          "label_vi": "Sữa",
+          "is_correct": true
+        },
+        {
+          "id": "b",
+          "label_vi": "Nước",
+          "is_correct": false
+        },
+        {
+          "id": "c",
+          "label_vi": "Bánh ngọt",
+          "is_correct": false
+        }
+      ],
+      "explanation_vi": "'Milk' nghĩa là sữa.",
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "difficulty": 1
+    },
+    {
+      "id": "list_05",
+      "activity_type": "listen_word_choose_meaning",
+      "prompt_vi": "Nghe từ tiếng Anh và chọn nghĩa đúng:",
+      "transcript_en": "blue",
+      "ipa": "/bluː/",
+      "word_id": "word_blue",
+      "options": [
+        {
+          "id": "a",
+          "label_vi": "Màu đỏ",
+          "is_correct": false
+        },
+        {
+          "id": "b",
+          "label_vi": "Màu xanh dương",
+          "is_correct": true
+        },
+        {
+          "id": "c",
+          "label_vi": "Màu vàng",
+          "is_correct": false
+        }
+      ],
+      "explanation_vi": "'Blue' là màu xanh dương.",
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "difficulty": 1
+    },
+    {
+      "id": "list_06",
+      "activity_type": "listen_word_choose_image",
+      "prompt_vi": "Nghe chữ cái/âm /ʃ/ và chọn hình có âm SH:",
+      "transcript_en": "ship",
+      "ipa": "/ʃɪp/",
+      "word_id": "word_ship",
+      "options": [
+        {
+          "id": "a",
+          "label_en": "ship",
+          "word_id": "word_ship",
+          "is_correct": true
+        },
+        {
+          "id": "b",
+          "label_en": "chair",
+          "word_id": "word_chair",
+          "is_correct": false
+        },
+        {
+          "id": "c",
+          "label_en": "bag",
+          "word_id": "word_bag",
+          "is_correct": false
+        }
+      ],
+      "explanation_vi": "'Ship' bắt đầu bằng âm /ʃ/ (SH) và nghĩa là con tàu.",
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "difficulty": 2
+    },
+    {
+      "id": "list_07",
+      "activity_type": "listen_sentence_choose_answer",
+      "prompt_vi": "Nghe câu 'I eat an apple.' — Bạn nhỏ ăn gì?",
+      "transcript_en": "I eat an apple.",
+      "ipa": "/aɪ iːt æn ˈæp.əl/",
+      "word_id": "word_apple",
+      "options": [
+        {
+          "id": "a",
+          "label_vi": "Quả táo (apple)",
+          "is_correct": true
+        },
+        {
+          "id": "b",
+          "label_vi": "Quả chuối (banana)",
+          "is_correct": false
+        },
+        {
+          "id": "c",
+          "label_vi": "Bánh ngọt (cake)",
+          "is_correct": false
+        }
+      ],
+      "explanation_vi": "Câu 'I eat an apple' có từ khóa 'apple' (quả táo).",
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "difficulty": 1
+    },
+    {
+      "id": "list_08",
+      "activity_type": "listen_sentence_choose_answer",
+      "prompt_vi": "Nghe câu 'I have two pens.' — Có bao nhiêu cây bút?",
+      "transcript_en": "I have two pens.",
+      "ipa": "/aɪ hæv tuː penz/",
+      "word_id": "word_two",
+      "options": [
+        {
+          "id": "a",
+          "label_vi": "1 cây bút",
+          "is_correct": false
+        },
+        {
+          "id": "b",
+          "label_vi": "2 cây bút",
+          "is_correct": true
+        },
+        {
+          "id": "c",
+          "label_vi": "5 cây bút",
+          "is_correct": false
+        }
+      ],
+      "explanation_vi": "'Two' nghĩa là số 2, 'pens' là những cây bút.",
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "difficulty": 1
+    },
+    {
+      "id": "list_09",
+      "activity_type": "listen_short_dialogue",
+      "prompt_vi": "Nghe hội thoại: A: 'What is your name?' — B: 'My name is Leo.' — Bạn B tên là gì?",
+      "transcript_en": "What is your name? My name is Leo.",
+      "ipa": "",
+      "word_id": "",
+      "options": [
+        {
+          "id": "a",
+          "label_vi": "Leo",
+          "is_correct": true
+        },
+        {
+          "id": "b",
+          "label_vi": "Lily",
+          "is_correct": false
+        },
+        {
+          "id": "c",
+          "label_vi": "Buddy",
+          "is_correct": false
+        }
+      ],
+      "explanation_vi": "'My name is Leo' nghĩa là 'Tên mình là Leo'.",
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "difficulty": 1
+    },
+    {
+      "id": "list_10",
+      "activity_type": "listen_short_dialogue",
+      "prompt_vi": "Nghe hội thoại: A: 'Do you like milk?' — B: 'Yes, I do!' — Bạn B có thích sữa không?",
+      "transcript_en": "Do you like milk? Yes, I do.",
+      "ipa": "",
+      "word_id": "word_milk",
+      "options": [
+        {
+          "id": "a",
+          "label_vi": "Có, bạn ấy thích sữa",
+          "is_correct": true
+        },
+        {
+          "id": "b",
+          "label_vi": "Không, bạn ấy thích cam",
+          "is_correct": false
+        },
+        {
+          "id": "c",
+          "label_vi": "Không rõ",
+          "is_correct": false
+        }
+      ],
+      "explanation_vi": "'Yes, I do' là câu trả lời đồng ý cho 'Do you like...?'",
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "difficulty": 2
+    },
+    {
+      "id": "list_11",
+      "activity_type": "listen_arrange_sentence",
+      "prompt_vi": "Nghe câu 'I like cats.' và sắp xếp các từ theo đúng thứ tự:",
+      "transcript_en": "I like cats.",
+      "tokens": [
+        "I",
+        "like",
+        "cats."
+      ],
+      "word_id": "word_cat",
+      "explanation_vi": "Trật tự đúng là Chủ ngữ (I) + Động từ (like) + Danh từ (cats).",
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "difficulty": 2
+    },
+    {
+      "id": "list_12",
+      "activity_type": "listen_identify_detail",
+      "prompt_vi": "Nghe câu 'The yellow duck is in the water.' — Con vịt màu gì?",
+      "transcript_en": "The yellow duck is in the water.",
+      "ipa": "",
+      "word_id": "word_yellow",
+      "options": [
+        {
+          "id": "a",
+          "label_vi": "Màu vàng (yellow)",
+          "is_correct": true
+        },
+        {
+          "id": "b",
+          "label_vi": "Màu đỏ (red)",
+          "is_correct": false
+        },
+        {
+          "id": "c",
+          "label_vi": "Màu xanh lá (green)",
+          "is_correct": false
+        }
+      ],
+      "explanation_vi": "'Yellow' nghĩa là màu vàng; 'yellow duck' là chú vịt màu vàng.",
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "difficulty": 2
+    }
+  ]
+}

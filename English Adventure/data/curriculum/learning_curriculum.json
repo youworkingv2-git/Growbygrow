@@ -1,0 +1,436 @@
+{
+  "learning_path": {
+    "id": "english_adventure_main",
+    "title_en": "English Adventure Path",
+    "title_vi": "Lộ Trình Phiêu Lưu Tiếng Anh",
+    "target_audience": "Trẻ ~10 tuổi bắt đầu từ con số 0 / mất gốc",
+    "levels": [
+      {
+        "id": "pre_a1",
+        "code": "Pre-A1",
+        "order_index": 1,
+        "title_vi": "Giai đoạn 1: Pre-A1 (Làm quen chữ cái, âm, từ và câu đơn giản)",
+        "is_unlocked_default": true,
+        "status": "active"
+      },
+      {
+        "id": "a1_basic",
+        "code": "A1 Cơ bản",
+        "order_index": 2,
+        "title_vi": "Giai đoạn 2: A1 Cơ bản (Từ vựng, mẫu câu và giao tiếp cơ bản)",
+        "is_unlocked_default": false,
+        "status": "planned_extensible"
+      },
+      {
+        "id": "a1_plus",
+        "code": "A1 Mở rộng",
+        "order_index": 3,
+        "title_vi": "Giai đoạn 3: A1 Mở rộng (Hội thoại và tình huống thực tế)",
+        "is_unlocked_default": false,
+        "status": "planned_extensible"
+      },
+      {
+        "id": "a2_starter",
+        "code": "A2 Bước đầu",
+        "order_index": 4,
+        "title_vi": "Giai đoạn 4: A2 Bước đầu (Đọc hiểu, diễn đạt và giao tiếp mở rộng)",
+        "is_unlocked_default": false,
+        "status": "planned_extensible"
+      }
+    ]
+  },
+  "worlds": [
+    {
+      "id": "world_01",
+      "level_id": "pre_a1",
+      "title_en": "Alphabet Island",
+      "title_vi": "Đảo Chữ Cái",
+      "topics": [
+        {
+          "id": "topic_01_alphabet",
+          "order_index": 1,
+          "title_en": "Alphabet A-Z",
+          "title_vi": "Chủ đề 01: Bảng Chữ Cái A-Z",
+          "lessons": [
+            {
+              "id": "lesson_01_00_intro",
+              "quest_id": "quest_01_new_adventure",
+              "title_en": "First Letters & Greetings",
+              "title_vi": "Bài 00: Chào hỏi & Làm quen chữ cái đầu tiên",
+              "summary_vi": "Làm quen câu chào 'I am...', chữ cái A-B-C và phân biệt tên chữ cái với âm đọc.",
+              "rewards": {
+                "exp": 25,
+                "gold": 10
+              },
+              "activities": [
+                {
+                  "id": "act_intro_1",
+                  "skill": "listening",
+                  "source_type": "listening",
+                  "source_id": "list_09"
+                },
+                {
+                  "id": "act_intro_2",
+                  "skill": "reading",
+                  "source_type": "reading",
+                  "source_id": "read_01"
+                },
+                {
+                  "id": "act_intro_3",
+                  "skill": "writing",
+                  "source_type": "writing",
+                  "source_id": "write_10"
+                },
+                {
+                  "id": "act_intro_4",
+                  "skill": "speaking",
+                  "source_type": "speaking",
+                  "source_id": "speak_05"
+                }
+              ]
+            },
+            {
+              "id": "lesson_01_01_abc",
+              "quest_id": "quest_02_lost_letters",
+              "title_en": "Letters A, B, C & First Sounds",
+              "title_vi": "Bài 01: Chữ cái A, B, C và Âm cơ bản",
+              "summary_vi": "Học 3 chữ cái thất lạc trên Đồng Cỏ: A (/æ/ - Apple), B (/b/ - Ball), C (/k/ - Cat).",
+              "rewards": {
+                "exp": 35,
+                "gold": 15
+              },
+              "activities": [
+                {
+                  "id": "act_abc_1",
+                  "skill": "listening",
+                  "source_type": "listening",
+                  "source_id": "list_01"
+                },
+                {
+                  "id": "act_abc_2",
+                  "skill": "listening",
+                  "source_type": "listening",
+                  "source_id": "list_03"
+                },
+                {
+                  "id": "act_abc_3",
+                  "skill": "reading",
+                  "source_type": "reading",
+                  "source_id": "read_02"
+                },
+                {
+                  "id": "act_abc_4",
+                  "skill": "writing",
+                  "source_type": "writing",
+                  "source_id": "write_01"
+                },
+                {
+                  "id": "act_abc_5",
+                  "skill": "writing",
+                  "source_type": "writing",
+                  "source_id": "write_02"
+                },
+                {
+                  "id": "act_abc_6",
+                  "skill": "speaking",
+                  "source_type": "speaking",
+                  "source_id": "speak_01"
+                }
+              ]
+            },
+            {
+              "id": "lesson_01_02_alphabet_all",
+              "quest_id": "",
+              "title_en": "Full Alphabet Explorer (A-Z)",
+              "title_vi": "Bài 02: Khám phá đủ 26 chữ cái A-Z",
+              "summary_vi": "Phân biệt Tên chữ cái (Letter Name) và Âm chữ cái (Letter Sound) cho cả 26 chữ.",
+              "rewards": {
+                "exp": 30,
+                "gold": 15
+              },
+              "activities": [
+                {
+                  "id": "act_az_1",
+                  "skill": "listening",
+                  "source_type": "listening",
+                  "source_id": "list_02"
+                },
+                {
+                  "id": "act_az_2",
+                  "skill": "reading",
+                  "source_type": "reading",
+                  "source_id": "read_12"
+                },
+                {
+                  "id": "act_az_3",
+                  "skill": "writing",
+                  "source_type": "writing",
+                  "source_id": "write_03"
+                },
+                {
+                  "id": "act_az_4",
+                  "skill": "speaking",
+                  "source_type": "speaking",
+                  "source_id": "speak_02"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "topic_02_basic_vocab",
+          "order_index": 2,
+          "title_en": "Basic Vocabulary",
+          "title_vi": "Chủ đề 02: Từ Vựng Cơ Bản (6 Nhóm)",
+          "lessons": [
+            {
+              "id": "lesson_02_01_food_animals",
+              "quest_id": "",
+              "title_en": "Food & Animals",
+              "title_vi": "Bài 03: Đồ ăn & Động vật",
+              "summary_vi": "Thực hành 12 từ vựng Đồ ăn và Động vật quen thuộc qua 4 kỹ năng.",
+              "rewards": {
+                "exp": 30,
+                "gold": 15
+              },
+              "activities": [
+                {
+                  "id": "act_fa_1",
+                  "skill": "listening",
+                  "source_type": "listening",
+                  "source_id": "list_04"
+                },
+                {
+                  "id": "act_fa_2",
+                  "skill": "reading",
+                  "source_type": "reading",
+                  "source_id": "read_05"
+                },
+                {
+                  "id": "act_fa_3",
+                  "skill": "writing",
+                  "source_type": "writing",
+                  "source_id": "write_04"
+                },
+                {
+                  "id": "act_fa_4",
+                  "skill": "writing",
+                  "source_type": "writing",
+                  "source_id": "write_05"
+                },
+                {
+                  "id": "act_fa_5",
+                  "skill": "speaking",
+                  "source_type": "speaking",
+                  "source_id": "speak_03"
+                }
+              ]
+            },
+            {
+              "id": "lesson_02_02_colors_numbers_family",
+              "quest_id": "",
+              "title_en": "Colors, Numbers, Family & Objects",
+              "title_vi": "Bài 04: Màu sắc, Số đếm, Gia đình & Đồ vật",
+              "summary_vi": "Mở rộng từ vựng qua Màu sắc, Số 1-5, Gia đình và Đồ dùng học tập.",
+              "rewards": {
+                "exp": 30,
+                "gold": 15
+              },
+              "activities": [
+                {
+                  "id": "act_cn_1",
+                  "skill": "listening",
+                  "source_type": "listening",
+                  "source_id": "list_05"
+                },
+                {
+                  "id": "act_cn_2",
+                  "skill": "reading",
+                  "source_type": "reading",
+                  "source_id": "read_06"
+                },
+                {
+                  "id": "act_cn_3",
+                  "skill": "reading",
+                  "source_type": "reading",
+                  "source_id": "read_07"
+                },
+                {
+                  "id": "act_cn_4",
+                  "skill": "writing",
+                  "source_type": "writing",
+                  "source_id": "write_06"
+                },
+                {
+                  "id": "act_cn_5",
+                  "skill": "writing",
+                  "source_type": "writing",
+                  "source_id": "write_07"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "topic_03_basic_phonics",
+          "order_index": 3,
+          "title_en": "Basic Pronunciation & Blending",
+          "title_vi": "Chủ đề 03: Phát Âm & Ghép Vần Phonics",
+          "lessons": [
+            {
+              "id": "lesson_03_01_digraphs_blending",
+              "quest_id": "",
+              "title_en": "Digraphs (sh, ch, th) & Word Blending",
+              "title_vi": "Bài 05: Tổ hợp SH, CH, TH & Ghép âm tạo từ",
+              "summary_vi": "Luyện tổ hợp phụ âm sh/ch/th, nguyên âm dài-ngắn và ghép vần CVC.",
+              "rewards": {
+                "exp": 35,
+                "gold": 15
+              },
+              "activities": [
+                {
+                  "id": "act_ph_1",
+                  "skill": "listening",
+                  "source_type": "listening",
+                  "source_id": "list_06"
+                },
+                {
+                  "id": "act_ph_2",
+                  "skill": "reading",
+                  "source_type": "reading",
+                  "source_id": "read_03"
+                },
+                {
+                  "id": "act_ph_3",
+                  "skill": "writing",
+                  "source_type": "writing",
+                  "source_id": "write_03"
+                },
+                {
+                  "id": "act_ph_4",
+                  "skill": "speaking",
+                  "source_type": "speaking",
+                  "source_id": "speak_04"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "topic_04_basic_words",
+          "order_index": 4,
+          "title_en": "Basic Words in Context",
+          "title_vi": "Chủ đề 04: Dùng Từ Vựng Trong Ngữ Cảnh",
+          "lessons": [
+            {
+              "id": "lesson_04_01_context",
+              "quest_id": "",
+              "title_en": "Words in Mini Stories",
+              "title_vi": "Bài 06: Đọc & Nghe từ trong ngữ cảnh",
+              "summary_vi": "Nghe chi tiết câu ngắn và đọc đoạn văn Pre-A1 ngắn.",
+              "rewards": {
+                "exp": 35,
+                "gold": 15
+              },
+              "activities": [
+                {
+                  "id": "act_ctx_1",
+                  "skill": "listening",
+                  "source_type": "listening",
+                  "source_id": "list_12"
+                },
+                {
+                  "id": "act_ctx_2",
+                  "skill": "reading",
+                  "source_type": "reading",
+                  "source_id": "read_10"
+                },
+                {
+                  "id": "act_ctx_3",
+                  "skill": "reading",
+                  "source_type": "reading",
+                  "source_id": "read_11"
+                },
+                {
+                  "id": "act_ctx_4",
+                  "skill": "writing",
+                  "source_type": "writing",
+                  "source_id": "write_09"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "topic_05_simple_sentences",
+          "order_index": 5,
+          "title_en": "Simple Sentences & Gate Challenge",
+          "title_vi": "Chủ đề 05: Mẫu Câu Đơn Giản & Thử Thách Cổng Bóng Tối",
+          "lessons": [
+            {
+              "id": "lesson_01_18_gate",
+              "quest_id": "quest_03_mysterious_gate",
+              "title_en": "Simple Sentences Challenge",
+              "title_vi": "Bài 07: Tổng hợp 4 kỹ năng & Mẫu câu cơ bản",
+              "summary_vi": "Áp dụng từ vựng và cấu trúc 'I have / I like / This is / Do you like' qua cả 4 kỹ năng.",
+              "rewards": {
+                "exp": 50,
+                "gold": 25
+              },
+              "activities": [
+                {
+                  "id": "act_gate_1",
+                  "skill": "listening",
+                  "source_type": "listening",
+                  "source_id": "list_10"
+                },
+                {
+                  "id": "act_gate_2",
+                  "skill": "listening",
+                  "source_type": "listening",
+                  "source_id": "list_11"
+                },
+                {
+                  "id": "act_gate_3",
+                  "skill": "reading",
+                  "source_type": "reading",
+                  "source_id": "read_04"
+                },
+                {
+                  "id": "act_gate_4",
+                  "skill": "reading",
+                  "source_type": "reading",
+                  "source_id": "read_09"
+                },
+                {
+                  "id": "act_gate_5",
+                  "skill": "writing",
+                  "source_type": "writing",
+                  "source_id": "write_08"
+                },
+                {
+                  "id": "act_gate_6",
+                  "skill": "writing",
+                  "source_type": "writing",
+                  "source_id": "write_11"
+                },
+                {
+                  "id": "act_gate_7",
+                  "skill": "writing",
+                  "source_type": "writing",
+                  "source_id": "write_12"
+                },
+                {
+                  "id": "act_gate_8",
+                  "skill": "speaking",
+                  "source_type": "speaking",
+                  "source_id": "speak_06"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -258,3 +258,12 @@ Các thành phần đã triển khai thành GDScript & Scene thực thi trong `p
   - `SettingsManager` lưu `user://settings.json` và áp dụng động ngôn ngữ (`vi`/`en`), âm lượng bus `Music`/`SFX`, `graphics_quality` (`low`/`medium`/`high`), `camera_sensitivity`, chế độ điều khiển (`auto`/`keyboard`/`touch`), fullscreen, resolution (Desktop) và `reduced_motion`.
   - `AudioManager` tạo bus `Music` & `SFX`, kết nối sự kiện UI/Gameplay (`button_click`, `popup_open`, `popup_close`, `quest_complete`, `reward_received`, `area_unlocked`) và báo trung thực khi chưa có file audio đính kèm.
 - **Điểm nối cho Prompt 04+:** `EventBus.learning_hook_requested` và `quest.learning_hook` sẵn sàng kết nối `LearningEngine` & 5 Mini-games mà không cần sửa kiến trúc thế giới, nhân vật hay UI/UX.
+
+---
+
+## 9. TRẠNG THÁI TRIỂN KHAI PROMPT 04 – ENGLISH LEARNING ENGINE
+
+- **Autoload mới:** `LearningEngine` (`scripts/learning/learning_engine.gd`) đã đăng ký trong `project.godot`.
+- **Các module đã triển khai:** `LearningContentRepository`, `LearningPathManager`, `VocabularyManager`, `PhonicsManager`, `GrammarManager`, `ListeningManager`, `SpeakingManager`, `ReadingManager`, `WritingManager`, `QuestionManager`, `AssessmentEngine`, `LearningProgressManager`, `ReviewEngine`, `LearningHubModal`.
+- **Dữ liệu độc lập (`data/`):** `learning_curriculum.json`, `spaced_repetition_config.json`, `alphabet_a_z.json` (26 chữ cái), `phonics_units.json` (10 nhóm), `world_01_vocab.json` (32 từ + 32 SVG tại `assets/learning/images/`), `world_01_grammar.json` (15 cấu trúc + 12 câu mẫu), `world_01_listening.json` (12 bài), `world_01_reading.json` (12 bài), `world_01_writing.json` (12 bài), `world_01_speaking.json` (6 bài).
+- **Kết nối 3D & Quest:** Mở `LearningHubModal` từ BottomDock / phím `[L]` hoặc từ Quest/Vật thể 3D (`obj_letter_a/b/c`, `obj_shadow_gate_seal`) mà không ảnh hưởng camera hay vị trí nhân vật 3D. Chi tiết xem [`docs/LEARNING_ENGINE.md`](LEARNING_ENGINE.md).

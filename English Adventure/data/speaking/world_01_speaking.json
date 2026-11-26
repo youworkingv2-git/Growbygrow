@@ -1,0 +1,83 @@
+{
+  "world_id": "world_01",
+  "items": [
+    {
+      "id": "speak_01",
+      "speaking_mode": "letter_sound",
+      "prompt_vi": "Nghe/xem âm /æ/ của chữ A và luyện phát âm theo nhé!",
+      "target_text_en": "A - /æ/ - Apple",
+      "ipa": "/ˈæp.əl/",
+      "word_id": "word_apple",
+      "mouth_hint_vi": "Mở miệng hơi rộng và đọc ngắn âm /æ/, sau đó đọc rõ 'apple'.",
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "ai_scoring_status": "not_integrated_experimental",
+      "difficulty": 1
+    },
+    {
+      "id": "speak_02",
+      "speaking_mode": "repeat_word",
+      "prompt_vi": "Tập nói từ 'Ball' (Quả bóng):",
+      "target_text_en": "Ball",
+      "ipa": "/bɔːl/",
+      "word_id": "word_ball",
+      "mouth_hint_vi": "Mím môi bật âm /b/, kéo nhẹ âm /ɔː/ và chạm lưỡi ở âm /l/ cuối.",
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "ai_scoring_status": "not_integrated_experimental",
+      "difficulty": 1
+    },
+    {
+      "id": "speak_03",
+      "speaking_mode": "repeat_word",
+      "prompt_vi": "Tập nói từ 'Cat' (Con mèo):",
+      "target_text_en": "Cat",
+      "ipa": "/kæt/",
+      "word_id": "word_cat",
+      "mouth_hint_vi": "Bật âm /k/ nhẹ ở cổ họng, nối sang /æ/ và kết thúc bằng âm /t/.",
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "ai_scoring_status": "not_integrated_experimental",
+      "difficulty": 1
+    },
+    {
+      "id": "speak_04",
+      "speaking_mode": "repeat_word",
+      "prompt_vi": "Tập nói từ 'Ship' (Con tàu):",
+      "target_text_en": "Ship",
+      "ipa": "/ʃɪp/",
+      "word_id": "word_ship",
+      "mouth_hint_vi": "Chu nhẹ môi cho âm /ʃ/ (SH) rồi đọc nhanh /ɪp/.",
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "ai_scoring_status": "not_integrated_experimental",
+      "difficulty": 2
+    },
+    {
+      "id": "speak_05",
+      "speaking_mode": "repeat_sentence",
+      "prompt_vi": "Tập nói câu giới thiệu bản thân:",
+      "target_text_en": "Hello! I am happy.",
+      "ipa": "/həˈloʊ aɪ æm ˈhæp.i/",
+      "word_id": "",
+      "mouth_hint_vi": "Nói rõ từng từ: Hello — I — am — happy!",
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "ai_scoring_status": "not_integrated_experimental",
+      "difficulty": 1
+    },
+    {
+      "id": "speak_06",
+      "speaking_mode": "repeat_sentence",
+      "prompt_vi": "Tập nói câu sở thích:",
+      "target_text_en": "I like apples.",
+      "ipa": "/aɪ laɪk ˈæp.əlz/",
+      "word_id": "word_apple",
+      "mouth_hint_vi": "Nhớ bật nhẹ âm /z/ ở cuối từ 'apples'.",
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "ai_scoring_status": "not_integrated_experimental",
+      "difficulty": 2
+    }
+  ]
+}

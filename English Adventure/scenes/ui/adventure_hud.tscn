@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3]
+[gd_scene load_steps=14 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/adventure_hud.gd" id="1_hud"]
 [ext_resource type="Script" path="res://scripts/ui/dialogue_box_ui.gd" id="2_dlg_ui"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" path="res://assets/icons/backpack_icon.svg" id="10_bag"]
 [ext_resource type="PackedScene" path="res://scenes/ui/common/reward_display.tscn" id="11_reward_disp"]
 [ext_resource type="PackedScene" path="res://scenes/ui/pause_menu/pause_menu.tscn" id="12_pause"]
+[ext_resource type="PackedScene" path="res://scenes/learning/learning_hub_modal.tscn" id="13_learning_hub"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_joy_bg"]
 bg_color = Color(0.06, 0.09, 0.16, 0.45)
@@ -301,9 +302,14 @@ text = "Túi đồ"
 expand_icon = true
 
 [node name="DesktopBuddyBtn" type="Button" parent="BottomDock/Margin/Row"]
-custom_minimum_size = Vector2(114, 40)
+custom_minimum_size = Vector2(106, 40)
 layout_mode = 2
 text = "Buddy [H]"
+
+[node name="LearnBtn" type="Button" parent="BottomDock/Margin/Row"]
+custom_minimum_size = Vector2(98, 40)
+layout_mode = 2
+text = "Học tập"
 
 [node name="SaveBtn" type="Button" parent="BottomDock/Margin/Row"]
 custom_minimum_size = Vector2(68, 40)
@@ -720,6 +726,8 @@ size_flags_horizontal = 3
 theme_override_constants/separation = 8
 
 [node name="PauseMenu" parent="." instance=ExtResource("12_pause")]
+
+[node name="LearningHubModal" parent="." instance=ExtResource("13_learning_hub")]
 
 [node name="ToastPanel" type="PanelContainer" parent="."]
 visible = false

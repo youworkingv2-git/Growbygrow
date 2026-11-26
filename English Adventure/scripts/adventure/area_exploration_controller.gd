@@ -14,6 +14,7 @@ var _area_data: Dictionary = {}
 var _player: PlayerController = null
 var _buddy: BuddyController = null
 var _pending_quest_offer_id: String = ""
+var _pending_learning_lesson_id: String = ""
 var _autosave_timer: float = 0.0
 
 @onready var world_env: WorldEnvironment = $WorldEnvironment
@@ -218,7 +219,12 @@ func _on_npc_interacted(npc_data: Dictionary) -> void:
 			_pending_quest_offer_id = ""
 
 
-func _on_object_message(title: String, message: String, _obj_data: Dictionary) -> void:
+func _on_object_message(title: String, message: String, obj_data: Dictionary) -> void:
+	var oid := str(obj_data.get("id", ""))
+	if oid == "obj_shadow_gate_seal":
+		_pending_learning_lesson_id = "lesson_01_18_gate"
+	elif oid in ["obj_letter_a", "obj_letter_b", "obj_letter_c"]:
+		_pending_learning_lesson_id = "lesson_01_01_abc"
 	dialogue_manager.start_custom_message(title, message, "buddy")
 
 
@@ -230,6 +236,10 @@ func _on_dialogue_finished(_dialogue_id: String) -> void:
 		var qid := _pending_quest_offer_id
 		_pending_quest_offer_id = ""
 		hud.show_quest_intro(qid)
+	elif not _pending_learning_lesson_id.is_empty():
+		var lid := _pending_learning_lesson_id
+		_pending_learning_lesson_id = ""
+		hud.open_learning_hub(lid)
 
 
 func _play_buddy_area_greeting() -> void:

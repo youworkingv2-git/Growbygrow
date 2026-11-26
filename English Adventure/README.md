@@ -20,11 +20,12 @@
 Dự án đã hoàn thành **Prompt 01 (Kiến trúc & Database)**, **Prompt 02 (Thế giới Game & Hệ thống Nhân vật)**, **Prompt 03 (Hệ thống UI/UX thống nhất)** và **Addendum – 3D Visual Direction**:
 
 - **Stylized 3D World & Characters:** Chuyển đổi toàn bộ gameplay sang **3D thực thụ** (`CharacterBody3D`, camera góc nhìn thứ ba `SpringArm3D` tránh xuyên vật thể, mô hình placeholder 3D có khớp cho cả 7 nhân vật `Boy`, `Girl`, `Buddy`, `Professor Owl`, `Lily`, `Rocky`, `Crystal Guardian`, cùng 5 khu vực 3D với **Welcome Village** làm khu vực 3D trọng điểm, World Map 3D isometric, Diorama 3D trên Main Menu & Character Selection, và thiết lập chất lượng đồ họa `Low` / `Medium` / `High`). Xem [`docs/VISUAL_3D_ARCHITECTURE.md`](docs/VISUAL_3D_ARCHITECTURE.md) và [`docs/ASSET_3D_PIPELINE.md`](docs/ASSET_3D_PIPELINE.md).
-- **Core & Persistence:** Đã triển khai 11 Autoloads (`AppLogger`, `EventBus`, `LocalizationManager`, `DataRepository`, `SaveLoadManager`, `GameStateManager`, `QuestManager`, `SettingsManager`, `AudioManager`, `UIManager`, `SceneRouter`).
+- **Core & Persistence:** Đã triển khai 12 Autoloads (`AppLogger`, `EventBus`, `LocalizationManager`, `DataRepository`, `SaveLoadManager`, `GameStateManager`, `QuestManager`, `LearningEngine`, `SettingsManager`, `AudioManager`, `UIManager`, `SceneRouter`).
 - **UI/UX Design System & Màn hình:** `UIDesignSystem`, `UIAnimator`, `ResponsiveHelper`, thư viện component dùng chung (`AdventureConfirmDialog`, `RewardDisplay`, `QuestCardWidget`, `WorldCardWidget`, `AvatarBadge`, `LoadingIndicatorWidget`), Splash Screen, Main Menu, Character Selection, World Introduction, World Map, In-game HUD, Dialogue UI, Quest Log, Reward Popup, Inventory UI, Settings Modal, Pause Menu và Notification Stack.
 - **World & Exploration:** Xây dựng **Alphabet Island** với **5 khu vực** (`Welcome Village`, `Alphabet Meadow`, `Letter Cave`, `Crystal Lake`, `The Shadow Gate`), bản đồ `World Map` tương tác, cơ chế khóa/mở khóa theo dữ liệu và chuyển cảnh bảo vệ khu vực khóa.
-- **Characters & Quests:** Chọn nhân vật `Boy` / `Girl`, điều khiển PC (`WASD`/Arrows + `Space` + `E` + `H` + `Esc`) và Mobile (`VirtualJoystick` + nút chạm), đồng hành **Buddy** (7 trạng thái), 4 NPCs (`Professor Owl`, `Lily`, `Rocky`, `Crystal Guardian`), hệ thống hội thoại song ngữ, `InteractionManager` và 3 nhiệm vụ mẫu.
-- **Learning Engine & Mini-games:** Chưa triển khai nội dung học hoàn chỉnh và file âm thanh (dành cho **Prompt 04+**).
+- **Characters & Quests:** Chọn nhân vật `Boy` / `Girl`, điều khiển PC (`WASD`/Arrows + `Space` + `E` + `H` + `L` + `Esc`) và Mobile (`VirtualJoystick` + nút chạm), đồng hành **Buddy** (7 trạng thái), 4 NPCs (`Professor Owl`, `Lily`, `Rocky`, `Crystal Guardian`), hệ thống hội thoại song ngữ, `InteractionManager` và 3 nhiệm vụ mẫu.
+- **English Learning Engine (Prompt 04):** Đã triển khai bộ máy học tiếng Anh độc lập, hướng dữ liệu (`LearningPathManager`, `VocabularyManager`, `PhonicsManager`, `GrammarManager`, `ListeningManager`, `SpeakingManager`, `ReadingManager`, `WritingManager`, `QuestionManager`, `AssessmentEngine`, `LearningProgressManager`, `ReviewEngine`) kèm giao diện `LearningHubModal` tích hợp vào thế giới 3D và Quest System. Bao gồm 26 chữ cái, 32 từ vựng (+ 32 SVG), 10 nhóm Phonics, 15 cấu trúc câu, 12 câu mẫu và hoạt động 4 kỹ năng. Audio thu sẵn đang chờ bổ sung (`missing_asset`); AI chấm phát âm là bản thử nghiệm chưa tích hợp ASR.
+- **Mini-games hoàn chỉnh & Audio studio:** Dành cho **Prompt 05+**.
 
 ---
 
@@ -60,6 +61,17 @@ Dự án đã hoàn thành **Prompt 01 (Kiến trúc & Database)**, **Prompt 02 
 | [`docs/UI_UX_SPEC.md`](docs/UI_UX_SPEC.md) | Đặc tả 18 màn hình, Responsive (Portrait/Landscape/Tablet/Web), States |
 | [`docs/MVP_ROADMAP.md`](docs/MVP_ROADMAP.md) | Lộ trình 7 Phase triển khai MVP, phụ thuộc, rủi ro & tiến độ song song |
 | [`docs/DECISIONS.md`](docs/DECISIONS.md) | Phân tích & Architecture Decision Records (ADR-001 → ADR-008) |
+| [`docs/LEARNING_ENGINE.md`](docs/LEARNING_ENGINE.md) | Kiến trúc bộ máy học tiếng Anh (Prompt 04) |
+| [`docs/LEARNING_PATH.md`](docs/LEARNING_PATH.md) | Lộ trình 4 giai đoạn & cây bài học `world_01` |
+| [`docs/VOCABULARY_SYSTEM.md`](docs/VOCABULARY_SYSTEM.md) | Kho từ vựng đơn nguồn (32 từ Pre-A1 + 32 SVG) |
+| [`docs/PHONICS_SYSTEM.md`](docs/PHONICS_SYSTEM.md) | Bảng chữ cái 26 chữ, Letter Name/Sound & 10 nhóm Phonics |
+| [`docs/GRAMMAR_SYSTEM.md`](docs/GRAMMAR_SYSTEM.md) | 15 cấu trúc câu nền tảng & Substitution Builder |
+| [`docs/FOUR_SKILLS_SYSTEM.md`](docs/FOUR_SKILLS_SYSTEM.md) | Hệ thống 4 kỹ năng Listening, Speaking, Reading, Writing |
+| [`docs/ASSESSMENT_SYSTEM.md`](docs/ASSESSMENT_SYSTEM.md) | Đánh giá học tập, phản hồi sư phạm & phân tách 3 chỉ số |
+| [`docs/LEARNING_PROGRESS.md`](docs/LEARNING_PROGRESS.md) | Theo dõi 5 trạng thái kiến thức & lưu trữ Offline-First |
+| [`docs/SPACED_REPETITION.md`](docs/SPACED_REPETITION.md) | Cơ chế ôn tập lặp lại có khoảng cách theo cấu hình |
+| [`docs/LEARNING_DATABASE.md`](docs/LEARNING_DATABASE.md) | Migration `0003_learning_engine_extensions.sql` & RLS |
+| [`docs/LEARNING_TEST_REPORT.md`](docs/LEARNING_TEST_REPORT.md) | Báo cáo kiểm thử tự động & thực tế Prompt 04 |
 | [`docs/IMPLEMENTATION_CHECKLIST.md`](docs/IMPLEMENTATION_CHECKLIST.md) | Checklist kiểm tra & danh sách công việc cho các Prompt tiếp theo |
 
 ---

@@ -237,4 +237,12 @@ Mỗi lần người chơi tương tác với một từ/kiến thức (`learnin
   - Luồng khởi động có nền/mô hình 3D xuyên suốt: `Splash Screen` (3D Welcome Diorama) → `Main Menu` (`Continue` chỉ bật khi có dữ liệu lưu hợp lệ, `New Game` có hộp thoại xác nhận ghi đè) → `Character Selection` (kéo xoay nhân vật 3D 360°) → `World Introduction` (3D Alphabet Island) → `World Map` (Bản đồ 3D Isometric 5 khu vực) / `Area Exploration` (Gameplay 3D góc nhìn thứ ba).
   - `PlayerController` trang bị Third-person Camera (`SpringArm3D` tránh xuyên vật thể, xoay bằng chuột/`Q`/`C` hoặc `TouchCameraPad` bên phải trên mobile, zoom cuộn chuột, độ nhạy chỉnh trong Settings).
   - `AdventureHUD` hiển thị gọn ở các cạnh màn hình (Avatar, Level, thanh EXP thực, Gold, Magic Crystals, Nhiệm vụ hiện tại, Bottom Dock & Touch Controls không chồng lấp), tự thu gọn/làm dịu khi hội thoại hoặc mở popup, kèm `Pause Menu` (`Resume`, `World Map`, `Quest`, `Settings`, `Save & Exit`), `Dialogue UI`, `Quest Log`, `Reward Popup`, `Inventory UI` (kết nối túi đồ thực tế) và hệ thống `Notification Stack`.
-  - Thiết kế hỗ trợ chuột, bàn phím (`WASD`, `Space`, `E`, `H`, `Tab`, `M`, `Esc`) và cảm ứng đa điểm kèm tùy chọn `Reduced Motion` cho trẻ nhỏ.
+  - Thiết kế hỗ trợ chuột, bàn phím (`WASD`, `Space`, `E`, `H`, `L`, `Tab`, `M`, `Esc`) và cảm ứng đa điểm kèm tùy chọn `Reduced Motion` cho trẻ nhỏ.
+
+---
+
+## 8. BỘ MÁY HỌC TIẾNG ANH TRONG GAME (CẬP NHẬT PROMPT 04)
+
+- **Learning Hub & Lesson Runner 2D (`LearningHubModal`):** Người chơi có thể mở bằng nút **Học tập [L]** trên thanh Bottom Dock hoặc khi chạm các vật thể/nhiệm vụ học tập trong thế giới 3D mà không làm gián đoạn camera hay vị trí nhân vật.
+- **Nội dung mẫu Pre-A1 chạy thực tế:** 26 chữ cái A–Z (phân tách Letter Name vs Letter Sound), 10 nhóm Phonics, 32 từ vựng kèm minh họa SVG, 15 cấu trúc câu với bộ thay thế từ tự động, 12 câu mẫu và hoạt động thực hành đủ 4 kỹ năng Listening / Speaking / Reading / Writing + Spaced Repetition Review Engine.
+- **Tách bạch Game Score và Learning Score:** Điểm thưởng EXP/Gold trong game không thay thế mức độ nắm vững kiến thức (`Mastery` & `Learning Score`). Chi tiết xem [`docs/LEARNING_ENGINE.md`](LEARNING_ENGINE.md).

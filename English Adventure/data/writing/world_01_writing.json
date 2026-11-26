@@ -1,0 +1,188 @@
+{
+  "world_id": "world_01",
+  "items": [
+    {
+      "id": "write_01",
+      "activity_type": "fill_missing_letter",
+      "prompt_vi": "Chọn chữ cái còn thiếu để hoàn thành từ 'Quả táo':",
+      "pattern": "A P P _ E",
+      "target_text": "APPLE",
+      "missing_letter": "L",
+      "word_id": "word_apple",
+      "letter_choices": [
+        "L",
+        "B",
+        "O",
+        "T"
+      ],
+      "explanation_vi": "APPLE có hai chữ P rồi đến chữ L: A-P-P-L-E.",
+      "difficulty": 1
+    },
+    {
+      "id": "write_02",
+      "activity_type": "fill_missing_letter",
+      "prompt_vi": "Chọn chữ cái còn thiếu cho từ 'Con mèo':",
+      "pattern": "_ A T",
+      "target_text": "CAT",
+      "missing_letter": "C",
+      "word_id": "word_cat",
+      "letter_choices": [
+        "C",
+        "D",
+        "M",
+        "S"
+      ],
+      "explanation_vi": "CAT (con mèo) bắt đầu bằng chữ C.",
+      "difficulty": 1
+    },
+    {
+      "id": "write_03",
+      "activity_type": "fill_missing_letter",
+      "prompt_vi": "Chọn chữ cái còn thiếu cho từ 'Quả bóng':",
+      "pattern": "B A _ L",
+      "target_text": "BALL",
+      "missing_letter": "L",
+      "word_id": "word_ball",
+      "letter_choices": [
+        "L",
+        "P",
+        "N",
+        "K"
+      ],
+      "explanation_vi": "BALL viết là B-A-L-L.",
+      "difficulty": 1
+    },
+    {
+      "id": "write_04",
+      "activity_type": "assemble_letters_word",
+      "prompt_vi": "Chạm lần lượt các chữ cái để ghép thành từ 'Con chó' (DOG):",
+      "target_text": "DOG",
+      "word_id": "word_dog",
+      "tiles": [
+        "G",
+        "D",
+        "O",
+        "A"
+      ],
+      "explanation_vi": "Thứ tự đúng là D - O - G -> DOG.",
+      "difficulty": 1
+    },
+    {
+      "id": "write_05",
+      "activity_type": "assemble_letters_word",
+      "prompt_vi": "Ghép các chữ cái thành từ 'Sữa' (MILK):",
+      "target_text": "MILK",
+      "word_id": "word_milk",
+      "tiles": [
+        "K",
+        "M",
+        "L",
+        "I",
+        "E"
+      ],
+      "explanation_vi": "Thứ tự đúng là M - I - L - K -> MILK.",
+      "difficulty": 1
+    },
+    {
+      "id": "write_06",
+      "activity_type": "assemble_letters_word",
+      "prompt_vi": "Sắp xếp các chữ cái thành từ 'Quyển sách' (BOOK):",
+      "target_text": "BOOK",
+      "word_id": "word_book",
+      "tiles": [
+        "O",
+        "B",
+        "K",
+        "O"
+      ],
+      "explanation_vi": "Thứ tự đúng là B - O - O - K -> BOOK.",
+      "difficulty": 1
+    },
+    {
+      "id": "write_07",
+      "activity_type": "assemble_letters_word",
+      "prompt_vi": "Ghép chữ cái thành từ 'Cây bút' (PEN):",
+      "target_text": "PEN",
+      "word_id": "word_pen",
+      "tiles": [
+        "N",
+        "P",
+        "E",
+        "T"
+      ],
+      "explanation_vi": "Thứ tự đúng là P - E - N -> PEN.",
+      "difficulty": 1
+    },
+    {
+      "id": "write_08",
+      "activity_type": "fill_word_in_sentence",
+      "prompt_vi": "Chọn từ để điền vào câu 'Tôi thích chuối':",
+      "sentence_template": "I ____ bananas.",
+      "target_word": "like",
+      "word_id": "word_banana",
+      "word_choices": [
+        "like",
+        "red",
+        "chair"
+      ],
+      "explanation_vi": "'I like bananas' nghĩa là 'Tôi thích chuối'.",
+      "difficulty": 1
+    },
+    {
+      "id": "write_09",
+      "activity_type": "fill_word_in_sentence",
+      "prompt_vi": "Chọn từ để điền vào câu 'Nó là một con cá':",
+      "sentence_template": "It is a ____.",
+      "target_word": "fish",
+      "word_id": "word_fish",
+      "word_choices": [
+        "fish",
+        "five",
+        "pink"
+      ],
+      "explanation_vi": "Sau 'a' cần một danh từ -> 'fish' (con cá).",
+      "difficulty": 1
+    },
+    {
+      "id": "write_10",
+      "activity_type": "arrange_words_sentence",
+      "prompt_vi": "Chạm theo thứ tự để ghép câu 'Tôi là Leo.':",
+      "target_text": "I am Leo.",
+      "tokens": [
+        "Leo.",
+        "I",
+        "am"
+      ],
+      "explanation_vi": "Câu giới thiệu bản thân: I am Leo.",
+      "difficulty": 1
+    },
+    {
+      "id": "write_11",
+      "activity_type": "arrange_words_sentence",
+      "prompt_vi": "Chạm theo thứ tự để ghép câu 'Tôi có một cái cặp.':",
+      "target_text": "I have a bag.",
+      "tokens": [
+        "bag.",
+        "have",
+        "I",
+        "a"
+      ],
+      "explanation_vi": "Cấu trúc 'I have + a/an + danh từ': I have a bag.",
+      "difficulty": 2
+    },
+    {
+      "id": "write_12",
+      "activity_type": "type_simple_sentence",
+      "prompt_vi": "Gõ hoặc chọn mẫu câu đơn giản 'I like milk.':",
+      "target_text": "I like milk.",
+      "word_id": "word_milk",
+      "starter_chips": [
+        "I",
+        "like",
+        "milk."
+      ],
+      "explanation_vi": "Chữ cái đầu câu viết hoa ('I') và có dấu chấm ở cuối câu.",
+      "difficulty": 2
+    }
+  ]
+}

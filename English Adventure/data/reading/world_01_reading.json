@@ -1,0 +1,311 @@
+{
+  "world_id": "world_01",
+  "items": [
+    {
+      "id": "read_01",
+      "activity_type": "read_word_choose_meaning",
+      "prompt_vi": "Đọc từ sau và chọn nghĩa tiếng Việt đúng:",
+      "text_en": "dog",
+      "word_id": "word_dog",
+      "options": [
+        {
+          "id": "a",
+          "label_vi": "Con chó",
+          "is_correct": true
+        },
+        {
+          "id": "b",
+          "label_vi": "Con mèo",
+          "is_correct": false
+        },
+        {
+          "id": "c",
+          "label_vi": "Con chim",
+          "is_correct": false
+        }
+      ],
+      "explanation_vi": "'Dog' nghĩa là con chó.",
+      "difficulty": 1
+    },
+    {
+      "id": "read_02",
+      "activity_type": "read_word_choose_image",
+      "prompt_vi": "Đọc từ và chọn hình tương ứng:",
+      "text_en": "banana",
+      "word_id": "word_banana",
+      "options": [
+        {
+          "id": "a",
+          "label_en": "apple",
+          "word_id": "word_apple",
+          "is_correct": false
+        },
+        {
+          "id": "b",
+          "label_en": "banana",
+          "word_id": "word_banana",
+          "is_correct": true
+        },
+        {
+          "id": "c",
+          "label_en": "cake",
+          "word_id": "word_cake",
+          "is_correct": false
+        }
+      ],
+      "explanation_vi": "'Banana' là quả chuối màu vàng.",
+      "difficulty": 1
+    },
+    {
+      "id": "read_03",
+      "activity_type": "match_word_image",
+      "prompt_vi": "Từ nào khớp với bức tranh dưới đây?",
+      "text_en": "book",
+      "word_id": "word_book",
+      "image_path": "res://assets/learning/images/book.svg",
+      "options": [
+        {
+          "id": "a",
+          "label_en": "book",
+          "is_correct": true
+        },
+        {
+          "id": "b",
+          "label_en": "pen",
+          "is_correct": false
+        },
+        {
+          "id": "c",
+          "label_en": "bag",
+          "is_correct": false
+        }
+      ],
+      "explanation_vi": "Hình vẽ quyển sách tương ứng với từ 'book'.",
+      "difficulty": 1
+    },
+    {
+      "id": "read_04",
+      "activity_type": "fill_blank_sentence",
+      "prompt_vi": "Chọn từ thích hợp để điền vào chỗ trống:",
+      "text_en": "I have a ____.",
+      "word_id": "word_apple",
+      "options": [
+        {
+          "id": "a",
+          "label_en": "book",
+          "is_correct": true
+        },
+        {
+          "id": "b",
+          "label_en": "blue",
+          "is_correct": false
+        },
+        {
+          "id": "c",
+          "label_en": "three",
+          "is_correct": false
+        }
+      ],
+      "explanation_vi": "Sau 'a' cần một danh từ số ít bắt đầu bằng phụ âm -> 'book' (một quyển sách). 'blue' là màu sắc đứng một mình không hợp sau 'a'.",
+      "difficulty": 1
+    },
+    {
+      "id": "read_05",
+      "activity_type": "fill_blank_sentence",
+      "prompt_vi": "Chọn từ phù hợp điền vào câu:",
+      "text_en": "I eat an ____.",
+      "word_id": "word_apple",
+      "options": [
+        {
+          "id": "a",
+          "label_en": "apple",
+          "is_correct": true
+        },
+        {
+          "id": "b",
+          "label_en": "chair",
+          "is_correct": false
+        },
+        {
+          "id": "c",
+          "label_en": "red",
+          "is_correct": false
+        }
+      ],
+      "explanation_vi": "Động từ 'eat' (ăn) phù hợp với đồ ăn 'apple' (quả táo) và đứng sau 'an'.",
+      "difficulty": 1
+    },
+    {
+      "id": "read_06",
+      "activity_type": "read_word_choose_meaning",
+      "prompt_vi": "Đọc từ sau và chọn nghĩa đúng:",
+      "text_en": "mom",
+      "word_id": "word_mom",
+      "options": [
+        {
+          "id": "a",
+          "label_vi": "Mẹ",
+          "is_correct": true
+        },
+        {
+          "id": "b",
+          "label_vi": "Bố",
+          "is_correct": false
+        },
+        {
+          "id": "c",
+          "label_vi": "Em trai",
+          "is_correct": false
+        }
+      ],
+      "explanation_vi": "'Mom' là mẹ (Bố là 'dad').",
+      "difficulty": 1
+    },
+    {
+      "id": "read_07",
+      "activity_type": "read_word_choose_meaning",
+      "prompt_vi": "Đọc từ sau và chọn nghĩa đúng:",
+      "text_en": "green",
+      "word_id": "word_green",
+      "options": [
+        {
+          "id": "a",
+          "label_vi": "Màu xanh lá",
+          "is_correct": true
+        },
+        {
+          "id": "b",
+          "label_vi": "Màu hồng",
+          "is_correct": false
+        },
+        {
+          "id": "c",
+          "label_vi": "Màu đỏ",
+          "is_correct": false
+        }
+      ],
+      "explanation_vi": "'Green' là màu xanh lá cây.",
+      "difficulty": 1
+    },
+    {
+      "id": "read_08",
+      "activity_type": "read_short_sentence",
+      "prompt_vi": "Đọc câu: 'This is my sister.' — Câu này nói về ai?",
+      "text_en": "This is my sister.",
+      "word_id": "word_sister",
+      "options": [
+        {
+          "id": "a",
+          "label_vi": "Chị hoặc em gái của tôi",
+          "is_correct": true
+        },
+        {
+          "id": "b",
+          "label_vi": "Anh hoặc em trai của tôi",
+          "is_correct": false
+        },
+        {
+          "id": "c",
+          "label_vi": "Con mèo của tôi",
+          "is_correct": false
+        }
+      ],
+      "explanation_vi": "'This is my sister' nghĩa là 'Đây là chị/em gái của tôi'.",
+      "difficulty": 1
+    },
+    {
+      "id": "read_09",
+      "activity_type": "arrange_words_sentence",
+      "prompt_vi": "Sắp xếp các từ thành câu đúng nghĩa 'Đây là một cái ghế.':",
+      "tokens": [
+        "This",
+        "is",
+        "a",
+        "chair."
+      ],
+      "explanation_vi": "Cấu trúc 'This is + a/an + danh từ': This is a chair.",
+      "difficulty": 2
+    },
+    {
+      "id": "read_10",
+      "activity_type": "read_short_passage",
+      "prompt_vi": "Đọc đoạn ngắn: 'Hi! I am Mia. I have a pink bag and two books.' — Túi của Mia màu gì?",
+      "text_en": "Hi! I am Mia. I have a pink bag and two books.",
+      "word_id": "word_pink",
+      "options": [
+        {
+          "id": "a",
+          "label_vi": "Màu hồng (pink)",
+          "is_correct": true
+        },
+        {
+          "id": "b",
+          "label_vi": "Màu xanh dương (blue)",
+          "is_correct": false
+        },
+        {
+          "id": "c",
+          "label_vi": "Màu đỏ (red)",
+          "is_correct": false
+        }
+      ],
+      "explanation_vi": "Trong đoạn có cụm 'a pink bag' (một chiếc túi màu hồng).",
+      "difficulty": 2
+    },
+    {
+      "id": "read_11",
+      "activity_type": "read_short_passage",
+      "prompt_vi": "Đọc đoạn ngắn: 'Look! That is a blue bird. It can fly.' — Con chim có màu gì?",
+      "text_en": "Look! That is a blue bird. It can fly.",
+      "word_id": "word_bird",
+      "options": [
+        {
+          "id": "a",
+          "label_vi": "Màu xanh dương (blue)",
+          "is_correct": true
+        },
+        {
+          "id": "b",
+          "label_vi": "Màu vàng (yellow)",
+          "is_correct": false
+        },
+        {
+          "id": "c",
+          "label_vi": "Màu xanh lá (green)",
+          "is_correct": false
+        }
+      ],
+      "explanation_vi": "'A blue bird' nghĩa là một chú chim màu xanh dương.",
+      "difficulty": 2
+    },
+    {
+      "id": "read_12",
+      "activity_type": "read_word_choose_image",
+      "prompt_vi": "Đọc từ và chọn hình đúng:",
+      "text_en": "elephant",
+      "word_id": "word_elephant",
+      "options": [
+        {
+          "id": "a",
+          "label_en": "fish",
+          "word_id": "word_fish",
+          "is_correct": false
+        },
+        {
+          "id": "b",
+          "label_en": "elephant",
+          "word_id": "word_elephant",
+          "is_correct": true
+        },
+        {
+          "id": "c",
+          "label_en": "cat",
+          "word_id": "word_cat",
+          "is_correct": false
+        }
+      ],
+      "explanation_vi": "'Elephant' nghĩa là con voi.",
+      "difficulty": 1
+    }
+  ]
+}
