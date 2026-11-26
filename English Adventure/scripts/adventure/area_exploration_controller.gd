@@ -171,7 +171,6 @@ func _connect_systems() -> void:
 	hud.overlay_blocking_changed.connect(func(blocked: bool) -> void: interaction_manager.set_ui_blocked(blocked))
 	hud.quest_accepted.connect(func(qid: String) -> void:
 		QuestManager.start_quest(qid)
-		hud.show_toast("Đã nhận nhiệm vụ mới!")
 	)
 
 

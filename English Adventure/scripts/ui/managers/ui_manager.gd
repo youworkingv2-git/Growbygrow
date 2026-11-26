@@ -8,6 +8,8 @@ const CONFIRM_SCENE := preload("res://scenes/ui/common/confirmation_dialog.tscn"
 const SETTINGS_SCENE := preload("res://scenes/ui/settings/settings_modal.tscn")
 const LOADING_SCENE := preload("res://scenes/ui/common/loading_indicator.tscn")
 
+var shared_theme: Theme = null
+
 var _overlay_layer: CanvasLayer = null
 var _notif_stack: VBoxContainer = null
 var _confirm_dialog: AdventureConfirmDialog = null
@@ -22,7 +24,8 @@ var _confirm_on_cancel: Callable = Callable()
 
 
 func _ready() -> void:
-	get_tree().root.theme = UIDesignSystem.build_global_theme()
+	shared_theme = UIDesignSystem.build_global_theme()
+	get_tree().root.theme = shared_theme
 	_build_global_overlay()
 	_connect_events()
 
@@ -58,6 +61,7 @@ func _build_global_overlay() -> void:
 
 	# Shared Settings Modal
 	_settings_modal = SETTINGS_SCENE.instantiate() as SettingsModalUI
+	_settings_modal.theme = shared_theme
 	_settings_modal.main_menu_requested.connect(func() -> void:
 		request_exit_to_main_menu()
 	)
@@ -65,6 +69,7 @@ func _build_global_overlay() -> void:
 
 	# Shared Confirmation Dialog
 	_confirm_dialog = CONFIRM_SCENE.instantiate() as AdventureConfirmDialog
+	_confirm_dialog.theme = shared_theme
 	_confirm_dialog.confirmed.connect(func() -> void:
 		if _confirm_on_ok.is_valid():
 			var cb := _confirm_on_ok
@@ -83,6 +88,7 @@ func _build_global_overlay() -> void:
 
 	# Non-blocking notification stack (top-center, rendered ABOVE modals)
 	var notif_anchor := MarginContainer.new()
+	notif_anchor.theme = shared_theme
 	notif_anchor.set_anchors_preset(Control.PRESET_TOP_WIDE)
 	notif_anchor.offset_top = 14.0
 	notif_anchor.offset_bottom = 200.0

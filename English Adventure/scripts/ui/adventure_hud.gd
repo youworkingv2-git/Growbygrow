@@ -187,6 +187,11 @@ func _ready() -> void:
 
 
 func _apply_design_system() -> void:
+	if UIManager.shared_theme != null:
+		for child in get_children():
+			if child is Control:
+				(child as Control).theme = UIManager.shared_theme
+
 	var solid_modal := UIDesignSystem.make_panel_style(Color(0.08, 0.13, 0.24, 1.0), UIDesignSystem.BORDER_DEFAULT, 14, 2, 0, 0)
 	var hud_panel := UIDesignSystem.make_panel_style(Color(0.07, 0.12, 0.22, 0.96), UIDesignSystem.BORDER_DEFAULT, 12, 2, 0, 0)
 	for p: PanelContainer in [top_bar, quest_tracker_panel, bottom_dock]:

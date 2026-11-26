@@ -41,9 +41,17 @@ Tài liệu này tổng hợp kết quả kiểm tra tính nhất quán của **
 - [x] Buddy (7 trạng thái), 4 NPCs (`Professor Owl`, `Lily`, `Rocky`, `Crystal Guardian`), `InteractionManager`, `DialogueManager`, `QuestManager` (3 nhiệm vụ mẫu).
 - [ ] Mở chạy thử trực quan trong Godot 4.3+ Editor (máy hiện chưa cài `godot`).
 
-### 2.6. Việc cần làm trong Prompt 03 (Learning Engine & Audio)
+### 2.6. Hệ thống UI/UX, Settings & Audio Infrastructure (Prompt 03 – Đã triển khai)
+- [x] `UIDesignSystem` (`scripts/ui/managers/ui_design_system.gd`): Bảng màu Fantasy Cartoon Adventure, Typography 7 cấp, 8 Button Variants với 5 trạng thái và Global Theme opaque.
+- [x] `UIManager` (`scripts/ui/managers/ui_manager.gd`): Theme toàn cục, Notification Stack không chặn thao tác (nằm trên mọi modal), `ConfirmationDialog`, `SettingsModal`, `LoadingIndicator`, `Tooltip`.
+- [x] `UIAnimator` (`scripts/ui/animations/ui_animator.gd`) & `ResponsiveHelper` (`scripts/ui/responsive/responsive_helper.gd`): Tween mượt, hỗ trợ `reduced_motion` và `safe_area`.
+- [x] Components dùng chung (`scenes/ui/common/`, `scripts/ui/components/`): `AdventureConfirmDialog`, `RewardDisplay`, `QuestCardWidget`, `WorldCardWidget`, `AvatarBadge`, `LoadingIndicatorWidget`.
+- [x] Các màn hình chính & In-game UI: `MainEntry` (Splash), `MainMenuUI`, `CharacterSelectionUI`, `WorldIntroductionUI`, `WorldMapUI`, `AdventureHUD`, `DialogueBoxUI`, `QuestLog`, `QuestCompletedPopup`, `BagModal`, `PauseMenuUI`, `SettingsModalUI`.
+- [x] `SettingsManager` (`user://settings.json`) & `AudioManager` (`Music` / `SFX` buses, ghi nhận rõ audio files còn thiếu trong Settings UI).
+
+### 2.7. Việc cần làm trong Prompt 04+ (Learning Engine, Mini-games & Audio Assets)
 - [ ] Triển khai `LearningEngine`, `VocabularyRepository`, `PhonicsRepository`, `GrammarPatternEngine` và dữ liệu 26 chữ cái + 100–150 từ vựng.
-- [ ] Tích hợp `AudioModule` (giọng `en-US`, giọng Buddy, SFX, BGM) và kết nối vào `BuddyController` + `DialogueManager`.
+- [ ] Bổ sung file âm thanh thực tế (`assets/audio/sfx/`, `assets/audio/bgm/`, giọng `en-US`, giọng Buddy) và gắn vào `AudioManager`.
 - [ ] Kết nối `EventBus.learning_hook_requested` từ các nhiệm vụ sang các mini-game đầu tiên.
 
 ### 2.3. Content Schemas & Validator (`data/` & `tests/content_validation/`)

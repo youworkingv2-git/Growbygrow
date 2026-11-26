@@ -15,14 +15,15 @@
 
 ---
 
-## 2. Trạng thái dự án hiện tại (Prompt 02 – World & Character System)
+## 2. Trạng thái dự án hiện tại (Prompt 03 – UI/UX System)
 
-Dự án đã hoàn thành **Prompt 01 (Kiến trúc & Database)** và **Prompt 02 (Thế giới Game & Hệ thống Nhân vật)**:
+Dự án đã hoàn thành **Prompt 01 (Kiến trúc & Database)**, **Prompt 02 (Thế giới Game & Hệ thống Nhân vật)** và **Prompt 03 (Hệ thống UI/UX thống nhất)**:
 
-- **Core & Persistence:** Đã triển khai 8 Autoloads (`AppLogger`, `EventBus`, `LocalizationManager`, `DataRepository`, `SaveLoadManager`, `GameStateManager`, `QuestManager`, `SceneRouter`).
+- **Core & Persistence:** Đã triển khai 11 Autoloads (`AppLogger`, `EventBus`, `LocalizationManager`, `DataRepository`, `SaveLoadManager`, `GameStateManager`, `QuestManager`, `SettingsManager`, `AudioManager`, `UIManager`, `SceneRouter`).
+- **UI/UX Design System & Màn hình:** `UIDesignSystem`, `UIAnimator`, `ResponsiveHelper`, thư viện component dùng chung (`AdventureConfirmDialog`, `RewardDisplay`, `QuestCardWidget`, `WorldCardWidget`, `AvatarBadge`, `LoadingIndicatorWidget`), Splash Screen, Main Menu, Character Selection, World Introduction, World Map, In-game HUD, Dialogue UI, Quest Log, Reward Popup, Inventory UI, Settings Modal, Pause Menu và Notification Stack.
 - **World & Exploration:** Xây dựng **Alphabet Island** với **5 khu vực** (`Welcome Village`, `Alphabet Meadow`, `Letter Cave`, `Crystal Lake`, `The Shadow Gate`), bản đồ `World Map` tương tác, cơ chế khóa/mở khóa theo dữ liệu và chuyển cảnh bảo vệ khu vực khóa.
-- **Characters & Quests:** Chọn nhân vật `Boy` / `Girl`, điều khiển PC (`WASD`/Arrows + `Space` + `E` + `H`) và Mobile (`VirtualJoystick` + nút chạm), đồng hành **Buddy** (7 trạng thái), 4 NPCs (`Professor Owl`, `Lily`, `Rocky`, `Crystal Guardian`), hệ thống hội thoại song ngữ, `InteractionManager` và 3 nhiệm vụ mẫu.
-- **Learning Engine & Mini-games:** Chưa triển khai nội dung học hoàn chỉnh (dành cho **Prompt 03+**).
+- **Characters & Quests:** Chọn nhân vật `Boy` / `Girl`, điều khiển PC (`WASD`/Arrows + `Space` + `E` + `H` + `Esc`) và Mobile (`VirtualJoystick` + nút chạm), đồng hành **Buddy** (7 trạng thái), 4 NPCs (`Professor Owl`, `Lily`, `Rocky`, `Crystal Guardian`), hệ thống hội thoại song ngữ, `InteractionManager` và 3 nhiệm vụ mẫu.
+- **Learning Engine & Mini-games:** Chưa triển khai nội dung học hoàn chỉnh và file âm thanh (dành cho **Prompt 04+**).
 
 ---
 
@@ -41,6 +42,12 @@ Dự án đã hoàn thành **Prompt 01 (Kiến trúc & Database)** và **Prompt 
 | [`docs/QUEST_SYSTEM.md`](docs/QUEST_SYSTEM.md) | Hệ thống nhiệm vụ khung & 3 nhiệm vụ mẫu |
 | [`docs/ASSET_LIST.md`](docs/ASSET_LIST.md) | Danh sách asset SVG MVP & danh sách asset cần bổ sung |
 | [`docs/TEST_REPORT_PROMPT_02.md`](docs/TEST_REPORT_PROMPT_02.md) | Kết quả kiểm thử tự động Prompt 02 |
+| [`docs/UI_DESIGN_SYSTEM.md`](docs/UI_DESIGN_SYSTEM.md) | Bảng màu, Typography, Button System & Theme thống nhất (Prompt 03) |
+| [`docs/UI_COMPONENTS.md`](docs/UI_COMPONENTS.md) | Danh mục các component UI dùng chung (Prompt 03) |
+| [`docs/SCREEN_FLOW.md`](docs/SCREEN_FLOW.md) | Sơ đồ điều hướng & quy tắc bảo vệ luồng màn hình (Prompt 03) |
+| [`docs/RESPONSIVE_UI.md`](docs/RESPONSIVE_UI.md) | Kiến trúc Responsive đa thiết bị (Desktop, Tablet, Mobile) (Prompt 03) |
+| [`docs/ACCESSIBILITY.md`](docs/ACCESSIBILITY.md) | Nguyên tắc UX thân thiện trẻ 10 tuổi & hỗ trợ tiếp cận (Prompt 03) |
+| [`docs/UI_TEST_REPORT.md`](docs/UI_TEST_REPORT.md) | Báo cáo kiểm thử thực tế giao diện Prompt 03 |
 | [`docs/DATABASE_SCHEMA.md`](docs/DATABASE_SCHEMA.md) | Thiết kế chi tiết 32 bảng PostgreSQL trên Supabase, RLS, bảo mật trẻ em & migration |
 | [`docs/ERD.md`](docs/ERD.md) | Sơ đồ thực thể liên kết (ERD) bằng Mermaid & giải thích quan hệ dữ liệu |
 | [`docs/LEARNING_CONTENT_SPEC.md`](docs/LEARNING_CONTENT_SPEC.md) | Chuẩn dữ liệu học tập độc lập code (Vocabulary, Phonics, Grammar, 4 Skills, Validation) |

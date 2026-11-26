@@ -247,9 +247,14 @@ Mặc dù GDScript là ngôn ngữ dynamic/gradual typing, các service cốt l�
 
 ---
 
-## 8. TRẠNG THÁI TRIỂN KHAI THỰC TẾ (CẬP NHẬT PROMPT 02)
+## 8. TRẠNG THÁI TRIỂN KHAI THỰC TẾ (CẬP NHẬT PROMPT 02 & PROMPT 03)
 
 Các thành phần đã triển khai thành GDScript & Scene thực thi trong `project.godot`:
-- **Autoloads đã đăng ký (`[autoload]`):** `AppLogger`, `EventBus`, `LocalizationManager`, `DataRepository`, `SaveLoadManager`, `GameStateManager`, `QuestManager`, `SceneRouter`.
-- **Hệ thống Adventure & Character:** `AreaExplorationController`, `UnlockEvaluator`, `InteractionManager`, `InteractableObject`, `PlayerController`, `CharacterAnimator`, `BuddyController`, `NpcController`, `DialogueManager`.
-- **Điểm nối cho Prompt 03+:** `EventBus.learning_hook_requested` và `quest.learning_hook` sẵn sàng kết nối `LearningEngine` & 5 Mini-games mà không cần sửa kiến trúc thế giới hay nhân vật.
+- **Autoloads đã đăng ký (`[autoload]`):** `AppLogger`, `EventBus`, `LocalizationManager`, `DataRepository`, `SaveLoadManager`, `GameStateManager`, `QuestManager`, `SettingsManager`, `AudioManager`, `UIManager`, `SceneRouter`.
+- **Hệ thống Adventure & Character (Prompt 02):** `AreaExplorationController`, `UnlockEvaluator`, `InteractionManager`, `InteractableObject`, `PlayerController`, `CharacterAnimator`, `BuddyController`, `NpcController`, `DialogueManager`.
+- **Hệ thống UI/UX, Audio Bus & Settings (Prompt 03):**
+  - `UIDesignSystem`, `UIManager`, `UIAnimator`, `ResponsiveHelper` cùng các component dùng chung (`AdventureConfirmDialog`, `RewardDisplay`, `QuestCardWidget`, `WorldCardWidget`, `AvatarBadge`, `LoadingIndicatorWidget`).
+  - Các màn hình thực thi: `MainEntry` (Splash), `MainMenuUI`, `CharacterSelectionUI`, `WorldIntroductionUI`, `WorldMapUI`, `AdventureHUD` (Status Bar + Quest Tracker + Bottom Dock + Dialogue Box + Quest Log + Bag Modal + Popups), `PauseMenuUI`, `SettingsModalUI`.
+  - `SettingsManager` lưu `user://settings.json` và áp dụng động ngôn ngữ (`vi`/`en`), âm lượng bus `Music`/`SFX`, chế độ điều khiển (`auto`/`keyboard`/`touch`), fullscreen, resolution (Desktop) và `reduced_motion`.
+  - `AudioManager` tạo bus `Music` & `SFX`, kết nối sự kiện UI/Gameplay và báo trung thực khi chưa có file audio đính kèm.
+- **Điểm nối cho Prompt 04+:** `EventBus.learning_hook_requested` và `quest.learning_hook` sẵn sàng kết nối `LearningEngine` & 5 Mini-games mà không cần sửa kiến trúc thế giới, nhân vật hay UI/UX.

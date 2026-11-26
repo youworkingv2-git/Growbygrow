@@ -228,3 +228,12 @@ Mỗi lần người chơi tương tác với một từ/kiến thức (`learnin
 - `Level 5 (Mastered)`: `mastery_score >= 92`, **>= 3 kỹ năng** (hoặc đủ kỹ năng cấu hình cho từ đó), và vượt qua **>= 2 lần ôn tập ngắt quãng thành công**.
 
 > **Kết quả:** Trẻ không thể bấm bừa hay cày 10 lần trong 5 phút để biến từ đó thành `Mastered`. Trẻ buộc phải hiểu, áp dụng đa kỹ năng và nhớ lại sau 1–3 ngày!
+
+---
+
+## 7. TRẢI NGHIỆM UI/UX ĐÃ TRIỂN KHAI (CẬP NHẬT PROMPT 03)
+
+- Hệ thống UI/UX theo phong cách **Fantasy Cartoon Adventure** (`UIDesignSystem` + `UIManager` + `UIAnimator` + `ResponsiveHelper`) đã kết nối trực tiếp với vòng lặp khám phá Alphabet Island:
+  - Luồng khởi động đầy đủ: `Splash Screen` → `Main Menu` (`Continue` chỉ bật khi có dữ liệu lưu hợp lệ, `New Game` có hộp thoại xác nhận ghi đè) → `Character Selection` → `World Introduction` → `World Map` / `Area Exploration`.
+  - `AdventureHUD` hiển thị gọn ở các cạnh màn hình (Avatar, Level, thanh EXP thực, Gold, Magic Crystals, Nhiệm vụ hiện tại, Bottom Dock & Touch Controls), tự ẩn khi hội thoại hoặc mở popup, kèm `Pause Menu` (`Resume`, `World Map`, `Quest`, `Settings`, `Save & Exit`), `Dialogue UI`, `Quest Log`, `Reward Popup`, `Inventory UI` (kết nối túi đồ thực tế) và hệ thống `Notification Stack`.
+  - Thiết kế hỗ trợ chuột, bàn phím và cảm ứng (responsive cho Desktop, Tablet, Mobile) kèm tùy chọn `Reduced Motion` cho trẻ nhỏ.

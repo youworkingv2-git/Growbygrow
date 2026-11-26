@@ -191,3 +191,13 @@
 - **Mục đích:** Cổng dành riêng cho phụ huynh (bảo vệ bằng PIN/cổng toán học đơn giản) để xem báo cáo học tập chi tiết, lỗi hay gặp và đặt giới hạn thời gian chơi/ngày (`parental_settings`).
 - **Layout (Định hướng thiết kế sẵn):** Bảo vệ bằng lớp xác nhận Phụ huynh → Bảng tổng quan thời lượng học theo tuần, biểu đồ tiến bộ 4 kỹ năng, danh sách top 10 từ con hay nhầm, công tắc bật/tắt micro và giới hạn phút chơi.
 - **Trạng thái trong MVP:** Chưa triển khai màn hình đầy đủ ở MVP; bảng `parental_settings` đã có sẵn trong Database Schema để mở rộng mượt ở Post-MVP.
+
+---
+
+## 3. CẬP NHẬT TRIỂN KHAI THỰC TẾ (PROMPT 03 – BUILD UI/UX SYSTEM)
+
+Các hệ thống và màn hình UI/UX đã được triển khai thực tế trong Godot 4.3 (`scripts/ui/`, `scenes/ui/`, `scripts/core/`, `scripts/audio/`):
+- **Design System (`UIDesignSystem`) & `UIManager`:** Áp dụng Theme toàn cục (`PRIMARY`, `SECONDARY`, `BACKGROUND`, `SURFACE`, `SUCCESS`, `WARNING`, `ERROR`, `LOCKED`, `REWARD`, `CRYSTAL`), hệ thống chữ 7 cấp, 8 biến thể nút dùng chung 5 trạng thái, Notification Stack không chặn thao tác, `ConfirmationDialog`, `LoadingIndicator`, `Tooltip`, `SettingsModal`.
+- **Các màn hình đã triển khai & kết nối gameplay thực:** Splash (`main_entry.tscn`), Main Menu (`main_menu.tscn`), Character Selection (`character_selection.tscn`), World Introduction (`world_introduction.tscn`), World Map (`world_map.tscn`), In-game HUD (`adventure_hud.tscn`), Dialogue Box (`dialogue_box_ui.gd`), Quest Log & Quest Intro/Completed (`QuestCardWidget`, `RewardDisplay`), Inventory UI (`BagModal`), Settings UI (`SettingsModalUI`), Pause Menu (`PauseMenuUI`).
+- **Phạm vi giữ nguyên chờ Prompt 04+:** `Login Screen` (Account/Supabase Auth), `Initial Assessment`, `Learning Feedback`, `Achievement` đầy đủ, `Learning Dashboard`, và `Parent Dashboard` chưa triển khai ở Prompt 03. Xem chi tiết tại `docs/UI_DESIGN_SYSTEM.md`, `docs/UI_COMPONENTS.md`, `docs/SCREEN_FLOW.md`, `docs/RESPONSIVE_UI.md`, `docs/ACCESSIBILITY.md`, và `docs/UI_TEST_REPORT.md`.
+
