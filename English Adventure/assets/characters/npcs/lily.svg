@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="148" viewBox="0 0 120 148">
+  <ellipse cx="60" cy="136" rx="26" ry="7" fill="#0F172A" opacity="0.2"/>
+  <rect x="45" y="108" width="11" height="22" rx="4" fill="#FED7AA"/>
+  <rect x="64" y="108" width="11" height="22" rx="4" fill="#FED7AA"/>
+  <rect x="42" y="126" width="16" height="9" rx="4" fill="#FB7185"/>
+  <rect x="62" y="126" width="16" height="9" rx="4" fill="#FB7185"/>
+  <!-- Dress -->
+  <path d="M40 72 L80 72 L88 114 L32 114 Z" fill="#A855F7" stroke="#6B21A8" stroke-width="3"/>
+  <rect x="28" y="74" width="12" height="26" rx="6" fill="#FED7AA"/>
+  <rect x="80" y="74" width="12" height="26" rx="6" fill="#FED7AA"/>
+  <!-- Head & Hair -->
+  <circle cx="60" cy="46" r="25" fill="#FED7AA" stroke="#C2410C" stroke-width="2.5"/>
+  <path d="M35 44 Q42 16 60 16 Q78 16 85 44 Q74 30 60 34 Q46 30 35 44 Z" fill="#F59E0B"/>
+  <circle cx="36" cy="28" r="7" fill="#F472B6"/>
+  <circle cx="50" cy="48" r="3.8" fill="#0F172A"/>
+  <circle cx="70" cy="48" r="3.8" fill="#0F172A"/>
+  <path d="M53 58 Q60 64 67 58" fill="none" stroke="#9A3412" stroke-width="2.5" stroke-linecap="round"/>
+</svg>

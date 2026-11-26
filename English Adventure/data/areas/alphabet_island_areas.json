@@ -1,0 +1,121 @@
+{
+  "world_id": "world_01",
+  "areas": [
+    {
+      "id": "welcome_village",
+      "world_id": "world_01",
+      "order_index": 1,
+      "name_en": "Welcome Village",
+      "name_vi": "Làng Khởi Đầu",
+      "description_vi": "Ngôi làng yên bình có nhà Giáo sư Cú Mèo và quảng trường trung tâm. Nơi tuyệt vời để làm quen bước chân đầu tiên!",
+      "description_en": "A cozy village with Professor Owl's house and friendly villagers.",
+      "scene_path": "res://scenes/world/areas/welcome_village.tscn",
+      "default_spawn": { "x": 640, "y": 540 },
+      "map_pos": { "x": 0.16, "y": 0.70 },
+      "connected_areas": ["alphabet_meadow"],
+      "theme_color": "#4ADE80",
+      "is_start_area": true,
+      "unlock_condition": {
+        "type": "always_unlocked",
+        "description_vi": "Khu vực xuất phát luôn mở."
+      },
+      "completion_condition": {
+        "required_quests": ["quest_01_new_adventure"]
+      }
+    },
+    {
+      "id": "alphabet_meadow",
+      "world_id": "world_01",
+      "order_index": 2,
+      "name_en": "Alphabet Meadow",
+      "name_vi": "Đồng Cỏ Bảng Chữ Cái",
+      "description_vi": "Đồng cỏ xanh nơi các ký tự A–Z từng nhảy múa. Hãy tìm lại những chữ cái bị thất lạc!",
+      "description_en": "A sunny meadow where the lost letters of A–Z are hiding.",
+      "scene_path": "res://scenes/world/areas/alphabet_meadow.tscn",
+      "default_spawn": { "x": 180, "y": 460 },
+      "map_pos": { "x": 0.36, "y": 0.50 },
+      "connected_areas": ["welcome_village", "letter_cave"],
+      "theme_color": "#22C55E",
+      "is_start_area": false,
+      "unlock_condition": {
+        "type": "quests_completed",
+        "required_quests": ["quest_01_new_adventure"],
+        "description_vi": "Hoàn thành nhiệm vụ 'Khởi Hành Mới' (Quest 01) tại Làng Khởi Đầu để mở đường tới Đồng Cỏ Bảng Chữ Cái."
+      },
+      "completion_condition": {
+        "required_quests": ["quest_02_lost_letters"]
+      }
+    },
+    {
+      "id": "letter_cave",
+      "world_id": "world_01",
+      "order_index": 3,
+      "name_en": "Letter Cave",
+      "name_vi": "Hang Động Chữ Cái",
+      "description_vi": "Hang đá lấp lánh pha lê xanh, nơi Rocky canh giữ manh mối về các chữ cái cổ.",
+      "description_en": "A glowing cave hiding lost letters and Rocky's clues.",
+      "scene_path": "res://scenes/world/areas/letter_cave.tscn",
+      "default_spawn": { "x": 180, "y": 460 },
+      "map_pos": { "x": 0.55, "y": 0.32 },
+      "connected_areas": ["alphabet_meadow", "crystal_lake"],
+      "theme_color": "#64748B",
+      "is_start_area": false,
+      "unlock_condition": {
+        "type": "quests_completed",
+        "required_quests": ["quest_02_lost_letters"],
+        "description_vi": "Hoàn thành nhiệm vụ 'Tìm Lại Chữ Cái Thất Lạc' (Quest 02) ở Đồng Cỏ để mở cửa vào Hang Động."
+      },
+      "completion_condition": {
+        "required_flags": ["rocky_clue_found"]
+      }
+    },
+    {
+      "id": "crystal_lake",
+      "world_id": "world_01",
+      "order_index": 4,
+      "name_en": "Crystal Lake",
+      "name_vi": "Hồ Pha Lê",
+      "description_vi": "Hồ nước phép thuật phản chiếu ánh sáng Magic Crystals và là nơi Crystal Guardian sinh sống.",
+      "description_en": "A magical lake glowing with crystals and guarded by the Crystal Guardian.",
+      "scene_path": "res://scenes/world/areas/crystal_lake.tscn",
+      "default_spawn": { "x": 180, "y": 460 },
+      "map_pos": { "x": 0.72, "y": 0.58 },
+      "connected_areas": ["letter_cave", "shadow_gate"],
+      "theme_color": "#38BDF8",
+      "is_start_area": false,
+      "unlock_condition": {
+        "type": "flags_required",
+        "required_flags": ["rocky_clue_found"],
+        "description_vi": "Gặp Rocky và mở cánh cửa bí mật trong Hang Động Chữ Cái để tiến tới Hồ Pha Lê."
+      },
+      "completion_condition": {
+        "required_quests": ["quest_03_mysterious_gate"]
+      }
+    },
+    {
+      "id": "shadow_gate",
+      "world_id": "world_01",
+      "order_index": 5,
+      "name_en": "The Shadow Gate",
+      "name_vi": "Cổng Bóng Tối",
+      "description_vi": "Cánh cổng cổ bị The Silent Shadow phong ấn. Mục tiêu lớn của hành trình Alphabet Island!",
+      "description_en": "The ancient gate sealed by The Silent Shadow.",
+      "scene_path": "res://scenes/world/areas/shadow_gate.tscn",
+      "default_spawn": { "x": 640, "y": 620 },
+      "map_pos": { "x": 0.87, "y": 0.30 },
+      "connected_areas": ["crystal_lake"],
+      "theme_color": "#6D28D9",
+      "is_start_area": false,
+      "is_boss_zone": true,
+      "unlock_condition": {
+        "type": "quests_and_items",
+        "required_quests": ["quest_03_mysterious_gate"],
+        "required_items": ["magic_crystal_shard"],
+        "description_vi": "Hoàn thành nhiệm vụ 'Cánh Cổng Bí Ẩn' (Quest 03) và thu thập Mảnh Pha Lê tại Hồ Pha Lê để mở khóa Cổng Bóng Tối."
+      },
+      "completion_condition": {
+        "required_flags": ["shadow_gate_inspected"]
+      }
+    }
+  ]
+}

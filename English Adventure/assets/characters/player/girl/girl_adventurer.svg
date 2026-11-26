@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="160" viewBox="0 0 128 160">
+  <!-- Ground Shadow -->
+  <ellipse cx="64" cy="148" rx="30" ry="8" fill="#0F172A" opacity="0.22"/>
+  <!-- Ponytail -->
+  <path d="M84 40 Q108 42 104 72 Q94 64 86 52 Z" fill="#7C2D12"/>
+  <!-- Backpack -->
+  <rect x="26" y="76" width="18" height="38" rx="8" fill="#F59E0B" stroke="#B45309" stroke-width="3"/>
+  <!-- Legs & Boots -->
+  <rect x="47" y="116" width="13" height="22" rx="5" fill="#334155"/>
+  <rect x="68" y="116" width="13" height="22" rx="5" fill="#334155"/>
+  <rect x="44" y="132" width="18" height="12" rx="6" fill="#0F766E"/>
+  <rect x="66" y="132" width="18" height="12" rx="6" fill="#0F766E"/>
+  <!-- Adventure Tunic -->
+  <path d="M40 76 L88 76 L94 120 L34 120 Z" fill="#EC4899" stroke="#9D174D" stroke-width="3" stroke-linejoin="round"/>
+  <rect x="37" y="98" width="54" height="8" fill="#FBBF24"/>
+  <circle cx="64" cy="102" r="5" fill="#FEF08A" stroke="#B45309" stroke-width="2"/>
+  <!-- Arms -->
+  <rect x="27" y="78" width="13" height="30" rx="6" fill="#FED7AA" stroke="#C2410C" stroke-width="2"/>
+  <rect x="88" y="78" width="13" height="30" rx="6" fill="#FED7AA" stroke="#C2410C" stroke-width="2"/>
+  <!-- Head -->
+  <circle cx="64" cy="48" r="28" fill="#FED7AA" stroke="#C2410C" stroke-width="2.5"/>
+  <!-- Hair & Headband -->
+  <path d="M35 46 Q40 16 64 16 Q88 16 93 46 Q80 30 64 34 Q48 30 35 46 Z" fill="#7C2D12"/>
+  <path d="M39 36 Q64 26 89 36" fill="none" stroke="#14B8A6" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="84" cy="34" r="5" fill="#FBBF24"/>
+  <!-- Eyes & Smile -->
+  <circle cx="53" cy="50" r="4" fill="#0F172A"/>
+  <circle cx="75" cy="50" r="4" fill="#0F172A"/>
+  <circle cx="54.5" cy="48.5" r="1.4" fill="#FFFFFF"/>
+  <circle cx="76.5" cy="48.5" r="1.4" fill="#FFFFFF"/>
+  <circle cx="45" cy="57" r="4" fill="#FB7185" opacity="0.5"/>
+  <circle cx="83" cy="57" r="4" fill="#FB7185" opacity="0.5"/>
+  <path d="M56 60 Q64 68 72 60" fill="none" stroke="#9A3412" stroke-width="3" stroke-linecap="round"/>
+</svg>

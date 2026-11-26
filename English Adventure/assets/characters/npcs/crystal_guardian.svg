@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="152" viewBox="0 0 128 152">
+  <ellipse cx="64" cy="140" rx="32" ry="8" fill="#06B6D4" opacity="0.28"/>
+  <!-- Cloak & Robe -->
+  <path d="M32 134 L46 64 L82 64 L96 134 Z" fill="#0EA5E9" stroke="#0369A1" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M48 64 L64 82 L80 64" fill="#E0F2FE"/>
+  <!-- Floating Crystal Staff -->
+  <line x1="102" y1="34" x2="102" y2="132" stroke="#92400E" stroke-width="5" stroke-linecap="round"/>
+  <polygon points="102,14 114,30 102,46 90,30" fill="#22D3EE" stroke="#0284C7" stroke-width="2.5"/>
+  <!-- Head & Crown -->
+  <circle cx="64" cy="44" r="24" fill="#E0F2FE" stroke="#0284C7" stroke-width="3"/>
+  <polygon points="64,10 74,24 54,24" fill="#38BDF8" stroke="#0369A1" stroke-width="2"/>
+  <circle cx="54" cy="44" r="4" fill="#0F172A"/>
+  <circle cx="74" cy="44" r="4" fill="#0F172A"/>
+  <path d="M55 55 Q64 62 73 55" fill="none" stroke="#0369A1" stroke-width="3" stroke-linecap="round"/>
+</svg>

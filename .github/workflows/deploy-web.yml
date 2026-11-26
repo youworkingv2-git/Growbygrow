@@ -4,7 +4,7 @@ on:
   push:
     branches: ["main", "master"]
     paths:
-      - "English Adventure - Anti/**"
+      - "English Adventure/**"
       - ".github/workflows/deploy-web.yml"
   workflow_dispatch:
 
@@ -22,16 +22,22 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: "English Adventure - Anti"
+        working-directory: "English Adventure"
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Validate Project Data & Scene References
+        run: python3 tests/content_validation/validate_prompt_02.py
 
       - name: Setup Godot 4.3 with Export Templates
         uses: chickensoft-games/setup-godot@v2
         with:
           version: 4.3.0
           include-templates: true
+
+      - name: Import Godot Resources (Headless)
+        run: godot --headless --import
 
       - name: Export Godot Web Build
         run: |
@@ -41,7 +47,7 @@ jobs:
       - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: "English Adventure - Anti/builds/web"
+          path: "English Adventure/builds/web"
 
   deploy:
     environment:

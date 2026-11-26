@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192">
+  <ellipse cx="96" cy="176" rx="74" ry="12" fill="#312E81" opacity="0.3"/>
+  <path d="M36 174 L36 74 Q96 14 156 74 L156 174" fill="none" stroke="#475569" stroke-width="24" stroke-linecap="round"/>
+  <path d="M50 174 L50 80 Q96 34 142 80 L142 174 Z" fill="#1E1B4B"/>
+  <!-- Shadow Swirl -->
+  <circle cx="96" cy="112" r="34" fill="#6D28D9" opacity="0.65"/>
+  <circle cx="96" cy="112" r="18" fill="#A855F7" opacity="0.8"/>
+  <!-- Lock Emblem -->
+  <rect x="82" y="106" width="28" height="22" rx="5" fill="#FBBF24" stroke="#78350F" stroke-width="2.5"/>
+  <path d="M88 106 L88 96 Q96 88 104 96 L104 106" fill="none" stroke="#FBBF24" stroke-width="4"/>
+</svg>

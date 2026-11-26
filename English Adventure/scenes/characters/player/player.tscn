@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/character/player_controller.gd" id="1_player"]
+[ext_resource type="Script" path="res://scripts/character/character_animator.gd" id="2_anim"]
+[ext_resource type="Texture2D" path="res://assets/characters/player/boy/boy_adventurer.svg" id="3_tex"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_body"]
+radius = 20.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_interact"]
+radius = 68.0
+
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 1
+collision_mask = 2
+script = ExtResource("1_player")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -34)
+scale = Vector2(0.68, 0.68)
+texture = ExtResource("3_tex")
+
+[node name="CharacterAnimator" type="Node2D" parent="."]
+script = ExtResource("2_anim")
+sprite_node_path = NodePath("../Sprite2D")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_body")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position_smoothing_enabled = true
+position_smoothing_speed = 8.0
+
+[node name="InteractionDetector" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionDetector"]
+shape = SubResource("CircleShape2D_interact")

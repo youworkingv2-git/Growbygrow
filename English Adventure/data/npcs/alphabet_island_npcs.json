@@ -1,0 +1,60 @@
+{
+  "npcs": [
+    {
+      "id": "professor_owl",
+      "name_en": "Professor Owl",
+      "name_vi": "Giáo sư Cú Mèo (Professor Owl)",
+      "role": "mentor",
+      "description_vi": "Người giữ thư viện cổ của Lingua Realm, hướng dẫn nhà thám hiểm những bước đầu tiên.",
+      "sprite_path": "res://assets/characters/npcs/professor_owl.svg",
+      "area_id": "welcome_village",
+      "spawn_pos": { "x": 640, "y": 285 },
+      "related_quest_ids": ["quest_01_new_adventure"],
+      "appear_condition": { "type": "always" },
+      "default_dialogue_id": "dlg_owl_default"
+    },
+    {
+      "id": "lily",
+      "name_en": "Lily",
+      "name_vi": "Bé Lily",
+      "role": "npc",
+      "description_vi": "Cô bé sống tại Làng Khởi Đầu, bị thất lạc tấm biển tên chữ cái của nhà mình.",
+      "sprite_path": "res://assets/characters/npcs/lily.svg",
+      "area_id": "welcome_village",
+      "spawn_pos": { "x": 960, "y": 465 },
+      "related_quest_ids": ["quest_01_new_adventure", "quest_02_lost_letters"],
+      "appear_condition": { "type": "always" },
+      "default_dialogue_id": "dlg_lily_default"
+    },
+    {
+      "id": "rocky",
+      "name_en": "Rocky",
+      "name_vi": "Rocky",
+      "role": "npc",
+      "description_vi": "Sinh vật đá thân thiện sống ở Hang Động Chữ Cái, nắm giữ manh mối mở cửa hang.",
+      "sprite_path": "res://assets/characters/npcs/rocky.svg",
+      "area_id": "letter_cave",
+      "spawn_pos": { "x": 660, "y": 390 },
+      "related_quest_ids": ["quest_03_mysterious_gate"],
+      "appear_condition": { "type": "always" },
+      "on_talk_set_flag": "rocky_clue_found",
+      "default_dialogue_id": "dlg_rocky_default"
+    },
+    {
+      "id": "crystal_guardian",
+      "name_en": "Crystal Guardian",
+      "name_vi": "Người Bảo Vệ Pha Lê",
+      "role": "npc",
+      "description_vi": "Người canh giữ Hồ Pha Lê và giữ bí mật mở phong ấn Cổng Bóng Tối.",
+      "sprite_path": "res://assets/characters/npcs/crystal_guardian.svg",
+      "area_id": "crystal_lake",
+      "spawn_pos": { "x": 650, "y": 320 },
+      "related_quest_ids": ["quest_03_mysterious_gate"],
+      "appear_condition": {
+        "type": "area_unlocked",
+        "area_id": "crystal_lake"
+      },
+      "default_dialogue_id": "dlg_guardian_default"
+    }
+  ]
+}

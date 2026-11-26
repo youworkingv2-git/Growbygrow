@@ -1,0 +1,88 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/core/main_entry.gd" id="1_boot"]
+[ext_resource type="Texture2D" path="res://assets/characters/buddy/buddy_dragon.svg" id="2_buddy"]
+
+[node name="MainEntry" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_boot")
+
+[node name="Bg" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.11, 0.42, 0.72, 1)
+
+[node name="CenterCard" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -260.0
+offset_top = -200.0
+offset_right = 260.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Margin" type="MarginContainer" parent="CenterCard"]
+layout_mode = 2
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 24
+
+[node name="VBox" type="VBoxContainer" parent="CenterCard/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="BuddyLogo" type="TextureRect" parent="CenterCard/Margin/VBox"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+texture = ExtResource("2_buddy")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Title" type="Label" parent="CenterCard/Margin/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "ENGLISH ADVENTURE"
+horizontal_alignment = 1
+
+[node name="StatusLabel" type="Label" parent="CenterCard/Margin/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Đang tải thế giới..."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Buttons" type="VBoxContainer" parent="CenterCard/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="ContinueBtn" type="Button" parent="CenterCard/Margin/VBox/Buttons"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Tiếp tục Phiêu Lưu!"
+
+[node name="WorldMapBtn" type="Button" parent="CenterCard/Margin/VBox/Buttons"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Mở Bản Đồ Đảo"
+
+[node name="NewGameBtn" type="Button" parent="CenterCard/Margin/VBox/Buttons"]
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+theme_override_font_sizes/font_size = 17
+text = "Bắt đầu Phiêu lưu mới!"

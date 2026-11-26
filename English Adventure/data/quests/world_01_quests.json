@@ -1,0 +1,153 @@
+{
+  "world_id": "world_01",
+  "quests": [
+    {
+      "id": "quest_01_new_adventure",
+      "order_index": 1,
+      "title_en": "A New Adventure",
+      "title_vi": "Khởi Hành Mới",
+      "description_vi": "Làm quen với Làng Khởi Đầu, gặp Giáo sư Cú Mèo, trò chuyện với Lily và kiểm tra biển chỉ dẫn trung tâm.",
+      "description_en": "Meet Professor Owl and Lily, and check the village signpost.",
+      "giver_npc_id": "professor_owl",
+      "area_id": "welcome_village",
+      "start_condition": {
+        "type": "always_available"
+      },
+      "steps": [
+        {
+          "id": "q1_step_1",
+          "type": "talk_to_npc",
+          "target_id": "professor_owl",
+          "title_vi": "Nói chuyện với Giáo sư Cú Mèo",
+          "title_en": "Talk to Professor Owl"
+        },
+        {
+          "id": "q1_step_2",
+          "type": "talk_to_npc",
+          "target_id": "lily",
+          "title_vi": "Gặp bé Lily ở quảng trường",
+          "title_en": "Meet Lily in the square"
+        },
+        {
+          "id": "q1_step_3",
+          "type": "interact_object",
+          "target_id": "obj_village_sign",
+          "title_vi": "Kiểm tra biển chỉ dẫn trung tâm",
+          "title_en": "Inspect the village signpost"
+        }
+      ],
+      "rewards": {
+        "exp": 50,
+        "gold": 25,
+        "items": [],
+        "unlock_areas": ["alphabet_meadow"],
+        "set_flags": ["q1_done"]
+      },
+      "learning_hook": {
+        "future_lesson_id": "lesson_01_00_intro",
+        "skills": ["listening", "reading"]
+      }
+    },
+    {
+      "id": "quest_02_lost_letters",
+      "order_index": 2,
+      "title_en": "Find the Lost Letters",
+      "title_vi": "Tìm Lại Chữ Cái Thất Lạc",
+      "description_vi": "Tiến vào Đồng Cỏ Bảng Chữ Cái, thu thập 3 chữ cái phát sáng A, B, C và mở Rương Kho Báu cổ.",
+      "description_en": "Explore Alphabet Meadow, collect lost letters A, B, C, and open the chest.",
+      "giver_npc_id": "lily",
+      "area_id": "alphabet_meadow",
+      "start_condition": {
+        "type": "quests_completed",
+        "required_quests": ["quest_01_new_adventure"]
+      },
+      "steps": [
+        {
+          "id": "q2_step_1",
+          "type": "visit_area",
+          "target_id": "alphabet_meadow",
+          "title_vi": "Đi tới Đồng Cỏ Bảng Chữ Cái",
+          "title_en": "Enter Alphabet Meadow"
+        },
+        {
+          "id": "q2_step_2",
+          "type": "collect_tag",
+          "target_tag": "lost_letter_meadow",
+          "required_count": 3,
+          "title_vi": "Thu thập 3 chữ cái thất lạc (A, B, C)",
+          "title_en": "Collect 3 lost letters (A, B, C)"
+        },
+        {
+          "id": "q2_step_3",
+          "type": "interact_object",
+          "target_id": "obj_meadow_chest",
+          "title_vi": "Mở Rương Kho Báu trên đồng cỏ",
+          "title_en": "Open the Meadow Treasure Chest"
+        }
+      ],
+      "rewards": {
+        "exp": 80,
+        "gold": 40,
+        "items": [
+          { "id": "lost_letters_abc", "name_vi": "Bộ Chữ Cái A-B-C", "name_en": "Lost Letters A-B-C", "quantity": 1 }
+        ],
+        "unlock_areas": ["letter_cave"],
+        "set_flags": ["q2_done"]
+      },
+      "learning_hook": {
+        "future_lesson_id": "lesson_01_01_abc",
+        "skills": ["listening", "reading", "writing"]
+      }
+    },
+    {
+      "id": "quest_03_mysterious_gate",
+      "order_index": 3,
+      "title_en": "The Mysterious Gate",
+      "title_vi": "Cánh Cổng Bí Ẩn",
+      "description_vi": "Tìm manh mối từ Rocky trong Hang Động Chữ Cái, tới Hồ Pha Lê gặp Crystal Guardian và lấy Mảnh Pha Lê mở Cổng Bóng Tối.",
+      "description_en": "Get Rocky's clue, meet the Crystal Guardian, and collect a Magic Crystal Shard.",
+      "giver_npc_id": "rocky",
+      "area_id": "letter_cave",
+      "start_condition": {
+        "type": "quests_completed",
+        "required_quests": ["quest_02_lost_letters"]
+      },
+      "steps": [
+        {
+          "id": "q3_step_1",
+          "type": "talk_to_npc",
+          "target_id": "rocky",
+          "title_vi": "Hỏi manh mối từ Rocky trong Hang Động",
+          "title_en": "Ask Rocky for a clue"
+        },
+        {
+          "id": "q3_step_2",
+          "type": "talk_to_npc",
+          "target_id": "crystal_guardian",
+          "title_vi": "Gặp Crystal Guardian ở Hồ Pha Lê",
+          "title_en": "Meet Crystal Guardian at Crystal Lake"
+        },
+        {
+          "id": "q3_step_3",
+          "type": "interact_object",
+          "target_id": "obj_lake_crystal",
+          "title_vi": "Thu thập Mảnh Pha Lê Phép Thuật",
+          "title_en": "Collect Magic Crystal Shard"
+        }
+      ],
+      "rewards": {
+        "exp": 120,
+        "gold": 60,
+        "items": [
+          { "id": "magic_crystal_shard", "name_vi": "Mảnh Pha Lê Phép Thuật", "name_en": "Magic Crystal Shard", "quantity": 1 }
+        ],
+        "unlock_areas": ["shadow_gate"],
+        "set_flags": ["q3_done"]
+      },
+      "learning_hook": {
+        "future_lesson_id": "lesson_01_18_gate",
+        "skills": ["listening", "speaking", "reading", "writing"]
+      }
+    }
+  ]
+}

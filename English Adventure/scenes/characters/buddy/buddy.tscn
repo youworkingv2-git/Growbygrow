@@ -1,0 +1,59 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/character/buddy_controller.gd" id="1_buddy"]
+[ext_resource type="Texture2D" path="res://assets/characters/buddy/buddy_dragon.svg" id="2_tex"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bubble"]
+bg_color = Color(1, 0.992, 0.968, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.96, 0.62, 0.04, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[node name="Buddy" type="Node2D"]
+script = ExtResource("1_buddy")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.58, 0.58)
+texture = ExtResource("2_tex")
+
+[node name="MoodBadge" type="Label" parent="."]
+offset_left = 16.0
+offset_top = -44.0
+offset_right = 64.0
+offset_bottom = -20.0
+theme_override_colors/font_color = Color(0.98, 0.75, 0.14, 1)
+theme_override_colors/font_outline_color = Color(0.06, 0.09, 0.16, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 18
+text = ""
+
+[node name="SpeechBubble" type="PanelContainer" parent="."]
+offset_left = -140.0
+offset_top = -126.0
+offset_right = 140.0
+offset_bottom = -46.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_bubble")
+
+[node name="Margin" type="MarginContainer" parent="SpeechBubble"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 8
+
+[node name="Label" type="Label" parent="SpeechBubble/Margin"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.118, 0.16, 0.23, 1)
+theme_override_font_sizes/font_size = 14
+text = "Buddy ready!"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="HideSpeechTimer" type="Timer" parent="."]
+one_shot = true

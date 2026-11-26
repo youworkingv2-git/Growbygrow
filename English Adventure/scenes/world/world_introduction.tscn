@@ -1,0 +1,109 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/world_introduction_ui.gd" id="1_intro"]
+[ext_resource type="Texture2D" path="res://assets/characters/npcs/professor_owl.svg" id="2_owl"]
+
+[node name="WorldIntroduction" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_intro")
+
+[node name="Bg" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.09, 0.16, 0.31, 1)
+
+[node name="CenterPanel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -380.0
+offset_top = -220.0
+offset_right = 380.0
+offset_bottom = 220.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Margin" type="MarginContainer" parent="CenterPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 20
+
+[node name="VBox" type="VBoxContainer" parent="CenterPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="HeaderRow" type="HBoxContainer" parent="CenterPanel/Margin/VBox"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="CenterPanel/Margin/VBox/HeaderRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 22
+text = "CÂU CHUYỆN: ĐẢO BẢNG CHỮ CÁI"
+
+[node name="SkipBtn" type="Button" parent="CenterPanel/Margin/VBox/HeaderRow"]
+custom_minimum_size = Vector2(100, 38)
+layout_mode = 2
+text = "Bỏ qua"
+
+[node name="SpeakerRow" type="HBoxContainer" parent="CenterPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="Portrait" type="TextureRect" parent="CenterPanel/Margin/VBox/SpeakerRow"]
+custom_minimum_size = Vector2(110, 110)
+layout_mode = 2
+texture = ExtResource("2_owl")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="SpeakerInfo" type="VBoxContainer" parent="CenterPanel/Margin/VBox/SpeakerRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="SpeakerName" type="Label" parent="CenterPanel/Margin/VBox/SpeakerRow/SpeakerInfo"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Giáo sư Cú Mèo"
+
+[node name="TextEnLabel" type="Label" parent="CenterPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.35, 0.78, 1, 1)
+theme_override_font_sizes/font_size = 19
+text = "Welcome, young adventurer!"
+autowrap_mode = 3
+
+[node name="TextViLabel" type="Label" parent="CenterPanel/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 18
+text = "Chào mừng nhà thám hiểm trẻ tuổi!"
+autowrap_mode = 3
+
+[node name="FooterRow" type="HBoxContainer" parent="CenterPanel/Margin/VBox"]
+layout_mode = 2
+
+[node name="ProgressLabel" type="Label" parent="CenterPanel/Margin/VBox/FooterRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 15
+text = "1 / 4"
+
+[node name="NextBtn" type="Button" parent="CenterPanel/Margin/VBox/FooterRow"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Tiếp tục →"

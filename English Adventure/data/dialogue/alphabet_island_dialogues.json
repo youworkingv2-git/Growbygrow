@@ -1,0 +1,153 @@
+{
+  "dialogues": {
+    "world_intro": [
+      {
+        "speaker_id": "professor_owl",
+        "speaker_name_vi": "Giáo sư Cú Mèo",
+        "speaker_name_en": "Professor Owl",
+        "portrait": "res://assets/characters/npcs/professor_owl.svg",
+        "buddy_state": "talking",
+        "text_en": "Welcome, young adventurer!",
+        "text_vi": "Chào mừng nhà thám hiểm trẻ tuổi đến với Lingua Realm! Ta là Giáo sư Cú Mèo."
+      },
+      {
+        "speaker_id": "buddy",
+        "speaker_name_vi": "Buddy (Rồng Nhỏ)",
+        "speaker_name_en": "Buddy",
+        "portrait": "res://assets/characters/buddy/buddy_dragon.svg",
+        "buddy_state": "happy",
+        "text_en": "Hi! I am Buddy. Let's explore the island together!",
+        "text_vi": "Xin chào! Tớ là Buddy. Từ nay tớ sẽ bay cùng cậu khám phá hòn đảo kỳ diệu này nhé!"
+      },
+      {
+        "speaker_id": "professor_owl",
+        "speaker_name_vi": "Giáo sư Cú Mèo",
+        "speaker_name_en": "Professor Owl",
+        "portrait": "res://assets/characters/npcs/professor_owl.svg",
+        "buddy_state": "sad",
+        "text_en": "The letters have disappeared. We need your help!",
+        "text_vi": "Thế lực bóng tối The Silent Shadow đã đánh cắp chữ cái và âm thanh. Sách vở trống rỗng, biển báo mất chữ! Hãy giúp chúng ta khôi phục Đảo Bảng Chữ Cái!"
+      },
+      {
+        "speaker_id": "buddy",
+        "speaker_name_vi": "Buddy (Rồng Nhỏ)",
+        "speaker_name_en": "Buddy",
+        "portrait": "res://assets/characters/buddy/buddy_dragon.svg",
+        "buddy_state": "celebrating",
+        "text_en": "Let's go to Welcome Village!",
+        "text_vi": "Đừng lo nhé, tớ sẽ dịch và hướng dẫn từng bước bằng tiếng Việt. Chúng ta cùng tới Làng Khởi Đầu thôi!"
+      }
+    ],
+    "dlg_owl_default": [
+      {
+        "speaker_id": "professor_owl",
+        "speaker_name_vi": "Giáo sư Cú Mèo",
+        "speaker_name_en": "Professor Owl",
+        "portrait": "res://assets/characters/npcs/professor_owl.svg",
+        "buddy_state": "talking",
+        "text_en": "Welcome, young adventurer!",
+        "text_vi": "Chào mừng con tới Làng Khởi Đầu! Nơi đây từng tràn ngập tiếng cười và chữ cái."
+      },
+      {
+        "speaker_id": "buddy",
+        "speaker_name_vi": "Buddy",
+        "speaker_name_en": "Buddy",
+        "portrait": "res://assets/characters/buddy/buddy_dragon.svg",
+        "buddy_state": "happy",
+        "text_en": "Let's start our first quest!",
+        "text_vi": "Thưa Giáo sư, chúng cháu sẵn sàng nhận nhiệm vụ đầu tiên ạ!"
+      },
+      {
+        "speaker_id": "professor_owl",
+        "speaker_name_vi": "Giáo sư Cú Mèo",
+        "speaker_name_en": "Professor Owl",
+        "portrait": "res://assets/characters/npcs/professor_owl.svg",
+        "buddy_state": "thinking",
+        "text_en": "Find Lily in the village square.",
+        "text_vi": "Tốt lắm! Hãy đi gặp bé Lily ở quảng trường phía đông làng và kiểm tra tấm biển chỉ dẫn bị mất chữ nhé!"
+      }
+    ],
+    "dlg_owl_quest_done": [
+      {
+        "speaker_id": "professor_owl",
+        "speaker_name_vi": "Giáo sư Cú Mèo",
+        "speaker_name_en": "Professor Owl",
+        "portrait": "res://assets/characters/npcs/professor_owl.svg",
+        "buddy_state": "celebrating",
+        "text_en": "Great job, adventurer!",
+        "text_vi": "Xuất sắc! Con đã làm quen với làng và mở được đường tới Đồng Cỏ Bảng Chữ Cái rồi đấy!"
+      }
+    ],
+    "dlg_lily_default": [
+      {
+        "speaker_id": "lily",
+        "speaker_name_vi": "Bé Lily",
+        "speaker_name_en": "Lily",
+        "portrait": "res://assets/characters/npcs/lily.svg",
+        "buddy_state": "sad",
+        "text_en": "Oh no! My letters are gone!",
+        "text_vi": "Hu hu, cơn bão của The Silent Shadow đã thổi bay hết chữ cái sang Đồng Cỏ bên kia rồi!"
+      },
+      {
+        "speaker_id": "buddy",
+        "speaker_name_vi": "Buddy",
+        "speaker_name_en": "Buddy",
+        "portrait": "res://assets/characters/buddy/buddy_dragon.svg",
+        "buddy_state": "happy",
+        "text_en": "We can help you, Lily!",
+        "text_vi": "Đừng buồn nhé Lily! Tớ và nhà thám hiểm sẽ kiểm tra biển chỉ dẫn rồi qua Đồng Cỏ tìm chữ cái giúp cậu!"
+      }
+    ],
+    "dlg_lily_after_q1": [
+      {
+        "speaker_id": "lily",
+        "speaker_name_vi": "Bé Lily",
+        "speaker_name_en": "Lily",
+        "portrait": "res://assets/characters/npcs/lily.svg",
+        "buddy_state": "happy",
+        "text_en": "Please find A, B, and C in Alphabet Meadow!",
+        "text_vi": "Cổng sang Đồng Cỏ Bảng Chữ Cái đã mở rồi! Cậu hãy sang đó tìm 3 chữ cái phát sáng A, B, C và mở chiếc rương cổ giúp mình nhé!"
+      }
+    ],
+    "dlg_rocky_default": [
+      {
+        "speaker_id": "rocky",
+        "speaker_name_vi": "Rocky",
+        "speaker_name_en": "Rocky",
+        "portrait": "res://assets/characters/npcs/rocky.svg",
+        "buddy_state": "surprised",
+        "text_en": "Hello! I have a secret clue!",
+        "text_vi": "Chào bạn nhỏ! Tớ là Rocky. Cánh cửa dẫn tới Hồ Pha Lê vừa bị phong ấn, nhưng tớ biết bí mật để mở nó!"
+      },
+      {
+        "speaker_id": "rocky",
+        "speaker_name_vi": "Rocky",
+        "speaker_name_en": "Rocky",
+        "portrait": "res://assets/characters/npcs/rocky.svg",
+        "buddy_state": "talking",
+        "text_en": "Go to Crystal Lake and meet the Crystal Guardian!",
+        "text_vi": "Cậu hãy chạm vào cánh cửa cổ phía đông hang, đi tới Hồ Pha Lê gặp Người Bảo Vệ Pha Lê để tìm hiểu về Cổng Bóng Tối nhé!"
+      }
+    ],
+    "dlg_guardian_default": [
+      {
+        "speaker_id": "crystal_guardian",
+        "speaker_name_vi": "Người Bảo Vệ Pha Lê",
+        "speaker_name_en": "Crystal Guardian",
+        "portrait": "res://assets/characters/npcs/crystal_guardian.svg",
+        "buddy_state": "thinking",
+        "text_en": "You need a Magic Crystal Shard!",
+        "text_vi": "Hoan nghênh nhà thám hiểm! Phía bắc là Cổng Bóng Tối của The Silent Shadow. Để mở đường tiến tới đó, hãy thu thập Mảnh Pha Lê Phép Thuật ngay bên bờ hồ!"
+      },
+      {
+        "speaker_id": "buddy",
+        "speaker_name_vi": "Buddy",
+        "speaker_name_en": "Buddy",
+        "portrait": "res://assets/characters/buddy/buddy_dragon.svg",
+        "buddy_state": "celebrating",
+        "text_en": "Look! There is a glowing crystal!",
+        "text_vi": "Nhìn kìa! Mảnh Pha Lê xanh đang phát sáng bên hồ nước! Chúng ta tới nhặt nó thôi!"
+      }
+    ]
+  }
+}

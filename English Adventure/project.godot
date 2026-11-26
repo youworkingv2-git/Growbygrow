@@ -1,0 +1,75 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="ENGLISH ADVENTURE"
+config/description="ENGLISH ADVENTURE - A Fun English Learning Adventure Game (Godot 4 + Supabase)"
+config/version="0.2.0-world-character"
+run/main_scene="res://scenes/boot/main_entry.tscn"
+config/features=PackedStringArray("4.3", "GL Compatibility")
+config/icon="res://icon.svg"
+
+[autoload]
+
+AppLogger="*res://scripts/core/app_logger.gd"
+EventBus="*res://scripts/core/event_bus.gd"
+LocalizationManager="*res://scripts/localization/localization_manager.gd"
+DataRepository="*res://scripts/core/data_repository.gd"
+SaveLoadManager="*res://scripts/services/save_load_manager.gd"
+GameStateManager="*res://scripts/core/game_state_manager.gd"
+QuestManager="*res://scripts/quest/quest_manager.gd"
+SceneRouter="*res://scripts/core/scene_router.gd"
+
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/size/mode=2
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+window/handheld/orientation=6
+
+[input]
+
+move_left={
+"deadzone": 0.2,
+"events": []
+}
+move_right={
+"deadzone": 0.2,
+"events": []
+}
+move_up={
+"deadzone": 0.2,
+"events": []
+}
+move_down={
+"deadzone": 0.2,
+"events": []
+}
+interact={
+"deadzone": 0.2,
+"events": []
+}
+buddy_help={
+"deadzone": 0.2,
+"events": []
+}
+
+[internationalization]
+
+locale/fallback="vi"
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+textures/vram_compression/import_etc2_astc=true

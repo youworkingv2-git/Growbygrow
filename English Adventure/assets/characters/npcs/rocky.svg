@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="136" viewBox="0 0 120 136">
+  <ellipse cx="60" cy="124" rx="30" ry="8" fill="#0F172A" opacity="0.22"/>
+  <!-- Rock Golem Cute Creature -->
+  <polygon points="34,42 60,22 86,42 96,86 78,116 42,116 24,86" fill="#64748B" stroke="#334155" stroke-width="3.5" stroke-linejoin="round"/>
+  <polygon points="44,34 60,24 74,34 68,48 48,48" fill="#94A3B8"/>
+  <!-- Glowing Moss & Crystal on shoulder -->
+  <polygon points="82,36 96,24 94,46" fill="#38BDF8" stroke="#0284C7" stroke-width="2"/>
+  <!-- Friendly Eyes -->
+  <circle cx="48" cy="64" r="6.5" fill="#FEF08A"/>
+  <circle cx="72" cy="64" r="6.5" fill="#FEF08A"/>
+  <circle cx="48" cy="64" r="3" fill="#0F172A"/>
+  <circle cx="72" cy="64" r="3" fill="#0F172A"/>
+  <path d="M50 82 Q60 90 70 82" fill="none" stroke="#CBD5E1" stroke-width="3.5" stroke-linecap="round"/>
+</svg>

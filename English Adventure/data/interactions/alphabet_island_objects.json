@@ -1,0 +1,137 @@
+{
+  "objects": [
+    {
+      "id": "obj_village_sign",
+      "area_id": "welcome_village",
+      "object_type": "signpost",
+      "title_vi": "Biển Chỉ Dẫn Làng Khởi Đầu",
+      "title_en": "Welcome Village Signpost",
+      "message_vi": "Biển báo ghi: 'ALPHABET MEADOW ->'. Một vài chữ cái bị mờ đi vì The Silent Shadow, nhưng mũi tên vẫn chỉ rõ lối ra đồng cỏ!",
+      "message_en": "Signpost: 'Welcome to Alphabet Island!'",
+      "one_time_reward": false
+    },
+    {
+      "id": "obj_village_chest",
+      "area_id": "welcome_village",
+      "object_type": "chest",
+      "title_vi": "Rương Tiếp Tế Làng",
+      "title_en": "Village Supply Chest",
+      "message_vi": "Tuyệt vời! Bạn tìm thấy 15 Gold và Huy Hiệu Thám Hiểm trong rương!",
+      "message_en": "You found 15 Gold and an Explorer Badge!",
+      "one_time_reward": true,
+      "reward_gold": 15,
+      "reward_item": { "id": "explorer_badge", "name_vi": "Huy Hiệu Thám Hiểm", "name_en": "Explorer Badge", "quantity": 1 }
+    },
+    {
+      "id": "obj_letter_a",
+      "area_id": "alphabet_meadow",
+      "object_type": "lost_letter",
+      "tag": "lost_letter_meadow",
+      "letter_symbol": "A",
+      "title_vi": "Chữ cái thất lạc: A",
+      "title_en": "Lost Letter: A",
+      "message_vi": "Bạn đã tìm thấy chữ A phát sáng! Buddy reo lên: 'A is for Apple!'",
+      "message_en": "Found letter A!",
+      "one_time_reward": true,
+      "reward_gold": 5,
+      "reward_item": { "id": "letter_a_token", "name_vi": "Ký tự A", "name_en": "Letter A", "quantity": 1 }
+    },
+    {
+      "id": "obj_letter_b",
+      "area_id": "alphabet_meadow",
+      "object_type": "lost_letter",
+      "tag": "lost_letter_meadow",
+      "letter_symbol": "B",
+      "title_vi": "Chữ cái thất lạc: B",
+      "title_en": "Lost Letter: B",
+      "message_vi": "Bạn đã tìm thấy chữ B! Buddy nói: 'B is for Ball!'",
+      "message_en": "Found letter B!",
+      "one_time_reward": true,
+      "reward_gold": 5,
+      "reward_item": { "id": "letter_b_token", "name_vi": "Ký tự B", "name_en": "Letter B", "quantity": 1 }
+    },
+    {
+      "id": "obj_letter_c",
+      "area_id": "alphabet_meadow",
+      "object_type": "lost_letter",
+      "tag": "lost_letter_meadow",
+      "letter_symbol": "C",
+      "title_vi": "Chữ cái thất lạc: C",
+      "title_en": "Lost Letter: C",
+      "message_vi": "Bạn đã tìm thấy chữ C! Buddy cười: 'C is for Cat!'",
+      "message_en": "Found letter C!",
+      "one_time_reward": true,
+      "reward_gold": 5,
+      "reward_item": { "id": "letter_c_token", "name_vi": "Ký tự C", "name_en": "Letter C", "quantity": 1 }
+    },
+    {
+      "id": "obj_meadow_chest",
+      "area_id": "alphabet_meadow",
+      "object_type": "chest",
+      "title_vi": "Rương Kho Báu Đồng Cỏ",
+      "title_en": "Meadow Treasure Chest",
+      "message_vi": "Chiếc rương cổ bật mở! Ánh sáng từ các chữ cái mở ra lối vào Hang Động Chữ Cái!",
+      "message_en": "The ancient chest opens!",
+      "one_time_reward": true,
+      "reward_gold": 20
+    },
+    {
+      "id": "obj_cave_sign",
+      "area_id": "letter_cave",
+      "object_type": "signpost",
+      "title_vi": "Bia Đá Cổ Trong Hang",
+      "title_en": "Ancient Cave Tablet",
+      "message_vi": "Bia đá khắc dòng chữ: 'Ai nói chuyện với Rocky sẽ biết lối ra Hồ Pha Lê.'",
+      "message_en": "Tablet: 'Ask Rocky for the path to Crystal Lake.'",
+      "one_time_reward": false
+    },
+    {
+      "id": "obj_letter_e",
+      "area_id": "letter_cave",
+      "object_type": "lost_letter",
+      "tag": "lost_letter_cave",
+      "letter_symbol": "E",
+      "title_vi": "Chữ cái bí ẩn: E",
+      "title_en": "Mystery Letter: E",
+      "message_vi": "Bạn tìm thấy chữ E phát sáng trong hang động! 'E is for Elephant!'",
+      "message_en": "Found letter E!",
+      "one_time_reward": true,
+      "reward_gold": 10,
+      "reward_item": { "id": "letter_e_token", "name_vi": "Ký tự E", "name_en": "Letter E", "quantity": 1 }
+    },
+    {
+      "id": "obj_lake_crystal",
+      "area_id": "crystal_lake",
+      "object_type": "crystal",
+      "title_vi": "Mảnh Pha Lê Phép Thuật",
+      "title_en": "Magic Crystal Shard",
+      "message_vi": "Bạn đã thu thập Mảnh Pha Lê Phép Thuật! Ánh sáng rực rỡ soi đường tới Cổng Bóng Tối!",
+      "message_en": "You collected a Magic Crystal Shard!",
+      "one_time_reward": true,
+      "reward_gold": 25,
+      "reward_item": { "id": "magic_crystal_shard", "name_vi": "Mảnh Pha Lê Phép Thuật", "name_en": "Magic Crystal Shard", "quantity": 1 }
+    },
+    {
+      "id": "obj_lake_chest",
+      "area_id": "crystal_lake",
+      "object_type": "chest",
+      "title_vi": "Rương Bờ Hồ",
+      "title_en": "Lakeside Chest",
+      "message_vi": "Bạn tìm thấy 20 Gold lấp lánh bên bờ hồ!",
+      "message_en": "Found 20 Gold!",
+      "one_time_reward": true,
+      "reward_gold": 20
+    },
+    {
+      "id": "obj_shadow_gate_seal",
+      "area_id": "shadow_gate",
+      "object_type": "gate",
+      "title_vi": "Cổng Bóng Tối (The Shadow Gate)",
+      "title_en": "The Shadow Gate",
+      "message_vi": "Phong ấn của The Silent Shadow đang rung chuyển trước Mảnh Pha Lê của bạn! Trận thử thách tiếng Anh để phá tan cánh cổng sẽ mở ra ở giai đoạn tiếp theo (Prompt 03+)!",
+      "message_en": "The Shadow Gate reacts to your Crystal Shard! To be continued in Learning Adventures!",
+      "one_time_reward": false,
+      "set_flag": "shadow_gate_inspected"
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/environments/alphabet_island/village_tree.svg" id="1_tree"]
+[ext_resource type="Texture2D" path="res://assets/environments/alphabet_island/stone_rock.svg" id="2_rock"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_h"]
+size = Vector2(1280, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_v"]
+size = Vector2(40, 720)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lake"]
+size = Vector2(420, 240)
+
+[node name="CrystalLake" type="Node2D"]
+
+[node name="Ground" type="ColorRect" parent="."]
+offset_right = 1280.0
+offset_bottom = 720.0
+color = Color(0.32, 0.72, 0.58, 1)
+
+[node name="ShoreSand" type="ColorRect" parent="."]
+offset_left = 340.0
+offset_top = 240.0
+offset_right = 920.0
+offset_bottom = 610.0
+color = Color(0.93, 0.87, 0.68, 1)
+
+[node name="LakeWater" type="StaticBody2D" parent="."]
+position = Vector2(630, 490)
+collision_layer = 2
+
+[node name="WaterRect" type="ColorRect" parent="LakeWater"]
+offset_left = -210.0
+offset_top = -120.0
+offset_right = 210.0
+offset_bottom = 120.0
+color = Color(0.14, 0.68, 0.92, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LakeWater"]
+shape = SubResource("RectangleShape2D_lake")
+
+[node name="Tree1" type="Sprite2D" parent="."]
+position = Vector2(210, 200)
+texture = ExtResource("1_tree")
+
+[node name="Rock1" type="Sprite2D" parent="."]
+position = Vector2(1050, 560)
+texture = ExtResource("2_rock")
+
+[node name="Walls" type="StaticBody2D" parent="."]
+collision_layer = 2
+
+[node name="Top" type="CollisionShape2D" parent="Walls"]
+position = Vector2(640, 20)
+shape = SubResource("RectangleShape2D_wall_h")
+
+[node name="Bottom" type="CollisionShape2D" parent="Walls"]
+position = Vector2(640, 700)
+shape = SubResource("RectangleShape2D_wall_h")
+
+[node name="Left" type="CollisionShape2D" parent="Walls"]
+position = Vector2(20, 360)
+shape = SubResource("RectangleShape2D_wall_v")
+
+[node name="Right" type="CollisionShape2D" parent="Walls"]
+position = Vector2(1260, 360)
+shape = SubResource("RectangleShape2D_wall_v")
+
+[node name="ObjectSpawns" type="Node2D" parent="."]
+
+[node name="obj_lake_crystal" type="Marker2D" parent="ObjectSpawns"]
+position = Vector2(900, 350)
+
+[node name="obj_lake_chest" type="Marker2D" parent="ObjectSpawns"]
+position = Vector2(310, 540)
+
+[node name="PortalSpawns" type="Node2D" parent="."]
+
+[node name="ToLetterCave" type="Marker2D" parent="PortalSpawns"]
+position = Vector2(100, 440)
+metadata/dest_area_id = "letter_cave"
+metadata/dest_spawn = Vector2(1060, 440)
+
+[node name="ToShadowGate" type="Marker2D" parent="PortalSpawns"]
+position = Vector2(1170, 250)
+metadata/dest_area_id = "shadow_gate"
+metadata/dest_spawn = Vector2(640, 580)

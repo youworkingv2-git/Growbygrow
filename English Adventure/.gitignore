@@ -1,0 +1,21 @@
+# Godot 4 generated folders & caches
+.godot/
+*.import
+exports/
+builds/
+
+# Environment & secrets
+.env
+.env.local
+.env.*.local
+
+# OS & IDE files
+.DS_Store
+Thumbs.db
+*.swp
+*.tmp
+
+# Logs & local test outputs
+logs/
+test_results/
+coverage/

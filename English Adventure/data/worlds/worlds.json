@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0.0",
+  "worlds": [
+    {
+      "id": "world_01",
+      "order_index": 1,
+      "name_en": "Alphabet Island",
+      "name_vi": "Đảo Bảng Chữ Cái",
+      "description_vi": "Hòn đảo đầu tiên nơi chữ cái và âm thanh bị The Silent Shadow đánh cắp. Khám phá 5 khu vực để khôi phục ánh sáng ngôn ngữ!",
+      "description_en": "The first island where letters and sounds await your rescue!",
+      "is_mvp_active": true,
+      "unlock_condition": {
+        "type": "always_unlocked"
+      },
+      "entry_area_id": "welcome_village",
+      "future_skills_focus": ["listening", "speaking", "reading", "writing"]
+    },
+    {
+      "id": "world_02",
+      "order_index": 2,
+      "name_en": "Vocabulary Forest",
+      "name_vi": "Khu Rừng Từ Vựng",
+      "description_vi": "Khu rừng kỳ thú của động vật, gia đình, màu sắc và đồ vật quen thuộc.",
+      "description_en": "A magical forest full of everyday English words.",
+      "is_mvp_active": false,
+      "unlock_condition": {
+        "type": "world_completed",
+        "required_world_id": "world_01"
+      },
+      "future_skills_focus": ["listening", "speaking", "reading", "writing"]
+    },
+    {
+      "id": "world_03",
+      "order_index": 3,
+      "name_en": "Sentence Kingdom",
+      "name_vi": "Vương Quốc Câu",
+      "description_vi": "Xây dựng những cây cầu câu nói hoàn chỉnh để kết nối lại vương quốc.",
+      "description_en": "Build complete English sentences to restore the kingdom.",
+      "is_mvp_active": false,
+      "unlock_condition": {
+        "type": "world_completed",
+        "required_world_id": "world_02"
+      },
+      "future_skills_focus": ["listening", "speaking", "reading", "writing"]
+    },
+    {
+      "id": "world_04",
+      "order_index": 4,
+      "name_en": "Listening Ocean",
+      "name_vi": "Đại Dương Lắng Nghe",
+      "description_vi": "Giải mã âm thanh, câu ngắn và hội thoại vang vọng trên đại dương.",
+      "description_en": "Decode sounds and conversations across the ocean.",
+      "is_mvp_active": false,
+      "unlock_condition": {
+        "type": "world_completed",
+        "required_world_id": "world_03"
+      },
+      "future_skills_focus": ["listening", "speaking", "reading", "writing"]
+    },
+    {
+      "id": "world_05",
+      "order_index": 5,
+      "name_en": "Speaking City",
+      "name_vi": "Thành Phố Giao Tiếp",
+      "description_vi": "Trò chuyện tự tin với cư dân thành phố trong đời sống hàng ngày.",
+      "description_en": "Speak English confidently in real-life situations.",
+      "is_mvp_active": false,
+      "unlock_condition": {
+        "type": "world_completed",
+        "required_world_id": "world_04"
+      },
+      "future_skills_focus": ["listening", "speaking", "reading", "writing"]
+    },
+    {
+      "id": "world_06",
+      "order_index": 6,
+      "name_en": "Challenge Kingdom",
+      "name_vi": "Vương Quốc Thử Thách",
+      "description_vi": "Thử thách tổng hợp 4 kỹ năng và trận chiến cuối chống lại The Silent Shadow.",
+      "description_en": "The final test against The Silent Shadow.",
+      "is_mvp_active": false,
+      "unlock_condition": {
+        "type": "world_completed",
+        "required_world_id": "world_05"
+      },
+      "future_skills_focus": ["listening", "speaking", "reading", "writing"]
+    }
+  ]
+}

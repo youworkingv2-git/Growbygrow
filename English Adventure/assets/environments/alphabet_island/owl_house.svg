@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="190" viewBox="0 0 200 190">
+  <ellipse cx="100" cy="176" rx="76" ry="12" fill="#0F172A" opacity="0.18"/>
+  <!-- Walls -->
+  <rect x="34" y="88" width="132" height="86" rx="10" fill="#FEF3C7" stroke="#92400E" stroke-width="4"/>
+  <!-- Roof -->
+  <polygon points="18,94 100,22 182,94" fill="#EA580C" stroke="#7C2D12" stroke-width="4" stroke-linejoin="round"/>
+  <!-- Roof Window (Owl Emblem) -->
+  <circle cx="100" cy="64" r="16" fill="#38BDF8" stroke="#7C2D12" stroke-width="3"/>
+  <!-- Door -->
+  <path d="M80 174 L80 124 Q100 108 120 124 L120 174 Z" fill="#92400E" stroke="#451A03" stroke-width="3"/>
+  <circle cx="110" cy="148" r="4" fill="#FBBF24"/>
+  <!-- Windows -->
+  <rect x="46" y="112" width="22" height="24" rx="4" fill="#7DD3FC" stroke="#92400E" stroke-width="3"/>
+  <rect x="132" y="112" width="22" height="24" rx="4" fill="#7DD3FC" stroke="#92400E" stroke-width="3"/>
+</svg>

@@ -1,0 +1,65 @@
+{
+  "characters": [
+    {
+      "id": "boy",
+      "name_vi": "Leo (Nhà Thám Hiểm Nam)",
+      "name_en": "Boy Adventurer",
+      "short_title_vi": "Leo",
+      "short_title_en": "Leo",
+      "tagline_vi": "Nhanh nhẹn, tò mò và luôn sẵn sàng khám phá những chữ cái bí ẩn!",
+      "tagline_en": "Brave and curious explorer ready for adventure!",
+      "sprite_path": "res://assets/characters/player/boy/boy_adventurer.svg",
+      "accent_color": "#2EA8FF",
+      "stats_note_vi": "Sức mạnh & khả năng học tập hoàn toàn bình đẳng",
+      "animation_states": ["idle", "walk", "run", "jump", "interact", "celebrate", "hurt"]
+    },
+    {
+      "id": "girl",
+      "name_vi": "Mia (Nhà Thám Hiểm Nữ)",
+      "name_en": "Girl Adventurer",
+      "short_title_vi": "Mia",
+      "short_title_en": "Mia",
+      "tagline_vi": "Thông minh, dũng cảm và yêu thích giải mã âm thanh phép thuật!",
+      "tagline_en": "Clever and fearless explorer of sounds and words!",
+      "sprite_path": "res://assets/characters/player/girl/girl_adventurer.svg",
+      "accent_color": "#EC4899",
+      "stats_note_vi": "Sức mạnh & khả năng học tập hoàn toàn bình đẳng",
+      "animation_states": ["idle", "walk", "run", "jump", "interact", "celebrate", "hurt"]
+    }
+  ],
+  "buddy": {
+    "id": "buddy",
+    "name_vi": "Buddy (Rồng Nhỏ)",
+    "name_en": "Buddy",
+    "sprite_path": "res://assets/characters/buddy/buddy_dragon.svg",
+    "states": ["idle", "happy", "sad", "surprised", "thinking", "talking", "celebrating"],
+    "voice_hook_enabled": false,
+    "area_greetings": {
+      "welcome_village": {
+        "state": "happy",
+        "text_vi": "Chào mừng tới Làng Khởi Đầu! Hãy đi gặp Giáo sư Cú Mèo (Professor Owl) ở phía trước nhé!",
+        "text_en": "Welcome to Welcome Village! Let's talk to Professor Owl!"
+      },
+      "alphabet_meadow": {
+        "state": "surprised",
+        "text_vi": "Oa! Đồng Cỏ Bảng Chữ Cái đây rồi! Nhìn kìa, có những chữ cái phát sáng bị rơi trên cỏ!",
+        "text_en": "Look! Lost letters are glowing in the meadow!"
+      },
+      "letter_cave": {
+        "state": "thinking",
+        "text_vi": "Trong hang hơi tối một chút, nhưng có bạn nhỏ Rocky đứng gần cổng kia kìa. Lại hỏi thăm nhé!",
+        "text_en": "It's a mystery cave! Let's ask Rocky for a clue."
+      },
+      "crystal_lake": {
+        "state": "happy",
+        "text_vi": "Hồ Pha Lê đẹp quá! Hãy tìm Crystal Guardian và nhặt Mảnh Pha Lê nhé!",
+        "text_en": "Crystal Lake! Let's meet the Crystal Guardian!"
+      },
+      "shadow_gate": {
+        "state": "surprised",
+        "text_vi": "Kia chính là Cổng Bóng Tối bị The Silent Shadow phong ấn! Thử lại kiểm tra cánh cổng xem sao!",
+        "text_en": "That is The Shadow Gate! Let's inspect it carefully!"
+      }
+    }
+  }
+}

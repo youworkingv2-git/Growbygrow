@@ -1,0 +1,621 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/adventure_hud.gd" id="1_hud"]
+[ext_resource type="Script" path="res://scripts/ui/dialogue_box_ui.gd" id="2_dlg_ui"]
+[ext_resource type="Script" path="res://scripts/ui/virtual_joystick.gd" id="3_joy"]
+[ext_resource type="Texture2D" path="res://assets/characters/player/boy/boy_adventurer.svg" id="4_avatar"]
+[ext_resource type="Texture2D" path="res://assets/characters/buddy/buddy_dragon.svg" id="5_buddy"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_joy_bg"]
+bg_color = Color(0.06, 0.09, 0.16, 0.42)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 0.6)
+corner_radius_top_left = 70
+corner_radius_top_right = 70
+corner_radius_bottom_right = 70
+corner_radius_bottom_left = 70
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_joy_knob"]
+bg_color = Color(0.18, 0.66, 1, 0.85)
+corner_radius_top_left = 28
+corner_radius_top_right = 28
+corner_radius_bottom_right = 28
+corner_radius_bottom_left = 28
+
+[node name="AdventureHUD" type="CanvasLayer"]
+layer = 10
+script = ExtResource("1_hud")
+
+[node name="TopBar" type="PanelContainer" parent="."]
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 10.0
+offset_top = 8.0
+offset_right = -10.0
+offset_bottom = 68.0
+
+[node name="Margin" type="MarginContainer" parent="TopBar"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 6
+
+[node name="Row" type="BoxContainer" parent="TopBar/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="ProfileBox" type="HBoxContainer" parent="TopBar/Margin/Row"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Avatar" type="TextureRect" parent="TopBar/Margin/Row/ProfileBox"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+texture = ExtResource("4_avatar")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PlayerInfo" type="Label" parent="TopBar/Margin/Row/ProfileBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Leo | Lv.1 | EXP:0 | Gold:0"
+
+[node name="AreaTitle" type="Label" parent="TopBar/Margin/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.98, 0.82, 0.25, 1)
+theme_override_font_sizes/font_size = 16
+text = "Làng Khởi Đầu (Welcome Village)"
+horizontal_alignment = 1
+
+[node name="Actions" type="HBoxContainer" parent="TopBar/Margin/Row"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="MapBtn" type="Button" parent="TopBar/Margin/Row/Actions"]
+custom_minimum_size = Vector2(78, 40)
+layout_mode = 2
+text = "Bản đồ"
+
+[node name="QuestsBtn" type="Button" parent="TopBar/Margin/Row/Actions"]
+custom_minimum_size = Vector2(88, 40)
+layout_mode = 2
+text = "Nhiệm vụ"
+
+[node name="BagBtn" type="Button" parent="TopBar/Margin/Row/Actions"]
+custom_minimum_size = Vector2(74, 40)
+layout_mode = 2
+text = "Túi đồ"
+
+[node name="SaveBtn" type="Button" parent="TopBar/Margin/Row/Actions"]
+custom_minimum_size = Vector2(64, 40)
+layout_mode = 2
+text = "Lưu"
+
+[node name="QuestTracker" type="PanelContainer" parent="."]
+offset_left = 12.0
+offset_top = 76.0
+offset_right = 340.0
+offset_bottom = 146.0
+
+[node name="Margin" type="MarginContainer" parent="QuestTracker"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 8
+
+[node name="VBox" type="VBoxContainer" parent="QuestTracker/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Title" type="Label" parent="QuestTracker/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.98, 0.82, 0.25, 1)
+theme_override_font_sizes/font_size = 14
+text = "Nhiệm vụ hiện tại"
+
+[node name="StepLabel" type="Label" parent="QuestTracker/Margin/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "• Gặp Giáo sư Cú Mèo"
+autowrap_mode = 3
+
+[node name="InteractBanner" type="Button" parent="."]
+visible = false
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -165.0
+offset_top = -175.0
+offset_right = 165.0
+offset_bottom = -125.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 16
+text = "[E] Tương tác"
+
+[node name="DesktopBuddyBtn" type="Button" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -165.0
+offset_top = -66.0
+offset_right = -16.0
+offset_bottom = -16.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Hỏi Buddy [H]"
+
+[node name="MobileControls" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="VirtualJoystick" type="Control" parent="MobileControls"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -164.0
+offset_right = 160.0
+offset_bottom = -24.0
+grow_vertical = 0
+script = ExtResource("3_joy")
+
+[node name="BgCircle" type="Panel" parent="MobileControls/VirtualJoystick"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_joy_bg")
+
+[node name="Knob" type="Panel" parent="MobileControls/VirtualJoystick"]
+layout_mode = 0
+offset_left = 42.0
+offset_top = 42.0
+offset_right = 98.0
+offset_bottom = 98.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_joy_knob")
+
+[node name="RightPad" type="VBoxContainer" parent="MobileControls"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -160.0
+offset_top = -184.0
+offset_right = -18.0
+offset_bottom = -20.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/separation = 8
+
+[node name="BuddyBtn" type="Button" parent="MobileControls/RightPad"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "Hỏi Buddy"
+
+[node name="TouchJumpBtn" type="Button" parent="MobileControls/RightPad"]
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+text = "Nhảy"
+
+[node name="TouchInteractBtn" type="Button" parent="MobileControls/RightPad"]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+disabled = true
+text = "Tương tác"
+
+[node name="DialogueBox" type="PanelContainer" parent="."]
+visible = false
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = -210.0
+offset_right = -24.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("2_dlg_ui")
+
+[node name="Margin" type="MarginContainer" parent="DialogueBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 14
+
+[node name="HBox" type="HBoxContainer" parent="DialogueBox/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Portrait" type="TextureRect" parent="DialogueBox/Margin/HBox"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+texture = ExtResource("5_buddy")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TextCol" type="VBoxContainer" parent="DialogueBox/Margin/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="SpeakerName" type="Label" parent="DialogueBox/Margin/HBox/TextCol"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.98, 0.8, 0.2, 1)
+theme_override_font_sizes/font_size = 18
+text = "Buddy"
+
+[node name="TextEn" type="Label" parent="DialogueBox/Margin/HBox/TextCol"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.42, 0.82, 1, 1)
+theme_override_font_sizes/font_size = 16
+text = "Welcome!"
+autowrap_mode = 3
+
+[node name="TextVi" type="Label" parent="DialogueBox/Margin/HBox/TextCol"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 16
+text = "Xin chào!"
+autowrap_mode = 3
+
+[node name="ButtonsRow" type="HBoxContainer" parent="DialogueBox/Margin/HBox/TextCol"]
+layout_mode = 2
+alignment = 2
+theme_override_constants/separation = 10
+
+[node name="CloseBtn" type="Button" parent="DialogueBox/Margin/HBox/TextCol/ButtonsRow"]
+custom_minimum_size = Vector2(96, 40)
+layout_mode = 2
+text = "Đóng"
+
+[node name="NextBtn" type="Button" parent="DialogueBox/Margin/HBox/TextCol/ButtonsRow"]
+custom_minimum_size = Vector2(140, 42)
+layout_mode = 2
+text = "Tiếp tục →"
+
+[node name="QuestIntroPopup" type="PanelContainer" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -145.0
+offset_right = 250.0
+offset_bottom = 145.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Margin" type="MarginContainer" parent="QuestIntroPopup"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 18
+
+[node name="VBox" type="VBoxContainer" parent="QuestIntroPopup/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="QuestIntroPopup/Margin/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Nhiệm vụ mới!"
+autowrap_mode = 3
+
+[node name="Desc" type="Label" parent="QuestIntroPopup/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Mô tả nhiệm vụ"
+autowrap_mode = 3
+
+[node name="Reward" type="Label" parent="QuestIntroPopup/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.98, 0.8, 0.2, 1)
+text = "Phần thưởng: +50 EXP | +25 Gold"
+
+[node name="Buttons" type="HBoxContainer" parent="QuestIntroPopup/Margin/VBox"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 14
+
+[node name="LaterBtn" type="Button" parent="QuestIntroPopup/Margin/VBox/Buttons"]
+custom_minimum_size = Vector2(120, 44)
+layout_mode = 2
+text = "Để sau"
+
+[node name="AcceptBtn" type="Button" parent="QuestIntroPopup/Margin/VBox/Buttons"]
+custom_minimum_size = Vector2(180, 46)
+layout_mode = 2
+text = "Nhận nhiệm vụ!"
+
+[node name="QuestCompletedPopup" type="PanelContainer" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -240.0
+offset_top = -130.0
+offset_right = 240.0
+offset_bottom = 130.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Margin" type="MarginContainer" parent="QuestCompletedPopup"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 18
+
+[node name="VBox" type="VBoxContainer" parent="QuestCompletedPopup/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="Title" type="Label" parent="QuestCompletedPopup/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 0.95, 0.5, 1)
+theme_override_font_sizes/font_size = 22
+text = "Hoàn thành nhiệm vụ!"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Rewards" type="Label" parent="QuestCompletedPopup/Margin/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "+50 EXP | +25 Gold"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="ContinueBtn" type="Button" parent="QuestCompletedPopup/Margin/VBox"]
+custom_minimum_size = Vector2(180, 46)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Tuyệt vời!"
+
+[node name="AreaLockedPopup" type="PanelContainer" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -230.0
+offset_top = -115.0
+offset_right = 230.0
+offset_bottom = 115.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Margin" type="MarginContainer" parent="AreaLockedPopup"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 18
+
+[node name="VBox" type="VBoxContainer" parent="AreaLockedPopup/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="Title" type="Label" parent="AreaLockedPopup/Margin/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "🔒 Khu vực đang bị khóa!"
+horizontal_alignment = 1
+
+[node name="Reason" type="Label" parent="AreaLockedPopup/Margin/VBox"]
+layout_mode = 2
+text = "Hoàn thành nhiệm vụ trước để mở!"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="CloseBtn" type="Button" parent="AreaLockedPopup/Margin/VBox"]
+custom_minimum_size = Vector2(140, 44)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Đã hiểu"
+
+[node name="AreaUnlockedPopup" type="PanelContainer" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -140.0
+offset_right = 250.0
+offset_bottom = 140.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Margin" type="MarginContainer" parent="AreaUnlockedPopup"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 18
+
+[node name="VBox" type="VBoxContainer" parent="AreaUnlockedPopup/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="Title" type="Label" parent="AreaUnlockedPopup/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.88, 1, 1)
+theme_override_font_sizes/font_size = 22
+text = "✨ Mở khóa khu vực mới!"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Desc" type="Label" parent="AreaUnlockedPopup/Margin/VBox"]
+layout_mode = 2
+text = "Bạn đã mở được vùng đất mới!"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Buttons" type="HBoxContainer" parent="AreaUnlockedPopup/Margin/VBox"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 12
+
+[node name="StayBtn" type="Button" parent="AreaUnlockedPopup/Margin/VBox/Buttons"]
+custom_minimum_size = Vector2(120, 44)
+layout_mode = 2
+text = "Ở lại đây"
+
+[node name="TravelNowBtn" type="Button" parent="AreaUnlockedPopup/Margin/VBox/Buttons"]
+custom_minimum_size = Vector2(170, 46)
+layout_mode = 2
+text = "Đi tới ngay!"
+
+[node name="QuestLogModal" type="PanelContainer" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -310.0
+offset_top = -200.0
+offset_right = 310.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Margin" type="MarginContainer" parent="QuestLogModal"]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 14
+
+[node name="VBox" type="VBoxContainer" parent="QuestLogModal/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Header" type="HBoxContainer" parent="QuestLogModal/Margin/VBox"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="QuestLogModal/Margin/VBox/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 20
+text = "SỔ TAY NHIỆM VỤ"
+
+[node name="CloseBtn" type="Button" parent="QuestLogModal/Margin/VBox/Header"]
+custom_minimum_size = Vector2(88, 38)
+layout_mode = 2
+text = "Đóng"
+
+[node name="Scroll" type="ScrollContainer" parent="QuestLogModal/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="List" type="VBoxContainer" parent="QuestLogModal/Margin/VBox/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="BagModal" type="PanelContainer" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -260.0
+offset_top = -175.0
+offset_right = 260.0
+offset_bottom = 175.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Margin" type="MarginContainer" parent="BagModal"]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 14
+
+[node name="VBox" type="VBoxContainer" parent="BagModal/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Header" type="HBoxContainer" parent="BagModal/Margin/VBox"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="BagModal/Margin/VBox/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 20
+text = "TÚI ĐỒ THÁM HIỂM"
+
+[node name="CloseBtn" type="Button" parent="BagModal/Margin/VBox/Header"]
+custom_minimum_size = Vector2(88, 38)
+layout_mode = 2
+text = "Đóng"
+
+[node name="Scroll" type="ScrollContainer" parent="BagModal/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="List" type="VBoxContainer" parent="BagModal/Margin/VBox/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="ToastPanel" type="PanelContainer" parent="."]
+visible = false
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -150.0
+offset_top = 76.0
+offset_right = 150.0
+offset_bottom = 114.0
+grow_horizontal = 2
+
+[node name="Margin" type="MarginContainer" parent="ToastPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 6
+
+[node name="Label" type="Label" parent="ToastPanel/Margin"]
+layout_mode = 2
+text = "Đã lưu!"
+horizontal_alignment = 1
+
+[node name="ToastTimer" type="Timer" parent="."]
+one_shot = true
