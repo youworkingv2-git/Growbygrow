@@ -201,14 +201,14 @@ func _build_welcome_village() -> void:
 	var trails_root := Node3D.new()
 	trails_root.name = "VillageTrails"
 	add_child(trails_root)
-	_add_trail_segment(trails_root, Vector3(0, 0, 1.5), Vector3(0, 0, -4.5), 2.1, path_mat) # To Owl House
+	_add_trail_segment(trails_root, Vector3(0, 0, 1.5), Vector3(0, 0, -5.8), 2.2, path_mat) # To Owl House
 	_add_trail_segment(trails_root, Vector3(-3.5, 0, 1.5), Vector3(-10.0, 0, 0.6), 1.8, path_mat) # To Chest
 	_add_trail_segment(trails_root, Vector3(4.2, 0, 1.8), Vector3(16.5, 0, 1.25), 2.1, path_mat) # To Meadow Portal
 	_add_trail_segment(trails_root, Vector3(6.0, 0, 2.5), Vector3(10.0, 0, 3.3), 1.7, path_mat) # To Lily
 
-	# Professor Owl's Academy Cottage (North center)
+	# Professor Owl's Academy Cottage (North center - plenty of walkable space behind Professor Owl)
 	var owl_house := PropFactory3D.build_village_cottage(Color(0.24, 0.44, 0.78), Color(0.98, 0.94, 0.84), true)
-	owl_house.position = Vector3(0, 0, -6.5)
+	owl_house.position = Vector3(0, 0, -7.8)
 	add_child(owl_house)
 
 	# Lily's Garden Cottage (Northeast)

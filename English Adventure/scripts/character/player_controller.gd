@@ -15,7 +15,7 @@ extends CharacterBody3D
 
 @export_group("Third-person Camera Manager")
 @export_range(4.0, 10.5, 0.2) var camera_distance: float = 6.8
-@export_range(0.9, 2.5, 0.05) var camera_height: float = 1.35
+@export_range(0.9, 2.5, 0.05) var camera_height: float = 1.55
 @export_range(0.4, 2.0, 0.1) var camera_sensitivity: float = 1.0
 @export_range(3.0, 16.0, 0.5) var camera_smoothing: float = 8.5
 @export_range(0.8, 3.5, 0.1) var camera_rotation_speed: float = 1.9
@@ -227,6 +227,14 @@ func _update_camera(delta: float) -> void:
 	camera_pivot.rotation.y = lerp_angle(camera_pivot.rotation.y, _cam_yaw, rot_alpha)
 	camera_pivot.rotation.x = lerpf(camera_pivot.rotation.x, target_pitch, rot_alpha)
 	spring_arm.spring_length = lerpf(spring_arm.spring_length, target_len, minf(1.0, delta * 6.0))
+
+	# Never let player's own head/cap mesh block the camera if SpringArm3D compresses near a wall
+	if camera != null and visual_slot != null:
+		var cam_dist := camera.global_position.distance_to(camera_pivot.global_position)
+		if visual_slot.visible and cam_dist < 1.25:
+			visual_slot.visible = false
+		elif (not visual_slot.visible) and cam_dist > 1.45:
+			visual_slot.visible = true
 
 
 func _read_keyboard_vector() -> Vector2:
