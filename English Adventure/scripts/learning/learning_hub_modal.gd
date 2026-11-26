@@ -269,7 +269,7 @@ func _render_phonics_tab() -> void:
 		var lid := str(l.get("id", ""))
 		var btn := Button.new()
 		btn.text = "%s%s" % [str(l.get("letter_upper", "")), str(l.get("letter_lower", ""))]
-		btn.custom_minimum_size = Vector2(58, 42)
+		btn.custom_minimum_size = Vector2(56, 34)
 		btn.focus_mode = Control.FOCUS_NONE
 		UIDesignSystem.apply_button_variant(btn, "primary" if lid == _selected_letter_id else "secondary")
 		btn.pressed.connect(func() -> void:
@@ -304,12 +304,12 @@ func _render_phonics_tab() -> void:
 			var w0 := LearningEngine.vocabulary_manager.get_word(str(anchor_ids_arr[0]))
 			first_anchor_word = str(w0.get("word", ""))
 
-		var audio_row := HFlowContainer.new()
-		audio_row.add_theme_constant_override("h_separation", 8)
-		audio_row.add_theme_constant_override("v_separation", 6)
+		var audio_row := HBoxContainer.new()
+		audio_row.add_theme_constant_override("separation", 10)
 		if AudioManager.can_use_browser_tts():
 			var tts_name_btn := Button.new()
 			tts_name_btn.text = "Nghe tên chữ (%s)" % up
+			tts_name_btn.custom_minimum_size = Vector2(170, 38)
 			UIDesignSystem.apply_button_variant(tts_name_btn, "primary")
 			tts_name_btn.pressed.connect(func() -> void: AudioManager.speak_browser_tts_fallback(up, SettingsManager.preferred_accent, 0.86))
 			audio_row.add_child(tts_name_btn)
@@ -317,6 +317,7 @@ func _render_phonics_tab() -> void:
 			if not first_anchor_word.is_empty():
 				var tts_sound_btn := Button.new()
 				tts_sound_btn.text = "Nghe âm qua từ '%s'" % first_anchor_word
+				tts_sound_btn.custom_minimum_size = Vector2(210, 38)
 				UIDesignSystem.apply_button_variant(tts_sound_btn, "confirm")
 				tts_sound_btn.pressed.connect(func() -> void: AudioManager.speak_browser_tts_fallback(first_anchor_word, SettingsManager.preferred_accent, 0.80))
 				audio_row.add_child(tts_sound_btn)
@@ -326,9 +327,8 @@ func _render_phonics_tab() -> void:
 		dv.add_child(audio_note)
 
 		# Anchor word illustrations
-		var anchor_row := HFlowContainer.new()
-		anchor_row.add_theme_constant_override("h_separation", 10)
-		anchor_row.add_theme_constant_override("v_separation", 8)
+		var anchor_row := HBoxContainer.new()
+		anchor_row.add_theme_constant_override("separation", 10)
 		for wid_var in anchor_ids_arr:
 			var w := LearningEngine.vocabulary_manager.get_word(str(wid_var))
 			if not w.is_empty():
