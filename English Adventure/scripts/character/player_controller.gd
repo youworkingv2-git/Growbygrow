@@ -230,10 +230,11 @@ func _update_camera(delta: float) -> void:
 
 	# Never let player's own head/cap mesh block the camera if SpringArm3D compresses near a wall
 	if camera != null and visual_slot != null:
-		var cam_dist := camera.global_position.distance_to(camera_pivot.global_position)
-		if visual_slot.visible and cam_dist < 1.25:
+		var head_world := global_position + Vector3(0.0, 1.25, 0.0)
+		var head_dist := camera.global_position.distance_to(head_world)
+		if visual_slot.visible and head_dist < 2.35:
 			visual_slot.visible = false
-		elif (not visual_slot.visible) and cam_dist > 1.45:
+		elif (not visual_slot.visible) and head_dist > 2.60:
 			visual_slot.visible = true
 
 

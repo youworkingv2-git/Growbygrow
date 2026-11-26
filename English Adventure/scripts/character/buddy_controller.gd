@@ -144,6 +144,15 @@ func _process(delta: float) -> void:
 		else:
 			visual_slot.rotation.z = lerpf(visual_slot.rotation.z, 0.0, minf(1.0, delta * 8.0))
 
+	# Hide Buddy mesh if camera compresses very close against a wall
+	var cam := get_viewport().get_camera_3d()
+	if cam != null and visual_slot != null:
+		var buddy_cam_dist := cam.global_position.distance_to(global_position + Vector3(0.0, 0.70, 0.0))
+		if visual_slot.visible and buddy_cam_dist < 1.35:
+			visual_slot.visible = false
+		elif (not visual_slot.visible) and buddy_cam_dist > 1.60:
+			visual_slot.visible = true
+
 	_update_screen_bubble()
 
 
