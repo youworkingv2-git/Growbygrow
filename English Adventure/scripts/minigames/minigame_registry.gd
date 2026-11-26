@@ -52,7 +52,10 @@ func get_entry(minigame_id: String) -> Dictionary:
 
 
 func get_all_entries() -> Array[Dictionary]:
-	return entries_ordered.duplicate(true)
+	var out: Array[Dictionary] = []
+	for e in entries_ordered:
+		out.append(e.duplicate(true))
+	return out
 
 
 func get_playable_entries() -> Array[Dictionary]:

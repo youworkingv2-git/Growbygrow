@@ -124,8 +124,11 @@ func _rebuild_columns() -> void:
 	_mode_btn.text = "Đổi chế độ: Từ ↔ Nghĩa Việt" if _mode == "word_vi" else "Đổi chế độ: Từ ↔ Hình"
 	_prompt_lbl.text = "Ghép %d cặp thẻ đúng (%s):" % [_pairs.size(), "Từ ↔ Nghĩa" if _mode == "word_vi" else "Từ ↔ Hình"]
 
-	var left_list := _pairs.duplicate(true)
-	var right_list := _pairs.duplicate(true)
+	var left_list: Array[Dictionary] = []
+	var right_list: Array[Dictionary] = []
+	for p in _pairs:
+		left_list.append(p.duplicate(true))
+		right_list.append(p.duplicate(true))
 	left_list.shuffle()
 	right_list.shuffle()
 

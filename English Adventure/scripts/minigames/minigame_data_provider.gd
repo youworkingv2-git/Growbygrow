@@ -43,7 +43,9 @@ static func _get_vocab_pool(topic_filter: String, max_diff: int) -> Array[Dictio
 
 static func _prioritize_learning_words(pool: Array[Dictionary]) -> Array[Dictionary]:
 	# Prioritize due review / learning / new words before already mastered words
-	var prioritized := pool.duplicate(true)
+	var prioritized: Array[Dictionary] = []
+	for item in pool:
+		prioritized.append(item.duplicate(true))
 	prioritized.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
 		var ma := float(a.get("mastery_score", 0.0))
 		var mb := float(b.get("mastery_score", 0.0))
@@ -136,7 +138,10 @@ static func _pick_distinct_distractors(pool: Array[Dictionary], target_id: Strin
 	var combined: Array[Dictionary] = []
 	combined.append_array(first_pass)
 	combined.append_array(second_pass)
-	return combined.slice(0, mini(needed, combined.size()))
+	var out: Array[Dictionary] = []
+	for i in range(mini(needed, combined.size())):
+		out.append(combined[i])
+	return out
 
 
 static func _build_word_builder(diff_cfg: Dictionary, context: Dictionary) -> Array[Dictionary]:
@@ -163,7 +168,8 @@ static func _build_word_builder(diff_cfg: Dictionary, context: Dictionary) -> Ar
 		var letters: Array[String] = []
 		for ch_i in range(word_upper.length()):
 			letters.append(word_upper.substr(ch_i, 1))
-		var scrambled := letters.duplicate()
+		var scrambled: Array[String] = []
+		scrambled.assign(letters)
 		scrambled.shuffle()
 		# Ensure scrambled differs from target when length >= 2 and letters aren't all identical
 		if scrambled.size() >= 2 and "".join(scrambled) == word_upper:
@@ -260,7 +266,8 @@ static func _build_sentence_builder(diff_cfg: Dictionary, _context: Dictionary) 
 		var c := candidates[i]
 		var full_en := str(c.get("sentence_en", ""))
 		var tokens := _tokenize_sentence(full_en)
-		var scrambled := tokens.duplicate()
+		var scrambled: Array[String] = []
+		scrambled.assign(tokens)
 		scrambled.shuffle()
 		if scrambled.size() >= 2 and " ".join(scrambled) == " ".join(tokens):
 			scrambled.reverse()
@@ -320,7 +327,9 @@ static func _build_sound_detective(diff_cfg: Dictionary, _context: Dictionary) -
 	var out: Array[Dictionary] = []
 
 	# Part 1: Letter Sound vs Letter Name challenges (Pre-A1 safe)
-	var shuffled_letters := letters.duplicate(true)
+	var shuffled_letters: Array[Dictionary] = []
+	for l_item in letters:
+		shuffled_letters.append(l_item.duplicate(true))
 	shuffled_letters.shuffle()
 	var letter_rounds := mini(round_count if tier == "easy" else 2, shuffled_letters.size())
 	for i in range(letter_rounds):
@@ -469,7 +478,10 @@ static func _build_memory_quest(diff_cfg: Dictionary, context: Dictionary) -> Ar
 
 static func get_dialogue_scenarios() -> Array[Dictionary]:
 	if not _dialogue_cache.is_empty():
-		return _dialogue_cache.duplicate(true)
+		var cached_out: Array[Dictionary] = []
+		for sc in _dialogue_cache:
+			cached_out.append(sc.duplicate(true))
+		return cached_out
 	if not FileAccess.file_exists(DIALOGUES_PATH):
 		return []
 	var f := FileAccess.open(DIALOGUES_PATH, FileAccess.READ)
@@ -483,7 +495,10 @@ static func get_dialogue_scenarios() -> Array[Dictionary]:
 	for s_var in doc.get("scenarios", []):
 		if typeof(s_var) == TYPE_DICTIONARY:
 			_dialogue_cache.append(s_var as Dictionary)
-	return _dialogue_cache.duplicate(true)
+	var out: Array[Dictionary] = []
+	for sc in _dialogue_cache:
+		out.append(sc.duplicate(true))
+	return out
 
 
 static func _build_dialogue_adventure(_diff_cfg: Dictionary, context: Dictionary) -> Array[Dictionary]:

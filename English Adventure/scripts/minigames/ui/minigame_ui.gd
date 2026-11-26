@@ -388,7 +388,7 @@ func _populate_arcade_cards() -> void:
 		var rec := GameStateManager.get_minigame_record(gid)
 		var stars := int(rec.get("best_stars", 0))
 		var plays := int(rec.get("plays", 0))
-		var tag := "[Mở rộng Prompt 06+]" if is_template else ("[Ưu tiên]" if status == "playable_priority" else "[Mở rộng]")
+		var tag := "[Mở rộng Prompt 06+]" if is_template else ("[Ưu tiên]" if status == "playable_core" else "[Mở rộng]")
 
 		var name_lbl := Label.new()
 		name_lbl.text = "%s — %s  %s" % [str(entry.get("name_en", gid)), str(entry.get("name_vi", "")), tag]
@@ -439,8 +439,10 @@ func _on_launch_session(sess: MiniGameSession) -> void:
 	_gameplay_vbox.visible = false
 	_summary_panel.visible = false
 
-	_intro_heading.text = "Buddy & Professor Owl: %s" % str(entry.get("intro_prompt_en", "Let's play and learn!"))
-	_intro_obj_lbl.text = "Mục tiêu học tập: %s" % str(entry.get("learning_objective_vi", ""))
+	var intro_en := str(entry.get("intro_en", entry.get("intro_prompt_en", "Let's play and learn!")))
+	var intro_vi := str(entry.get("intro_vi", ""))
+	_intro_heading.text = "Buddy & Professor Owl: \"%s\"%s" % [intro_en, ("\n" + intro_vi if not intro_vi.is_empty() else "")]
+	_intro_obj_lbl.text = "Mục tiêu học tập: %s" % str(entry.get("objective_vi", entry.get("learning_objective_vi", "")))
 	_intro_instr_lbl.text = "Hướng dẫn: %s" % str(entry.get("instructions_vi", ""))
 
 	for i in range(_intro_diff_opt.item_count):
