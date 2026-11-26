@@ -17,6 +17,7 @@ var _last_result: MiniGameResult = null
 
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	registry = MiniGameRegistry.new()
 	registry.reload()
 	audio = MiniGameAudioManager.new()
@@ -43,6 +44,10 @@ func get_playable_minigames() -> Array[Dictionary]:
 
 func is_minigame_active() -> bool:
 	return active_session != null
+
+
+func is_overlay_open() -> bool:
+	return active_session != null or (_ui_host != null and _ui_host.visible)
 
 
 func open_arcade_launcher() -> void:
@@ -82,9 +87,9 @@ func start_minigame(minigame_id: String, context: Dictionary = {}, requested_tie
 	sess.set_items(items)
 	active_session = sess
 
-	# Capture exact 3D player position if present in current scene
+	# Capture exact 3D player position if present in current scene and pause 3D world controls
 	_capture_player_position()
-	get_tree().paused = true
+	EventBus.pause_toggled.emit(true)
 	audio.duck_bgm_for_speech(true)
 
 	EventBus.minigame_started.emit(minigame_id, context)
@@ -112,7 +117,7 @@ func close_active_session() -> void:
 	var finished_id := active_session.minigame_id
 	active_session = null
 	audio.duck_bgm_for_speech(false)
-	get_tree().paused = false
+	EventBus.pause_toggled.emit(false)
 	_restore_player_position()
 	close_modal_requested.emit()
 	AppLogger.info("MiniGameManager", "Returned cleanly to 3D world from mini-game: " + finished_id)

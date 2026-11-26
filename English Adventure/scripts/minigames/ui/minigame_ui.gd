@@ -343,7 +343,7 @@ func open_arcade() -> void:
 	_arcade_mode = true
 	_session = null
 	visible = true
-	get_tree().paused = true
+	EventBus.pause_toggled.emit(true)
 	_title_lbl.text = "TRUNG TÂM TRÒ CHƠI TIẾNG ANH (8 MINI-GAMES)"
 	_diff_pill.text = "Dữ liệu đồng bộ Learning Engine"
 	_progress_lbl.text = ""
@@ -609,7 +609,7 @@ func _on_exit_pressed() -> void:
 	if _arcade_mode:
 		_arcade_mode = false
 		visible = false
-		get_tree().paused = false
+		EventBus.pause_toggled.emit(false)
 		return
 	_return_to_world()
 

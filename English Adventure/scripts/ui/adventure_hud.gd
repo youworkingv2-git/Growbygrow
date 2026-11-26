@@ -188,6 +188,7 @@ func _ready() -> void:
 		call_deferred("_sync_overlay_visibility")
 	)
 	EventBus.dialogue_ended.connect(_on_dialogue_ended)
+	EventBus.pause_toggled.connect(func(_p: bool) -> void: call_deferred("_sync_overlay_visibility"))
 	EventBus.viewport_breakpoint_changed.connect(func(_b: String, _s: Vector2) -> void: _apply_responsive())
 	EventBus.settings_changed.connect(_apply_responsive)
 	EventBus.ui_locale_changed.connect(func(_l: String) -> void: _refresh_localized_labels())
@@ -242,7 +243,7 @@ func is_blocking_overlay_above_dialogue() -> bool:
 		or bag_modal.visible
 		or learning_hub_modal.visible
 		or pause_menu.visible
-		or MiniGameManager.is_minigame_active()
+		or MiniGameManager.is_overlay_open()
 		or UIManager.is_modal_open()
 	)
 
@@ -259,7 +260,7 @@ func _is_any_modal_or_dialogue_open() -> bool:
 		or bag_modal.visible
 		or learning_hub_modal.visible
 		or pause_menu.visible
-		or MiniGameManager.is_minigame_active()
+		or MiniGameManager.is_overlay_open()
 		or UIManager.is_modal_open()
 	)
 
@@ -306,7 +307,7 @@ func _input(event: InputEvent) -> void:
 		_touch_input_seen = true
 		_apply_responsive()
 	elif event is InputEventKey and event.pressed and not event.echo:
-		if MiniGameManager.is_minigame_active():
+		if MiniGameManager.is_overlay_open():
 			return
 		var kc: Key = (event as InputEventKey).keycode
 		if kc == KEY_ESCAPE:
