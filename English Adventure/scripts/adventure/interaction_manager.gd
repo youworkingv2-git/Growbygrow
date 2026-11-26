@@ -85,14 +85,19 @@ func _handle_object_interaction(obj: InteractableObject) -> void:
 func _on_area_entered(area: Area2D) -> void:
 	if (area is NpcController or area is InteractableObject) and not _candidates.has(area):
 		_candidates.append(area)
-		_refresh_closest_target()
+		if not _locked:
+			_refresh_closest_target()
 
 
 func _on_area_exited(area: Area2D) -> void:
 	_candidates.erase(area)
-	if _current_target == area:
-		_set_focus(area, false)
-		_current_target = null
+	if _locked:
+		if _current_target == area:
+			_set_focus(area, false)
+			_current_target = null
+			target_changed.emit({})
+			EventBus.interactable_unfocused.emit()
+		return
 	_refresh_closest_target()
 
 

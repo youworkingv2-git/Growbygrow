@@ -135,7 +135,6 @@ func set_character_profile(gender: String, player_nickname: String) -> void:
 
 
 func set_player_position(area_id: String, pos: Vector2) -> void:
-	current_area_id = area_id
 	area_positions[area_id] = { "x": pos.x, "y": pos.y }
 
 

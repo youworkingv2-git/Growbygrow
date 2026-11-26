@@ -171,9 +171,9 @@ func _complete_quest(quest_id: String) -> void:
 		for flag_name in rewards.get("set_flags", []):
 			GameStateManager.set_flag(str(flag_name), true)
 
+	EventBus.quest_completed.emit(quest_id, rewards)
 	GameStateManager.evaluate_all_unlocks(true)
 	GameStateManager.save_now("quest_completed_" + quest_id)
-	EventBus.quest_completed.emit(quest_id, rewards)
 	AppLogger.info("QuestManager", "Quest completed: " + quest_id)
 
 

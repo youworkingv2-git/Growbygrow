@@ -214,6 +214,8 @@ func _play_buddy_area_greeting() -> void:
 
 
 func _process(delta: float) -> void:
+	if GameStateManager.current_area_id != _area_id:
+		return
 	if _player != null:
 		GameStateManager.set_player_position(_area_id, _player.position)
 	_autosave_timer += delta
@@ -229,6 +231,8 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _exit_tree() -> void:
+	if GameStateManager.current_area_id != _area_id:
+		return
 	if _player != null:
 		GameStateManager.set_player_position(_area_id, _player.position)
 	GameStateManager.save_now("exit_area")

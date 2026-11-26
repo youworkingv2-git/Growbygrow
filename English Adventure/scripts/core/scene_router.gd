@@ -34,12 +34,15 @@ func _build_transition_overlay() -> void:
 
 func _update_breakpoint() -> void:
 	var vp_size := get_viewport().get_visible_rect().size
+	var win_size := Vector2(DisplayServer.window_get_size())
+	var ref_w := minf(vp_size.x, win_size.x) if win_size.x > 0.0 else vp_size.x
+	var ref_h := minf(vp_size.y, win_size.y) if win_size.y > 0.0 else vp_size.y
 	var next_bp: Breakpoint = Breakpoint.DESKTOP
-	if vp_size.x < 768.0 and vp_size.y > vp_size.x:
+	if vp_size.y > vp_size.x or (ref_w < 768.0 and ref_h > ref_w):
 		next_bp = Breakpoint.MOBILE_PORTRAIT
-	elif vp_size.y < 540.0 and vp_size.x >= vp_size.y:
+	elif ref_h < 540.0 and ref_w >= ref_h:
 		next_bp = Breakpoint.MOBILE_LANDSCAPE
-	elif vp_size.x < 1150.0:
+	elif ref_w < 1150.0:
 		next_bp = Breakpoint.TABLET
 	else:
 		next_bp = Breakpoint.DESKTOP
@@ -54,7 +57,13 @@ func get_breakpoint_name() -> String:
 
 
 func is_mobile_or_compact() -> bool:
-	return current_breakpoint == Breakpoint.MOBILE_PORTRAIT or current_breakpoint == Breakpoint.MOBILE_LANDSCAPE
+	return (
+		current_breakpoint == Breakpoint.MOBILE_PORTRAIT
+		or current_breakpoint == Breakpoint.MOBILE_LANDSCAPE
+		or OS.has_feature("mobile")
+		or OS.has_feature("web_android")
+		or OS.has_feature("web_ios")
+	)
 
 
 func go_to_scene(scene_path: String) -> void:
