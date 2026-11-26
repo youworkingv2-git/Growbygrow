@@ -4,10 +4,16 @@ extends Node3D
 ## Loads official GLB/glTF model when present at `override_model_path`;
 ## otherwise instantiates the stylized 3D placeholder rig/prop cleanly.
 
+@export var asset_id: String = ""
 @export var override_model_path: String = ""
 @export var is_placeholder: bool = true
 
 var _content: Node3D = null
+
+
+func attach_or_placeholder(placeholder_node: Node3D) -> Node3D:
+	set_visual_node(placeholder_node, true)
+	return _content
 
 
 func set_visual_node(node: Node3D, placeholder_flag: bool = true) -> void:

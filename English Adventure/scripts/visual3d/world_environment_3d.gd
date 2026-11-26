@@ -128,7 +128,7 @@ func _apply_quality() -> void:
 				env.fog_enabled = true
 				env.ssao_enabled = not OS.has_feature("web") and not OS.has_feature("mobile")
 			if vp != null:
-				vp.msaa_3d = Viewport.MSAA_4X
+				vp.msaa_3d = Viewport.MSAA_DISABLED if OS.has_feature("web") else Viewport.MSAA_4X
 				vp.scaling_3d_scale = 1.0
 		"medium", _:
 			_sun.shadow_enabled = true
@@ -142,5 +142,5 @@ func _apply_quality() -> void:
 				env.fog_enabled = true
 				env.ssao_enabled = false
 			if vp != null:
-				vp.msaa_3d = Viewport.MSAA_2X
+				vp.msaa_3d = Viewport.MSAA_DISABLED if OS.has_feature("web") else Viewport.MSAA_2X
 				vp.scaling_3d_scale = 1.0

@@ -93,8 +93,8 @@ def check_quality_and_asset_slot():
         if tier not in env3d:
             errors.append(f"WorldEnvironment3DController missing quality tier {tier}")
     slot = (ROOT / "scripts/visual3d/asset_3d_slot.gd").read_text(encoding="utf-8")
-    if "override_model_path" not in slot or "is_placeholder" not in slot:
-        errors.append("Asset3DSlot missing override_model_path or is_placeholder tracking")
+    if "override_model_path" not in slot or "is_placeholder" not in slot or "attach_or_placeholder" not in slot or "asset_id" not in slot:
+        errors.append("Asset3DSlot missing override_model_path, is_placeholder, asset_id, or attach_or_placeholder")
 
 
 def main():
