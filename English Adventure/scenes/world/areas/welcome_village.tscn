@@ -19,21 +19,147 @@ offset_left = -600.0
 offset_top = -400.0
 offset_right = 1880.0
 offset_bottom = 1120.0
-color = Color(0.45, 0.78, 0.42, 1)
+color = Color(0.42, 0.74, 0.4, 1)
 
-[node name="Plaza" type="ColorRect" parent="."]
-offset_left = 430.0
-offset_top = 310.0
-offset_right = 920.0
-offset_bottom = 600.0
-color = Color(0.91, 0.84, 0.66, 1)
+[node name="VillageLawn" type="ColorRect" parent="."]
+offset_left = 220.0
+offset_top = 130.0
+offset_right = 1130.0
+offset_bottom = 640.0
+color = Color(0.5, 0.81, 0.45, 1)
 
-[node name="EastPath" type="ColorRect" parent="."]
-offset_left = 910.0
-offset_top = 350.0
-offset_right = 1240.0
-offset_bottom = 450.0
-color = Color(0.86, 0.77, 0.56, 1)
+[node name="TrailsBorder" type="Node2D" parent="."]
+
+[node name="PlazaBorder" type="ColorRect" parent="TrailsBorder"]
+offset_left = 462.0
+offset_top = 337.0
+offset_right = 858.0
+offset_bottom = 568.0
+color = Color(0.73, 0.61, 0.41, 1)
+
+[node name="OwlHouseTrailBorder" type="Line2D" parent="TrailsBorder"]
+points = PackedVector2Array(640, 365, 636, 315, 640, 260)
+width = 76.0
+default_color = Color(0.73, 0.61, 0.41, 1)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="ChestTrailBorder" type="Line2D" parent="TrailsBorder"]
+points = PackedVector2Array(485, 445, 410, 428, 355, 400, 320, 385)
+width = 68.0
+default_color = Color(0.73, 0.61, 0.41, 1)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="MeadowTrailBorder" type="Line2D" parent="TrailsBorder"]
+points = PackedVector2Array(835, 435, 910, 448, 975, 446, 1075, 416, 1170, 400)
+width = 76.0
+default_color = Color(0.73, 0.61, 0.41, 1)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="SouthTrailBorder" type="Line2D" parent="TrailsBorder"]
+points = PackedVector2Array(640, 540, 640, 625)
+width = 72.0
+default_color = Color(0.73, 0.61, 0.41, 1)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="TrailsFill" type="Node2D" parent="."]
+
+[node name="Plaza" type="ColorRect" parent="TrailsFill"]
+offset_left = 470.0
+offset_top = 345.0
+offset_right = 850.0
+offset_bottom = 560.0
+color = Color(0.91, 0.84, 0.65, 1)
+
+[node name="OwlHouseTrail" type="Line2D" parent="TrailsFill"]
+points = PackedVector2Array(640, 365, 636, 315, 640, 260)
+width = 62.0
+default_color = Color(0.91, 0.84, 0.65, 1)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="ChestTrail" type="Line2D" parent="TrailsFill"]
+points = PackedVector2Array(485, 445, 410, 428, 355, 400, 320, 385)
+width = 54.0
+default_color = Color(0.91, 0.84, 0.65, 1)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="MeadowTrail" type="Line2D" parent="TrailsFill"]
+points = PackedVector2Array(835, 435, 910, 448, 975, 446, 1075, 416, 1170, 400)
+width = 62.0
+default_color = Color(0.91, 0.84, 0.65, 1)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="SouthTrail" type="Line2D" parent="TrailsFill"]
+points = PackedVector2Array(640, 540, 640, 625)
+width = 58.0
+default_color = Color(0.91, 0.84, 0.65, 1)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="SteppingStones" type="Node2D" parent="."]
+
+[node name="StoneOwl1" type="ColorRect" parent="SteppingStones"]
+offset_left = 624.0
+offset_top = 312.0
+offset_right = 648.0
+offset_bottom = 326.0
+color = Color(0.83, 0.74, 0.54, 1)
+
+[node name="StoneOwl2" type="ColorRect" parent="SteppingStones"]
+offset_left = 634.0
+offset_top = 272.0
+offset_right = 656.0
+offset_bottom = 286.0
+color = Color(0.83, 0.74, 0.54, 1)
+
+[node name="StoneChest1" type="ColorRect" parent="SteppingStones"]
+offset_left = 412.0
+offset_top = 420.0
+offset_right = 434.0
+offset_bottom = 434.0
+color = Color(0.83, 0.74, 0.54, 1)
+
+[node name="StoneChest2" type="ColorRect" parent="SteppingStones"]
+offset_left = 352.0
+offset_top = 394.0
+offset_right = 372.0
+offset_bottom = 408.0
+color = Color(0.83, 0.74, 0.54, 1)
+
+[node name="StoneEast1" type="ColorRect" parent="SteppingStones"]
+offset_left = 900.0
+offset_top = 438.0
+offset_right = 924.0
+offset_bottom = 452.0
+color = Color(0.83, 0.74, 0.54, 1)
+
+[node name="StoneEast2" type="ColorRect" parent="SteppingStones"]
+offset_left = 1020.0
+offset_top = 420.0
+offset_right = 1044.0
+offset_bottom = 434.0
+color = Color(0.83, 0.74, 0.54, 1)
+
+[node name="StoneEast3" type="ColorRect" parent="SteppingStones"]
+offset_left = 1104.0
+offset_top = 398.0
+offset_right = 1126.0
+offset_bottom = 412.0
+color = Color(0.83, 0.74, 0.54, 1)
 
 [node name="OwlHouse" type="StaticBody2D" parent="."]
 position = Vector2(640, 175)
