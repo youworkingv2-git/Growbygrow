@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/world_map_ui.gd" id="1_map"]
+[ext_resource type="Texture2D" path="res://assets/environments/alphabet_island/owl_house.svg" id="2_area_img"]
 
 [node name="WorldMap" type="Control"]
 layout_mode = 3
@@ -16,130 +17,183 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color(0.08, 0.31, 0.52, 1)
+color = Color(0.08, 0.25, 0.45, 1)
 
-[node name="MainVBox" type="VBoxContainer" parent="."]
+[node name="MainMargin" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 16.0
-offset_top = 12.0
-offset_right = -16.0
-offset_bottom = -12.0
-theme_override_constants/separation = 12
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 12
 
-[node name="HeaderBar" type="HBoxContainer" parent="MainVBox"]
+[node name="MainVBox" type="VBoxContainer" parent="MainMargin"]
 layout_mode = 2
+theme_override_constants/separation = 10
 
-[node name="Title" type="Label" parent="MainVBox/HeaderBar"]
+[node name="HeaderBar" type="HBoxContainer" parent="MainMargin/MainVBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="MainMenuBtn" type="Button" parent="MainMargin/MainVBox/HeaderBar"]
+custom_minimum_size = Vector2(118, 42)
+layout_mode = 2
+text = "Menu Chính"
+
+[node name="Title" type="Label" parent="MainMargin/MainVBox/HeaderBar"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 24
-text = "BẢN ĐỒ ĐẢO BẢNG CHỮ CÁI (ALPHABET ISLAND)"
+theme_override_colors/font_color = Color(0.99, 0.83, 0.3, 1)
+theme_override_font_sizes/font_size = 22
+text = "BẢN ĐỒ ĐẢO BẢNG CHỮ CÁI"
+horizontal_alignment = 1
+clip_text = true
 
-[node name="BackToAreaBtn" type="Button" parent="MainVBox/HeaderBar"]
-custom_minimum_size = Vector2(180, 44)
+[node name="SettingsBtn" type="Button" parent="MainMargin/MainVBox/HeaderBar"]
+custom_minimum_size = Vector2(96, 42)
+layout_mode = 2
+text = "Cài đặt"
+
+[node name="BackToAreaBtn" type="Button" parent="MainMargin/MainVBox/HeaderBar"]
+custom_minimum_size = Vector2(160, 42)
 layout_mode = 2
 text = "< Quay lại khám phá"
 
-[node name="BodySplit" type="BoxContainer" parent="MainVBox"]
+[node name="BodySplit" type="BoxContainer" parent="MainMargin/MainVBox"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 16
+theme_override_constants/separation = 14
 
-[node name="MapCanvasContainer" type="PanelContainer" parent="MainVBox/BodySplit"]
+[node name="MapCanvasContainer" type="PanelContainer" parent="MainMargin/MainVBox/BodySplit"]
+custom_minimum_size = Vector2(0, 220)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="MapCanvas" type="Control" parent="MainVBox/BodySplit/MapCanvasContainer"]
+[node name="MapCanvas" type="Control" parent="MainMargin/MainVBox/BodySplit/MapCanvasContainer"]
 layout_mode = 2
 
-[node name="OceanTint" type="ColorRect" parent="MainVBox/BodySplit/MapCanvasContainer/MapCanvas"]
+[node name="OceanTint" type="ColorRect" parent="MainMargin/MainVBox/BodySplit/MapCanvasContainer/MapCanvas"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color(0.11, 0.45, 0.68, 1)
+color = Color(0.1, 0.42, 0.66, 1)
 
-[node name="IslandShape" type="ColorRect" parent="MainVBox/BodySplit/MapCanvasContainer/MapCanvas"]
+[node name="IslandShape" type="ColorRect" parent="MainMargin/MainVBox/BodySplit/MapCanvasContainer/MapCanvas"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 36.0
-offset_top = 36.0
-offset_right = -36.0
-offset_bottom = -36.0
-color = Color(0.18, 0.56, 0.34, 0.72)
+offset_left = 28.0
+offset_top = 28.0
+offset_right = -28.0
+offset_bottom = -28.0
+color = Color(0.2, 0.58, 0.36, 0.78)
 
-[node name="ConnectionsLayer" type="Control" parent="MainVBox/BodySplit/MapCanvasContainer/MapCanvas"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-
-[node name="NodesLayer" type="Control" parent="MainVBox/BodySplit/MapCanvasContainer/MapCanvas"]
+[node name="ConnectionsLayer" type="Control" parent="MainMargin/MainVBox/BodySplit/MapCanvasContainer/MapCanvas"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="InfoPanel" type="PanelContainer" parent="MainVBox/BodySplit"]
-custom_minimum_size = Vector2(310, 220)
+[node name="NodesLayer" type="Control" parent="MainMargin/MainVBox/BodySplit/MapCanvasContainer/MapCanvas"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="InfoPanel" type="PanelContainer" parent="MainMargin/MainVBox/BodySplit"]
+custom_minimum_size = Vector2(320, 220)
 layout_mode = 2
 
-[node name="Margin" type="MarginContainer" parent="MainVBox/BodySplit/InfoPanel"]
+[node name="Margin" type="MarginContainer" parent="MainMargin/MainVBox/BodySplit/InfoPanel"]
 layout_mode = 2
 theme_override_constants/margin_left = 16
-theme_override_constants/margin_top = 16
+theme_override_constants/margin_top = 14
 theme_override_constants/margin_right = 16
-theme_override_constants/margin_bottom = 16
+theme_override_constants/margin_bottom = 14
 
-[node name="VBox" type="VBoxContainer" parent="MainVBox/BodySplit/InfoPanel/Margin"]
+[node name="VBox" type="VBoxContainer" parent="MainMargin/MainVBox/BodySplit/InfoPanel/Margin"]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 10
 
-[node name="AreaTitle" type="Label" parent="MainVBox/BodySplit/InfoPanel/Margin/VBox"]
+[node name="AreaHeader" type="HBoxContainer" parent="MainMargin/MainVBox/BodySplit/InfoPanel/Margin/VBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
-text = "Welcome Village"
+theme_override_constants/separation = 10
+
+[node name="AreaIllustration" type="TextureRect" parent="MainMargin/MainVBox/BodySplit/InfoPanel/Margin/VBox/AreaHeader"]
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 2
+texture = ExtResource("2_area_img")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TitleCol" type="VBoxContainer" parent="MainMargin/MainVBox/BodySplit/InfoPanel/Margin/VBox/AreaHeader"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="AreaTitle" type="Label" parent="MainMargin/MainVBox/BodySplit/InfoPanel/Margin/VBox/AreaHeader/TitleCol"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.99, 0.83, 0.3, 1)
+theme_override_font_sizes/font_size = 18
+text = "Làng Khởi Đầu"
 autowrap_mode = 3
 
-[node name="StatusBadge" type="Label" parent="MainVBox/BodySplit/InfoPanel/Margin/VBox"]
+[node name="StatusBadge" type="Label" parent="MainMargin/MainVBox/BodySplit/InfoPanel/Margin/VBox/AreaHeader/TitleCol"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.98, 0.8, 0.18, 1)
+theme_override_font_sizes/font_size = 14
 text = "Trạng thái: Đã mở khóa"
 
-[node name="AreaDesc" type="Label" parent="MainVBox/BodySplit/InfoPanel/Margin/VBox"]
+[node name="Scroll" type="ScrollContainer" parent="MainMargin/MainVBox/BodySplit/InfoPanel/Margin/VBox"]
 layout_mode = 2
 size_flags_vertical = 3
+
+[node name="Details" type="VBoxContainer" parent="MainMargin/MainVBox/BodySplit/InfoPanel/Margin/VBox/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="AreaDesc" type="Label" parent="MainMargin/MainVBox/BodySplit/InfoPanel/Margin/VBox/Scroll/Details"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
 text = "Mô tả khu vực"
 autowrap_mode = 3
 
-[node name="UnlockHint" type="Label" parent="MainVBox/BodySplit/InfoPanel/Margin/VBox"]
+[node name="QuestsHeading" type="Label" parent="MainMargin/MainVBox/BodySplit/InfoPanel/Margin/VBox/Scroll/Details"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.85, 1, 1)
+theme_override_font_sizes/font_size = 14
+text = "Nhiệm vụ trong khu vực:"
+
+[node name="RelatedQuestsBox" type="VBoxContainer" parent="MainMargin/MainVBox/BodySplit/InfoPanel/Margin/VBox/Scroll/Details"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="UnlockHint" type="Label" parent="MainMargin/MainVBox/BodySplit/InfoPanel/Margin/VBox/Scroll/Details"]
 visible = false
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.65, 0.65, 1)
+theme_override_colors/font_color = Color(1, 0.62, 0.66, 1)
+theme_override_font_sizes/font_size = 13
 text = "Điều kiện mở khóa"
 autowrap_mode = 3
 
-[node name="TravelBtn" type="Button" parent="MainVBox/BodySplit/InfoPanel/Margin/VBox"]
-custom_minimum_size = Vector2(0, 50)
+[node name="TravelBtn" type="Button" parent="MainMargin/MainVBox/BodySplit/InfoPanel/Margin/VBox"]
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-theme_override_font_sizes/font_size = 18
 text = "Đi tới khu vực này!"
 
-[node name="FutureWorldsBar" type="PanelContainer" parent="MainVBox"]
-custom_minimum_size = Vector2(0, 54)
+[node name="FutureWorldsBar" type="PanelContainer" parent="MainMargin/MainVBox"]
+custom_minimum_size = Vector2(0, 58)
 layout_mode = 2
 
-[node name="Scroll" type="ScrollContainer" parent="MainVBox/FutureWorldsBar"]
+[node name="Scroll" type="ScrollContainer" parent="MainMargin/MainVBox/FutureWorldsBar"]
 layout_mode = 2
 vertical_scroll_mode = 0
 
-[node name="Row" type="HBoxContainer" parent="MainVBox/FutureWorldsBar/Scroll"]
+[node name="Row" type="HBoxContainer" parent="MainMargin/MainVBox/FutureWorldsBar/Scroll"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
@@ -151,9 +205,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -230.0
+offset_left = -220.0
 offset_top = -120.0
-offset_right = 230.0
+offset_right = 220.0
 offset_bottom = 120.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -172,6 +226,7 @@ alignment = 1
 
 [node name="Title" type="Label" parent="AreaLockedPopup/Margin/VBox"]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.65, 0.68, 1)
 theme_override_font_sizes/font_size = 20
 text = "Khu vực đang bị phong ấn!"
 horizontal_alignment = 1

@@ -1,6 +1,7 @@
 extends CanvasLayer
-## Adventure HUD integrating Status Bar, Quest Tracker, Interact Prompt, Touch Controls,
-## Quest Intro/Completed Popups, Area Locked/Unlocked Popups, Quest Log, and Inventory Bag.
+## Adventure HUD integrating Minimal Status Bar, EXP Bar, Gold & Magic Crystals,
+## Quest Tracker, Compact Bottom Dock, Touch Controls, Dialogue UI, Quest Cards,
+## Reward Display Popup, Inventory UI, and Pause Menu.
 
 signal interact_pressed()
 signal jump_pressed()
@@ -8,24 +9,36 @@ signal buddy_help_pressed()
 signal joystick_changed(vec: Vector2)
 signal quest_accepted(quest_id: String)
 
+const QUEST_CARD_SCENE := preload("res://scenes/ui/common/quest_card.tscn")
+
 var _pending_intro_quest_id: String = ""
 var _pending_unlocked_area_id: String = ""
 var _pending_completed_quest: Dictionary = {}
 var _has_focused_target: bool = false
 var _touch_input_seen: bool = false
+var _reward_claim_locked: bool = false
 
+@onready var top_bar: PanelContainer = $TopBar
 @onready var avatar_icon: TextureRect = $TopBar/Margin/Row/ProfileBox/Avatar
-@onready var player_info_label: Label = $TopBar/Margin/Row/ProfileBox/PlayerInfo
+@onready var player_info_label: Label = $TopBar/Margin/Row/ProfileBox/StatsCol/PlayerInfo
+@onready var exp_bar: ProgressBar = $TopBar/Margin/Row/ProfileBox/StatsCol/ExpRow/ExpBar
+@onready var exp_label: Label = $TopBar/Margin/Row/ProfileBox/StatsCol/ExpRow/ExpLabel
 @onready var area_title_label: Label = $TopBar/Margin/Row/AreaTitle
-@onready var map_btn: Button = $TopBar/Margin/Row/Actions/MapBtn
-@onready var quests_btn: Button = $TopBar/Margin/Row/Actions/QuestsBtn
-@onready var bag_btn: Button = $TopBar/Margin/Row/Actions/BagBtn
-@onready var save_btn: Button = $TopBar/Margin/Row/Actions/SaveBtn
-@onready var top_row: BoxContainer = $TopBar/Margin/Row
+@onready var gold_label: Label = $TopBar/Margin/Row/RightStats/GoldChip/GoldLabel
+@onready var crystal_label: Label = $TopBar/Margin/Row/RightStats/CrystalChip/CrystalLabel
+@onready var settings_btn: Button = $TopBar/Margin/Row/RightStats/SettingsBtn
+@onready var pause_btn: Button = $TopBar/Margin/Row/RightStats/PauseBtn
 
 @onready var quest_tracker_panel: PanelContainer = $QuestTracker
 @onready var tracker_title: Label = $QuestTracker/Margin/VBox/Title
 @onready var tracker_step: Label = $QuestTracker/Margin/VBox/StepLabel
+
+@onready var bottom_dock: PanelContainer = $BottomDock
+@onready var map_btn: Button = $BottomDock/Margin/Row/MapBtn
+@onready var quests_btn: Button = $BottomDock/Margin/Row/QuestsBtn
+@onready var bag_btn: Button = $BottomDock/Margin/Row/BagBtn
+@onready var desktop_buddy_btn: Button = $BottomDock/Margin/Row/DesktopBuddyBtn
+@onready var save_btn: Button = $BottomDock/Margin/Row/SaveBtn
 
 @onready var interact_banner: Button = $InteractBanner
 @onready var toast_panel: PanelContainer = $ToastPanel
@@ -37,7 +50,6 @@ var _touch_input_seen: bool = false
 @onready var touch_interact_btn: Button = $MobileControls/RightPad/TouchInteractBtn
 @onready var touch_jump_btn: Button = $MobileControls/RightPad/TouchJumpBtn
 @onready var buddy_btn: Button = $MobileControls/RightPad/BuddyBtn
-@onready var desktop_buddy_btn: Button = $DesktopBuddyBtn
 
 @onready var dialogue_box: PanelContainer = $DialogueBox
 
@@ -50,7 +62,7 @@ var _touch_input_seen: bool = false
 
 @onready var quest_done_popup: PanelContainer = $QuestCompletedPopup
 @onready var qd_title: Label = $QuestCompletedPopup/Margin/VBox/Title
-@onready var qd_rewards: Label = $QuestCompletedPopup/Margin/VBox/Rewards
+@onready var qd_reward_display: RewardDisplay = $QuestCompletedPopup/Margin/VBox/RewardDisplay
 @onready var qd_continue_btn: Button = $QuestCompletedPopup/Margin/VBox/ContinueBtn
 
 @onready var area_locked_popup: PanelContainer = $AreaLockedPopup
@@ -71,18 +83,35 @@ var _touch_input_seen: bool = false
 @onready var bag_list: VBoxContainer = $BagModal/Margin/VBox/Scroll/List
 @onready var bag_close_btn: Button = $BagModal/Margin/VBox/Header/CloseBtn
 
+@onready var pause_menu: PauseMenuUI = $PauseMenu
+
 
 func _ready() -> void:
-	_apply_opaque_modal_styles()
+	_apply_design_system()
 	_hide_all_modals()
 	interact_banner.visible = false
 	toast_panel.visible = false
-	for btn: Button in [map_btn, quests_btn, bag_btn, save_btn, interact_banner, touch_interact_btn, touch_jump_btn, buddy_btn, desktop_buddy_btn]:
+
+	for btn: Button in [
+		map_btn, quests_btn, bag_btn, save_btn, settings_btn, pause_btn,
+		interact_banner, touch_interact_btn, touch_jump_btn, buddy_btn, desktop_buddy_btn
+	]:
 		btn.focus_mode = Control.FOCUS_NONE
+		UIAnimator.attach_button_feedback(btn)
+
+	for modal_btn: Button in [
+		qi_accept_btn, qi_later_btn, qd_continue_btn, al_close_btn,
+		au_travel_btn, au_stay_btn, quest_log_close_btn, bag_close_btn
+	]:
+		UIAnimator.attach_button_feedback(modal_btn)
 
 	map_btn.pressed.connect(func() -> void: SceneRouter.go_to_world_map())
 	quests_btn.pressed.connect(_open_quest_log)
 	bag_btn.pressed.connect(_open_bag)
+	settings_btn.pressed.connect(func() -> void:
+		UIManager.open_settings(true)
+	)
+	pause_btn.pressed.connect(_toggle_pause_menu)
 	save_btn.pressed.connect(func() -> void:
 		if GameStateManager.save_now("manual_hud"):
 			show_toast(LocalizationManager.tr_key("saved_toast", "Đã lưu tiến trình!"))
@@ -96,17 +125,14 @@ func _ready() -> void:
 
 	qi_accept_btn.pressed.connect(_on_accept_quest_pressed)
 	qi_later_btn.pressed.connect(func() -> void:
-		quest_intro_popup.visible = false
-		_sync_overlay_visibility()
+		UIAnimator.animate_popup_close(quest_intro_popup, func() -> void: _sync_overlay_visibility())
 	)
 	qd_continue_btn.pressed.connect(_on_quest_done_continue)
 	al_close_btn.pressed.connect(func() -> void:
-		area_locked_popup.visible = false
-		_sync_overlay_visibility()
+		UIAnimator.animate_popup_close(area_locked_popup, func() -> void: _sync_overlay_visibility())
 	)
 	au_stay_btn.pressed.connect(func() -> void:
-		area_unlocked_popup.visible = false
-		_sync_overlay_visibility()
+		UIAnimator.animate_popup_close(area_unlocked_popup, func() -> void: _sync_overlay_visibility())
 	)
 	au_travel_btn.pressed.connect(func() -> void:
 		area_unlocked_popup.visible = false
@@ -115,14 +141,21 @@ func _ready() -> void:
 			SceneRouter.enter_area(_pending_unlocked_area_id)
 	)
 	quest_log_close_btn.pressed.connect(func() -> void:
-		quest_log_modal.visible = false
-		_sync_overlay_visibility()
+		UIAnimator.animate_popup_close(quest_log_modal, func() -> void: _sync_overlay_visibility())
 	)
 	bag_close_btn.pressed.connect(func() -> void:
-		bag_modal.visible = false
-		_sync_overlay_visibility()
+		UIAnimator.animate_popup_close(bag_modal, func() -> void: _sync_overlay_visibility())
 	)
 	toast_timer.timeout.connect(func() -> void: toast_panel.visible = false)
+
+	pause_menu.resumed.connect(func() -> void: _sync_overlay_visibility())
+	pause_menu.world_map_requested.connect(func() -> void: SceneRouter.go_to_world_map())
+	pause_menu.quests_requested.connect(func() -> void: _open_quest_log())
+	pause_menu.settings_requested.connect(func() -> void: UIManager.open_settings(true))
+	pause_menu.save_and_exit_requested.connect(func() -> void:
+		pause_menu.close_pause()
+		UIManager.request_exit_to_main_menu()
+	)
 
 	EventBus.progress_updated.connect(_refresh_header)
 	EventBus.quest_started.connect(func(_id: String) -> void: _refresh_quest_tracker())
@@ -133,26 +166,32 @@ func _ready() -> void:
 	EventBus.dialogue_started.connect(func(_id: String) -> void: _sync_overlay_visibility())
 	EventBus.dialogue_ended.connect(_on_dialogue_ended)
 	EventBus.viewport_breakpoint_changed.connect(func(_b: String, _s: Vector2) -> void: _apply_responsive())
+	EventBus.settings_changed.connect(_apply_responsive)
+	EventBus.ui_locale_changed.connect(func(_l: String) -> void: _refresh_localized_labels())
 
 	_refresh_header()
 	_refresh_quest_tracker()
+	_refresh_localized_labels()
 	_apply_responsive()
 
 
-func _apply_opaque_modal_styles() -> void:
-	var sb := StyleBoxFlat.new()
-	sb.bg_color = Color(0.08, 0.12, 0.21, 0.97)
-	sb.border_width_left = 2
-	sb.border_width_top = 2
-	sb.border_width_right = 2
-	sb.border_width_bottom = 2
-	sb.border_color = Color(0.32, 0.56, 0.85, 0.95)
-	sb.corner_radius_top_left = 10
-	sb.corner_radius_top_right = 10
-	sb.corner_radius_bottom_right = 10
-	sb.corner_radius_bottom_left = 10
-	for panel: PanelContainer in [dialogue_box, quest_intro_popup, quest_done_popup, area_locked_popup, area_unlocked_popup, quest_log_modal, bag_modal]:
-		panel.add_theme_stylebox_override("panel", sb)
+func _apply_design_system() -> void:
+	UIDesignSystem.apply_button_variant(map_btn, "primary")
+	UIDesignSystem.apply_button_variant(quests_btn, "secondary")
+	UIDesignSystem.apply_button_variant(bag_btn, "secondary")
+	UIDesignSystem.apply_button_variant(desktop_buddy_btn, "reward")
+	UIDesignSystem.apply_button_variant(save_btn, "confirm")
+	UIDesignSystem.apply_button_variant(settings_btn, "icon")
+	UIDesignSystem.apply_button_variant(pause_btn, "secondary")
+	UIDesignSystem.apply_button_variant(interact_banner, "reward")
+	UIDesignSystem.apply_button_variant(qi_accept_btn, "confirm")
+	UIDesignSystem.apply_button_variant(qi_later_btn, "secondary")
+	UIDesignSystem.apply_button_variant(qd_continue_btn, "reward")
+	UIDesignSystem.apply_button_variant(al_close_btn, "primary")
+	UIDesignSystem.apply_button_variant(au_travel_btn, "confirm")
+	UIDesignSystem.apply_button_variant(au_stay_btn, "secondary")
+	UIDesignSystem.apply_button_variant(quest_log_close_btn, "close")
+	UIDesignSystem.apply_button_variant(bag_close_btn, "close")
 
 
 func _is_any_modal_or_dialogue_open() -> bool:
@@ -164,13 +203,17 @@ func _is_any_modal_or_dialogue_open() -> bool:
 		or area_unlocked_popup.visible
 		or quest_log_modal.visible
 		or bag_modal.visible
+		or pause_menu.visible
 	)
 
 
 func _sync_overlay_visibility() -> void:
 	var blocked := _is_any_modal_or_dialogue_open()
 	interact_banner.visible = (not blocked) and _has_focused_target
+	bottom_dock.visible = not blocked
+	quest_tracker_panel.visible = not dialogue_box.visible
 	var use_touch := SceneRouter.is_mobile_or_compact() or _touch_input_seen
+	mobile_controls.visible = use_touch and (not blocked)
 	desktop_buddy_btn.visible = (not blocked) and (not use_touch)
 
 
@@ -178,6 +221,24 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventScreenTouch and not _touch_input_seen:
 		_touch_input_seen = true
 		_apply_responsive()
+	elif event is InputEventKey and event.pressed and not event.echo:
+		if (event as InputEventKey).keycode == KEY_ESCAPE:
+			if UIManager.is_modal_open():
+				return
+			if quest_log_modal.visible:
+				UIAnimator.animate_popup_close(quest_log_modal, func() -> void: _sync_overlay_visibility())
+			elif bag_modal.visible:
+				UIAnimator.animate_popup_close(bag_modal, func() -> void: _sync_overlay_visibility())
+			elif not dialogue_box.visible:
+				_toggle_pause_menu()
+
+
+func _toggle_pause_menu() -> void:
+	if pause_menu.visible:
+		pause_menu.close_pause()
+	else:
+		pause_menu.open_pause()
+	_sync_overlay_visibility()
 
 
 func _on_dialogue_ended(_dialogue_id: String) -> void:
@@ -197,6 +258,7 @@ func _hide_all_modals() -> void:
 	area_unlocked_popup.visible = false
 	quest_log_modal.visible = false
 	bag_modal.visible = false
+	pause_menu.visible = false
 
 
 func set_area_header(area_data: Dictionary) -> void:
@@ -228,7 +290,7 @@ func show_quest_intro(quest_id: String) -> void:
 	qi_desc.text = str(q.get("description_vi", ""))
 	var rw: Dictionary = q.get("rewards", {})
 	qi_reward.text = "Phần thưởng: +%d EXP | +%d Gold" % [int(rw.get("exp", 0)), int(rw.get("gold", 0))]
-	quest_intro_popup.visible = true
+	UIAnimator.animate_popup_open(quest_intro_popup)
 	_sync_overlay_visibility()
 
 
@@ -239,8 +301,7 @@ func show_toast(msg: String) -> void:
 
 
 func _on_accept_quest_pressed() -> void:
-	quest_intro_popup.visible = false
-	_sync_overlay_visibility()
+	UIAnimator.animate_popup_close(quest_intro_popup, func() -> void: _sync_overlay_visibility())
 	if not _pending_intro_quest_id.is_empty():
 		quest_accepted.emit(_pending_intro_quest_id)
 		_pending_intro_quest_id = ""
@@ -256,29 +317,30 @@ func _on_quest_completed(quest_id: String, rewards: Dictionary) -> void:
 
 
 func _show_quest_completed_modal(quest_id: String, rewards: Dictionary) -> void:
+	_reward_claim_locked = false
+	qd_continue_btn.disabled = false
 	var q: Dictionary = DataRepository.quests_by_id.get(quest_id, {})
 	qd_title.text = "Hoàn thành: %s!" % str(q.get("title_vi", quest_id))
-	var rw_text := "+%d EXP   |   +%d Gold" % [int(rewards.get("exp", 0)), int(rewards.get("gold", 0))]
-	var items: Array = rewards.get("items", [])
-	if not items.is_empty():
-		var item_names: Array[String] = []
-		for it in items:
-			item_names.append(str(it.get("name_vi", it.get("id", ""))))
-		rw_text += "\nVật phẩm: " + ", ".join(item_names)
-	qd_rewards.text = rw_text
-	quest_done_popup.visible = true
+	qd_reward_display.set_rewards(rewards)
+	UIAnimator.animate_popup_open(quest_done_popup)
+	UIAnimator.animate_reward_pop(qd_reward_display)
 	_sync_overlay_visibility()
 
 
 func _on_quest_done_continue() -> void:
-	quest_done_popup.visible = false
-	_sync_overlay_visibility()
-	_show_next_pending_unlock()
+	if _reward_claim_locked:
+		return
+	_reward_claim_locked = true
+	qd_continue_btn.disabled = true
+	UIAnimator.animate_popup_close(quest_done_popup, func() -> void:
+		_sync_overlay_visibility()
+		_show_next_pending_unlock()
+	)
 
 
 func _on_area_locked_attempted(_area_id: String, reason_vi: String) -> void:
 	al_reason.text = reason_vi
-	area_locked_popup.visible = true
+	UIAnimator.animate_popup_open(area_locked_popup)
 	_sync_overlay_visibility()
 
 
@@ -302,18 +364,19 @@ func _show_area_unlocked_modal(area_id: String) -> void:
 	_pending_unlocked_area_id = area_id
 	au_title.text = "Mở khóa: %s!" % str(area.get("name_vi", area_id))
 	au_desc.text = str(area.get("description_vi", ""))
-	area_unlocked_popup.visible = true
+	UIAnimator.animate_popup_open(area_unlocked_popup)
 	_sync_overlay_visibility()
 
 
 func _refresh_header() -> void:
-	var cfg := DataRepository.get_character_config(GameStateManager.selected_character)
-	var path := str(cfg.get("sprite_path", ""))
-	if ResourceLoader.exists(path):
-		avatar_icon.texture = load(path)
-	player_info_label.text = "%s  |  Lv.%d  |  EXP:%d  |  Gold:%d" % [
-		GameStateManager.nickname, GameStateManager.level, GameStateManager.exp, GameStateManager.gold
-	]
+	avatar_icon.texture = AvatarBadge.get_character_texture(GameStateManager.selected_character)
+	player_info_label.text = "%s | Lv.%d" % [GameStateManager.nickname, GameStateManager.level]
+	var next_exp := GameStateManager.get_exp_for_next_level()
+	exp_bar.max_value = float(maxi(1, next_exp))
+	exp_bar.value = float(GameStateManager.exp)
+	exp_label.text = "%d/%d" % [GameStateManager.exp, next_exp]
+	gold_label.text = str(GameStateManager.gold)
+	crystal_label.text = str(GameStateManager.get_magic_crystal_count())
 
 
 func _refresh_quest_tracker() -> void:
@@ -321,7 +384,10 @@ func _refresh_quest_tracker() -> void:
 	if not active_id.is_empty():
 		var q: Dictionary = DataRepository.quests_by_id.get(active_id, {})
 		var step := QuestManager.get_current_step(active_id)
-		tracker_title.text = "Nhiệm vụ: " + str(q.get("title_vi", ""))
+		var q_state: Dictionary = GameStateManager.active_quests.get(active_id, {})
+		var steps: Array = q.get("steps", [])
+		var step_num := mini(int(q_state.get("step_index", 0)) + 1, maxi(1, steps.size()))
+		tracker_title.text = "Nhiệm vụ (%d/%d): %s" % [step_num, maxi(1, steps.size()), str(q.get("title_vi", ""))]
 		tracker_step.text = "• " + LocalizationManager.pick_text(step, "title")
 		return
 
@@ -336,38 +402,24 @@ func _refresh_quest_tracker() -> void:
 		tracker_step.text = "• Bạn đã hoàn thành toàn bộ nhiệm vụ mẫu!"
 
 
+func _refresh_localized_labels() -> void:
+	map_btn.text = LocalizationManager.tr_key("btn_map", "Bản đồ")
+	quests_btn.text = LocalizationManager.tr_key("btn_quests", "Nhiệm vụ")
+	bag_btn.text = LocalizationManager.tr_key("btn_bag", "Túi đồ")
+	save_btn.text = LocalizationManager.tr_key("btn_save", "Lưu")
+	settings_btn.text = LocalizationManager.tr_key("btn_settings", "Cài đặt")
+	pause_btn.text = LocalizationManager.tr_key("btn_pause", "Menu")
+	_refresh_quest_tracker()
+
+
 func _open_quest_log() -> void:
 	for c in quest_log_list.get_children():
 		c.queue_free()
 	for q in DataRepository.quests_ordered:
-		var qid := str(q.get("id", ""))
-		var status := QuestManager.get_quest_status(qid)
-		var card := PanelContainer.new()
-		var margin := MarginContainer.new()
-		margin.add_theme_constant_override("margin_left", 10)
-		margin.add_theme_constant_override("margin_right", 10)
-		margin.add_theme_constant_override("margin_top", 8)
-		margin.add_theme_constant_override("margin_bottom", 8)
-		var lbl := Label.new()
-		lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		var status_vi := {
-			"locked": "[Khóa] Chưa mở",
-			"available": "[!] Có thể nhận",
-			"active": "[>>] Đang thực hiện",
-			"completed": "[OK] Đã hoàn thành"
-		}.get(status, status)
-		var step_info := ""
-		if status == "active":
-			var step := QuestManager.get_current_step(qid)
-			step_info = "\nBước hiện tại: " + LocalizationManager.pick_text(step, "title")
-		lbl.text = "%s  %s (%s)\n%s%s" % [
-			status_vi, str(q.get("title_vi", "")), str(q.get("title_en", "")),
-			str(q.get("description_vi", "")), step_info
-		]
-		margin.add_child(lbl)
-		card.add_child(margin)
+		var card := QUEST_CARD_SCENE.instantiate() as QuestCardWidget
 		quest_log_list.add_child(card)
-	quest_log_modal.visible = true
+		card.setup_quest(q)
+	UIAnimator.animate_popup_open(quest_log_modal)
 	_sync_overlay_visibility()
 
 
@@ -376,27 +428,97 @@ func _open_bag() -> void:
 		c.queue_free()
 	if GameStateManager.inventory.is_empty():
 		var empty_lbl := Label.new()
-		empty_lbl.text = "Túi đồ đang trống. Hãy mở rương và hoàn thành nhiệm vụ để thu thập vật phẩm!"
+		empty_lbl.text = LocalizationManager.tr_key(
+			"bag_empty",
+			"Túi đồ đang trống. Hãy mở rương và hoàn thành nhiệm vụ trên Đảo Chữ Cái để thu thập vật phẩm!"
+		)
 		empty_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		bag_list.add_child(empty_lbl)
 	else:
-		for item in GameStateManager.inventory.values():
-			var lbl := Label.new()
-			lbl.text = "• %s (%s)  x%d" % [
-				str(item.get("name_vi", "")),
+		for item_var in GameStateManager.inventory.values():
+			if typeof(item_var) != TYPE_DICTIONARY:
+				continue
+			var item: Dictionary = item_var
+			var item_id := str(item.get("id", ""))
+			var card := PanelContainer.new()
+			card.add_theme_stylebox_override(
+				"panel",
+				UIDesignSystem.make_panel_style(Color(0.11, 0.17, 0.3, 0.96), UIDesignSystem.BORDER_DEFAULT, 10, 1, 12, 8)
+			)
+			var row := HBoxContainer.new()
+			row.add_theme_constant_override("separation", 12)
+			var icon := TextureRect.new()
+			icon.custom_minimum_size = Vector2(40, 40)
+			icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+			icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+			icon.texture = _resolve_item_icon(item_id)
+			row.add_child(icon)
+
+			var info_col := VBoxContainer.new()
+			info_col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			var title := Label.new()
+			title.text = "%s (%s)  x%d" % [
+				str(item.get("name_vi", item_id)),
 				str(item.get("name_en", "")),
 				int(item.get("quantity", 1))
 			]
-			bag_list.add_child(lbl)
-	bag_modal.visible = true
+			var note := Label.new()
+			note.text = LocalizationManager.tr_key("bag_status_readonly", "Vật phẩm thám hiểm (tự động kích hoạt khi cần)")
+			note.add_theme_font_size_override("font_size", 12)
+			note.add_theme_color_override("font_color", UIDesignSystem.TEXT_MUTED)
+			info_col.add_child(title)
+			info_col.add_child(note)
+			row.add_child(info_col)
+			card.add_child(row)
+			bag_list.add_child(card)
+	UIAnimator.animate_popup_open(bag_modal)
 	_sync_overlay_visibility()
 
 
+func _resolve_item_icon(item_id: String) -> Texture2D:
+	if item_id.contains("crystal"):
+		return load("res://assets/environments/alphabet_island/magic_crystal.svg")
+	if item_id.contains("letter"):
+		return load("res://assets/environments/alphabet_island/lost_letter_glow.svg")
+	return load("res://assets/icons/backpack_icon.svg")
+
+
 func _apply_responsive() -> void:
-	var compact := SceneRouter.is_mobile_or_compact() or _touch_input_seen
-	mobile_controls.visible = compact
 	var vp: Vector2 = get_viewport().get_visible_rect().size
-	top_row.vertical = vp.x < 780.0
-	quest_tracker_panel.offset_top = 115.0 if top_row.vertical else 76.0
-	quest_tracker_panel.offset_bottom = 198.0 if top_row.vertical else 158.0
+	var safe := ResponsiveHelper.get_safe_area_margins(get_viewport())
+	var top_pad := int(safe["top"])
+	var left_pad := int(safe["left"])
+	var right_pad := int(safe["right"])
+	var bottom_pad := int(safe["bottom"])
+
+	top_bar.offset_left = 10.0 + float(left_pad)
+	top_bar.offset_right = -10.0 - float(right_pad)
+	top_bar.offset_top = 8.0 + float(top_pad)
+	top_bar.offset_bottom = 66.0 + float(top_pad)
+
+	var compact := vp.x < 780.0
+	area_title_label.visible = vp.x >= 680.0
+	settings_btn.visible = vp.x >= 620.0
+	quest_tracker_panel.offset_left = 10.0 + float(left_pad)
+	quest_tracker_panel.offset_top = 72.0 + float(top_pad)
+	quest_tracker_panel.offset_bottom = 146.0 + float(top_pad)
+
+	var dock_w := minf(530.0, vp.x - 24.0)
+	bottom_dock.offset_left = -dock_w * 0.5
+	bottom_dock.offset_right = dock_w * 0.5
+	bottom_dock.offset_bottom = -10.0 - float(bottom_pad)
+	bottom_dock.offset_top = -62.0 - float(bottom_pad)
+
+	if compact:
+		save_btn.visible = false
+	else:
+		save_btn.visible = true
+
+	var modal_half_w := minf(330.0, (vp.x - 28.0) * 0.5)
+	quest_log_modal.offset_left = -modal_half_w
+	quest_log_modal.offset_right = modal_half_w
+	var bag_half_w := minf(280.0, (vp.x - 28.0) * 0.5)
+	bag_modal.offset_left = -bag_half_w
+	bag_modal.offset_right = bag_half_w
+
 	_sync_overlay_visibility()

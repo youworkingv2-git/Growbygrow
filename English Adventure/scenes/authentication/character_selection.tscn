@@ -18,59 +18,79 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color(0.12, 0.34, 0.58, 1)
+color = Color(0.09, 0.27, 0.5, 1)
 
 [node name="RootMargin" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme_override_constants/margin_left = 28
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 28
-theme_override_constants/margin_bottom = 20
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 18
 
-[node name="VBox" type="VBoxContainer" parent="RootMargin"]
+[node name="Scroll" type="ScrollContainer" parent="RootMargin"]
 layout_mode = 2
-theme_override_constants/separation = 16
 
-[node name="Title" type="Label" parent="RootMargin/VBox"]
+[node name="VBox" type="VBoxContainer" parent="RootMargin/Scroll"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 28
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 14
+
+[node name="HeaderRow" type="HBoxContainer" parent="RootMargin/Scroll/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="BackBtn" type="Button" parent="RootMargin/Scroll/VBox/HeaderRow"]
+custom_minimum_size = Vector2(120, 42)
+layout_mode = 2
+text = "< Quay lại"
+
+[node name="Title" type="Label" parent="RootMargin/Scroll/VBox/HeaderRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.99, 0.83, 0.3, 1)
+theme_override_font_sizes/font_size = 26
 text = "CHỌN NHÂN VẬT THÁM HIỂM"
 horizontal_alignment = 1
 
-[node name="Subtitle" type="Label" parent="RootMargin/VBox"]
+[node name="Spacer" type="Control" parent="RootMargin/Scroll/VBox/HeaderRow"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+
+[node name="Subtitle" type="Label" parent="RootMargin/Scroll/VBox"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 15
 text = "Hai bạn đều nhanh nhẹn và học tiếng Anh giỏi như nhau. Chọn nhân vật bạn thích nhé!"
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="CardsRow" type="BoxContainer" parent="RootMargin/VBox"]
+[node name="CardsRow" type="BoxContainer" parent="RootMargin/Scroll/VBox"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 24
+theme_override_constants/separation = 22
 alignment = 1
 
-[node name="BoyCard" type="PanelContainer" parent="RootMargin/VBox/CardsRow"]
+[node name="BoyCard" type="PanelContainer" parent="RootMargin/Scroll/VBox/CardsRow"]
 custom_minimum_size = Vector2(260, 240)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Margin" type="MarginContainer" parent="RootMargin/VBox/CardsRow/BoyCard"]
+[node name="Margin" type="MarginContainer" parent="RootMargin/Scroll/VBox/CardsRow/BoyCard"]
 layout_mode = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 14
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 14
 
-[node name="VBox" type="VBoxContainer" parent="RootMargin/VBox/CardsRow/BoyCard/Margin"]
+[node name="VBox" type="VBoxContainer" parent="RootMargin/Scroll/VBox/CardsRow/BoyCard/Margin"]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 8
 alignment = 1
 
-[node name="Preview" type="TextureRect" parent="RootMargin/VBox/CardsRow/BoyCard/Margin/VBox"]
+[node name="Preview" type="TextureRect" parent="RootMargin/Scroll/VBox/CardsRow/BoyCard/Margin/VBox"]
 custom_minimum_size = Vector2(128, 150)
 layout_mode = 2
 size_flags_vertical = 3
@@ -78,36 +98,43 @@ texture = ExtResource("2_boy")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Name" type="Label" parent="RootMargin/VBox/CardsRow/BoyCard/Margin/VBox"]
+[node name="Name" type="Label" parent="RootMargin/Scroll/VBox/CardsRow/BoyCard/Margin/VBox"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "Leo (Nam)"
 horizontal_alignment = 1
 
-[node name="SelectBoyBtn" type="Button" parent="RootMargin/VBox/CardsRow/BoyCard/Margin/VBox"]
+[node name="Desc" type="Label" parent="RootMargin/Scroll/VBox/CardsRow/BoyCard/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.78, 0.86, 0.96, 1)
+theme_override_font_sizes/font_size = 13
+text = "Nhà thám hiểm dũng cảm trên Đảo Bảng Chữ Cái."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="SelectBoyBtn" type="Button" parent="RootMargin/Scroll/VBox/CardsRow/BoyCard/Margin/VBox"]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-theme_override_font_sizes/font_size = 17
 text = "Chọn Leo"
 
-[node name="GirlCard" type="PanelContainer" parent="RootMargin/VBox/CardsRow"]
+[node name="GirlCard" type="PanelContainer" parent="RootMargin/Scroll/VBox/CardsRow"]
 custom_minimum_size = Vector2(260, 240)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Margin" type="MarginContainer" parent="RootMargin/VBox/CardsRow/GirlCard"]
+[node name="Margin" type="MarginContainer" parent="RootMargin/Scroll/VBox/CardsRow/GirlCard"]
 layout_mode = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 14
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 14
 
-[node name="VBox" type="VBoxContainer" parent="RootMargin/VBox/CardsRow/GirlCard/Margin"]
+[node name="VBox" type="VBoxContainer" parent="RootMargin/Scroll/VBox/CardsRow/GirlCard/Margin"]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 8
 alignment = 1
 
-[node name="Preview" type="TextureRect" parent="RootMargin/VBox/CardsRow/GirlCard/Margin/VBox"]
+[node name="Preview" type="TextureRect" parent="RootMargin/Scroll/VBox/CardsRow/GirlCard/Margin/VBox"]
 custom_minimum_size = Vector2(128, 150)
 layout_mode = 2
 size_flags_vertical = 3
@@ -115,54 +142,68 @@ texture = ExtResource("3_girl")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Name" type="Label" parent="RootMargin/VBox/CardsRow/GirlCard/Margin/VBox"]
+[node name="Name" type="Label" parent="RootMargin/Scroll/VBox/CardsRow/GirlCard/Margin/VBox"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "Mia (Nữ)"
 horizontal_alignment = 1
 
-[node name="SelectGirlBtn" type="Button" parent="RootMargin/VBox/CardsRow/GirlCard/Margin/VBox"]
+[node name="Desc" type="Label" parent="RootMargin/Scroll/VBox/CardsRow/GirlCard/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.78, 0.86, 0.96, 1)
+theme_override_font_sizes/font_size = 13
+text = "Nhà thám hiểm thông minh và thân thiện với mọi người."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="SelectGirlBtn" type="Button" parent="RootMargin/Scroll/VBox/CardsRow/GirlCard/Margin/VBox"]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-theme_override_font_sizes/font_size = 17
 text = "Chọn Mia"
 
-[node name="BottomPanel" type="PanelContainer" parent="RootMargin/VBox"]
+[node name="BottomPanel" type="PanelContainer" parent="RootMargin/Scroll/VBox"]
 layout_mode = 2
 
-[node name="VBox" type="VBoxContainer" parent="RootMargin/VBox/BottomPanel"]
+[node name="Margin" type="MarginContainer" parent="RootMargin/Scroll/VBox/BottomPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 12
+
+[node name="VBox" type="VBoxContainer" parent="RootMargin/Scroll/VBox/BottomPanel/Margin"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="SelectedInfoLabel" type="Label" parent="RootMargin/VBox/BottomPanel/VBox"]
+[node name="SelectedInfoLabel" type="Label" parent="RootMargin/Scroll/VBox/BottomPanel/Margin/VBox"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.99, 0.83, 0.3, 1)
 theme_override_font_sizes/font_size = 15
 text = "Leo — Sức mạnh hoàn toàn bình đẳng"
 horizontal_alignment = 1
 
-[node name="NameRow" type="HBoxContainer" parent="RootMargin/VBox/BottomPanel/VBox"]
+[node name="NameRow" type="HBoxContainer" parent="RootMargin/Scroll/VBox/BottomPanel/Margin/VBox"]
 layout_mode = 2
 theme_override_constants/separation = 10
 alignment = 1
 
-[node name="Label" type="Label" parent="RootMargin/VBox/BottomPanel/VBox/NameRow"]
+[node name="Label" type="Label" parent="RootMargin/Scroll/VBox/BottomPanel/Margin/VBox/NameRow"]
 layout_mode = 2
 text = "Biệt danh:"
 
-[node name="NicknameInput" type="LineEdit" parent="RootMargin/VBox/BottomPanel/VBox/NameRow"]
-custom_minimum_size = Vector2(220, 42)
+[node name="NicknameInput" type="LineEdit" parent="RootMargin/Scroll/VBox/BottomPanel/Margin/VBox/NameRow"]
+custom_minimum_size = Vector2(210, 42)
 layout_mode = 2
 placeholder_text = "Nhập biệt danh của bé..."
 max_length = 24
 
-[node name="RandomNameBtn" type="Button" parent="RootMargin/VBox/BottomPanel/VBox/NameRow"]
-custom_minimum_size = Vector2(130, 42)
+[node name="RandomNameBtn" type="Button" parent="RootMargin/Scroll/VBox/BottomPanel/Margin/VBox/NameRow"]
+custom_minimum_size = Vector2(124, 42)
 layout_mode = 2
 text = "Gợi ý tên"
 
-[node name="ConfirmBtn" type="Button" parent="RootMargin/VBox/BottomPanel/VBox"]
+[node name="ConfirmBtn" type="Button" parent="RootMargin/Scroll/VBox/BottomPanel/Margin/VBox"]
 custom_minimum_size = Vector2(280, 52)
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_font_sizes/font_size = 19
 text = "Xác nhận & Bắt đầu!"

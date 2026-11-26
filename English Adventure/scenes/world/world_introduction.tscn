@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/world_introduction_ui.gd" id="1_intro"]
 [ext_resource type="Texture2D" path="res://assets/characters/npcs/professor_owl.svg" id="2_owl"]
+[ext_resource type="Texture2D" path="res://assets/environments/alphabet_island/owl_house.svg" id="3_house"]
+[ext_resource type="Texture2D" path="res://assets/environments/alphabet_island/village_tree.svg" id="4_tree"]
+[ext_resource type="Texture2D" path="res://assets/environments/alphabet_island/magic_crystal.svg" id="5_crystal"]
 
 [node name="WorldIntroduction" type="Control"]
 layout_mode = 3
@@ -17,93 +20,175 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color(0.09, 0.16, 0.31, 1)
+color = Color(0.08, 0.21, 0.42, 1)
 
-[node name="CenterPanel" type="PanelContainer" parent="."]
+[node name="SafeMargin" type="MarginContainer" parent="."]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -380.0
-offset_top = -220.0
-offset_right = 380.0
-offset_bottom = 220.0
-grow_horizontal = 2
-grow_vertical = 2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 18
 
-[node name="Margin" type="MarginContainer" parent="CenterPanel"]
+[node name="Center" type="CenterContainer" parent="SafeMargin"]
+layout_mode = 2
+
+[node name="CenterPanel" type="PanelContainer" parent="SafeMargin/Center"]
+custom_minimum_size = Vector2(680, 420)
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="SafeMargin/Center/CenterPanel"]
 layout_mode = 2
 theme_override_constants/margin_left = 24
-theme_override_constants/margin_top = 20
+theme_override_constants/margin_top = 18
 theme_override_constants/margin_right = 24
-theme_override_constants/margin_bottom = 20
+theme_override_constants/margin_bottom = 18
 
-[node name="VBox" type="VBoxContainer" parent="CenterPanel/Margin"]
+[node name="VBox" type="VBoxContainer" parent="SafeMargin/Center/CenterPanel/Margin"]
+custom_minimum_size = Vector2(620, 0)
 layout_mode = 2
-theme_override_constants/separation = 16
+theme_override_constants/separation = 12
 
-[node name="HeaderRow" type="HBoxContainer" parent="CenterPanel/Margin/VBox"]
+[node name="HeaderRow" type="HBoxContainer" parent="SafeMargin/Center/CenterPanel/Margin/VBox"]
 layout_mode = 2
 
-[node name="Title" type="Label" parent="CenterPanel/Margin/VBox/HeaderRow"]
+[node name="Title" type="Label" parent="SafeMargin/Center/CenterPanel/Margin/VBox/HeaderRow"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.99, 0.83, 0.3, 1)
 theme_override_font_sizes/font_size = 22
 text = "CÂU CHUYỆN: ĐẢO BẢNG CHỮ CÁI"
 
-[node name="SkipBtn" type="Button" parent="CenterPanel/Margin/VBox/HeaderRow"]
-custom_minimum_size = Vector2(100, 38)
+[node name="SkipBtn" type="Button" parent="SafeMargin/Center/CenterPanel/Margin/VBox/HeaderRow"]
+custom_minimum_size = Vector2(104, 40)
 layout_mode = 2
 text = "Bỏ qua"
 
-[node name="SpeakerRow" type="HBoxContainer" parent="CenterPanel/Margin/VBox"]
+[node name="IslandBanner" type="Panel" parent="SafeMargin/Center/CenterPanel/Margin/VBox"]
+custom_minimum_size = Vector2(0, 86)
 layout_mode = 2
-theme_override_constants/separation = 18
 
-[node name="Portrait" type="TextureRect" parent="CenterPanel/Margin/VBox/SpeakerRow"]
-custom_minimum_size = Vector2(110, 110)
+[node name="Sky" type="ColorRect" parent="SafeMargin/Center/CenterPanel/Margin/VBox/IslandBanner"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.14, 0.42, 0.72, 1)
+
+[node name="Grass" type="ColorRect" parent="SafeMargin/Center/CenterPanel/Margin/VBox/IslandBanner"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -24.0
+color = Color(0.35, 0.74, 0.42, 1)
+
+[node name="Icons" type="HBoxContainer" parent="SafeMargin/Center/CenterPanel/Margin/VBox/IslandBanner"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+alignment = 1
+theme_override_constants/separation = 34
+
+[node name="TreeL" type="TextureRect" parent="SafeMargin/Center/CenterPanel/Margin/VBox/IslandBanner/Icons"]
+custom_minimum_size = Vector2(46, 56)
+layout_mode = 2
+texture = ExtResource("4_tree")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="House" type="TextureRect" parent="SafeMargin/Center/CenterPanel/Margin/VBox/IslandBanner/Icons"]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+texture = ExtResource("3_house")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Crystal" type="TextureRect" parent="SafeMargin/Center/CenterPanel/Margin/VBox/IslandBanner/Icons"]
+custom_minimum_size = Vector2(44, 48)
+layout_mode = 2
+texture = ExtResource("5_crystal")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="SpeakerRow" type="HBoxContainer" parent="SafeMargin/Center/CenterPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Portrait" type="TextureRect" parent="SafeMargin/Center/CenterPanel/Margin/VBox/SpeakerRow"]
+custom_minimum_size = Vector2(92, 92)
 layout_mode = 2
 texture = ExtResource("2_owl")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="SpeakerInfo" type="VBoxContainer" parent="CenterPanel/Margin/VBox/SpeakerRow"]
+[node name="SpeakerInfo" type="VBoxContainer" parent="SafeMargin/Center/CenterPanel/Margin/VBox/SpeakerRow"]
 layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
 
-[node name="SpeakerName" type="Label" parent="CenterPanel/Margin/VBox/SpeakerRow/SpeakerInfo"]
+[node name="SpeakerName" type="Label" parent="SafeMargin/Center/CenterPanel/Margin/VBox/SpeakerRow/SpeakerInfo"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(0.99, 0.83, 0.3, 1)
+theme_override_font_sizes/font_size = 21
 text = "Giáo sư Cú Mèo"
 
-[node name="TextEnLabel" type="Label" parent="CenterPanel/Margin/VBox"]
+[node name="DialogueCard" type="PanelContainer" parent="SafeMargin/Center/CenterPanel/Margin/VBox"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.35, 0.78, 1, 1)
+size_flags_vertical = 3
+
+[node name="Margin" type="MarginContainer" parent="SafeMargin/Center/CenterPanel/Margin/VBox/DialogueCard"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 12
+
+[node name="Texts" type="VBoxContainer" parent="SafeMargin/Center/CenterPanel/Margin/VBox/DialogueCard/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="TextEnLabel" type="Label" parent="SafeMargin/Center/CenterPanel/Margin/VBox/DialogueCard/Margin/Texts"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38, 0.8, 1, 1)
 theme_override_font_sizes/font_size = 19
 text = "Welcome, young adventurer!"
 autowrap_mode = 3
 
-[node name="TextViLabel" type="Label" parent="CenterPanel/Margin/VBox"]
+[node name="TextViLabel" type="Label" parent="SafeMargin/Center/CenterPanel/Margin/VBox/DialogueCard/Margin/Texts"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 17
 text = "Chào mừng nhà thám hiểm trẻ tuổi!"
 autowrap_mode = 3
 
-[node name="FooterRow" type="HBoxContainer" parent="CenterPanel/Margin/VBox"]
+[node name="StepProgress" type="ProgressBar" parent="SafeMargin/Center/CenterPanel/Margin/VBox"]
+custom_minimum_size = Vector2(0, 12)
 layout_mode = 2
+max_value = 4.0
+show_percentage = false
 
-[node name="ProgressLabel" type="Label" parent="CenterPanel/Margin/VBox/FooterRow"]
+[node name="FooterRow" type="HBoxContainer" parent="SafeMargin/Center/CenterPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="PrevBtn" type="Button" parent="SafeMargin/Center/CenterPanel/Margin/VBox/FooterRow"]
+custom_minimum_size = Vector2(140, 48)
+layout_mode = 2
+text = "< Trước"
+
+[node name="ProgressLabel" type="Label" parent="SafeMargin/Center/CenterPanel/Margin/VBox/FooterRow"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 15
 text = "1 / 4"
+horizontal_alignment = 1
 
-[node name="NextBtn" type="Button" parent="CenterPanel/Margin/VBox/FooterRow"]
-custom_minimum_size = Vector2(200, 50)
+[node name="NextBtn" type="Button" parent="SafeMargin/Center/CenterPanel/Margin/VBox/FooterRow"]
+custom_minimum_size = Vector2(200, 48)
 layout_mode = 2
-theme_override_font_sizes/font_size = 18
 text = "Tiếp tục >"

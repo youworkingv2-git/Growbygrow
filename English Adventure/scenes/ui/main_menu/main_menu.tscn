@@ -1,0 +1,195 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/screens/main_menu_ui.gd" id="1_mm"]
+[ext_resource type="Texture2D" path="res://assets/characters/buddy/buddy_dragon.svg" id="2_buddy"]
+[ext_resource type="Texture2D" path="res://assets/environments/alphabet_island/owl_house.svg" id="3_house"]
+[ext_resource type="Texture2D" path="res://assets/environments/alphabet_island/village_tree.svg" id="4_tree"]
+[ext_resource type="Texture2D" path="res://assets/environments/alphabet_island/magic_crystal.svg" id="5_crystal"]
+[ext_resource type="Texture2D" path="res://assets/characters/player/boy/boy_adventurer.svg" id="6_boy"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_mm")
+
+[node name="SkyBg" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.08, 0.27, 0.53, 1)
+
+[node name="HillLayer" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -170.0
+color = Color(0.25, 0.63, 0.37, 0.8)
+
+[node name="SafeMargin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 16
+
+[node name="Center" type="CenterContainer" parent="SafeMargin"]
+layout_mode = 2
+
+[node name="MenuPanel" type="PanelContainer" parent="SafeMargin/Center"]
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="SafeMargin/Center/MenuPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 22
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 22
+
+[node name="LayoutBox" type="BoxContainer" parent="SafeMargin/Center/MenuPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 26
+alignment = 1
+
+[node name="HeroCol" type="VBoxContainer" parent="SafeMargin/Center/MenuPanel/Margin/LayoutBox"]
+custom_minimum_size = Vector2(280, 0)
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="HeroStage" type="Panel" parent="SafeMargin/Center/MenuPanel/Margin/LayoutBox/HeroCol"]
+custom_minimum_size = Vector2(280, 210)
+layout_mode = 2
+
+[node name="StageSky" type="ColorRect" parent="SafeMargin/Center/MenuPanel/Margin/LayoutBox/HeroCol/HeroStage"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.14, 0.44, 0.74, 1)
+
+[node name="StageGrass" type="ColorRect" parent="SafeMargin/Center/MenuPanel/Margin/LayoutBox/HeroCol/HeroStage"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -62.0
+color = Color(0.36, 0.74, 0.41, 1)
+
+[node name="Tree" type="TextureRect" parent="SafeMargin/Center/MenuPanel/Margin/LayoutBox/HeroCol/HeroStage"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 48.0
+offset_right = 82.0
+offset_bottom = 148.0
+texture = ExtResource("4_tree")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="House" type="TextureRect" parent="SafeMargin/Center/MenuPanel/Margin/LayoutBox/HeroCol/HeroStage"]
+layout_mode = 0
+offset_left = 144.0
+offset_top = 34.0
+offset_right = 258.0
+offset_bottom = 152.0
+texture = ExtResource("3_house")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Hero" type="TextureRect" parent="SafeMargin/Center/MenuPanel/Margin/LayoutBox/HeroCol/HeroStage"]
+layout_mode = 0
+offset_left = 54.0
+offset_top = 92.0
+offset_right = 132.0
+offset_bottom = 186.0
+texture = ExtResource("6_boy")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Crystal" type="TextureRect" parent="SafeMargin/Center/MenuPanel/Margin/LayoutBox/HeroCol/HeroStage"]
+layout_mode = 0
+offset_left = 224.0
+offset_top = 122.0
+offset_right = 264.0
+offset_bottom = 168.0
+texture = ExtResource("5_crystal")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="BuddySprite" type="TextureRect" parent="SafeMargin/Center/MenuPanel/Margin/LayoutBox/HeroCol/HeroStage"]
+layout_mode = 0
+offset_left = 104.0
+offset_top = 32.0
+offset_right = 184.0
+offset_bottom = 112.0
+texture = ExtResource("2_buddy")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="StatusLabel" type="Label" parent="SafeMargin/Center/MenuPanel/Margin/LayoutBox/HeroCol"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.98, 0.85, 0.36, 1)
+theme_override_font_sizes/font_size = 14
+text = "Chưa có hành trình đã lưu"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="ActionsCol" type="VBoxContainer" parent="SafeMargin/Center/MenuPanel/Margin/LayoutBox"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="SafeMargin/Center/MenuPanel/Margin/LayoutBox/ActionsCol"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.99, 0.83, 0.3, 1)
+theme_override_font_sizes/font_size = 28
+text = "ENGLISH ADVENTURE"
+horizontal_alignment = 1
+
+[node name="SubtitleLabel" type="Label" parent="SafeMargin/Center/MenuPanel/Margin/LayoutBox/ActionsCol"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.87, 1, 1)
+theme_override_font_sizes/font_size = 14
+text = "Cuộc Phiêu Lưu Học Tiếng Anh Kỳ Thú"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Buttons" type="VBoxContainer" parent="SafeMargin/Center/MenuPanel/Margin/LayoutBox/ActionsCol"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="ContinueBtn" type="Button" parent="SafeMargin/Center/MenuPanel/Margin/LayoutBox/ActionsCol/Buttons"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+text = "Tiếp tục Phiêu Lưu"
+
+[node name="NewGameBtn" type="Button" parent="SafeMargin/Center/MenuPanel/Margin/LayoutBox/ActionsCol/Buttons"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+text = "Bắt đầu Phiêu lưu mới"
+
+[node name="WorldMapBtn" type="Button" parent="SafeMargin/Center/MenuPanel/Margin/LayoutBox/ActionsCol/Buttons"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "Bản Đồ Đảo"
+
+[node name="SettingsBtn" type="Button" parent="SafeMargin/Center/MenuPanel/Margin/LayoutBox/ActionsCol/Buttons"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "Cài đặt"
+
+[node name="QuitBtn" type="Button" parent="SafeMargin/Center/MenuPanel/Margin/LayoutBox/ActionsCol/Buttons"]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+text = "Thoát game"

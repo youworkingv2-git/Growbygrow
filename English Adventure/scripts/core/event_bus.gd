@@ -1,8 +1,9 @@
 extends Node
-## Global signal bus decoupling Adventure, Character, Quest, UI, Progression, and Save/Load.
+## Global signal bus decoupling Adventure, Character, Quest, UI, Progression, Audio, and Save/Load.
 
 signal ui_locale_changed(locale: String)
 signal viewport_breakpoint_changed(breakpoint_name: String, viewport_size: Vector2)
+signal settings_changed()
 
 signal character_selected(gender: String, nickname: String)
 signal area_entered(area_id: String)
@@ -24,11 +25,14 @@ signal quest_step_updated(quest_id: String, step_index: int)
 signal quest_completed(quest_id: String, rewards: Dictionary)
 
 signal item_collected(item_id: String, quantity: int)
+signal level_up(new_level: int)
+signal achievement_unlocked(achievement_id: String, title: String)
 signal progress_updated()
 signal toast_requested(message: String, kind: String)
+signal pause_toggled(is_paused: bool)
 
 signal save_requested(reason: String)
 signal save_completed(success: bool)
 
-# Extension hook for Prompt 03+ Learning Engine & Mini-game launch
+# Extension hook for Learning Engine & Mini-game launch
 signal learning_hook_requested(hook_payload: Dictionary)

@@ -1,25 +1,32 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=13 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/adventure_hud.gd" id="1_hud"]
 [ext_resource type="Script" path="res://scripts/ui/dialogue_box_ui.gd" id="2_dlg_ui"]
 [ext_resource type="Script" path="res://scripts/ui/virtual_joystick.gd" id="3_joy"]
 [ext_resource type="Texture2D" path="res://assets/characters/player/boy/boy_adventurer.svg" id="4_avatar"]
 [ext_resource type="Texture2D" path="res://assets/characters/buddy/buddy_dragon.svg" id="5_buddy"]
+[ext_resource type="Texture2D" path="res://assets/icons/gold_icon.svg" id="6_gold"]
+[ext_resource type="Texture2D" path="res://assets/icons/crystal_icon.svg" id="7_crystal"]
+[ext_resource type="Texture2D" path="res://assets/icons/map_icon.svg" id="8_map"]
+[ext_resource type="Texture2D" path="res://assets/icons/quest_icon.svg" id="9_quest"]
+[ext_resource type="Texture2D" path="res://assets/icons/backpack_icon.svg" id="10_bag"]
+[ext_resource type="PackedScene" path="res://scenes/ui/common/reward_display.tscn" id="11_reward_disp"]
+[ext_resource type="PackedScene" path="res://scenes/ui/pause_menu/pause_menu.tscn" id="12_pause"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_joy_bg"]
-bg_color = Color(0.06, 0.09, 0.16, 0.42)
+bg_color = Color(0.06, 0.09, 0.16, 0.45)
 border_width_left = 3
 border_width_top = 3
 border_width_right = 3
 border_width_bottom = 3
-border_color = Color(1, 1, 1, 0.6)
+border_color = Color(1, 1, 1, 0.65)
 corner_radius_top_left = 70
 corner_radius_top_right = 70
 corner_radius_bottom_right = 70
 corner_radius_bottom_left = 70
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_joy_knob"]
-bg_color = Color(0.18, 0.66, 1, 0.85)
+bg_color = Color(0.18, 0.66, 1, 0.88)
 corner_radius_top_left = 28
 corner_radius_top_right = 28
 corner_radius_bottom_right = 28
@@ -35,88 +42,134 @@ anchor_right = 1.0
 offset_left = 10.0
 offset_top = 8.0
 offset_right = -10.0
-offset_bottom = 68.0
+offset_bottom = 66.0
 
 [node name="Margin" type="MarginContainer" parent="TopBar"]
 layout_mode = 2
-theme_override_constants/margin_left = 12
-theme_override_constants/margin_top = 6
-theme_override_constants/margin_right = 12
-theme_override_constants/margin_bottom = 6
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 5
 
-[node name="Row" type="BoxContainer" parent="TopBar/Margin"]
+[node name="Row" type="HBoxContainer" parent="TopBar/Margin"]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 10
 
 [node name="ProfileBox" type="HBoxContainer" parent="TopBar/Margin/Row"]
 layout_mode = 2
 theme_override_constants/separation = 8
 
 [node name="Avatar" type="TextureRect" parent="TopBar/Margin/Row/ProfileBox"]
-custom_minimum_size = Vector2(40, 40)
+custom_minimum_size = Vector2(38, 38)
 layout_mode = 2
 texture = ExtResource("4_avatar")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="PlayerInfo" type="Label" parent="TopBar/Margin/Row/ProfileBox"]
+[node name="StatsCol" type="VBoxContainer" parent="TopBar/Margin/Row/ProfileBox"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="PlayerInfo" type="Label" parent="TopBar/Margin/Row/ProfileBox/StatsCol"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
-text = "Leo | Lv.1 | EXP:0 | Gold:0"
+text = "Leo | Lv.1"
+
+[node name="ExpRow" type="HBoxContainer" parent="TopBar/Margin/Row/ProfileBox/StatsCol"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="ExpBar" type="ProgressBar" parent="TopBar/Margin/Row/ProfileBox/StatsCol/ExpRow"]
+custom_minimum_size = Vector2(96, 12)
+layout_mode = 2
+size_flags_vertical = 4
+max_value = 115.0
+show_percentage = false
+
+[node name="ExpLabel" type="Label" parent="TopBar/Margin/Row/ProfileBox/StatsCol/ExpRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.65, 0.86, 1, 1)
+theme_override_font_sizes/font_size = 12
+text = "0/115"
 
 [node name="AreaTitle" type="Label" parent="TopBar/Margin/Row"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.98, 0.82, 0.25, 1)
+theme_override_colors/font_color = Color(0.99, 0.83, 0.3, 1)
 theme_override_font_sizes/font_size = 16
 text = "Làng Khởi Đầu (Welcome Village)"
 horizontal_alignment = 1
+clip_text = true
 
-[node name="Actions" type="HBoxContainer" parent="TopBar/Margin/Row"]
+[node name="RightStats" type="HBoxContainer" parent="TopBar/Margin/Row"]
 layout_mode = 2
-theme_override_constants/separation = 6
+theme_override_constants/separation = 8
 
-[node name="MapBtn" type="Button" parent="TopBar/Margin/Row/Actions"]
-custom_minimum_size = Vector2(78, 40)
+[node name="GoldChip" type="HBoxContainer" parent="TopBar/Margin/Row/RightStats"]
 layout_mode = 2
-text = "Bản đồ"
+theme_override_constants/separation = 4
 
-[node name="QuestsBtn" type="Button" parent="TopBar/Margin/Row/Actions"]
-custom_minimum_size = Vector2(88, 40)
+[node name="Icon" type="TextureRect" parent="TopBar/Margin/Row/RightStats/GoldChip"]
+custom_minimum_size = Vector2(22, 22)
 layout_mode = 2
-text = "Nhiệm vụ"
+texture = ExtResource("6_gold")
+expand_mode = 1
+stretch_mode = 5
 
-[node name="BagBtn" type="Button" parent="TopBar/Margin/Row/Actions"]
-custom_minimum_size = Vector2(74, 40)
+[node name="GoldLabel" type="Label" parent="TopBar/Margin/Row/RightStats/GoldChip"]
 layout_mode = 2
-text = "Túi đồ"
+theme_override_colors/font_color = Color(1, 0.84, 0.32, 1)
+theme_override_font_sizes/font_size = 14
+text = "0"
 
-[node name="SaveBtn" type="Button" parent="TopBar/Margin/Row/Actions"]
-custom_minimum_size = Vector2(64, 40)
+[node name="CrystalChip" type="HBoxContainer" parent="TopBar/Margin/Row/RightStats"]
 layout_mode = 2
-text = "Lưu"
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="TopBar/Margin/Row/RightStats/CrystalChip"]
+custom_minimum_size = Vector2(22, 22)
+layout_mode = 2
+texture = ExtResource("7_crystal")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CrystalLabel" type="Label" parent="TopBar/Margin/Row/RightStats/CrystalChip"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.45, 0.85, 1, 1)
+theme_override_font_sizes/font_size = 14
+text = "0"
+
+[node name="SettingsBtn" type="Button" parent="TopBar/Margin/Row/RightStats"]
+custom_minimum_size = Vector2(78, 38)
+layout_mode = 2
+text = "Cài đặt"
+
+[node name="PauseBtn" type="Button" parent="TopBar/Margin/Row/RightStats"]
+custom_minimum_size = Vector2(86, 38)
+layout_mode = 2
+text = "Menu"
 
 [node name="QuestTracker" type="PanelContainer" parent="."]
-offset_left = 12.0
-offset_top = 76.0
-offset_right = 340.0
-offset_bottom = 158.0
+offset_left = 10.0
+offset_top = 72.0
+offset_right = 330.0
+offset_bottom = 146.0
 
 [node name="Margin" type="MarginContainer" parent="QuestTracker"]
 layout_mode = 2
 theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 8
+theme_override_constants/margin_top = 7
 theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 8
+theme_override_constants/margin_bottom = 7
 
 [node name="VBox" type="VBoxContainer" parent="QuestTracker/Margin"]
 layout_mode = 2
-theme_override_constants/separation = 4
+theme_override_constants/separation = 3
 
 [node name="Title" type="Label" parent="QuestTracker/Margin/VBox"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.98, 0.82, 0.25, 1)
-theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.99, 0.83, 0.3, 1)
+theme_override_font_sizes/font_size = 13
 text = "Nhiệm vụ hiện tại"
 
 [node name="StepLabel" type="Label" parent="QuestTracker/Margin/VBox"]
@@ -125,6 +178,62 @@ theme_override_font_sizes/font_size = 13
 text = "• Gặp Giáo sư Cú Mèo"
 autowrap_mode = 3
 
+[node name="BottomDock" type="PanelContainer" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -265.0
+offset_top = -62.0
+offset_right = 265.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Margin" type="MarginContainer" parent="BottomDock"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 6
+
+[node name="Row" type="HBoxContainer" parent="BottomDock/Margin"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 8
+
+[node name="MapBtn" type="Button" parent="BottomDock/Margin/Row"]
+custom_minimum_size = Vector2(96, 40)
+layout_mode = 2
+icon = ExtResource("8_map")
+text = "Bản đồ"
+expand_icon = true
+
+[node name="QuestsBtn" type="Button" parent="BottomDock/Margin/Row"]
+custom_minimum_size = Vector2(106, 40)
+layout_mode = 2
+icon = ExtResource("9_quest")
+text = "Nhiệm vụ"
+expand_icon = true
+
+[node name="BagBtn" type="Button" parent="BottomDock/Margin/Row"]
+custom_minimum_size = Vector2(96, 40)
+layout_mode = 2
+icon = ExtResource("10_bag")
+text = "Túi đồ"
+expand_icon = true
+
+[node name="DesktopBuddyBtn" type="Button" parent="BottomDock/Margin/Row"]
+custom_minimum_size = Vector2(114, 40)
+layout_mode = 2
+text = "Buddy [H]"
+
+[node name="SaveBtn" type="Button" parent="BottomDock/Margin/Row"]
+custom_minimum_size = Vector2(68, 40)
+layout_mode = 2
+text = "Lưu"
+
 [node name="InteractBanner" type="Button" parent="."]
 visible = false
 anchors_preset = 7
@@ -132,28 +241,14 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -165.0
-offset_top = -175.0
-offset_right = 165.0
-offset_bottom = -125.0
+offset_left = -170.0
+offset_top = -124.0
+offset_right = 170.0
+offset_bottom = -74.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_font_sizes/font_size = 16
 text = "[E] Tương tác"
-
-[node name="DesktopBuddyBtn" type="Button" parent="."]
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -165.0
-offset_top = -66.0
-offset_right = -16.0
-offset_bottom = -16.0
-grow_horizontal = 0
-grow_vertical = 0
-text = "Hỏi Buddy [H]"
 
 [node name="MobileControls" type="Control" parent="."]
 visible = false
@@ -168,10 +263,10 @@ layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 20.0
-offset_top = -164.0
-offset_right = 160.0
-offset_bottom = -24.0
+offset_left = 16.0
+offset_top = -168.0
+offset_right = 156.0
+offset_bottom = -28.0
 grow_vertical = 0
 script = ExtResource("3_joy")
 
@@ -199,10 +294,10 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -160.0
-offset_top = -184.0
-offset_right = -18.0
-offset_bottom = -20.0
+offset_left = -152.0
+offset_top = -182.0
+offset_right = -14.0
+offset_bottom = -18.0
 grow_horizontal = 0
 grow_vertical = 0
 theme_override_constants/separation = 8
@@ -213,12 +308,12 @@ layout_mode = 2
 text = "Hỏi Buddy"
 
 [node name="TouchJumpBtn" type="Button" parent="MobileControls/RightPad"]
-custom_minimum_size = Vector2(0, 46)
+custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
 text = "Nhảy"
 
 [node name="TouchInteractBtn" type="Button" parent="MobileControls/RightPad"]
-custom_minimum_size = Vector2(0, 56)
+custom_minimum_size = Vector2(0, 54)
 layout_mode = 2
 disabled = true
 text = "Tương tác"
@@ -229,27 +324,27 @@ anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 24.0
-offset_top = -210.0
-offset_right = -24.0
-offset_bottom = -16.0
+offset_left = 20.0
+offset_top = -215.0
+offset_right = -20.0
+offset_bottom = -14.0
 grow_horizontal = 2
 grow_vertical = 0
 script = ExtResource("2_dlg_ui")
 
 [node name="Margin" type="MarginContainer" parent="DialogueBox"]
 layout_mode = 2
-theme_override_constants/margin_left = 18
-theme_override_constants/margin_top = 14
-theme_override_constants/margin_right = 18
-theme_override_constants/margin_bottom = 14
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 12
 
 [node name="HBox" type="HBoxContainer" parent="DialogueBox/Margin"]
 layout_mode = 2
-theme_override_constants/separation = 16
+theme_override_constants/separation = 14
 
 [node name="Portrait" type="TextureRect" parent="DialogueBox/Margin/HBox"]
-custom_minimum_size = Vector2(96, 96)
+custom_minimum_size = Vector2(88, 88)
 layout_mode = 2
 texture = ExtResource("5_buddy")
 expand_mode = 1
@@ -262,20 +357,28 @@ theme_override_constants/separation = 6
 
 [node name="SpeakerName" type="Label" parent="DialogueBox/Margin/HBox/TextCol"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.98, 0.8, 0.2, 1)
+theme_override_colors/font_color = Color(0.99, 0.83, 0.3, 1)
 theme_override_font_sizes/font_size = 18
 text = "Buddy"
 
-[node name="TextEn" type="Label" parent="DialogueBox/Margin/HBox/TextCol"]
+[node name="Scroll" type="ScrollContainer" parent="DialogueBox/Margin/HBox/TextCol"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Lines" type="VBoxContainer" parent="DialogueBox/Margin/HBox/TextCol/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="TextEn" type="Label" parent="DialogueBox/Margin/HBox/TextCol/Scroll/Lines"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.42, 0.82, 1, 1)
 theme_override_font_sizes/font_size = 16
 text = "Welcome!"
 autowrap_mode = 3
 
-[node name="TextVi" type="Label" parent="DialogueBox/Margin/HBox/TextCol"]
+[node name="TextVi" type="Label" parent="DialogueBox/Margin/HBox/TextCol/Scroll/Lines"]
 layout_mode = 2
-size_flags_vertical = 3
 theme_override_font_sizes/font_size = 16
 text = "Xin chào!"
 autowrap_mode = 3
@@ -288,10 +391,10 @@ theme_override_constants/separation = 10
 [node name="CloseBtn" type="Button" parent="DialogueBox/Margin/HBox/TextCol/ButtonsRow"]
 custom_minimum_size = Vector2(96, 40)
 layout_mode = 2
-text = "Đóng"
+text = "Bỏ qua"
 
 [node name="NextBtn" type="Button" parent="DialogueBox/Margin/HBox/TextCol/ButtonsRow"]
-custom_minimum_size = Vector2(140, 42)
+custom_minimum_size = Vector2(144, 42)
 layout_mode = 2
 text = "Tiếp tục >"
 
@@ -303,9 +406,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -250.0
-offset_top = -145.0
+offset_top = -150.0
 offset_right = 250.0
-offset_bottom = 145.0
+offset_bottom = 150.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -322,6 +425,7 @@ theme_override_constants/separation = 12
 
 [node name="Title" type="Label" parent="QuestIntroPopup/Margin/VBox"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.99, 0.83, 0.3, 1)
 theme_override_font_sizes/font_size = 20
 text = "Nhiệm vụ mới!"
 autowrap_mode = 3
@@ -359,10 +463,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -240.0
-offset_top = -130.0
-offset_right = 240.0
-offset_bottom = 130.0
+offset_left = -255.0
+offset_top = -165.0
+offset_right = 255.0
+offset_bottom = 165.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -378,6 +482,13 @@ layout_mode = 2
 theme_override_constants/separation = 12
 alignment = 1
 
+[node name="HeroIcon" type="TextureRect" parent="QuestCompletedPopup/Margin/VBox"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("5_buddy")
+expand_mode = 1
+stretch_mode = 5
+
 [node name="Title" type="Label" parent="QuestCompletedPopup/Margin/VBox"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.3, 0.95, 0.5, 1)
@@ -386,15 +497,18 @@ text = "Hoàn thành nhiệm vụ!"
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="Rewards" type="Label" parent="QuestCompletedPopup/Margin/VBox"]
+[node name="RewardsLabel" type="Label" parent="QuestCompletedPopup/Margin/VBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 16
-text = "+50 EXP | +25 Gold"
+theme_override_font_sizes/font_size = 15
+text = "Phần thưởng nhận được:"
 horizontal_alignment = 1
-autowrap_mode = 3
+
+[node name="RewardDisplay" parent="QuestCompletedPopup/Margin/VBox" instance=ExtResource("11_reward_disp")]
+layout_mode = 2
+alignment = 1
 
 [node name="ContinueBtn" type="Button" parent="QuestCompletedPopup/Margin/VBox"]
-custom_minimum_size = Vector2(180, 46)
+custom_minimum_size = Vector2(190, 46)
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Tuyệt vời!"
@@ -406,9 +520,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -230.0
+offset_left = -220.0
 offset_top = -115.0
-offset_right = 230.0
+offset_right = 220.0
 offset_bottom = 115.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -427,6 +541,7 @@ alignment = 1
 
 [node name="Title" type="Label" parent="AreaLockedPopup/Margin/VBox"]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.65, 0.68, 1)
 theme_override_font_sizes/font_size = 20
 text = "Khu vực đang bị khóa!"
 horizontal_alignment = 1
@@ -450,9 +565,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -250.0
+offset_left = -245.0
 offset_top = -140.0
-offset_right = 250.0
+offset_right = 245.0
 offset_bottom = 140.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -505,10 +620,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -310.0
-offset_top = -200.0
-offset_right = 310.0
-offset_bottom = 200.0
+offset_left = -330.0
+offset_top = -220.0
+offset_right = 330.0
+offset_bottom = 220.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -529,6 +644,7 @@ layout_mode = 2
 [node name="Title" type="Label" parent="QuestLogModal/Margin/VBox/Header"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.99, 0.83, 0.3, 1)
 theme_override_font_sizes/font_size = 20
 text = "SỔ TAY NHIỆM VỤ"
 
@@ -544,7 +660,7 @@ size_flags_vertical = 3
 [node name="List" type="VBoxContainer" parent="QuestLogModal/Margin/VBox/Scroll"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 8
+theme_override_constants/separation = 10
 
 [node name="BagModal" type="PanelContainer" parent="."]
 visible = false
@@ -553,10 +669,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -260.0
-offset_top = -175.0
-offset_right = 260.0
-offset_bottom = 175.0
+offset_left = -280.0
+offset_top = -195.0
+offset_right = 280.0
+offset_bottom = 195.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -577,6 +693,7 @@ layout_mode = 2
 [node name="Title" type="Label" parent="BagModal/Margin/VBox/Header"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.99, 0.83, 0.3, 1)
 theme_override_font_sizes/font_size = 20
 text = "TÚI ĐỒ THÁM HIỂM"
 
@@ -594,15 +711,17 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 8
 
+[node name="PauseMenu" parent="." instance=ExtResource("12_pause")]
+
 [node name="ToastPanel" type="PanelContainer" parent="."]
 visible = false
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -150.0
-offset_top = 76.0
+offset_top = 74.0
 offset_right = 150.0
-offset_bottom = 114.0
+offset_bottom = 112.0
 grow_horizontal = 2
 
 [node name="Margin" type="MarginContainer" parent="ToastPanel"]

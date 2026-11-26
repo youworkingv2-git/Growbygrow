@@ -4,6 +4,7 @@ extends Node
 enum Breakpoint { MOBILE_PORTRAIT, MOBILE_LANDSCAPE, TABLET, DESKTOP }
 
 const SCENE_BOOT := "res://scenes/boot/main_entry.tscn"
+const SCENE_MAIN_MENU := "res://scenes/ui/main_menu/main_menu.tscn"
 const SCENE_CHAR_SELECT := "res://scenes/authentication/character_selection.tscn"
 const SCENE_WORLD_INTRO := "res://scenes/world/world_introduction.tscn"
 const SCENE_WORLD_MAP := "res://scenes/world/world_map/world_map.tscn"
@@ -57,6 +58,10 @@ func get_breakpoint_name() -> String:
 
 
 func is_mobile_or_compact() -> bool:
+	if SettingsManager.control_mode == "touch":
+		return true
+	if SettingsManager.control_mode == "keyboard":
+		return false
 	return (
 		current_breakpoint == Breakpoint.MOBILE_PORTRAIT
 		or current_breakpoint == Breakpoint.MOBILE_LANDSCAPE
@@ -70,6 +75,10 @@ func go_to_scene(scene_path: String) -> void:
 	if _is_transitioning:
 		return
 	_transition_to(scene_path)
+
+
+func go_to_main_menu() -> void:
+	go_to_scene(SCENE_MAIN_MENU)
 
 
 func go_to_character_selection() -> void:

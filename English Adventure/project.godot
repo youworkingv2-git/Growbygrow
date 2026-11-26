@@ -12,7 +12,7 @@ config_version=5
 
 config/name="ENGLISH ADVENTURE"
 config/description="ENGLISH ADVENTURE - A Fun English Learning Adventure Game (Godot 4 + Supabase)"
-config/version="0.2.0-world-character"
+config/version="0.3.0-ui-ux-system"
 run/main_scene="res://scenes/boot/main_entry.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.svg"
@@ -22,11 +22,14 @@ config/icon="res://icon.svg"
 AppLogger="*res://scripts/core/app_logger.gd"
 EventBus="*res://scripts/core/event_bus.gd"
 LocalizationManager="*res://scripts/localization/localization_manager.gd"
+SettingsManager="*res://scripts/core/settings_manager.gd"
+AudioManager="*res://scripts/audio/audio_manager.gd"
 DataRepository="*res://scripts/core/data_repository.gd"
 SaveLoadManager="*res://scripts/services/save_load_manager.gd"
 GameStateManager="*res://scripts/core/game_state_manager.gd"
 QuestManager="*res://scripts/quest/quest_manager.gd"
 SceneRouter="*res://scripts/core/scene_router.gd"
+UIManager="*res://scripts/ui/managers/ui_manager.gd"
 
 [display]
 

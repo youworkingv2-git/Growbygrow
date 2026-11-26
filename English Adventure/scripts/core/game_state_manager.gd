@@ -204,10 +204,26 @@ func set_flag(flag_name: String, value: bool = true) -> void:
 func add_exp_and_gold(add_exp: int, add_gold: int) -> void:
 	exp += maxi(0, add_exp)
 	gold += maxi(0, add_gold)
+	var prev_level := level
 	while exp >= _exp_for_next_level(level):
 		exp -= _exp_for_next_level(level)
 		level += 1
+	if level > prev_level:
+		EventBus.level_up.emit(level)
 	EventBus.progress_updated.emit()
+
+
+func get_exp_for_next_level() -> int:
+	return _exp_for_next_level(level)
+
+
+func get_magic_crystal_count() -> int:
+	var total := 0
+	for item_id_var in inventory.keys():
+		var item_id := str(item_id_var)
+		if item_id.contains("crystal"):
+			total += int(inventory[item_id].get("quantity", 0))
+	return total
 
 
 func _exp_for_next_level(lv: int) -> int:

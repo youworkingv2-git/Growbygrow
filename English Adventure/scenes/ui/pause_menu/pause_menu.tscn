@@ -1,0 +1,79 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/screens/pause_menu_ui.gd" id="1_pm"]
+
+[node name="PauseMenu" type="Control"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+script = ExtResource("1_pm")
+
+[node name="Dimmer" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.03, 0.06, 0.13, 0.72)
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Card" type="PanelContainer" parent="Center"]
+custom_minimum_size = Vector2(360, 340)
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="Center/Card"]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 20
+
+[node name="VBox" type="VBoxContainer" parent="Center/Card/Margin"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="TitleLabel" type="Label" parent="Center/Card/Margin/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.99, 0.83, 0.3, 1)
+theme_override_font_sizes/font_size = 24
+text = "TẠM DỪNG"
+horizontal_alignment = 1
+
+[node name="Buttons" type="VBoxContainer" parent="Center/Card/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="ResumeBtn" type="Button" parent="Center/Card/Margin/VBox/Buttons"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+text = "Tiếp tục chơi"
+
+[node name="MapBtn" type="Button" parent="Center/Card/Margin/VBox/Buttons"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "Bản đồ Đảo"
+
+[node name="QuestsBtn" type="Button" parent="Center/Card/Margin/VBox/Buttons"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "Sổ tay Nhiệm vụ"
+
+[node name="SettingsBtn" type="Button" parent="Center/Card/Margin/VBox/Buttons"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "Cài đặt"
+
+[node name="SaveExitBtn" type="Button" parent="Center/Card/Margin/VBox/Buttons"]
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+text = "Lưu & Về Menu Chính"

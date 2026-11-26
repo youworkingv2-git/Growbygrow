@@ -15,10 +15,15 @@ var _last_facing: Vector2 = Vector2.DOWN
 @onready var camera: Camera2D = $Camera2D
 
 
+var _dialogue_locked: bool = false
+var _pause_locked: bool = false
+
+
 func _ready() -> void:
 	apply_character_visual(GameStateManager.selected_character)
 	EventBus.dialogue_started.connect(_on_dialogue_started)
 	EventBus.dialogue_ended.connect(_on_dialogue_ended)
+	EventBus.pause_toggled.connect(_on_pause_toggled)
 
 
 func apply_character_visual(gender_id: String) -> void:
@@ -56,6 +61,7 @@ func trigger_celebrate_anim() -> void:
 
 
 func _physics_process(_delta: float) -> void:
+	movement_locked = _dialogue_locked or _pause_locked or UIManager.is_modal_open()
 	if movement_locked:
 		velocity = Vector2.ZERO
 		animator.play_state(CharacterAnimator.AnimState.IDLE)
@@ -102,8 +108,15 @@ func _read_keyboard_vector() -> Vector2:
 
 
 func _on_dialogue_started(_dialogue_id: String) -> void:
+	_dialogue_locked = true
 	movement_locked = true
 
 
 func _on_dialogue_ended(_dialogue_id: String) -> void:
-	movement_locked = false
+	_dialogue_locked = false
+	movement_locked = _pause_locked or UIManager.is_modal_open()
+
+
+func _on_pause_toggled(is_paused: bool) -> void:
+	_pause_locked = is_paused
+	movement_locked = _dialogue_locked or _pause_locked or UIManager.is_modal_open()
