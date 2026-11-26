@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/minigames/ui/minigame_ui.gd" id="1_mgui"]
+
+[node name="MiniGameHostModal" type="CanvasLayer"]
+layer = 25
+process_mode = 3
+script = ExtResource("1_mgui")

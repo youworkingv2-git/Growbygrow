@@ -202,3 +202,11 @@ Các hệ thống và màn hình UI/UX 3D đã được triển khai thực tế
 - **Các màn hình In-game đã triển khai & kết nối gameplay thực:** `AdventureHUD` (`adventure_hud.tscn`), `DialogueBoxUI` (`dialogue_box_ui.gd`), Quest Log & Quest Intro/Completed (`QuestCardWidget`, `RewardDisplay`), Inventory UI (`BagModal`), Settings UI (`SettingsModalUI`), Pause Menu (`PauseMenuUI`).
 - **Phạm vi giữ nguyên chờ Prompt 04+:** `Login Screen` (Account/Supabase Auth), `Initial Assessment`, `Learning Feedback`, `Achievement` đầy đủ, `Learning Dashboard`, và `Parent Dashboard` chưa triển khai ở Prompt 03. Xem chi tiết tại `docs/3D_VISUAL_DIRECTION.md`, `docs/3D_PERFORMANCE.md`, `docs/ASSET_PIPELINE.md`, `docs/UI_DESIGN_SYSTEM.md`, `docs/UI_COMPONENTS.md`, `docs/SCREEN_FLOW.md`, `docs/RESPONSIVE_UI.md`, `docs/ACCESSIBILITY.md`, và `docs/UI_TEST_REPORT.md`.
 
+---
+
+## 4. CẬP NHẬT TRIỂN KHAI THỰC TẾ (PROMPT 05 – MINI-GAME OVERLAY UI)
+
+- **`MiniGameUI` (`scenes/minigames/minigame_host_modal.tscn` + `scripts/minigames/ui/minigame_ui.gd`):** Lớp phủ 2D Fantasy Cartoon (`CanvasLayer` layer 25, `PROCESS_MODE_ALWAYS`) chạy trên nền thế giới 3D đang tạm dừng, bao gồm:
+  - **Arcade Launcher:** Mở từ nút **Trò chơi [G]** trên `BottomDock` hoặc từ `LearningHubModal`, hiển thị 8 mini-game khả dụng + 8 template mở rộng.
+  - **Quy trình 8 bước thống nhất:** Intro → Learning Objective → Instructions → Gameplay (8 controller riêng biệt) → Immediate Feedback (kèm đáp án, nghĩa tiếng Việt, giải thích, ví dụ, nút Nghe lại & Thử lại) → Result Summary (Sao + Learning Score vs Game Score) → Reward → Return to Adventure (trả lại đúng vị trí 3D trước khi vào mini-game).
+

@@ -39,3 +39,10 @@
    - `LearningEngine.get_mini_game_vocabulary_pack(topic, max_difficulty, count)`
    - `LearningEngine.get_review_question_batch(limit)`
    - `LearningEngine.question_manager.build_reusable_vocab_question(word_id, skill)`
+
+---
+
+## 3. TÍCH HỢP VỚI MINI-GAME SYSTEM (PROMPT 05)
+
+- `MiniGameDataProvider` truy xuất trực tiếp `content_repo`, `vocabulary_manager`, `phonics_manager`, `grammar_manager`, `speaking_manager` mà không sao chép dữ liệu từ vựng riêng.
+- Mỗi lượt trả lời trong mini-game gọi `MiniGameSession.record_answer(...)` → gửi về `AssessmentEngine`, `LearningProgressManager`, `ReviewEngine` và `EventBus.minigame_answered`. Chi tiết xem [`docs/MINIGAME_ARCHITECTURE.md`](MINIGAME_ARCHITECTURE.md).

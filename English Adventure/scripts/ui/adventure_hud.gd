@@ -45,6 +45,7 @@ var _cam_mouse_drag: bool = false
 @onready var bag_btn: Button = $BottomDock/Margin/Row/BagBtn
 @onready var desktop_buddy_btn: Button = $BottomDock/Margin/Row/DesktopBuddyBtn
 @onready var learn_btn: Button = $BottomDock/Margin/Row/LearnBtn
+@onready var minigames_btn: Button = $BottomDock/Margin/Row/MiniGamesBtn
 @onready var save_btn: Button = $BottomDock/Margin/Row/SaveBtn
 
 @onready var interact_banner: Button = $InteractBanner
@@ -103,7 +104,7 @@ func _ready() -> void:
 	toast_panel.visible = false
 
 	for btn: Button in [
-		map_btn, quests_btn, bag_btn, learn_btn, save_btn, settings_btn, pause_btn,
+		map_btn, quests_btn, bag_btn, learn_btn, minigames_btn, save_btn, settings_btn, pause_btn,
 		interact_banner, touch_interact_btn, touch_jump_btn, buddy_btn, desktop_buddy_btn
 	]:
 		btn.focus_mode = Control.FOCUS_NONE
@@ -119,6 +120,7 @@ func _ready() -> void:
 	quests_btn.pressed.connect(_open_quest_log)
 	bag_btn.pressed.connect(_open_bag)
 	learn_btn.pressed.connect(func() -> void: open_learning_hub())
+	minigames_btn.pressed.connect(func() -> void: MiniGameManager.open_arcade_launcher())
 	settings_btn.pressed.connect(func() -> void:
 		UIManager.open_settings(true)
 	)
@@ -215,6 +217,7 @@ func _apply_design_system() -> void:
 	UIDesignSystem.apply_button_variant(bag_btn, "secondary")
 	UIDesignSystem.apply_button_variant(desktop_buddy_btn, "reward")
 	UIDesignSystem.apply_button_variant(learn_btn, "confirm")
+	UIDesignSystem.apply_button_variant(minigames_btn, "reward")
 	UIDesignSystem.apply_button_variant(save_btn, "primary")
 	UIDesignSystem.apply_button_variant(settings_btn, "icon")
 	UIDesignSystem.apply_button_variant(pause_btn, "secondary")
@@ -239,6 +242,7 @@ func is_blocking_overlay_above_dialogue() -> bool:
 		or bag_modal.visible
 		or learning_hub_modal.visible
 		or pause_menu.visible
+		or MiniGameManager.is_minigame_active()
 		or UIManager.is_modal_open()
 	)
 
@@ -255,6 +259,7 @@ func _is_any_modal_or_dialogue_open() -> bool:
 		or bag_modal.visible
 		or learning_hub_modal.visible
 		or pause_menu.visible
+		or MiniGameManager.is_minigame_active()
 		or UIManager.is_modal_open()
 	)
 
@@ -301,6 +306,8 @@ func _input(event: InputEvent) -> void:
 		_touch_input_seen = true
 		_apply_responsive()
 	elif event is InputEventKey and event.pressed and not event.echo:
+		if MiniGameManager.is_minigame_active():
+			return
 		var kc: Key = (event as InputEventKey).keycode
 		if kc == KEY_ESCAPE:
 			if UIManager.is_modal_open():
@@ -313,6 +320,9 @@ func _input(event: InputEvent) -> void:
 				UIAnimator.animate_popup_close(bag_modal, func() -> void: _sync_overlay_visibility())
 			elif not dialogue_box.visible:
 				_toggle_pause_menu()
+		elif kc == KEY_G and not _is_any_modal_or_dialogue_open():
+			MiniGameManager.open_arcade_launcher()
+			get_viewport().set_input_as_handled()
 		elif kc == KEY_L and not _dialogue_active and not dialogue_box.visible and not pause_menu.visible and not UIManager.is_modal_open():
 			if learning_hub_modal.visible:
 				learning_hub_modal.close_modal()
@@ -533,6 +543,7 @@ func _refresh_localized_labels() -> void:
 	quests_btn.text = LocalizationManager.tr_key("btn_quests", "Nhiệm vụ")
 	bag_btn.text = LocalizationManager.tr_key("btn_bag", "Túi đồ")
 	learn_btn.text = "%s [L]" % LocalizationManager.tr_key("btn_learn", "Học tập")
+	minigames_btn.text = "%s [G]" % LocalizationManager.tr_key("btn_minigames", "Trò chơi")
 	save_btn.text = LocalizationManager.tr_key("btn_save", "Lưu")
 	settings_btn.text = LocalizationManager.tr_key("btn_settings", "Cài đặt")
 	pause_btn.text = LocalizationManager.tr_key("btn_pause", "Menu")
@@ -550,6 +561,24 @@ func _open_quest_log() -> void:
 		var card := QUEST_CARD_SCENE.instantiate() as QuestCardWidget
 		quest_log_list.add_child(card)
 		card.setup_quest(q)
+		var qid := str(q.get("id", ""))
+		var mg_id := QuestManager.get_quest_minigame_id(qid)
+		if not mg_id.is_empty():
+			var mg_btn := Button.new()
+			mg_btn.text = "Chơi thử thách Mini-Game của nhiệm vụ (%s)" % mg_id.replace("_", " ").capitalize()
+			mg_btn.custom_minimum_size = Vector2(0, 36)
+			UIDesignSystem.apply_button_variant(mg_btn, "reward")
+			mg_btn.pressed.connect(func() -> void:
+				quest_log_modal.visible = false
+				_sync_overlay_visibility()
+				MiniGameManager.start_minigame(mg_id, {
+					"source_type": "quest",
+					"source_id": qid,
+					"quest_id": qid,
+					"bypass_unlock": true
+				})
+			)
+			quest_log_list.add_child(mg_btn)
 	UIAnimator.animate_popup_open(quest_log_modal)
 	_sync_overlay_visibility()
 
@@ -635,7 +664,7 @@ func _apply_responsive() -> void:
 	quest_tracker_panel.offset_top = 72.0 + float(top_pad)
 	quest_tracker_panel.offset_bottom = 146.0 + float(top_pad)
 
-	var dock_w := minf(636.0, vp.x - 24.0 - float(left_pad + right_pad))
+	var dock_w := minf(756.0, vp.x - 24.0 - float(left_pad + right_pad))
 	bottom_dock.offset_left = -dock_w * 0.5
 	bottom_dock.offset_right = dock_w * 0.5
 	bottom_dock.offset_bottom = -10.0 - float(bottom_pad)

@@ -5,6 +5,7 @@ extends Node
 
 func _ready() -> void:
 	EventBus.area_entered.connect(_on_area_entered)
+	EventBus.minigame_completed.connect(_on_minigame_completed)
 
 
 func get_quest_status(quest_id: String) -> String:
@@ -187,6 +188,17 @@ func trigger_learning_hook_for_quest(quest_id: String) -> void:
 			"lesson_id": hook.get("future_lesson_id", ""),
 			"skills": hook.get("skills", [])
 		})
+
+
+func get_quest_minigame_id(quest_id: String) -> String:
+	var q: Dictionary = DataRepository.quests_by_id.get(quest_id, {})
+	var hook: Dictionary = q.get("learning_hook", {})
+	return str(hook.get("future_minigame_id", ""))
+
+
+func _on_minigame_completed(minigame_id: String, result: Dictionary) -> void:
+	if bool(result.get("passed", true)):
+		_process_step_event("minigame_completed", minigame_id, "")
 
 
 func _on_area_entered(area_id: String) -> void:

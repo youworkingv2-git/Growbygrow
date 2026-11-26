@@ -29,6 +29,7 @@ SaveLoadManager="*res://scripts/services/save_load_manager.gd"
 GameStateManager="*res://scripts/core/game_state_manager.gd"
 QuestManager="*res://scripts/quest/quest_manager.gd"
 LearningEngine="*res://scripts/learning/learning_engine.gd"
+MiniGameManager="*res://scripts/minigames/minigame_manager.gd"
 SceneRouter="*res://scripts/core/scene_router.gd"
 UIManager="*res://scripts/ui/managers/ui_manager.gd"
 

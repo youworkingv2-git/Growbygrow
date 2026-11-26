@@ -38,3 +38,10 @@
   2. `talk_to_npc: crystal_guardian` (Gặp Crystal Guardian ở Hồ Pha Lê).
   3. `interact_object: obj_lake_crystal` (Thu thập Mảnh Pha Lê Phép Thuật).
 - **Phần thưởng:** `+120 EXP`, `+60 Gold`, item `magic_crystal_shard`, mở khóa **The Shadow Gate** (`shadow_gate`).
+
+---
+
+## 4. KẾT NỐI MINI-GAME SYSTEM (PROMPT 05)
+
+- `QuestManager` lắng nghe `EventBus.minigame_completed` và hỗ trợ step type `minigame_completed`, đồng thời đọc `learning_hook.future_minigame_id` (`listen_and_find`, `word_builder`, `sentence_builder`) để hiển thị nút **"Chơi thử thách Mini-Game của nhiệm vụ"** ngay trong `QuestLogModal`.
+- Các NPC & Vật thể 3D gắn liền nhiệm vụ (`professor_owl`, `lily`, `rocky`, `crystal_guardian`, `obj_village_chest`, `obj_meadow_chest`, `obj_cave_sign`, `obj_lake_chest`, `obj_shadow_gate_seal`) tự động mở mini-game phù hợp sau hội thoại mà không phá vỡ luồng Quest 01/02/03.

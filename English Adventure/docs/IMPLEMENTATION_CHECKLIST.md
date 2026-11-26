@@ -75,3 +75,12 @@ Tài liệu này tổng hợp kết quả kiểm tra tính nhất quán của **
 - [ ] Xây dựng `Character Selection (#3)` (Chọn Explorer Boy/Girl + Nickname).
 - [ ] Xây dựng `Initial Assessment (#4)` (kèm nút "Bé chưa biết").
 - [ ] Xây dựng `Home Screen (#5)` & `Settings (#17)`.
+
+---
+
+## 3. TRẠNG THÁI TRIỂN KHAI PROMPT 05 – MINI-GAME SYSTEM
+- [x] `MiniGameManager`, `MiniGameRegistry`, `MiniGameFactory`, `MiniGameSession`, `MiniGameDataProvider`, `MiniGameController`, `MiniGameUI`, `MiniGameAudioManager`, `MiniGameScoring`, `MiniGameDifficulty`, `MiniGameFeedback`, `MiniGameReward`, `MiniGameResult`.
+- [x] 4 mini-game ưu tiên: `listen_and_find`, `word_builder`, `word_matching`, `sentence_builder`.
+- [x] 4 mini-game mở rộng: `sound_detective`, `speaking_hero` (ghi âm & phát lại tách biệt AI scoring đang chờ tích hợp), `memory_quest`, `dialogue_adventure` (8 tình huống song ngữ).
+- [x] Kết nối `LearningEngine`, `AssessmentEngine`, `LearningProgressManager`, `ReviewEngine`, `QuestManager`, NPC, Vật thể 3D, HUD (`[G]`), `LearningHubModal`, và migration `0004_minigame_system_extensions.sql`.
+- [ ] Bổ sung file thu âm `.ogg` chuẩn cho từ vựng/âm chữ cái/câu mẫu và tích hợp dịch vụ ASR/AI Pronunciation Scoring (Prompt 06+).

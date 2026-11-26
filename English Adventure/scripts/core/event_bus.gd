@@ -40,3 +40,8 @@ signal lesson_started(lesson_id: String)
 signal lesson_completed(lesson_id: String, summary: Dictionary)
 signal learning_activity_answered(attempt_record: Dictionary)
 signal learning_progress_updated()
+
+# Mini-Game System signals (Prompt 05)
+signal minigame_started(minigame_id: String, context: Dictionary)
+signal minigame_answered(minigame_id: String, attempt_record: Dictionary)
+signal minigame_completed(minigame_id: String, result: Dictionary)

@@ -17,6 +17,7 @@ var met_npcs: Array[String] = []
 var collected_objects: Array[String] = []
 var inventory: Dictionary = {}         # item_id -> { "id", "name_vi", "name_en", "quantity" }
 var flags: Dictionary = {}
+var minigame_records: Dictionary = {}  # minigame_id -> { plays, best_learning_score, best_game_score, best_stars, last_played_utc }
 
 var exp: int = 0
 var gold: int = 0
@@ -55,6 +56,7 @@ func reset_new_game() -> void:
 	collected_objects = []
 	inventory = {}
 	flags = {}
+	minigame_records = {}
 	exp = 0
 	gold = 0
 	level = 1
@@ -97,6 +99,10 @@ func apply_state_dict(data: Dictionary) -> void:
 
 	inventory = data.get("inventory", {}).duplicate(true)
 	flags = data.get("flags", {}).duplicate(true)
+	if typeof(data.get("minigame_records", {})) == TYPE_DICTIONARY:
+		minigame_records = (data.get("minigame_records", {}) as Dictionary).duplicate(true)
+	else:
+		minigame_records = {}
 	exp = int(data.get("exp", 0))
 	gold = int(data.get("gold", 0))
 	level = maxi(1, int(data.get("level", 1)))
@@ -119,6 +125,7 @@ func to_state_dict() -> Dictionary:
 		"collected_objects": collected_objects,
 		"inventory": inventory,
 		"flags": flags,
+		"minigame_records": minigame_records,
 		"exp": exp,
 		"gold": gold,
 		"level": level,
@@ -198,6 +205,27 @@ func add_item(item_dict: Dictionary) -> void:
 
 func set_flag(flag_name: String, value: bool = true) -> void:
 	flags[flag_name] = value
+	evaluate_all_unlocks(true)
+
+
+func get_minigame_record(minigame_id: String) -> Dictionary:
+	return (minigame_records.get(minigame_id, {}) as Dictionary).duplicate(true)
+
+
+func record_minigame_result(minigame_id: String, learning_score: int, game_score: int, stars: int) -> void:
+	var rec: Dictionary = minigame_records.get(minigame_id, {
+		"plays": 0,
+		"best_learning_score": 0,
+		"best_game_score": 0,
+		"best_stars": 0,
+		"last_played_utc": ""
+	})
+	rec["plays"] = int(rec.get("plays", 0)) + 1
+	rec["best_learning_score"] = maxi(int(rec.get("best_learning_score", 0)), learning_score)
+	rec["best_game_score"] = maxi(int(rec.get("best_game_score", 0)), game_score)
+	rec["best_stars"] = maxi(int(rec.get("best_stars", 0)), stars)
+	rec["last_played_utc"] = Time.get_datetime_string_from_system(true)
+	minigame_records[minigame_id] = rec
 	evaluate_all_unlocks(true)
 
 

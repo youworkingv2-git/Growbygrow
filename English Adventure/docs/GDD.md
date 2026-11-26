@@ -246,3 +246,10 @@ Mỗi lần người chơi tương tác với một từ/kiến thức (`learnin
 - **Learning Hub & Lesson Runner 2D (`LearningHubModal`):** Người chơi có thể mở bằng nút **Học tập [L]** trên thanh Bottom Dock hoặc khi chạm các vật thể/nhiệm vụ học tập trong thế giới 3D mà không làm gián đoạn camera hay vị trí nhân vật.
 - **Nội dung mẫu Pre-A1 chạy thực tế:** 26 chữ cái A–Z (phân tách Letter Name vs Letter Sound), 10 nhóm Phonics, 32 từ vựng kèm minh họa SVG, 15 cấu trúc câu với bộ thay thế từ tự động, 12 câu mẫu và hoạt động thực hành đủ 4 kỹ năng Listening / Speaking / Reading / Writing + Spaced Repetition Review Engine.
 - **Tách bạch Game Score và Learning Score:** Điểm thưởng EXP/Gold trong game không thay thế mức độ nắm vững kiến thức (`Mastery` & `Learning Score`). Chi tiết xem [`docs/LEARNING_ENGINE.md`](LEARNING_ENGINE.md).
+
+---
+
+## 9. HỆ THỐNG 8 MINI-GAME HỌC TIẾNG ANH (CẬP NHẬT PROMPT 05)
+
+- **Mini-Game System (`MiniGameManager` + `MiniGameUI`):** Kết nối trực tiếp `LearningEngine` để biến từ vựng, phonics và mẫu câu thành 8 trò chơi phiêu lưu (4 game ưu tiên: *Listen and Find, Word Builder, Word Matching, Sentence Builder*; 4 game mở rộng: *Sound Detective, Speaking Hero, Memory Quest, Dialogue Adventure*).
+- **Trải nghiệm liền mạch trong thế giới 3D:** Người chơi kích hoạt mini-game qua NPC, Rương/Biển báo/Cổng 3D, Nhiệm vụ hoặc nút **Trò chơi [G]**, tạm dừng thế giới 3D và trở lại đúng vị trí nhân vật sau khi nhận sao & phần thưởng. Chi tiết xem [`docs/MINIGAME_SYSTEM.md`](MINIGAME_SYSTEM.md).

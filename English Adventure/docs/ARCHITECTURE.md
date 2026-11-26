@@ -267,3 +267,12 @@ Các thành phần đã triển khai thành GDScript & Scene thực thi trong `p
 - **Các module đã triển khai:** `LearningContentRepository`, `LearningPathManager`, `VocabularyManager`, `PhonicsManager`, `GrammarManager`, `ListeningManager`, `SpeakingManager`, `ReadingManager`, `WritingManager`, `QuestionManager`, `AssessmentEngine`, `LearningProgressManager`, `ReviewEngine`, `LearningHubModal`.
 - **Dữ liệu độc lập (`data/`):** `learning_curriculum.json`, `spaced_repetition_config.json`, `alphabet_a_z.json` (26 chữ cái), `phonics_units.json` (10 nhóm), `world_01_vocab.json` (32 từ + 32 SVG tại `assets/learning/images/`), `world_01_grammar.json` (15 cấu trúc + 12 câu mẫu), `world_01_listening.json` (12 bài), `world_01_reading.json` (12 bài), `world_01_writing.json` (12 bài), `world_01_speaking.json` (6 bài).
 - **Kết nối 3D & Quest:** Mở `LearningHubModal` từ BottomDock / phím `[L]` hoặc từ Quest/Vật thể 3D (`obj_letter_a/b/c`, `obj_shadow_gate_seal`) mà không ảnh hưởng camera hay vị trí nhân vật 3D. Chi tiết xem [`docs/LEARNING_ENGINE.md`](LEARNING_ENGINE.md).
+
+---
+
+## 10. TRẠNG THÁI TRIỂN KHAI PROMPT 05 – MINI-GAME SYSTEM
+
+- **Autoload mới:** `MiniGameManager` (`scripts/minigames/minigame_manager.gd`) đã đăng ký trong `project.godot`, gắn `MiniGameHostModal` (`CanvasLayer` layer 25, `PROCESS_MODE_ALWAYS`).
+- **Module lõi (`scripts/minigames/`):** `MiniGameRegistry`, `MiniGameFactory`, `MiniGameSession`, `MiniGameDataProvider`, `MiniGameController`, `MiniGameUI`, `MiniGameAudioManager`, `MiniGameScoring`, `MiniGameDifficulty`, `MiniGameFeedback`, `MiniGameReward`, `MiniGameResult`.
+- **8 Mini-game đã triển khai:** `listen_and_find`, `word_builder`, `word_matching`, `sentence_builder`, `sound_detective`, `speaking_hero`, `memory_quest`, `dialogue_adventure` (+ 8 template mở rộng trong `minigame_registry.json`).
+- **Kết nối đa chiều:** Mở từ NPC (`professor_owl`, `lily`, `rocky`, `crystal_guardian`), Quest Log (`future_minigame_id`), Vật thể 3D (`obj_village_chest`, `obj_meadow_chest`, `obj_cave_sign`, `obj_lake_chest`, `obj_letter_e`, `obj_shadow_gate_seal`), HUD (`Trò chơi [G]`), và `LearningHubModal`. Chi tiết xem [`docs/MINIGAME_ARCHITECTURE.md`](MINIGAME_ARCHITECTURE.md).

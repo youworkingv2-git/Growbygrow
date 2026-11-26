@@ -119,4 +119,6 @@ English Adventure/
 3. Trong Supabase (local hoặc cloud), chạy lần lượt các file migration trong `supabase/migrations/`:
    - `0001_initial_schema.sql`
    - `0002_rls_policies.sql`
-4. Xem `docs/IMPLEMENTATION_CHECKLIST.md` để bắt đầu triển khai Phase 1 ở **Prompt 02**.
+   - `0003_learning_engine_extensions.sql`
+   - `0004_minigame_system_extensions.sql`
+4. Xem `docs/IMPLEMENTATION_CHECKLIST.md` và `docs/MINIGAME_SYSTEM.md` để vận hành đầy đủ từ Prompt 01 → Prompt 05.

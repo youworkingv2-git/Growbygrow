@@ -506,6 +506,7 @@
   - `0001_initial_schema.sql`: Tạo toàn bộ 32 bảng, constraints, indexes, triggers.
   - `0002_rls_policies.sql`: Bật RLS và áp toàn bộ policies bảo vệ dữ liệu.
   - `0003_learning_engine_extensions.sql` *(Prompt 04)*: Bổ sung an toàn 7 bảng (`learning_paths`, `learning_levels`, `topics`, `learning_activities`, `phonics_examples`, `grammar_examples`, `player_skill_progress`) cùng RLS isolation đầy đủ. Xem chi tiết tại [`docs/LEARNING_DATABASE.md`](LEARNING_DATABASE.md).
+  - `0004_minigame_system_extensions.sql` *(Prompt 05)*: Bổ sung an toàn 4 bảng (`minigames`, `minigame_sessions`, `minigame_question_logs`, `minigame_rewards`) cùng RLS isolation đầy đủ để lưu phiên chơi, nhật ký từng câu hỏi mini-game và sổ cái chống nhận thưởng trùng.
 - **Backup Strategy:**
   - Supabase Daily Automated Backups + Point-in-Time Recovery (PITR) khi lên Production.
   - Dữ liệu Content (`vocabulary`, `quests`, `phonics_content`) được version hóa dưới dạng JSON trong Git (`data/`) nên có thể khôi phục/re-seed bất kỳ lúc nào.

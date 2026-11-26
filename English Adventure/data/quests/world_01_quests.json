@@ -45,6 +45,7 @@
       },
       "learning_hook": {
         "future_lesson_id": "lesson_01_00_intro",
+        "future_minigame_id": "listen_and_find",
         "skills": ["listening", "reading"]
       }
     },
@@ -96,6 +97,7 @@
       },
       "learning_hook": {
         "future_lesson_id": "lesson_01_01_abc",
+        "future_minigame_id": "word_builder",
         "skills": ["listening", "reading", "writing"]
       }
     },
@@ -146,6 +148,7 @@
       },
       "learning_hook": {
         "future_lesson_id": "lesson_01_18_gate",
+        "future_minigame_id": "sentence_builder",
         "skills": ["listening", "speaking", "reading", "writing"]
       }
     }

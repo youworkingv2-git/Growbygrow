@@ -175,6 +175,27 @@ func _render_lessons_tab() -> void:
 	rev_card.add_child(rev_row)
 	content_vbox.add_child(rev_card)
 
+	# Prompt 05 Mini-Game Arcade Launcher Card
+	var mg_card := _make_card(Color(0.14, 0.24, 0.36, 0.98), UIDesignSystem.PRIMARY)
+	var mg_row := HBoxContainer.new()
+	mg_row.add_theme_constant_override("separation", 12)
+	var mg_col := VBoxContainer.new()
+	mg_col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	mg_col.add_child(_make_label("Trung Tâm 8 Mini-Game Tiếng Anh", 17, UIDesignSystem.PRIMARY))
+	mg_col.add_child(_make_label("Học từ vựng, phát âm, nghe-nói-đọc-viết qua 8 trò chơi phiêu lưu dùng chung dữ liệu Learning Engine.", 13, UIDesignSystem.TEXT_MUTED))
+	mg_row.add_child(mg_col)
+	var mg_btn := Button.new()
+	mg_btn.text = "Mở Trò Chơi"
+	mg_btn.custom_minimum_size = Vector2(130, 44)
+	UIDesignSystem.apply_button_variant(mg_btn, "confirm")
+	mg_btn.pressed.connect(func() -> void:
+		close_modal()
+		MiniGameManager.open_arcade_launcher()
+	)
+	mg_row.add_child(mg_btn)
+	mg_card.add_child(mg_row)
+	content_vbox.add_child(mg_card)
+
 	# Learning Path Levels overview
 	var levels_card := _make_card()
 	var lv_box := VBoxContainer.new()

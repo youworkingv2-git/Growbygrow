@@ -15,6 +15,8 @@ var _player: PlayerController = null
 var _buddy: BuddyController = null
 var _pending_quest_offer_id: String = ""
 var _pending_learning_lesson_id: String = ""
+var _pending_minigame_id: String = ""
+var _pending_minigame_ctx: Dictionary = {}
 var _autosave_timer: float = 0.0
 
 @onready var world_env: WorldEnvironment = $WorldEnvironment
@@ -213,16 +215,57 @@ func _on_npc_interacted(npc_data: Dictionary) -> void:
 	QuestManager.report_npc_talk(npc_id)
 	_pending_quest_offer_id = QuestManager.has_available_quest_for_npc(npc_id)
 
+	# Connect NPCs to contextual Mini-Games after their quest intro / dialogue
+	_pending_minigame_id = ""
+	_pending_minigame_ctx = {}
+	if _pending_quest_offer_id.is_empty():
+		if npc_id == "professor_owl" and GameStateManager.completed_quests.has("quest_01_new_adventure"):
+			_pending_minigame_id = "listen_and_find"
+			_pending_minigame_ctx = { "source_type": "npc", "source_id": npc_id, "bypass_unlock": true }
+		elif npc_id == "lily" and GameStateManager.completed_quests.has("quest_01_new_adventure"):
+			_pending_minigame_id = "dialogue_adventure"
+			_pending_minigame_ctx = { "source_type": "npc", "source_id": npc_id, "bypass_unlock": true }
+		elif npc_id == "rocky":
+			_pending_minigame_id = "speaking_hero"
+			_pending_minigame_ctx = { "source_type": "npc", "source_id": npc_id, "bypass_unlock": true }
+		elif npc_id == "crystal_guardian":
+			_pending_minigame_id = "sentence_builder"
+			_pending_minigame_ctx = { "source_type": "npc", "source_id": npc_id, "bypass_unlock": true }
+
 	if not started_dlg:
 		if not _pending_quest_offer_id.is_empty():
 			hud.show_quest_intro(_pending_quest_offer_id)
 			_pending_quest_offer_id = ""
+		elif not _pending_minigame_id.is_empty():
+			var mg_id := _pending_minigame_id
+			var mg_ctx := _pending_minigame_ctx.duplicate(true)
+			_pending_minigame_id = ""
+			_pending_minigame_ctx = {}
+			MiniGameManager.start_minigame(mg_id, mg_ctx)
 
 
 func _on_object_message(title: String, message: String, obj_data: Dictionary) -> void:
 	var oid := str(obj_data.get("id", ""))
+	_pending_minigame_id = ""
+	_pending_minigame_ctx = {}
 	if oid == "obj_shadow_gate_seal":
-		_pending_learning_lesson_id = "lesson_01_18_gate"
+		_pending_minigame_id = "sentence_builder"
+		_pending_minigame_ctx = { "source_type": "object", "source_id": oid, "bypass_unlock": true }
+	elif oid == "obj_meadow_chest":
+		_pending_minigame_id = "word_builder"
+		_pending_minigame_ctx = { "source_type": "object", "source_id": oid, "bypass_unlock": true }
+	elif oid == "obj_village_chest":
+		_pending_minigame_id = "word_matching"
+		_pending_minigame_ctx = { "source_type": "object", "source_id": oid, "bypass_unlock": true }
+	elif oid == "obj_cave_sign":
+		_pending_minigame_id = "sound_detective"
+		_pending_minigame_ctx = { "source_type": "object", "source_id": oid, "bypass_unlock": true }
+	elif oid == "obj_lake_chest":
+		_pending_minigame_id = "memory_quest"
+		_pending_minigame_ctx = { "source_type": "object", "source_id": oid, "bypass_unlock": true }
+	elif oid == "obj_letter_e":
+		_pending_minigame_id = "listen_and_find"
+		_pending_minigame_ctx = { "source_type": "object", "source_id": oid, "bypass_unlock": true }
 	elif oid in ["obj_letter_a", "obj_letter_b", "obj_letter_c"]:
 		_pending_learning_lesson_id = "lesson_01_01_abc"
 	dialogue_manager.start_custom_message(title, message, "buddy")
@@ -235,7 +278,14 @@ func _on_dialogue_finished(_dialogue_id: String) -> void:
 	if not _pending_quest_offer_id.is_empty():
 		var qid := _pending_quest_offer_id
 		_pending_quest_offer_id = ""
+		_pending_minigame_id = ""
 		hud.show_quest_intro(qid)
+	elif not _pending_minigame_id.is_empty():
+		var mg_id := _pending_minigame_id
+		var mg_ctx := _pending_minigame_ctx.duplicate(true)
+		_pending_minigame_id = ""
+		_pending_minigame_ctx = {}
+		MiniGameManager.start_minigame(mg_id, mg_ctx)
 	elif not _pending_learning_lesson_id.is_empty():
 		var lid := _pending_learning_lesson_id
 		_pending_learning_lesson_id = ""
