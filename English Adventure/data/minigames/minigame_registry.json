@@ -215,7 +215,7 @@
       "intro_en": "Flip the magic cards and match every English word with its meaning!",
       "intro_vi": "Lật các tấm thẻ phép thuật và ghép đúng từng cặp từ vựng tiếng Anh!",
       "objective_vi": "Kết hợp rèn trí nhớ trực quan và ôn tập từ vựng + âm thanh.",
-      "instructions_vi": "Mở 2 thẻ mỗi lượt. Hỗ trợ 3 chế độ: Từ ↔ Hình, Từ ↔ Nghĩa Việt, Nghe âm ↔ Hình với số cặp 3/4/6/8.",
+      "instructions_vi": "Mở 2 thẻ mỗi lượt. Hỗ trợ 3 chế độ: Từ <-> Hình, Từ <-> Nghĩa Việt, Nghe âm <-> Hình với số cặp 3/4/6/8.",
       "description_vi": "Trò chơi lật thẻ nhớ ghép cặp đa chế độ gắn trực tiếp với kho từ vựng Learning Engine.",
       "learning_skills": ["listening", "reading", "vocabulary"],
       "default_difficulty": "easy",

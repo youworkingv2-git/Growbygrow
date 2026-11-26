@@ -147,6 +147,10 @@ static func apply_button_variant(btn: Button, variant: String = "primary") -> vo
 static func build_global_theme() -> Theme:
 	var t := Theme.new()
 	t.default_font_size = FONT_BODY
+	if ResourceLoader.exists("res://assets/fonts/NotoSans-Regular.ttf"):
+		var f := load("res://assets/fonts/NotoSans-Regular.ttf") as Font
+		if f != null:
+			t.default_font = f
 
 	# PanelContainer (opaque so background HUD/screens never bleed through in WebGL2)
 	var opaque_panel := make_panel_style(Color(0.08, 0.13, 0.24, 1.0), BORDER_DEFAULT, 14, 2, 0, 0)

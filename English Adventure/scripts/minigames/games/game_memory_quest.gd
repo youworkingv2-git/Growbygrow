@@ -155,7 +155,7 @@ func _refresh_card_visual(idx: int) -> void:
 	var kind := str(c.get("kind", "a"))
 	if kind == "a":
 		if _mode == "audio_image":
-			btn.text = "Nghe từ\n♪"
+			btn.text = "Nghe từ\n[Nghe]"
 			btn.add_theme_font_size_override("font_size", 20)
 		else:
 			btn.text = "%s\n%s" % [str(p.get("word", "")).capitalize(), str(p.get("ipa", ""))]

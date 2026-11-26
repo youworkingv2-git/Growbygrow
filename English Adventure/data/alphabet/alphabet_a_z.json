@@ -248,7 +248,7 @@
       "exception_note_vi": "Âm /h/ thổi hơi nhẹ từ cổ họng, đôi khi câm ở đầu vài từ đặc biệt (học ở A1+).",
       "mouth_hint_vi": "Há nhẹ miệng và thở ra một hơi ấm /h/.",
       "anchor_word_ids": [
-        "word_chair"
+        "word_hat"
       ],
       "audio_name": {
         "en-US": "",
@@ -312,6 +312,7 @@
       "exception_note_vi": "Âm /dʒ/ tròn môi và rung nhẹ dây thanh quản.",
       "mouth_hint_vi": "Chu nhẹ môi và bật âm /dʒ/ có rung họng.",
       "anchor_word_ids": [
+        "word_jam",
         "word_orange"
       ],
       "audio_name": {
@@ -464,7 +465,7 @@
       "letter_type": "vowel",
       "letter_name_ipa": {
         "en-US": "/oʊ/",
-        "en-GB": "/oʊ/"
+        "en-GB": "/əʊ/"
       },
       "letter_sound_ipa": "/ɒ/",
       "additional_sounds": [
@@ -537,7 +538,7 @@
       "exception_note_vi": "Trong tiếng Anh chữ Q hầu như luôn đi cùng U để tạo âm /kw/.",
       "mouth_hint_vi": "Chu môi nhẹ rồi bật âm /kw/.",
       "anchor_word_ids": [
-        "word_two"
+        "word_queen"
       ],
       "audio_name": {
         "en-US": "",
@@ -560,7 +561,7 @@
       "letter_type": "consonant",
       "letter_name_ipa": {
         "en-US": "/ɑːr/",
-        "en-GB": "/ɑːr/"
+        "en-GB": "/ɑː/"
       },
       "letter_sound_ipa": "/r/",
       "additional_sounds": [],
@@ -696,6 +697,7 @@
       "exception_note_vi": "Răng trên chạm môi dưới và rung cổ họng.",
       "mouth_hint_vi": "Đặt răng trên chạm nhẹ môi dưới và rung âm /v/.",
       "anchor_word_ids": [
+        "word_van",
         "word_five"
       ],
       "audio_name": {
@@ -758,7 +760,7 @@
       "exception_note_vi": "Thường đọc là /ks/ ở cuối từ như 'box' hoặc 'six'.",
       "mouth_hint_vi": "Phát âm nối nhanh /k/ và /s/.",
       "anchor_word_ids": [
-        "word_five"
+        "word_box"
       ],
       "audio_name": {
         "en-US": "",
@@ -821,7 +823,7 @@
       "exception_note_vi": "Giống âm /s/ nhưng rung dây thanh quản; Anh-Anh gọi tên là /zɛd/.",
       "mouth_hint_vi": "Khép hờ răng, thổi hơi và rung cổ họng /z/.",
       "anchor_word_ids": [
-        "word_one"
+        "word_zoo"
       ],
       "audio_name": {
         "en-US": "",

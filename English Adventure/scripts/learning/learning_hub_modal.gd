@@ -297,23 +297,36 @@ func _render_phonics_tab() -> void:
 		dv.add_child(_make_label("• Lưu ý sư phạm: " + str(sel_letter.get("exception_note_vi", "")), 14, UIDesignSystem.TEXT_LIGHT))
 		dv.add_child(_make_label("• Cách đặt miệng: " + str(sel_letter.get("mouth_hint_vi", "")), 14, UIDesignSystem.SUCCESS))
 
-		# Audio row (honest status + optional Web TTS)
+		# Audio row (separate Letter Name vs Letter Sound + anchor word + honest asset status)
+		var first_anchor_word := ""
+		var anchor_ids_arr: Array = sel_letter.get("anchor_word_ids", [])
+		if not anchor_ids_arr.is_empty():
+			var w0 := LearningEngine.vocabulary_manager.get_word(str(anchor_ids_arr[0]))
+			first_anchor_word = str(w0.get("word", ""))
+
 		var audio_row := HBoxContainer.new()
 		audio_row.add_theme_constant_override("separation", 8)
-		var audio_note := _make_label("Âm thanh thu sẵn: Chưa có asset (.ogg).", 12, Color(1.0, 0.82, 0.45, 1.0))
-		audio_row.add_child(audio_note)
 		if AudioManager.can_use_browser_tts():
-			var tts_btn := Button.new()
-			tts_btn.text = "Nghe thử (TTS trình duyệt)"
-			UIDesignSystem.apply_button_variant(tts_btn, "secondary")
-			tts_btn.pressed.connect(func() -> void: AudioManager.speak_browser_tts_fallback(up, SettingsManager.preferred_accent))
-			audio_row.add_child(tts_btn)
+			var tts_name_btn := Button.new()
+			tts_name_btn.text = "Nghe tên chữ (%s)" % up
+			UIDesignSystem.apply_button_variant(tts_name_btn, "primary")
+			tts_name_btn.pressed.connect(func() -> void: AudioManager.speak_browser_tts_fallback(up, SettingsManager.preferred_accent, 0.86))
+			audio_row.add_child(tts_name_btn)
+
+			if not first_anchor_word.is_empty():
+				var tts_sound_btn := Button.new()
+				tts_sound_btn.text = "Nghe âm qua từ '%s'" % first_anchor_word
+				UIDesignSystem.apply_button_variant(tts_sound_btn, "confirm")
+				tts_sound_btn.pressed.connect(func() -> void: AudioManager.speak_browser_tts_fallback(first_anchor_word, SettingsManager.preferred_accent, 0.80))
+				audio_row.add_child(tts_sound_btn)
+		var audio_note := _make_label("Audio .ogg thu sẵn: Đang chờ bổ sung (dùng TTS trình duyệt + IPA).", 12, Color(1.0, 0.82, 0.45, 1.0))
+		audio_row.add_child(audio_note)
 		dv.add_child(audio_row)
 
 		# Anchor word illustrations
 		var anchor_row := HBoxContainer.new()
 		anchor_row.add_theme_constant_override("separation", 10)
-		for wid_var in sel_letter.get("anchor_word_ids", []):
+		for wid_var in anchor_ids_arr:
 			var w := LearningEngine.vocabulary_manager.get_word(str(wid_var))
 			if not w.is_empty():
 				var chip := _make_card(Color(0.08, 0.13, 0.24, 0.96), UIDesignSystem.BORDER_DEFAULT)
@@ -327,7 +340,15 @@ func _render_phonics_tab() -> void:
 				if ResourceLoader.exists(img_path):
 					tex_rect.texture = load(img_path)
 				hb.add_child(tex_rect)
-				hb.add_child(_make_label("%s (%s)\n%s" % [str(w.get("word", "")), LearningEngine.vocabulary_manager.get_ipa_for_accent(w), str(w.get("meaning_vi", ""))], 13))
+				var w_en := str(w.get("word", ""))
+				hb.add_child(_make_label("%s (%s)\n%s" % [w_en, LearningEngine.vocabulary_manager.get_ipa_for_accent(w), str(w.get("meaning_vi", ""))], 13))
+				if AudioManager.can_use_browser_tts():
+					var w_btn := Button.new()
+					w_btn.text = "Nghe"
+					w_btn.custom_minimum_size = Vector2(58, 34)
+					UIDesignSystem.apply_button_variant(w_btn, "secondary")
+					w_btn.pressed.connect(func() -> void: AudioManager.speak_browser_tts_fallback(w_en, SettingsManager.preferred_accent, 0.82))
+					hb.add_child(w_btn)
 				chip.add_child(hb)
 				anchor_row.add_child(chip)
 		dv.add_child(anchor_row)
@@ -340,14 +361,31 @@ func _render_phonics_tab() -> void:
 		var ucard := _make_card()
 		var uv := VBoxContainer.new()
 		uv.add_theme_constant_override("separation", 4)
-		uv.add_child(_make_label("[%s] %s" % [str(unit.get("category", "")), str(unit.get("title_vi", ""))], 15, UIDesignSystem.PRIMARY))
-		uv.add_child(_make_label(str(unit.get("explanation_vi", "")), 13, UIDesignSystem.TEXT_MUTED))
+		var top_u := HBoxContainer.new()
+		top_u.add_theme_constant_override("separation", 8)
+		var title_u := _make_label("[%s] %s" % [str(unit.get("category", "")), str(unit.get("title_vi", ""))], 15, UIDesignSystem.PRIMARY)
+		title_u.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		top_u.add_child(title_u)
+		var ex_words: PackedStringArray = []
 		var ex_strs: PackedStringArray = []
 		for ex_var in unit.get("examples", []):
 			if typeof(ex_var) == TYPE_DICTIONARY:
 				var ex: Dictionary = ex_var
 				var segs: PackedStringArray = PackedStringArray(ex.get("segments", []))
-				ex_strs.append("%s (%s)" % [str(ex.get("word", "")), "-".join(segs)])
+				var ew := str(ex.get("word", ""))
+				if not ew.is_empty():
+					ex_words.append(ew)
+				ex_strs.append("%s (%s)" % [ew, "-".join(segs)])
+		if AudioManager.can_use_browser_tts() and not ex_words.is_empty():
+			var u_btn := Button.new()
+			u_btn.text = "Nghe mẫu"
+			u_btn.custom_minimum_size = Vector2(88, 32)
+			UIDesignSystem.apply_button_variant(u_btn, "secondary")
+			var speak_sample := ", ".join(ex_words)
+			u_btn.pressed.connect(func() -> void: AudioManager.speak_browser_tts_fallback(speak_sample, SettingsManager.preferred_accent, 0.80))
+			top_u.add_child(u_btn)
+		uv.add_child(top_u)
+		uv.add_child(_make_label(str(unit.get("explanation_vi", "")), 13, UIDesignSystem.TEXT_MUTED))
 		if not ex_strs.is_empty():
 			uv.add_child(_make_label("Ví dụ ghép âm: " + " | ".join(ex_strs), 13, UIDesignSystem.SUCCESS))
 		ucard.add_child(uv)

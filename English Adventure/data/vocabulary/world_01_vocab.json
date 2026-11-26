@@ -959,6 +959,186 @@
         "speaking_repeat_word",
         "review_flashcard"
       ]
+    },
+    {
+      "id": "word_hat",
+      "word": "hat",
+      "ipa_us": "/hæt/",
+      "ipa_uk": "/hæt/",
+      "meaning_vi": "Cái mũ",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/hat.svg",
+      "example_sentence": "I wear a blue hat.",
+      "example_translation": "Tôi đội một chiếc mũ xanh.",
+      "topic": "objects",
+      "category": "objects",
+      "world_id": "world_01",
+      "cefr_level": "Pre-A1",
+      "difficulty": 1,
+      "related_words": [
+        "word_bag",
+        "word_blue"
+      ],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ]
+    },
+    {
+      "id": "word_jam",
+      "word": "jam",
+      "ipa_us": "/dʒæm/",
+      "ipa_uk": "/dʒæm/",
+      "meaning_vi": "Mứt ngọt",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/jam.svg",
+      "example_sentence": "I like sweet jam.",
+      "example_translation": "Tôi thích mứt ngọt.",
+      "topic": "food",
+      "category": "food",
+      "world_id": "world_01",
+      "cefr_level": "Pre-A1",
+      "difficulty": 1,
+      "related_words": [
+        "word_cake",
+        "word_apple"
+      ],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ]
+    },
+    {
+      "id": "word_queen",
+      "word": "queen",
+      "ipa_us": "/kwiːn/",
+      "ipa_uk": "/kwiːn/",
+      "meaning_vi": "Nữ hoàng",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/queen.svg",
+      "example_sentence": "The queen has a gold crown.",
+      "example_translation": "Nữ hoàng có chiếc vương miện vàng.",
+      "topic": "family",
+      "category": "people",
+      "world_id": "world_01",
+      "cefr_level": "Pre-A1",
+      "difficulty": 2,
+      "related_words": [
+        "word_mom",
+        "word_yellow"
+      ],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ]
+    },
+    {
+      "id": "word_van",
+      "word": "van",
+      "ipa_us": "/væn/",
+      "ipa_uk": "/væn/",
+      "meaning_vi": "Xe tải nhỏ",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/van.svg",
+      "example_sentence": "The green van is fast.",
+      "example_translation": "Chiếc xe tải màu xanh chạy nhanh.",
+      "topic": "objects",
+      "category": "objects",
+      "world_id": "world_01",
+      "cefr_level": "Pre-A1",
+      "difficulty": 1,
+      "related_words": [
+        "word_ship",
+        "word_green"
+      ],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ]
+    },
+    {
+      "id": "word_box",
+      "word": "box",
+      "ipa_us": "/bɑːks/",
+      "ipa_uk": "/bɒks/",
+      "meaning_vi": "Cái hộp",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/box.svg",
+      "example_sentence": "A toy is in the box.",
+      "example_translation": "Có một món đồ chơi ở trong hộp.",
+      "topic": "objects",
+      "category": "objects",
+      "world_id": "world_01",
+      "cefr_level": "Pre-A1",
+      "difficulty": 1,
+      "related_words": [
+        "word_bag",
+        "word_book"
+      ],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ]
+    },
+    {
+      "id": "word_zoo",
+      "word": "zoo",
+      "ipa_us": "/zuː/",
+      "ipa_uk": "/zuː/",
+      "meaning_vi": "Sở thú",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/zoo.svg",
+      "example_sentence": "We see animals at the zoo.",
+      "example_translation": "Chúng tôi ngắm các con vật ở sở thú.",
+      "topic": "animals",
+      "category": "places",
+      "world_id": "world_01",
+      "cefr_level": "Pre-A1",
+      "difficulty": 1,
+      "related_words": [
+        "word_elephant",
+        "word_duck"
+      ],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ]
     }
   ]
 }

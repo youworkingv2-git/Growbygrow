@@ -96,11 +96,15 @@ func can_use_browser_tts() -> bool:
 	return OS.has_feature("web")
 
 
-func speak_browser_tts_fallback(text: String, accent: String = "en-US") -> bool:
+func speak_browser_tts_fallback(text: String, accent: String = "en-US", rate: float = 0.86) -> bool:
 	if not OS.has_feature("web") or text.strip_edges().is_empty():
 		return false
 	var lang := "en-GB" if accent == "en-GB" else "en-US"
-	var safe_text := JSON.stringify(text)
-	var js := "(function(){ if ('speechSynthesis' in window) { window.speechSynthesis.cancel(); var u = new SpeechSynthesisUtterance(" + safe_text + "); u.lang = '" + lang + "'; u.rate = 0.88; window.speechSynthesis.speak(u); return true; } return false; })();"
+	var clean_text := text.strip_edges()
+	if clean_text == "Z" and lang == "en-GB":
+		clean_text = "Zed"
+	var safe_text := JSON.stringify(clean_text)
+	var r := clampf(rate, 0.55, 1.2)
+	var js := "(function(){ if ('speechSynthesis' in window) { window.speechSynthesis.cancel(); var u = new SpeechSynthesisUtterance(" + safe_text + "); u.lang = '" + lang + "'; u.rate = " + str(r) + "; var voices = window.speechSynthesis.getVoices() || []; var v = voices.find(function(x){ return x.lang && x.lang.toLowerCase() === '" + lang.toLowerCase() + "'; }) || voices.find(function(x){ return x.lang && x.lang.toLowerCase().startsWith('en'); }); if (v) u.voice = v; window.speechSynthesis.speak(u); return true; } return false; })();"
 	var ok: Variant = JavaScriptBridge.eval(js)
 	return bool(ok)
