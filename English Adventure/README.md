@@ -1,6 +1,6 @@
 # ENGLISH ADVENTURE – A Fun English Learning Adventure Game
 
-> **Game giáo dục phiêu lưu 2.5D/3D Cartoon dành cho trẻ em 10 tuổi mất gốc tiếng Anh**, xây dựng trên nền tảng **Godot 4.x (GDScript)** và **Supabase (PostgreSQL)**.
+> **Game giáo dục phiêu lưu 3D Fantasy Cartoon dành cho trẻ em 10 tuổi mất gốc tiếng Anh**, xây dựng trên nền tảng **Godot 4.x (GDScript)** và **Supabase (PostgreSQL)**.
 
 ---
 
@@ -15,10 +15,11 @@
 
 ---
 
-## 2. Trạng thái dự án hiện tại (Prompt 03 – UI/UX System)
+## 2. Trạng thái dự án hiện tại (Prompt 01–03 + Addendum 3D Visual Direction)
 
-Dự án đã hoàn thành **Prompt 01 (Kiến trúc & Database)**, **Prompt 02 (Thế giới Game & Hệ thống Nhân vật)** và **Prompt 03 (Hệ thống UI/UX thống nhất)**:
+Dự án đã hoàn thành **Prompt 01 (Kiến trúc & Database)**, **Prompt 02 (Thế giới Game & Hệ thống Nhân vật)**, **Prompt 03 (Hệ thống UI/UX thống nhất)** và **Addendum – 3D Visual Direction**:
 
+- **Stylized 3D World & Characters:** Chuyển đổi toàn bộ gameplay sang **3D thực thụ** (`CharacterBody3D`, camera góc nhìn thứ ba `SpringArm3D` tránh xuyên vật thể, mô hình placeholder 3D có khớp cho cả 7 nhân vật `Boy`, `Girl`, `Buddy`, `Professor Owl`, `Lily`, `Rocky`, `Crystal Guardian`, cùng 5 khu vực 3D với **Welcome Village** làm khu vực 3D trọng điểm, World Map 3D isometric, Diorama 3D trên Main Menu & Character Selection, và thiết lập chất lượng đồ họa `Low` / `Medium` / `High`). Xem [`docs/VISUAL_3D_ARCHITECTURE.md`](docs/VISUAL_3D_ARCHITECTURE.md) và [`docs/ASSET_3D_PIPELINE.md`](docs/ASSET_3D_PIPELINE.md).
 - **Core & Persistence:** Đã triển khai 11 Autoloads (`AppLogger`, `EventBus`, `LocalizationManager`, `DataRepository`, `SaveLoadManager`, `GameStateManager`, `QuestManager`, `SettingsManager`, `AudioManager`, `UIManager`, `SceneRouter`).
 - **UI/UX Design System & Màn hình:** `UIDesignSystem`, `UIAnimator`, `ResponsiveHelper`, thư viện component dùng chung (`AdventureConfirmDialog`, `RewardDisplay`, `QuestCardWidget`, `WorldCardWidget`, `AvatarBadge`, `LoadingIndicatorWidget`), Splash Screen, Main Menu, Character Selection, World Introduction, World Map, In-game HUD, Dialogue UI, Quest Log, Reward Popup, Inventory UI, Settings Modal, Pause Menu và Notification Stack.
 - **World & Exploration:** Xây dựng **Alphabet Island** với **5 khu vực** (`Welcome Village`, `Alphabet Meadow`, `Letter Cave`, `Crystal Lake`, `The Shadow Gate`), bản đồ `World Map` tương tác, cơ chế khóa/mở khóa theo dữ liệu và chuyển cảnh bảo vệ khu vực khóa.
@@ -48,6 +49,8 @@ Dự án đã hoàn thành **Prompt 01 (Kiến trúc & Database)**, **Prompt 02 
 | [`docs/RESPONSIVE_UI.md`](docs/RESPONSIVE_UI.md) | Kiến trúc Responsive đa thiết bị (Desktop, Tablet, Mobile) (Prompt 03) |
 | [`docs/ACCESSIBILITY.md`](docs/ACCESSIBILITY.md) | Nguyên tắc UX thân thiện trẻ 10 tuổi & hỗ trợ tiếp cận (Prompt 03) |
 | [`docs/UI_TEST_REPORT.md`](docs/UI_TEST_REPORT.md) | Báo cáo kiểm thử thực tế giao diện Prompt 03 |
+| [`docs/VISUAL_3D_ARCHITECTURE.md`](docs/VISUAL_3D_ARCHITECTURE.md) | Kiến trúc 3D Visual Direction, Camera thứ ba, Ánh sáng & Tối ưu Low/Medium/High |
+| [`docs/ASSET_3D_PIPELINE.md`](docs/ASSET_3D_PIPELINE.md) | Danh sách Asset 3D, Polygon Budget, Texture Spec & Quy trình thay thế `.glb` |
 | [`docs/DATABASE_SCHEMA.md`](docs/DATABASE_SCHEMA.md) | Thiết kế chi tiết 32 bảng PostgreSQL trên Supabase, RLS, bảo mật trẻ em & migration |
 | [`docs/ERD.md`](docs/ERD.md) | Sơ đồ thực thể liên kết (ERD) bằng Mermaid & giải thích quan hệ dữ liệu |
 | [`docs/LEARNING_CONTENT_SPEC.md`](docs/LEARNING_CONTENT_SPEC.md) | Chuẩn dữ liệu học tập độc lập code (Vocabulary, Phonics, Grammar, 4 Skills, Validation) |

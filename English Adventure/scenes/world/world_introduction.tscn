@@ -1,10 +1,7 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/world_introduction_ui.gd" id="1_intro"]
-[ext_resource type="Texture2D" path="res://assets/characters/npcs/professor_owl.svg" id="2_owl"]
-[ext_resource type="Texture2D" path="res://assets/environments/alphabet_island/owl_house.svg" id="3_house"]
-[ext_resource type="Texture2D" path="res://assets/environments/alphabet_island/village_tree.svg" id="4_tree"]
-[ext_resource type="Texture2D" path="res://assets/environments/alphabet_island/magic_crystal.svg" id="5_crystal"]
+[ext_resource type="Script" path="res://scripts/visual3d/diorama_3d_stage.gd" id="2_stage"]
 
 [node name="WorldIntroduction" type="Control"]
 layout_mode = 3
@@ -67,64 +64,44 @@ layout_mode = 2
 text = "Bỏ qua"
 
 [node name="IslandBanner" type="Panel" parent="SafeMargin/Center/CenterPanel/Margin/VBox"]
-custom_minimum_size = Vector2(0, 86)
+custom_minimum_size = Vector2(0, 96)
 layout_mode = 2
 
-[node name="Sky" type="ColorRect" parent="SafeMargin/Center/CenterPanel/Margin/VBox/IslandBanner"]
+[node name="DioramaViewportContainer" type="SubViewportContainer" parent="SafeMargin/Center/CenterPanel/Margin/VBox/IslandBanner"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color(0.14, 0.42, 0.72, 1)
+stretch = true
 
-[node name="Grass" type="ColorRect" parent="SafeMargin/Center/CenterPanel/Margin/VBox/IslandBanner"]
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -24.0
-color = Color(0.35, 0.74, 0.42, 1)
+[node name="SubViewport" type="SubViewport" parent="SafeMargin/Center/CenterPanel/Margin/VBox/IslandBanner/DioramaViewportContainer"]
+own_world_3d = true
+handle_input_locally = false
+size = Vector2i(580, 120)
+render_target_update_mode = 4
 
-[node name="Icons" type="HBoxContainer" parent="SafeMargin/Center/CenterPanel/Margin/VBox/IslandBanner"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-alignment = 1
-theme_override_constants/separation = 34
-
-[node name="TreeL" type="TextureRect" parent="SafeMargin/Center/CenterPanel/Margin/VBox/IslandBanner/Icons"]
-custom_minimum_size = Vector2(46, 56)
-layout_mode = 2
-texture = ExtResource("4_tree")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="House" type="TextureRect" parent="SafeMargin/Center/CenterPanel/Margin/VBox/IslandBanner/Icons"]
-custom_minimum_size = Vector2(68, 68)
-layout_mode = 2
-texture = ExtResource("3_house")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="Crystal" type="TextureRect" parent="SafeMargin/Center/CenterPanel/Margin/VBox/IslandBanner/Icons"]
-custom_minimum_size = Vector2(44, 48)
-layout_mode = 2
-texture = ExtResource("5_crystal")
-expand_mode = 1
-stretch_mode = 5
+[node name="Stage3D" type="Node3D" parent="SafeMargin/Center/CenterPanel/Margin/VBox/IslandBanner/DioramaViewportContainer/SubViewport"]
+script = ExtResource("2_stage")
+stage_mode = "welcome_diorama"
 
 [node name="SpeakerRow" type="HBoxContainer" parent="SafeMargin/Center/CenterPanel/Margin/VBox"]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="Portrait" type="TextureRect" parent="SafeMargin/Center/CenterPanel/Margin/VBox/SpeakerRow"]
+[node name="Portrait" type="SubViewportContainer" parent="SafeMargin/Center/CenterPanel/Margin/VBox/SpeakerRow"]
 custom_minimum_size = Vector2(92, 92)
 layout_mode = 2
-texture = ExtResource("2_owl")
-expand_mode = 1
-stretch_mode = 5
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="SafeMargin/Center/CenterPanel/Margin/VBox/SpeakerRow/Portrait"]
+own_world_3d = true
+handle_input_locally = false
+size = Vector2i(140, 140)
+render_target_update_mode = 4
+
+[node name="SpeakerStage3D" type="Node3D" parent="SafeMargin/Center/CenterPanel/Margin/VBox/SpeakerRow/Portrait/SubViewport"]
+script = ExtResource("2_stage")
+stage_mode = "professor_owl"
 
 [node name="SpeakerInfo" type="VBoxContainer" parent="SafeMargin/Center/CenterPanel/Margin/VBox/SpeakerRow"]
 layout_mode = 2

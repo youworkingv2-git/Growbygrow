@@ -1,90 +1,27 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=2 format=3]
 
-[ext_resource type="Texture2D" path="res://assets/environments/alphabet_island/village_tree.svg" id="1_tree"]
-[ext_resource type="Texture2D" path="res://assets/environments/alphabet_island/stone_rock.svg" id="2_rock"]
+[ext_resource type="Script" path="res://scripts/visual3d/area_environment_3d.gd" id="1_env"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_h"]
-size = Vector2(1280, 40)
+[node name="CrystalLake" type="Node3D"]
+script = ExtResource("1_env")
+area_id = "crystal_lake"
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_v"]
-size = Vector2(40, 720)
+[node name="ObjectSpawns" type="Node3D" parent="."]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_lake"]
-size = Vector2(420, 240)
+[node name="obj_lake_crystal" type="Marker3D" parent="ObjectSpawns"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.125, 0, -0.3125)
 
-[node name="CrystalLake" type="Node2D"]
+[node name="obj_lake_chest" type="Marker3D" parent="ObjectSpawns"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.3125, 0, 5.625)
 
-[node name="Ground" type="ColorRect" parent="."]
-offset_left = -600.0
-offset_top = -400.0
-offset_right = 1880.0
-offset_bottom = 1120.0
-color = Color(0.32, 0.72, 0.58, 1)
+[node name="PortalSpawns" type="Node3D" parent="."]
 
-[node name="ShoreSand" type="ColorRect" parent="."]
-offset_left = 340.0
-offset_top = 240.0
-offset_right = 920.0
-offset_bottom = 610.0
-color = Color(0.93, 0.87, 0.68, 1)
-
-[node name="LakeWater" type="StaticBody2D" parent="."]
-position = Vector2(630, 490)
-collision_layer = 2
-
-[node name="WaterRect" type="ColorRect" parent="LakeWater"]
-offset_left = -210.0
-offset_top = -120.0
-offset_right = 210.0
-offset_bottom = 120.0
-color = Color(0.14, 0.68, 0.92, 1)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="LakeWater"]
-shape = SubResource("RectangleShape2D_lake")
-
-[node name="Tree1" type="Sprite2D" parent="."]
-position = Vector2(210, 200)
-texture = ExtResource("1_tree")
-
-[node name="Rock1" type="Sprite2D" parent="."]
-position = Vector2(1050, 560)
-texture = ExtResource("2_rock")
-
-[node name="Walls" type="StaticBody2D" parent="."]
-collision_layer = 2
-
-[node name="Top" type="CollisionShape2D" parent="Walls"]
-position = Vector2(640, 20)
-shape = SubResource("RectangleShape2D_wall_h")
-
-[node name="Bottom" type="CollisionShape2D" parent="Walls"]
-position = Vector2(640, 700)
-shape = SubResource("RectangleShape2D_wall_h")
-
-[node name="Left" type="CollisionShape2D" parent="Walls"]
-position = Vector2(20, 360)
-shape = SubResource("RectangleShape2D_wall_v")
-
-[node name="Right" type="CollisionShape2D" parent="Walls"]
-position = Vector2(1260, 360)
-shape = SubResource("RectangleShape2D_wall_v")
-
-[node name="ObjectSpawns" type="Node2D" parent="."]
-
-[node name="obj_lake_crystal" type="Marker2D" parent="ObjectSpawns"]
-position = Vector2(900, 350)
-
-[node name="obj_lake_chest" type="Marker2D" parent="ObjectSpawns"]
-position = Vector2(310, 540)
-
-[node name="PortalSpawns" type="Node2D" parent="."]
-
-[node name="ToLetterCave" type="Marker2D" parent="PortalSpawns"]
-position = Vector2(100, 440)
+[node name="ToLetterCave" type="Marker3D" parent="PortalSpawns"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.875, 0, 2.5)
 metadata/dest_area_id = "letter_cave"
 metadata/dest_spawn = Vector2(1060, 440)
 
-[node name="ToShadowGate" type="Marker2D" parent="PortalSpawns"]
-position = Vector2(1170, 250)
+[node name="ToShadowGate" type="Marker3D" parent="PortalSpawns"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5625, 0, -3.4375)
 metadata/dest_area_id = "shadow_gate"
 metadata/dest_spawn = Vector2(640, 580)

@@ -1,11 +1,7 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/screens/main_menu_ui.gd" id="1_mm"]
-[ext_resource type="Texture2D" path="res://assets/characters/buddy/buddy_dragon.svg" id="2_buddy"]
-[ext_resource type="Texture2D" path="res://assets/environments/alphabet_island/owl_house.svg" id="3_house"]
-[ext_resource type="Texture2D" path="res://assets/environments/alphabet_island/village_tree.svg" id="4_tree"]
-[ext_resource type="Texture2D" path="res://assets/environments/alphabet_island/magic_crystal.svg" id="5_crystal"]
-[ext_resource type="Texture2D" path="res://assets/characters/player/boy/boy_adventurer.svg" id="6_boy"]
+[ext_resource type="Script" path="res://scripts/visual3d/diorama_3d_stage.gd" id="2_stage"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -70,71 +66,22 @@ alignment = 1
 custom_minimum_size = Vector2(280, 210)
 layout_mode = 2
 
-[node name="StageSky" type="ColorRect" parent="SafeMargin/Center/MenuPanel/Margin/LayoutBox/HeroCol/HeroStage"]
+[node name="DioramaViewportContainer" type="SubViewportContainer" parent="SafeMargin/Center/MenuPanel/Margin/LayoutBox/HeroCol/HeroStage"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color(0.14, 0.44, 0.74, 1)
+stretch = true
 
-[node name="StageGrass" type="ColorRect" parent="SafeMargin/Center/MenuPanel/Margin/LayoutBox/HeroCol/HeroStage"]
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -62.0
-color = Color(0.36, 0.74, 0.41, 1)
+[node name="SubViewport" type="SubViewport" parent="SafeMargin/Center/MenuPanel/Margin/LayoutBox/HeroCol/HeroStage/DioramaViewportContainer"]
+own_world_3d = true
+handle_input_locally = false
+size = Vector2i(320, 220)
+render_target_update_mode = 4
 
-[node name="Tree" type="TextureRect" parent="SafeMargin/Center/MenuPanel/Margin/LayoutBox/HeroCol/HeroStage"]
-layout_mode = 0
-offset_left = 12.0
-offset_top = 48.0
-offset_right = 82.0
-offset_bottom = 148.0
-texture = ExtResource("4_tree")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="House" type="TextureRect" parent="SafeMargin/Center/MenuPanel/Margin/LayoutBox/HeroCol/HeroStage"]
-layout_mode = 0
-offset_left = 144.0
-offset_top = 34.0
-offset_right = 258.0
-offset_bottom = 152.0
-texture = ExtResource("3_house")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="Hero" type="TextureRect" parent="SafeMargin/Center/MenuPanel/Margin/LayoutBox/HeroCol/HeroStage"]
-layout_mode = 0
-offset_left = 54.0
-offset_top = 92.0
-offset_right = 132.0
-offset_bottom = 186.0
-texture = ExtResource("6_boy")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="Crystal" type="TextureRect" parent="SafeMargin/Center/MenuPanel/Margin/LayoutBox/HeroCol/HeroStage"]
-layout_mode = 0
-offset_left = 224.0
-offset_top = 122.0
-offset_right = 264.0
-offset_bottom = 168.0
-texture = ExtResource("5_crystal")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="BuddySprite" type="TextureRect" parent="SafeMargin/Center/MenuPanel/Margin/LayoutBox/HeroCol/HeroStage"]
-layout_mode = 0
-offset_left = 104.0
-offset_top = 32.0
-offset_right = 184.0
-offset_bottom = 112.0
-texture = ExtResource("2_buddy")
-expand_mode = 1
-stretch_mode = 5
+[node name="Stage3D" type="Node3D" parent="SafeMargin/Center/MenuPanel/Margin/LayoutBox/HeroCol/HeroStage/DioramaViewportContainer/SubViewport"]
+script = ExtResource("2_stage")
+stage_mode = "welcome_diorama"
 
 [node name="StatusLabel" type="Label" parent="SafeMargin/Center/MenuPanel/Margin/LayoutBox/HeroCol"]
 layout_mode = 2

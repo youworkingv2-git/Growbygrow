@@ -70,6 +70,7 @@
   "settings_language": "Instruction Language",
   "settings_fullscreen": "Fullscreen",
   "settings_resolution": "Resolution",
+  "settings_graphics_quality": "3D Graphics Quality",
   "settings_controls": "Control Mode",
   "settings_reduced_motion": "Reduced Animations",
   "settings_save": "Save Settings",

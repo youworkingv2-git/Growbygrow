@@ -1,40 +1,46 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://scripts/adventure/interactable_object.gd" id="1_obj"]
-[ext_resource type="Texture2D" path="res://assets/environments/alphabet_island/signpost.svg" id="2_tex"]
+[ext_resource type="Script" path="res://scripts/visual3d/asset_3d_slot.gd" id="2_slot"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_obj"]
-radius = 42.0
+[sub_resource type="SphereShape3D" id="SphereShape3D_obj"]
+radius = 1.65
 
-[node name="InteractableObject" type="Area2D"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ring"]
+albedo_color = Color(0.22, 0.74, 1, 1)
+emission_enabled = true
+emission = Color(0.22, 0.74, 1, 1)
+emission_energy_multiplier = 1.5
+
+[sub_resource type="TorusMesh" id="TorusMesh_ring"]
+inner_radius = 0.72
+outer_radius = 0.88
+
+[node name="InteractableObject" type="Area3D"]
 collision_layer = 4
 collision_mask = 0
 script = ExtResource("1_obj")
 
-[node name="FocusRing" type="ColorRect" parent="."]
+[node name="FocusRing" type="MeshInstance3D" parent="."]
 visible = false
-offset_left = -38.0
-offset_top = -14.0
-offset_right = 38.0
-offset_bottom = 18.0
-color = Color(0.18, 0.66, 1, 0.45)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+mesh = SubResource("TorusMesh_ring")
+surface_material_override/0 = SubResource("StandardMaterial3D_ring")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, -24)
-scale = Vector2(0.75, 0.75)
-texture = ExtResource("2_tex")
+[node name="VisualSlot" type="Node3D" parent="."]
+script = ExtResource("2_slot")
+asset_id = "interactable"
 
-[node name="Label" type="Label" parent="."]
-offset_left = -96.0
-offset_top = 18.0
-offset_right = 96.0
-offset_bottom = 42.0
-theme_override_colors/font_color = Color(0.98, 0.98, 1, 1)
-theme_override_colors/font_outline_color = Color(0.06, 0.09, 0.16, 1)
-theme_override_constants/outline_size = 4
-theme_override_font_sizes/font_size = 13
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.95, 0)
+billboard = 1
+no_depth_test = true
+modulate = Color(0.98, 0.99, 1, 1)
+outline_modulate = Color(0.06, 0.09, 0.16, 1)
 text = "Object"
-horizontal_alignment = 1
+font_size = 34
+outline_size = 10
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_obj")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+shape = SubResource("SphereShape3D_obj")

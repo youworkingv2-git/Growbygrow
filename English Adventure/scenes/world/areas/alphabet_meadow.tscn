@@ -1,176 +1,33 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=2 format=3]
 
-[ext_resource type="Texture2D" path="res://assets/environments/alphabet_island/village_tree.svg" id="1_tree"]
-[ext_resource type="Texture2D" path="res://assets/environments/alphabet_island/stone_rock.svg" id="2_rock"]
+[ext_resource type="Script" path="res://scripts/visual3d/area_environment_3d.gd" id="1_env"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_h"]
-size = Vector2(1280, 40)
+[node name="AlphabetMeadow" type="Node3D"]
+script = ExtResource("1_env")
+area_id = "alphabet_meadow"
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_v"]
-size = Vector2(40, 720)
+[node name="ObjectSpawns" type="Node3D" parent="."]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_rock"]
-radius = 36.0
+[node name="obj_letter_a" type="Marker3D" parent="ObjectSpawns"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.75, 0, -3.125)
 
-[node name="AlphabetMeadow" type="Node2D"]
+[node name="obj_letter_b" type="Marker3D" parent="ObjectSpawns"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9375, 0, -4.6875)
 
-[node name="Ground" type="ColorRect" parent="."]
-offset_left = -600.0
-offset_top = -400.0
-offset_right = 1880.0
-offset_bottom = 1120.0
-color = Color(0.38, 0.76, 0.45, 1)
+[node name="obj_letter_c" type="Marker3D" parent="ObjectSpawns"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 0, 5.625)
 
-[node name="NorthClearing" type="ColorRect" parent="."]
-offset_left = 470.0
-offset_top = 140.0
-offset_right = 880.0
-offset_bottom = 390.0
-color = Color(0.5, 0.84, 0.48, 1)
+[node name="obj_meadow_chest" type="Marker3D" parent="ObjectSpawns"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -3.125)
 
-[node name="TrailsBorder" type="Node2D" parent="."]
+[node name="PortalSpawns" type="Node3D" parent="."]
 
-[node name="MainMeadowTrailBorder" type="Line2D" parent="TrailsBorder"]
-points = PackedVector2Array(100, 430, 260, 425, 450, 442, 650, 435, 860, 415, 1040, 435, 1170, 430)
-width = 76.0
-default_color = Color(0.7, 0.62, 0.4, 1)
-joint_mode = 2
-begin_cap_mode = 2
-end_cap_mode = 2
-
-[node name="LetterATrailBorder" type="Line2D" parent="TrailsBorder"]
-points = PackedVector2Array(370, 434, 355, 345, 360, 268)
-width = 58.0
-default_color = Color(0.7, 0.62, 0.4, 1)
-joint_mode = 2
-begin_cap_mode = 2
-end_cap_mode = 2
-
-[node name="LetterBTrailBorder" type="Line2D" parent="TrailsBorder"]
-points = PackedVector2Array(650, 435, 665, 320, 670, 220)
-width = 58.0
-default_color = Color(0.7, 0.62, 0.4, 1)
-joint_mode = 2
-begin_cap_mode = 2
-end_cap_mode = 2
-
-[node name="LetterCTrailBorder" type="Line2D" parent="TrailsBorder"]
-points = PackedVector2Array(840, 418, 868, 485, 880, 535)
-width = 58.0
-default_color = Color(0.7, 0.62, 0.4, 1)
-joint_mode = 2
-begin_cap_mode = 2
-end_cap_mode = 2
-
-[node name="ChestTrailBorder" type="Line2D" parent="TrailsBorder"]
-points = PackedVector2Array(910, 422, 945, 340, 960, 270)
-width = 58.0
-default_color = Color(0.7, 0.62, 0.4, 1)
-joint_mode = 2
-begin_cap_mode = 2
-end_cap_mode = 2
-
-[node name="TrailsFill" type="Node2D" parent="."]
-
-[node name="MainMeadowTrail" type="Line2D" parent="TrailsFill"]
-points = PackedVector2Array(100, 430, 260, 425, 450, 442, 650, 435, 860, 415, 1040, 435, 1170, 430)
-width = 62.0
-default_color = Color(0.86, 0.79, 0.54, 1)
-joint_mode = 2
-begin_cap_mode = 2
-end_cap_mode = 2
-
-[node name="LetterATrail" type="Line2D" parent="TrailsFill"]
-points = PackedVector2Array(370, 434, 355, 345, 360, 268)
-width = 44.0
-default_color = Color(0.86, 0.79, 0.54, 1)
-joint_mode = 2
-begin_cap_mode = 2
-end_cap_mode = 2
-
-[node name="LetterBTrail" type="Line2D" parent="TrailsFill"]
-points = PackedVector2Array(650, 435, 665, 320, 670, 220)
-width = 44.0
-default_color = Color(0.86, 0.79, 0.54, 1)
-joint_mode = 2
-begin_cap_mode = 2
-end_cap_mode = 2
-
-[node name="LetterCTrail" type="Line2D" parent="TrailsFill"]
-points = PackedVector2Array(840, 418, 868, 485, 880, 535)
-width = 44.0
-default_color = Color(0.86, 0.79, 0.54, 1)
-joint_mode = 2
-begin_cap_mode = 2
-end_cap_mode = 2
-
-[node name="ChestTrail" type="Line2D" parent="TrailsFill"]
-points = PackedVector2Array(910, 422, 945, 340, 960, 270)
-width = 44.0
-default_color = Color(0.86, 0.79, 0.54, 1)
-joint_mode = 2
-begin_cap_mode = 2
-end_cap_mode = 2
-
-[node name="Tree1" type="Sprite2D" parent="."]
-position = Vector2(220, 180)
-texture = ExtResource("1_tree")
-
-[node name="Tree2" type="Sprite2D" parent="."]
-position = Vector2(1040, 560)
-texture = ExtResource("1_tree")
-
-[node name="RockObstacle" type="StaticBody2D" parent="."]
-position = Vector2(640, 560)
-collision_layer = 2
-
-[node name="Sprite2D" type="Sprite2D" parent="RockObstacle"]
-texture = ExtResource("2_rock")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RockObstacle"]
-shape = SubResource("CircleShape2D_rock")
-
-[node name="Walls" type="StaticBody2D" parent="."]
-collision_layer = 2
-
-[node name="Top" type="CollisionShape2D" parent="Walls"]
-position = Vector2(640, 20)
-shape = SubResource("RectangleShape2D_wall_h")
-
-[node name="Bottom" type="CollisionShape2D" parent="Walls"]
-position = Vector2(640, 700)
-shape = SubResource("RectangleShape2D_wall_h")
-
-[node name="Left" type="CollisionShape2D" parent="Walls"]
-position = Vector2(20, 360)
-shape = SubResource("RectangleShape2D_wall_v")
-
-[node name="Right" type="CollisionShape2D" parent="Walls"]
-position = Vector2(1260, 360)
-shape = SubResource("RectangleShape2D_wall_v")
-
-[node name="ObjectSpawns" type="Node2D" parent="."]
-
-[node name="obj_letter_a" type="Marker2D" parent="ObjectSpawns"]
-position = Vector2(360, 260)
-
-[node name="obj_letter_b" type="Marker2D" parent="ObjectSpawns"]
-position = Vector2(670, 210)
-
-[node name="obj_letter_c" type="Marker2D" parent="ObjectSpawns"]
-position = Vector2(880, 540)
-
-[node name="obj_meadow_chest" type="Marker2D" parent="ObjectSpawns"]
-position = Vector2(960, 260)
-
-[node name="PortalSpawns" type="Node2D" parent="."]
-
-[node name="ToWelcomeVillage" type="Marker2D" parent="PortalSpawns"]
-position = Vector2(100, 430)
+[node name="ToWelcomeVillage" type="Marker3D" parent="PortalSpawns"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.875, 0, 2.1875)
 metadata/dest_area_id = "welcome_village"
 metadata/dest_spawn = Vector2(1060, 400)
 
-[node name="ToLetterCave" type="Marker2D" parent="PortalSpawns"]
-position = Vector2(1170, 430)
+[node name="ToLetterCave" type="Marker3D" parent="PortalSpawns"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5625, 0, 2.1875)
 metadata/dest_area_id = "letter_cave"
 metadata/dest_spawn = Vector2(180, 440)

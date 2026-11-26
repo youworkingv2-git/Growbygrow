@@ -1,7 +1,8 @@
-extends Node2D
-## Orchestrates the active Alphabet Island Area Exploration scene:
-## instantiates the specific area layout, spawns Player + Buddy + NPCs + Interactables + Portals,
-## wires InteractionManager, DialogueManager, QuestManager, and HUD.
+extends Node3D
+## Orchestrates the active 3D Alphabet Island Area Exploration scene:
+## instantiates the specific 3D area layout, configures lighting/quality via WorldEnvironment3DController,
+## spawns 3D Player + Buddy + NPCs + Interactables + Portals using Coord3D compatibility,
+## and wires InteractionManager, DialogueManager, QuestManager, and HUD.
 
 const PLAYER_SCENE := preload("res://scenes/characters/player/player.tscn")
 const BUDDY_SCENE := preload("res://scenes/characters/buddy/buddy.tscn")
@@ -15,8 +16,11 @@ var _buddy: BuddyController = null
 var _pending_quest_offer_id: String = ""
 var _autosave_timer: float = 0.0
 
-@onready var area_container: Node2D = $AreaContainer
-@onready var entities_ysort: Node2D = $EntitiesYSort
+@onready var world_env: WorldEnvironment = $WorldEnvironment
+@onready var sun_light: DirectionalLight3D = $DirectionalLight3D
+@onready var env_controller: WorldEnvironment3DController = $Env3DController
+@onready var area_container: Node3D = $AreaContainer
+@onready var entities_3d: Node3D = $Entities3D
 @onready var interaction_manager: InteractionManager = $InteractionManager
 @onready var dialogue_manager: DialogueManager = $DialogueManager
 @onready var hud: CanvasLayer = $AdventureHUD
@@ -31,6 +35,7 @@ func _ready() -> void:
 	_area_data = DataRepository.get_area(_area_id)
 	hud.set_area_header(_area_data)
 
+	env_controller.setup_for_area(_area_id, world_env, sun_light)
 	_load_area_environment()
 	_spawn_player_and_buddy()
 	_spawn_npcs()
@@ -66,19 +71,19 @@ func _load_area_environment() -> void:
 
 func _spawn_player_and_buddy() -> void:
 	var def_spawn_dict: Dictionary = _area_data.get("default_spawn", { "x": 640, "y": 500 })
-	var fallback := Vector2(float(def_spawn_dict.get("x", 640)), float(def_spawn_dict.get("y", 500)))
-	var spawn_pos := GameStateManager.get_saved_position(_area_id, fallback)
+	var fallback_2d := Vector2(float(def_spawn_dict.get("x", 640)), float(def_spawn_dict.get("y", 500)))
+	var spawn_2d := GameStateManager.get_saved_position(_area_id, fallback_2d)
 
 	_player = PLAYER_SCENE.instantiate() as PlayerController
-	_player.position = spawn_pos
-	entities_ysort.add_child(_player)
-	_player.set_camera_limits(Rect2i(0, 0, 1280, 720))
+	_player.position = Coord3D.to_3d(spawn_2d, 0.05)
+	_player.set_world_bounds(Coord3D.WORLD_HALF_X, Coord3D.WORLD_HALF_Z)
+	entities_3d.add_child(_player)
 
 	_buddy = BUDDY_SCENE.instantiate() as BuddyController
-	entities_ysort.add_child(_buddy)
+	entities_3d.add_child(_buddy)
 	_buddy.attach_to_player(_player)
 
-	var detector := _player.get_node("InteractionDetector") as Area2D
+	var detector := _player.get_node("InteractionDetector") as Area3D
 	interaction_manager.bind_detector(_player, detector)
 
 
@@ -91,9 +96,10 @@ func _spawn_npcs() -> void:
 			continue
 		var npc := NPC_SCENE.instantiate() as NpcController
 		var sp: Dictionary = npc_cfg.get("spawn_pos", { "x": 500, "y": 350 })
-		npc.position = Vector2(float(sp.get("x", 500)), float(sp.get("y", 350)))
+		var pos_2d := Vector2(float(sp.get("x", 500)), float(sp.get("y", 350)))
+		npc.position = Coord3D.to_3d(pos_2d, 0.0)
 		npc.setup(npc_cfg)
-		entities_ysort.add_child(npc)
+		entities_3d.add_child(npc)
 
 
 func _spawn_objects() -> void:
@@ -102,9 +108,16 @@ func _spawn_objects() -> void:
 	for obj_cfg in objects:
 		var oid := str(obj_cfg.get("id", ""))
 		var obj := INTERACTABLE_SCENE.instantiate() as InteractableObject
-		obj.position = pos_map.get(oid, Vector2(640, 420))
+		var fallback_3d := Coord3D.to_3d(Vector2(640, 420), 0.0)
+		var pos_val: Variant = pos_map.get(oid, fallback_3d)
+		if pos_val is Vector3:
+			obj.position = pos_val
+		elif pos_val is Vector2:
+			obj.position = Coord3D.to_3d(pos_val, 0.0)
+		else:
+			obj.position = fallback_3d
 		obj.setup_from_data(obj_cfg)
-		entities_ysort.add_child(obj)
+		entities_3d.add_child(obj)
 
 
 func _spawn_portals() -> void:
@@ -114,9 +127,10 @@ func _spawn_portals() -> void:
 		if dest_area.is_empty():
 			continue
 		var portal := INTERACTABLE_SCENE.instantiate() as InteractableObject
-		portal.position = pm.get("position", Vector2.ZERO)
+		var p_pos: Variant = pm.get("position", Vector3.ZERO)
+		portal.position = p_pos if p_pos is Vector3 else Vector3.ZERO
 		portal.setup_portal("portal_to_" + dest_area, dest_area, pm.get("dest_spawn", Vector2(640, 500)))
-		entities_ysort.add_child(portal)
+		entities_3d.add_child(portal)
 
 
 func _get_object_positions_from_area_scene() -> Dictionary:
@@ -127,8 +141,10 @@ func _get_object_positions_from_area_scene() -> Dictionary:
 	var markers := env_root.get_node_or_null("ObjectSpawns")
 	if markers != null:
 		for child in markers.get_children():
-			if child is Node2D:
-				map[child.name] = child.position
+			if child is Node3D:
+				map[child.name] = (child as Node3D).position
+			elif child is Node2D:
+				map[child.name] = Coord3D.to_3d((child as Node2D).position, 0.0)
 	return map
 
 
@@ -140,12 +156,17 @@ func _get_portal_markers_from_area_scene() -> Array[Dictionary]:
 	var portals := env_root.get_node_or_null("PortalSpawns")
 	if portals != null:
 		for child in portals.get_children():
-			if child is Node2D and child.has_meta("dest_area_id"):
+			if child.has_meta("dest_area_id"):
 				var spawn_vec := Vector2(-1, -1)
 				if child.has_meta("dest_spawn"):
 					spawn_vec = child.get_meta("dest_spawn")
+				var pos_3d := Vector3.ZERO
+				if child is Node3D:
+					pos_3d = (child as Node3D).position
+				elif child is Node2D:
+					pos_3d = Coord3D.to_3d((child as Node2D).position, 0.0)
 				list.append({
-					"position": child.position,
+					"position": pos_3d,
 					"dest_area_id": str(child.get_meta("dest_area_id")),
 					"dest_spawn": spawn_vec
 				})
@@ -202,6 +223,8 @@ func _on_object_message(title: String, message: String, _obj_data: Dictionary) -
 
 func _on_dialogue_finished(_dialogue_id: String) -> void:
 	hud.dialogue_box.visible = false
+	if _player != null:
+		_player.clear_dialogue_focus()
 	if not _pending_quest_offer_id.is_empty():
 		var qid := _pending_quest_offer_id
 		_pending_quest_offer_id = ""
@@ -218,7 +241,7 @@ func _process(delta: float) -> void:
 	if GameStateManager.current_area_id != _area_id:
 		return
 	if _player != null:
-		GameStateManager.set_player_position(_area_id, _player.position)
+		GameStateManager.set_player_position(_area_id, Coord3D.to_2d(_player.position))
 	_autosave_timer += delta
 	if _autosave_timer >= 8.0:
 		_autosave_timer = 0.0
@@ -235,5 +258,5 @@ func _exit_tree() -> void:
 	if GameStateManager.current_area_id != _area_id:
 		return
 	if _player != null:
-		GameStateManager.set_player_position(_area_id, _player.position)
+		GameStateManager.set_player_position(_area_id, Coord3D.to_2d(_player.position))
 	GameStateManager.save_now("exit_area")

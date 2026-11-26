@@ -1,6 +1,6 @@
 class_name InteractableObject
-extends Area2D
-## Shared interactable component for Signposts, Treasure Chests, Lost Letters,
+extends Area3D
+## Shared 3D interactable component for Signposts, Treasure Chests, Lost Letters,
 ## Magic Crystals, Doors, Gates, and Area Portals.
 
 @export var object_id: String = ""
@@ -10,10 +10,11 @@ extends Area2D
 
 var object_data: Dictionary = {}
 var _pulse_time: float = 0.0
+var _prop_root: Node3D = null
 
-@onready var sprite: Sprite2D = $Sprite2D
-@onready var label: Label = $Label
-@onready var focus_ring: ColorRect = $FocusRing
+@onready var visual_slot: Asset3DSlot = $VisualSlot
+@onready var label: Label3D = $Label3D
+@onready var focus_ring: MeshInstance3D = $FocusRing
 
 
 func setup_from_data(data: Dictionary) -> void:
@@ -49,37 +50,53 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	if object_type == "lost_letter" or object_type == "crystal" or object_type == "portal":
-		_pulse_time += delta
-		sprite.position.y = sin(_pulse_time * 3.5) * 4.0
+	_pulse_time += delta
+	if _prop_root != null and is_instance_valid(_prop_root):
+		var token := _prop_root.get_node_or_null("FloatToken") as Node3D
+		if token != null:
+			token.position.y = 0.95 + sin(_pulse_time * 3.0) * 0.14
+			token.rotation.y += delta * 1.4
+		var rune_ring := _prop_root.get_node_or_null("RuneRing") as Node3D
+		if rune_ring != null:
+			rune_ring.rotation.z += delta * 1.1
+	if focus_ring.visible:
+		focus_ring.rotation.y += delta * 1.8
 
 
 func _refresh_visuals() -> void:
 	var collected := GameStateManager.is_object_collected(object_id)
 	label.text = LocalizationManager.pick_text(object_data, "title")
 
+	var override_glb := str(object_data.get("model_3d_path", ""))
+	if not override_glb.is_empty():
+		visual_slot.override_model_path = override_glb
+
+	var visual_kind := "signpost"
 	match object_type:
-		"signpost":
-			sprite.texture = load("res://assets/environments/alphabet_island/signpost.svg")
+		"chest": visual_kind = "chest"
+		"lost_letter": visual_kind = "letter"
+		"crystal": visual_kind = "crystal"
+		"portal": visual_kind = "portal"
+		_: visual_kind = "signpost"
+
+	_prop_root = PropFactory3D.build_interactable_prop(visual_kind)
+	var loaded := visual_slot.attach_or_placeholder(_prop_root)
+	_prop_root = loaded
+
+	match object_type:
 		"chest":
-			var chest_path := "res://assets/environments/alphabet_island/treasure_chest_open.svg" if collected else "res://assets/environments/alphabet_island/treasure_chest_closed.svg"
-			sprite.texture = load(chest_path)
-		"lost_letter":
-			sprite.texture = load("res://assets/environments/alphabet_island/lost_letter_glow.svg")
+			var lid := _prop_root.get_node_or_null("LidPivot") as Node3D
+			if lid != null:
+				lid.rotation_degrees.x = -68.0 if collected else 0.0
+		"lost_letter", "crystal":
 			visible = not collected
 			monitoring = not collected
 			monitorable = not collected
-		"crystal":
-			sprite.texture = load("res://assets/environments/alphabet_island/magic_crystal.svg")
-			visible = not collected
-			monitoring = not collected
-			monitorable = not collected
-		"gate":
-			sprite.texture = load("res://assets/environments/alphabet_island/shadow_gate.svg")
 		"portal":
-			sprite.texture = load("res://assets/environments/alphabet_island/portal_pad.svg")
 			var unlocked := GameStateManager.is_area_unlocked(target_area_id)
-			sprite.modulate = Color.WHITE if unlocked else Color(0.55, 0.5, 0.7, 0.85)
+			var veil := _prop_root.get_node_or_null("PortalVeil") as MeshInstance3D
+			if veil != null:
+				veil.visible = unlocked
 
 
 func set_focused(is_focused: bool) -> void:

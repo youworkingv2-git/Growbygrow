@@ -16,6 +16,8 @@ var _node_buttons: Dictionary = {}
 
 @onready var main_margin: MarginContainer = $MainMargin
 @onready var map_canvas: Control = $MainMargin/MainVBox/BodySplit/MapCanvasContainer/MapCanvas
+@onready var map_3d_viewport: SubViewport = $MainMargin/MainVBox/BodySplit/MapCanvasContainer/MapCanvas/Map3DViewportContainer/SubViewport
+@onready var map_3d_scene: AlphabetIsland3DMap = $MainMargin/MainVBox/BodySplit/MapCanvasContainer/MapCanvas/Map3DViewportContainer/SubViewport/AlphabetIsland3DMap
 @onready var connections_layer: Control = $MainMargin/MainVBox/BodySplit/MapCanvasContainer/MapCanvas/ConnectionsLayer
 @onready var nodes_layer: Control = $MainMargin/MainVBox/BodySplit/MapCanvasContainer/MapCanvas/NodesLayer
 @onready var body_split: BoxContainer = $MainMargin/MainVBox/BodySplit
@@ -119,33 +121,10 @@ func _layout_map_nodes() -> void:
 	var sz := map_canvas.size
 	if sz.x < 50.0 or sz.y < 50.0:
 		return
-	for child in connections_layer.get_children():
-		child.queue_free()
 
 	var compact := sz.x < 520.0
-	var btn_sz := Vector2(108, 52) if compact else Vector2(146, 64)
-
-	var drawn_pairs: Dictionary = {}
-	for area in DataRepository.areas_ordered:
-		var a_id := str(area.get("id", ""))
-		var p1 := _normalized_to_canvas(area.get("map_pos", {}), sz)
-		for target_id_var in area.get("connected_areas", []):
-			var b_id := str(target_id_var)
-			var pair_key := a_id + "|" + b_id if a_id < b_id else b_id + "|" + a_id
-			if drawn_pairs.has(pair_key):
-				continue
-			drawn_pairs[pair_key] = true
-			var b_area := DataRepository.get_area(b_id)
-			if b_area.is_empty():
-				continue
-			var p2 := _normalized_to_canvas(b_area.get("map_pos", {}), sz)
-			var line := Line2D.new()
-			line.width = 6.0
-			var both_open := GameStateManager.is_area_unlocked(a_id) and GameStateManager.is_area_unlocked(b_id)
-			line.default_color = UIDesignSystem.SECONDARY if both_open else Color(0.45, 0.5, 0.62, 0.65)
-			line.add_point(p1)
-			line.add_point(p2)
-			connections_layer.add_child(line)
+	var btn_sz := Vector2(106, 48) if compact else Vector2(144, 58)
+	var vp_sz := Vector2(map_3d_viewport.size)
 
 	for area in DataRepository.areas_ordered:
 		var aid := str(area.get("id", ""))
@@ -153,9 +132,21 @@ func _layout_map_nodes() -> void:
 		if btn != null:
 			btn.custom_minimum_size = btn_sz
 			btn.size = btn_sz
-			btn.add_theme_font_size_override("font_size", 11 if compact else 13)
+			btn.add_theme_font_size_override("font_size", 11 if compact else 12)
 			var center := _normalized_to_canvas(area.get("map_pos", {}), sz)
+			if map_3d_scene != null and vp_sz.x > 10.0 and vp_sz.y > 10.0:
+				var p3d := map_3d_scene.get_area_screen_position(aid)
+				if p3d != Vector2.ZERO:
+					center = Vector2(
+						clampf((p3d.x / vp_sz.x) * sz.x, btn_sz.x * 0.55, sz.x - btn_sz.x * 0.55),
+						clampf((p3d.y / vp_sz.y) * sz.y, btn_sz.y * 0.55, sz.y - btn_sz.y * 0.55)
+					)
 			btn.position = center - btn.size * 0.5
+
+
+func _process(_delta: float) -> void:
+	if visible:
+		_layout_map_nodes()
 
 
 func _normalized_to_canvas(pos_dict: Dictionary, sz: Vector2) -> Vector2:
@@ -178,6 +169,9 @@ func _on_area_node_clicked(area_id: String) -> void:
 
 func _select_area(area_id: String) -> void:
 	_selected_area_id = area_id
+	if map_3d_scene != null:
+		map_3d_scene.focus_area(area_id)
+		map_3d_scene.refresh_states()
 	for aid_var in _node_buttons.keys():
 		var aid := str(aid_var)
 		var b: Button = _node_buttons[aid]

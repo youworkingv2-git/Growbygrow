@@ -13,17 +13,17 @@
 
 ---
 
-## 2. THIẾT KẾ 5 KHU VỰC TRÊN ALPHABET ISLAND
+## 2. THIẾT KẾ 5 KHU VỰC 3D TRÊN ALPHABET ISLAND
 
-Dữ liệu khu vực lưu độc lập tại `data/areas/alphabet_island_areas.json` và gắn với các scene tại `scenes/world/areas/`:
+Dữ liệu khu vực lưu độc lập tại `data/areas/alphabet_island_areas.json` và gắn với các scene 3D (`Node3D` + `AreaEnvironment3D` + `WorldEnvironment3DController`) tại `scenes/world/areas/`. Bản đồ chuyển đổi tọa độ JSON 2D ↔ 3D thông qua `Coord3D` (`32 px = 1 m`):
 
-| STT | Area ID | Tên khu vực | Scene | Nội dung & Đặc điểm | Điều kiện mở khóa (Data-driven) |
+| STT | Area ID | Tên khu vực | Scene | Nội dung & Đặc điểm 3D | Điều kiện mở khóa (Data-driven) |
 |---|---|---|---|---|---|
-| 1 | `welcome_village` | **Welcome Village** (Làng Khởi Đầu) | `welcome_village.tscn` | Nhà Professor Owl, quảng trường, Lily, biển chỉ dẫn, rương tiếp tế, hướng dẫn di chuyển cơ bản. | `always_unlocked` (Khu vực xuất phát) |
-| 2 | `alphabet_meadow` | **Alphabet Meadow** (Đồng Cỏ Bảng Chữ Cái) | `alphabet_meadow.tscn` | Đồng cỏ tươi sáng, 3 chữ cái phát sáng thất lạc (`A`, `B`, `C`), rương kho báu, đá cản đường. | Hoàn thành `quest_01_new_adventure` |
-| 3 | `letter_cave` | **Letter Cave** (Hang Động Chữ Cái) | `letter_cave.tscn` | Hang đá tối nhẹ với ánh sáng pha lê, NPC **Rocky**, bia đá cổ, chữ `E` thất lạc. | Hoàn thành `quest_02_lost_letters` |
-| 4 | `crystal_lake` | **Crystal Lake** (Hồ Pha Lê) | `crystal_lake.tscn` | Hồ nước phép thuật có vùng chắn nước (`LakeWater`), NPC **Crystal Guardian**, Mảnh Pha Lê Phép Thuật. | Flag `rocky_clue_found` (gặp Rocky) |
-| 5 | `shadow_gate` | **The Shadow Gate** (Cổng Bóng Tối) | `shadow_gate.tscn` | Quảng trường cổ tím sẫm, hai trụ đá và phong ấn Cổng Bóng Tối — mục tiêu lớn của Alphabet Island. | Hoàn thành `quest_03_mysterious_gate` + có item `magic_crystal_shard` |
+| 1 | `welcome_village` | **Welcome Village** (Làng Khởi Đầu) | `welcome_village.tscn` | **Khu vực 3D trọng điểm:** Đồi cỏ nhiều tầng, quảng trường đá, đường mòn uốn lượn, Học viện Cú Mèo, nhà Lily, đài phun nước có shader nước động, đèn đường phát sáng, cây xanh, hàng rào, hoa & hạt đom đóm. | `always_unlocked` (Khu vực xuất phát) |
+| 2 | `alphabet_meadow` | **Alphabet Meadow** (Đồng Cỏ Bảng Chữ Cái) | `alphabet_meadow.tscn` | Đồng cỏ 3D tươi sáng, đường mòn dẫn tới 3 chữ cái phép thuật phát sáng xoay trên bệ đá (`A`, `B`, `C`), rương kho báu, cây & đá tảng 3D. | Hoàn thành `quest_01_new_adventure` |
+| 3 | `letter_cave` | **Letter Cave** (Hang Động Chữ Cái) | `letter_cave.tscn` | Hang đá vòm 3D với sương mù xanh lam, cụm pha lê phát sáng, NPC **Rocky** 3D đội mũ đèn, chữ `E` thất lạc. | Hoàn thành `quest_02_lost_letters` |
+| 4 | `crystal_lake` | **Crystal Lake** (Hồ Pha Lê) | `crystal_lake.tscn` | Hồ nước 3D dùng shader gợn sóng phản chiếu ánh sáng (`LakeWaterSurface`), bờ cát vàng, NPC **Crystal Guardian** 3D bay lơ lửng, Mảnh Pha Lê Phép Thuật. | Flag `rocky_clue_found` (gặp Rocky) |
+| 5 | `shadow_gate` | **The Shadow Gate** (Cổng Bóng Tối) | `shadow_gate.tscn` | Đấu trường đá tím huyền bí, cổng vòm Obsidian phát sáng rune tím, hai trụ đá cổ và phong ấn Cổng Bóng Tối. | Hoàn thành `quest_03_mysterious_gate` + có item `magic_crystal_shard` |
 
 ---
 

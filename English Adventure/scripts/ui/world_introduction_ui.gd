@@ -8,7 +8,8 @@ var _index: int = 0
 @onready var safe_margin: MarginContainer = $SafeMargin
 @onready var center_panel: PanelContainer = $SafeMargin/Center/CenterPanel
 @onready var center_vbox: VBoxContainer = $SafeMargin/Center/CenterPanel/Margin/VBox
-@onready var portrait: TextureRect = $SafeMargin/Center/CenterPanel/Margin/VBox/SpeakerRow/Portrait
+@onready var portrait: SubViewportContainer = $SafeMargin/Center/CenterPanel/Margin/VBox/SpeakerRow/Portrait
+@onready var speaker_stage: Diorama3DStage = $SafeMargin/Center/CenterPanel/Margin/VBox/SpeakerRow/Portrait/SubViewport/SpeakerStage3D
 @onready var speaker_label: Label = $SafeMargin/Center/CenterPanel/Margin/VBox/SpeakerRow/SpeakerInfo/SpeakerName
 @onready var text_en_label: Label = $SafeMargin/Center/CenterPanel/Margin/VBox/DialogueCard/Margin/Texts/TextEnLabel
 @onready var text_vi_label: Label = $SafeMargin/Center/CenterPanel/Margin/VBox/DialogueCard/Margin/Texts/TextViLabel
@@ -53,9 +54,9 @@ func _show_current_line() -> void:
 		_finish_intro()
 		return
 	var line: Dictionary = _lines[_index]
-	var tex_path := str(line.get("portrait", "res://assets/characters/buddy/buddy_dragon.svg"))
-	if ResourceLoader.exists(tex_path):
-		portrait.texture = load(tex_path)
+	var speaker_id := str(line.get("speaker_id", "professor_owl"))
+	if speaker_stage != null:
+		speaker_stage.set_character("buddy" if "buddy" in speaker_id else "professor_owl")
 	speaker_label.text = LocalizationManager.pick_text(line, "speaker_name")
 	text_en_label.text = str(line.get("text_en", ""))
 	text_vi_label.text = str(line.get("text_vi", ""))

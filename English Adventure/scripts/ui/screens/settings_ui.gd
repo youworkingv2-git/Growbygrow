@@ -30,6 +30,9 @@ signal main_menu_requested()
 @onready var res_label: Label = $Center/Card/Margin/VBox/Scroll/Form/ResRow/Label
 @onready var res_option: OptionButton = $Center/Card/Margin/VBox/Scroll/Form/ResRow/Option
 
+@onready var quality_label: Label = $Center/Card/Margin/VBox/Scroll/Form/QualityRow/Label
+@onready var quality_option: OptionButton = $Center/Card/Margin/VBox/Scroll/Form/QualityRow/Option
+
 @onready var fullscreen_check: CheckButton = $Center/Card/Margin/VBox/Scroll/Form/FullscreenCheck
 @onready var reduced_motion_check: CheckButton = $Center/Card/Margin/VBox/Scroll/Form/ReducedMotionCheck
 
@@ -60,6 +63,11 @@ func _ready() -> void:
 		var sz: Vector2i = SettingsManager.RESOLUTION_PRESETS[idx]
 		res_option.add_item("%d x %d" % [sz.x, sz.y], idx)
 
+	quality_option.clear()
+	quality_option.add_item("Thấp (Mobile / Tiết kiệm pin)", 0)
+	quality_option.add_item("Trung bình (Cân bằng)", 1)
+	quality_option.add_item("Cao (Bóng đổ & Hiệu ứng đầy đủ)", 2)
+
 	music_slider.value_changed.connect(func(v: float) -> void:
 		SettingsManager.music_volume = v
 		music_val.text = "%d%%" % int(round(v * 100.0))
@@ -83,6 +91,11 @@ func _ready() -> void:
 	res_option.item_selected.connect(func(idx: int) -> void:
 		SettingsManager.resolution_index = idx
 		SettingsManager.apply_settings()
+	)
+	quality_option.item_selected.connect(func(idx: int) -> void:
+		var levels := ["low", "medium", "high"]
+		SettingsManager.graphics_quality = levels[clampi(idx, 0, 2)]
+		EventBus.settings_changed.emit()
 	)
 	fullscreen_check.toggled.connect(func(pressed: bool) -> void:
 		SettingsManager.fullscreen = pressed
@@ -135,6 +148,8 @@ func _sync_from_settings() -> void:
 	control_option.selected = maxi(0, mode_idx)
 	res_option.selected = clampi(SettingsManager.resolution_index, 0, SettingsManager.RESOLUTION_PRESETS.size() - 1)
 	res_option.disabled = not SettingsManager.supports_resolution_change()
+	var q_idx := ["low", "medium", "high"].find(SettingsManager.graphics_quality)
+	quality_option.selected = maxi(0, q_idx)
 
 	fullscreen_check.button_pressed = SettingsManager.fullscreen
 	fullscreen_check.disabled = not SettingsManager.supports_fullscreen_toggle()
@@ -149,6 +164,16 @@ func _refresh_texts() -> void:
 	lang_label.text = LocalizationManager.tr_key("settings_language", "Ngôn ngữ hướng dẫn")
 	control_label.text = LocalizationManager.tr_key("settings_controls", "Chế độ điều khiển")
 	res_label.text = LocalizationManager.tr_key("settings_resolution", "Độ phân giải")
+	quality_label.text = LocalizationManager.tr_key("settings_graphics_quality", "Chất lượng đồ họa 3D")
+	if quality_option.item_count >= 3:
+		if LocalizationManager.get_locale() == "en":
+			quality_option.set_item_text(0, "Low (Mobile / Battery Saver)")
+			quality_option.set_item_text(1, "Medium (Balanced)")
+			quality_option.set_item_text(2, "High (Full Shadows & Effects)")
+		else:
+			quality_option.set_item_text(0, "Thấp (Mobile / Tiết kiệm pin)")
+			quality_option.set_item_text(1, "Trung bình (Cân bằng)")
+			quality_option.set_item_text(2, "Cao (Bóng đổ & Hiệu ứng đầy đủ)")
 	fullscreen_check.text = LocalizationManager.tr_key("settings_fullscreen", "Toàn màn hình")
 	reduced_motion_check.text = LocalizationManager.tr_key("settings_reduced_motion", "Giảm hiệu ứng chuyển động")
 	save_btn.text = LocalizationManager.tr_key("settings_save", "Lưu cài đặt")

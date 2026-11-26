@@ -16,11 +16,21 @@ var fullscreen: bool = false
 var resolution_index: int = 0
 var control_mode: String = "auto" # auto | keyboard | touch
 var reduced_motion: bool = false
+var graphics_quality: String = "medium" # low | medium | high
 
 
 func _ready() -> void:
+	graphics_quality = default_graphics_quality()
 	load_settings()
 	apply_settings()
+
+
+static func default_graphics_quality() -> String:
+	if OS.has_feature("mobile") or OS.has_feature("web_android") or OS.has_feature("web_ios"):
+		return "low"
+	if OS.has_feature("web"):
+		return "medium"
+	return "high"
 
 
 func load_settings() -> void:
@@ -43,6 +53,8 @@ func load_settings() -> void:
 	var cm := str(d.get("control_mode", "auto"))
 	control_mode = cm if cm in ["auto", "keyboard", "touch"] else "auto"
 	reduced_motion = bool(d.get("reduced_motion", false))
+	var gq := str(d.get("graphics_quality", default_graphics_quality()))
+	graphics_quality = gq if gq in ["low", "medium", "high"] else "medium"
 
 
 func save_settings() -> bool:
@@ -53,7 +65,8 @@ func save_settings() -> bool:
 		"fullscreen": fullscreen,
 		"resolution_index": resolution_index,
 		"control_mode": control_mode,
-		"reduced_motion": reduced_motion
+		"reduced_motion": reduced_motion,
+		"graphics_quality": graphics_quality
 	}
 	var f := FileAccess.open(SETTINGS_PATH, FileAccess.WRITE)
 	if f == null:

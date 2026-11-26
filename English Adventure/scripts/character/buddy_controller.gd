@@ -1,62 +1,79 @@
 class_name BuddyController
-extends Node2D
-## Companion dragon Buddy with 7 expression states, smooth follow behavior,
-## bilingual tips, and extensible voice hook for Prompt 03+.
+extends Node3D
+## 3D Companion Dragon Buddy with 7 expression states, wing-flapping & tail-wag animation,
+## smooth 3D follow behavior, bilingual tips, and screen-projected speech bubble.
 
 enum BuddyMood { IDLE, HAPPY, SAD, SURPRISED, THINKING, TALKING, CELEBRATING }
 
-@export var follow_offset: Vector2 = Vector2(-56.0, -44.0)
+@export var follow_offset: Vector3 = Vector3(-1.4, 1.35, -0.8)
 @export var follow_speed: float = 5.5
 
 var current_mood: BuddyMood = BuddyMood.IDLE
-var target_node: Node2D = null
+var target_node: Node3D = null
 var _hover_time: float = 0.0
+var _rig: CharacterRig3D = null
 
-@onready var sprite: Sprite2D = $Sprite2D
-@onready var mood_badge: Label = $MoodBadge
-@onready var speech_panel: PanelContainer = $SpeechBubble
-@onready var speech_label: Label = $SpeechBubble/Margin/Label
+@onready var visual_slot: Asset3DSlot = $VisualSlot
+@onready var speech_layer: CanvasLayer = $SpeechLayer
+@onready var mood_badge: Label = $SpeechLayer/MoodBadge
+@onready var speech_panel: PanelContainer = $SpeechLayer/SpeechBubble
+@onready var speech_label: Label = $SpeechLayer/SpeechBubble/Margin/Label
 @onready var hide_timer: Timer = $HideSpeechTimer
 
 
 func _ready() -> void:
 	speech_panel.visible = false
+	mood_badge.visible = false
 	hide_timer.timeout.connect(func() -> void: speech_panel.visible = false)
+
+	var cfg := DataRepository.buddy_config
+	var override_glb := str(cfg.get("model_3d_path", ""))
+	if not override_glb.is_empty():
+		visual_slot.override_model_path = override_glb
+	_rig = CharacterRig3D.build_character("buddy")
+	var loaded := visual_slot.attach_or_placeholder(_rig)
+	if not (loaded is CharacterRig3D):
+		_rig = null
+
 	EventBus.quest_completed.connect(_on_quest_completed)
 	EventBus.area_unlocked.connect(_on_area_unlocked)
 	EventBus.buddy_state_changed.connect(_on_buddy_state_changed)
 	set_mood(BuddyMood.IDLE)
 
 
-func attach_to_player(player: Node2D) -> void:
+func attach_to_player(player: Node3D) -> void:
 	target_node = player
 	global_position = player.global_position + follow_offset
 
 
 func set_mood(mood: BuddyMood) -> void:
 	current_mood = mood
+	var expr := "neutral"
 	match mood:
 		BuddyMood.IDLE:
 			mood_badge.text = ""
-			sprite.modulate = Color.WHITE
+			expr = "neutral"
 		BuddyMood.HAPPY:
 			mood_badge.text = "^_^"
-			sprite.modulate = Color(1.0, 1.0, 0.95)
+			expr = "happy"
 		BuddyMood.SAD:
 			mood_badge.text = "T_T"
-			sprite.modulate = Color(0.85, 0.9, 1.0)
+			expr = "thinking"
 		BuddyMood.SURPRISED:
 			mood_badge.text = "!"
-			sprite.modulate = Color(1.0, 0.98, 0.85)
+			expr = "surprised"
 		BuddyMood.THINKING:
 			mood_badge.text = "?"
-			sprite.modulate = Color(0.92, 0.96, 1.0)
+			expr = "thinking"
 		BuddyMood.TALKING:
 			mood_badge.text = "..."
-			sprite.modulate = Color.WHITE
+			expr = "encouraging"
 		BuddyMood.CELEBRATING:
 			mood_badge.text = "*"
-			sprite.modulate = Color(1.0, 0.96, 0.78)
+			expr = "excited"
+	mood_badge.visible = not mood_badge.text.is_empty()
+	if _rig != null:
+		_rig.set_expression(expr)
 
 
 func set_mood_by_name(state_name: String) -> void:
@@ -75,7 +92,6 @@ func speak_tip(message: String, mood_name: String = "happy", duration_sec: float
 	speech_label.text = message
 	speech_panel.visible = true
 	hide_timer.start(duration_sec)
-	# Future voice integration hook (Prompt 03+): play_buddy_voice(voice_key)
 
 
 func offer_contextual_help() -> void:
@@ -104,15 +120,52 @@ func offer_contextual_help() -> void:
 
 func _process(delta: float) -> void:
 	_hover_time += delta
-	if target_node != null:
+	if target_node != null and is_instance_valid(target_node):
 		var desired := target_node.global_position + follow_offset
 		global_position = global_position.lerp(desired, minf(1.0, delta * follow_speed))
-		sprite.flip_h = target_node.global_position.x < global_position.x
-	sprite.position.y = sin(_hover_time * 4.0) * 6.0
-	if current_mood == BuddyMood.CELEBRATING:
-		sprite.rotation = sin(_hover_time * 12.0) * 0.12
-	else:
-		sprite.rotation = 0.0
+		var look_dir := Vector2(target_node.global_position.x - global_position.x, target_node.global_position.z - global_position.z)
+		if look_dir.length_squared() > 0.02:
+			var yaw := atan2(look_dir.x, look_dir.y)
+			visual_slot.rotation.y = lerp_angle(visual_slot.rotation.y, yaw, minf(1.0, delta * 6.0))
+
+	# 3D Dragon Hover, Wing Flap & Tail Wag
+	visual_slot.position.y = sin(_hover_time * 3.8) * 0.16
+	if _rig != null and is_instance_valid(_rig):
+		var flap_speed := 15.0 if current_mood == BuddyMood.CELEBRATING else 8.5
+		var flap_amp := 0.55 if current_mood == BuddyMood.CELEBRATING else 0.32
+		if _rig.left_wing_pivot != null:
+			_rig.left_wing_pivot.rotation.z = sin(_hover_time * flap_speed) * flap_amp
+		if _rig.right_wing_pivot != null:
+			_rig.right_wing_pivot.rotation.z = -sin(_hover_time * flap_speed) * flap_amp
+		if _rig.tail_pivot != null:
+			_rig.tail_pivot.rotation.y = sin(_hover_time * 5.2) * 0.28
+		if current_mood == BuddyMood.CELEBRATING:
+			visual_slot.rotation.z = sin(_hover_time * 10.0) * 0.14
+		else:
+			visual_slot.rotation.z = lerpf(visual_slot.rotation.z, 0.0, minf(1.0, delta * 8.0))
+
+	_update_screen_bubble()
+
+
+func _update_screen_bubble() -> void:
+	var cam := get_viewport().get_camera_3d()
+	if cam == null or not speech_panel.visible and not mood_badge.visible:
+		return
+	var world_anchor := global_position + Vector3(0.0, 1.35 + visual_slot.position.y, 0.0)
+	if cam.is_position_behind(world_anchor):
+		speech_panel.modulate.a = 0.0
+		mood_badge.modulate.a = 0.0
+		return
+	speech_panel.modulate.a = 1.0
+	mood_badge.modulate.a = 1.0
+	var screen_pt := cam.unproject_position(world_anchor)
+	var vp_size := get_viewport().get_visible_rect().size
+	var bubble_w := speech_panel.size.x if speech_panel.size.x > 10.0 else 260.0
+	var bubble_h := speech_panel.size.y if speech_panel.size.y > 10.0 else 68.0
+	var bx := clampf(screen_pt.x - bubble_w * 0.5, 12.0, maxf(12.0, vp_size.x - bubble_w - 12.0))
+	var by := clampf(screen_pt.y - bubble_h - 14.0, 74.0, maxf(74.0, vp_size.y - bubble_h - 120.0))
+	speech_panel.position = Vector2(bx, by)
+	mood_badge.position = Vector2(clampf(screen_pt.x + 18.0, 12.0, vp_size.x - 56.0), clampf(screen_pt.y - 24.0, 64.0, vp_size.y - 40.0))
 
 
 func _on_quest_completed(_quest_id: String, _rewards: Dictionary) -> void:

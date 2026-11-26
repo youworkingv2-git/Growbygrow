@@ -5,7 +5,6 @@ extends Control
 @onready var safe_margin: MarginContainer = $SafeMargin
 @onready var layout_box: BoxContainer = $SafeMargin/Center/MenuPanel/Margin/LayoutBox
 @onready var hero_stage: Panel = $SafeMargin/Center/MenuPanel/Margin/LayoutBox/HeroCol/HeroStage
-@onready var buddy_sprite: TextureRect = $SafeMargin/Center/MenuPanel/Margin/LayoutBox/HeroCol/HeroStage/BuddySprite
 @onready var status_label: Label = $SafeMargin/Center/MenuPanel/Margin/LayoutBox/HeroCol/StatusLabel
 @onready var title_label: Label = $SafeMargin/Center/MenuPanel/Margin/LayoutBox/ActionsCol/TitleLabel
 @onready var subtitle_label: Label = $SafeMargin/Center/MenuPanel/Margin/LayoutBox/ActionsCol/SubtitleLabel
@@ -39,12 +38,6 @@ func _ready() -> void:
 
 	_refresh_state()
 	_apply_responsive()
-
-
-func _process(delta: float) -> void:
-	if not UIAnimator.is_reduced():
-		_float_time += delta
-		buddy_sprite.position.y = 32.0 + sin(_float_time * 3.0) * 5.0
 
 
 func _refresh_state() -> void:

@@ -1,15 +1,15 @@
 class_name InteractionManager
 extends Node
-## Shared Interaction Manager tracking nearby NPCs & objects, highlighting closest target,
+## Shared 3D Interaction Manager tracking nearby NPCs & objects, highlighting closest target,
 ## and routing interaction actions uniformly.
 
 signal target_changed(target_meta: Dictionary)
 signal object_message_requested(title: String, message: String, object_data: Dictionary)
 signal npc_interaction_requested(npc_data: Dictionary)
 
-var _candidates: Array[Area2D] = []
-var _current_target: Area2D = null
-var _player_node: Node2D = null
+var _candidates: Array[Area3D] = []
+var _current_target: Area3D = null
+var _player_node: Node3D = null
 var _locked: bool = false
 var _ui_blocked: bool = false
 
@@ -18,7 +18,7 @@ func set_ui_blocked(blocked: bool) -> void:
 	_ui_blocked = blocked
 
 
-func bind_detector(player: Node2D, detector_area: Area2D) -> void:
+func bind_detector(player: Node3D, detector_area: Area3D) -> void:
 	_player_node = player
 	detector_area.area_entered.connect(_on_area_entered)
 	detector_area.area_exited.connect(_on_area_exited)
@@ -49,6 +49,8 @@ func trigger_current_interaction() -> void:
 
 	if _current_target is NpcController:
 		var npc := _current_target as NpcController
+		if _player_node is PlayerController:
+			(_player_node as PlayerController).set_dialogue_focus(npc.global_position)
 		EventBus.interaction_triggered.emit(npc.npc_id, "npc")
 		npc_interaction_requested.emit(npc.npc_data)
 	elif _current_target is InteractableObject:
@@ -81,7 +83,6 @@ func _handle_object_interaction(obj: InteractableObject) -> void:
 	if data.has("set_flag") and not str(data["set_flag"]).is_empty():
 		GameStateManager.set_flag(str(data["set_flag"]), true)
 
-	# Emit message first so DialogueBox opens synchronously before any quest-completed popup triggers
 	if not msg.is_empty():
 		object_message_requested.emit(title, msg, data)
 
@@ -90,14 +91,14 @@ func _handle_object_interaction(obj: InteractableObject) -> void:
 	GameStateManager.save_now("interact_" + obj.object_id)
 
 
-func _on_area_entered(area: Area2D) -> void:
+func _on_area_entered(area: Area3D) -> void:
 	if (area is NpcController or area is InteractableObject) and not _candidates.has(area):
 		_candidates.append(area)
 		if not _locked:
 			_refresh_closest_target()
 
 
-func _on_area_exited(area: Area2D) -> void:
+func _on_area_exited(area: Area3D) -> void:
 	_candidates.erase(area)
 	if _locked:
 		if _current_target == area:
@@ -110,7 +111,7 @@ func _on_area_exited(area: Area2D) -> void:
 
 
 func _refresh_closest_target() -> void:
-	var best: Area2D = null
+	var best: Area3D = null
 	var best_dist := INF
 	for c in _candidates:
 		if not is_instance_valid(c) or not c.visible:
@@ -134,6 +135,6 @@ func _refresh_closest_target() -> void:
 			EventBus.interactable_unfocused.emit()
 
 
-func _set_focus(node: Area2D, focused: bool) -> void:
+func _set_focus(node: Area3D, focused: bool) -> void:
 	if node.has_method("set_focused"):
 		node.call("set_focused", focused)

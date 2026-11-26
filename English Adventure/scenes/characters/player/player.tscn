@@ -2,38 +2,48 @@
 
 [ext_resource type="Script" path="res://scripts/character/player_controller.gd" id="1_player"]
 [ext_resource type="Script" path="res://scripts/character/character_animator.gd" id="2_anim"]
-[ext_resource type="Texture2D" path="res://assets/characters/player/boy/boy_adventurer.svg" id="3_tex"]
+[ext_resource type="Script" path="res://scripts/visual3d/asset_3d_slot.gd" id="3_slot"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_body"]
-radius = 20.0
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_body"]
+radius = 0.38
+height = 1.45
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_interact"]
-radius = 68.0
+[sub_resource type="SphereShape3D" id="SphereShape3D_interact"]
+radius = 2.6
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody3D"]
 collision_layer = 1
 collision_mask = 2
 script = ExtResource("1_player")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, -34)
-scale = Vector2(0.68, 0.68)
-texture = ExtResource("3_tex")
+[node name="VisualSlot" type="Node3D" parent="."]
+script = ExtResource("3_slot")
+asset_id = "player_adventurer"
 
-[node name="CharacterAnimator" type="Node2D" parent="."]
+[node name="CharacterAnimator" type="Node3D" parent="."]
 script = ExtResource("2_anim")
-sprite_node_path = NodePath("../Sprite2D")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_body")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.72, 0)
+shape = SubResource("CapsuleShape3D_body")
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position_smoothing_enabled = true
-position_smoothing_speed = 8.0
+[node name="CameraPivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.906308, 0.422618, 0, -0.422618, 0.906308, 0, 1.35, 0)
 
-[node name="InteractionDetector" type="Area2D" parent="."]
+[node name="SpringArm3D" type="SpringArm3D" parent="CameraPivot"]
+collision_mask = 2
+spring_length = 6.8
+margin = 0.35
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot/SpringArm3D"]
+current = true
+fov = 52.0
+far = 160.0
+
+[node name="InteractionDetector" type="Area3D" parent="."]
 collision_layer = 0
 collision_mask = 4
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionDetector"]
-shape = SubResource("CircleShape2D_interact")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionDetector"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+shape = SubResource("SphereShape3D_interact")

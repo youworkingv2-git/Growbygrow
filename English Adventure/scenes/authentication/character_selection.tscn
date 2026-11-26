@@ -1,8 +1,7 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/character_selection_ui.gd" id="1_char_ui"]
-[ext_resource type="Texture2D" path="res://assets/characters/player/boy/boy_adventurer.svg" id="2_boy"]
-[ext_resource type="Texture2D" path="res://assets/characters/player/girl/girl_adventurer.svg" id="3_girl"]
+[ext_resource type="Script" path="res://scripts/visual3d/diorama_3d_stage.gd" id="2_stage"]
 
 [node name="CharacterSelection" type="Control"]
 layout_mode = 3
@@ -90,13 +89,21 @@ layout_mode = 2
 theme_override_constants/separation = 8
 alignment = 1
 
-[node name="Preview" type="TextureRect" parent="RootMargin/Scroll/VBox/CardsRow/BoyCard/Margin/VBox"]
-custom_minimum_size = Vector2(128, 150)
+[node name="Preview" type="SubViewportContainer" parent="RootMargin/Scroll/VBox/CardsRow/BoyCard/Margin/VBox"]
+custom_minimum_size = Vector2(148, 168)
 layout_mode = 2
 size_flags_vertical = 3
-texture = ExtResource("2_boy")
-expand_mode = 1
-stretch_mode = 5
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="RootMargin/Scroll/VBox/CardsRow/BoyCard/Margin/VBox/Preview"]
+own_world_3d = true
+handle_input_locally = false
+size = Vector2i(220, 220)
+render_target_update_mode = 4
+
+[node name="Stage3D" type="Node3D" parent="RootMargin/Scroll/VBox/CardsRow/BoyCard/Margin/VBox/Preview/SubViewport"]
+script = ExtResource("2_stage")
+stage_mode = "boy"
 
 [node name="Name" type="Label" parent="RootMargin/Scroll/VBox/CardsRow/BoyCard/Margin/VBox"]
 layout_mode = 2
@@ -134,13 +141,21 @@ layout_mode = 2
 theme_override_constants/separation = 8
 alignment = 1
 
-[node name="Preview" type="TextureRect" parent="RootMargin/Scroll/VBox/CardsRow/GirlCard/Margin/VBox"]
-custom_minimum_size = Vector2(128, 150)
+[node name="Preview" type="SubViewportContainer" parent="RootMargin/Scroll/VBox/CardsRow/GirlCard/Margin/VBox"]
+custom_minimum_size = Vector2(148, 168)
 layout_mode = 2
 size_flags_vertical = 3
-texture = ExtResource("3_girl")
-expand_mode = 1
-stretch_mode = 5
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="RootMargin/Scroll/VBox/CardsRow/GirlCard/Margin/VBox/Preview"]
+own_world_3d = true
+handle_input_locally = false
+size = Vector2i(220, 220)
+render_target_update_mode = 4
+
+[node name="Stage3D" type="Node3D" parent="RootMargin/Scroll/VBox/CardsRow/GirlCard/Margin/VBox/Preview/SubViewport"]
+script = ExtResource("2_stage")
+stage_mode = "girl"
 
 [node name="Name" type="Label" parent="RootMargin/Scroll/VBox/CardsRow/GirlCard/Margin/VBox"]
 layout_mode = 2

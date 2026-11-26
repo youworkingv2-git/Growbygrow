@@ -1,22 +1,36 @@
 class_name PlayerController
-extends CharacterBody2D
-## 2.5D top-down player movement supporting Desktop (WASD/Arrows, Shift run, Space jump, E interact)
-## and Mobile Touch Virtual Joystick + action buttons.
+extends CharacterBody3D
+## Third-person 3D Adventurer Controller with:
+## - Camera-relative movement (WASD / Arrows / VirtualJoystick)
+## - SpringArm3D collision-safe third-person camera with mouse/touch/key orbit
+## - Smooth 3D jump & gravity
+## - Dialogue framing support
 
-@export var walk_speed: float = 235.0
-@export var run_speed: float = 340.0
+@export var walk_speed: float = 6.2
+@export var run_speed: float = 9.2
+@export var jump_velocity: float = 7.4
+@export var gravity: float = 20.0
+@export var world_half_extent_x: float = 20.0
+@export var world_half_extent_z: float = 11.5
 
 var virtual_move_vector: Vector2 = Vector2.ZERO
 var movement_locked: bool = false
-var _last_facing: Vector2 = Vector2.DOWN
+var _last_facing: Vector3 = Vector3.BACK
 
-@onready var sprite: Sprite2D = $Sprite2D
+@onready var visual_slot: Asset3DSlot = $VisualSlot
 @onready var animator: CharacterAnimator = $CharacterAnimator
-@onready var camera: Camera2D = $Camera2D
+@onready var camera_pivot: Node3D = $CameraPivot
+@onready var spring_arm: SpringArm3D = $CameraPivot/SpringArm3D
+@onready var camera: Camera3D = $CameraPivot/SpringArm3D/Camera3D
 
-
+var _rig: CharacterRig3D = null
 var _dialogue_locked: bool = false
 var _pause_locked: bool = false
+var _cam_yaw: float = 0.0
+var _cam_pitch: float = -0.44
+var _orbit_dragging: bool = false
+var _dialogue_focus_active: bool = false
+var _dialogue_focus_pos: Vector3 = Vector3.ZERO
 
 
 func _ready() -> void:
@@ -27,19 +41,27 @@ func _ready() -> void:
 
 
 func apply_character_visual(gender_id: String) -> void:
-	var cfg := DataRepository.get_character_config(gender_id)
-	var path := str(cfg.get("sprite_path", "res://assets/characters/player/boy/boy_adventurer.svg"))
-	if ResourceLoader.exists(path):
-		sprite.texture = load(path)
+	var char_id := "girl" if gender_id == "girl" else "boy"
+	var cfg := DataRepository.get_character_config(char_id)
+	var override_glb := str(cfg.get("model_3d_path", ""))
+	if not override_glb.is_empty():
+		visual_slot.override_model_path = override_glb
+	_rig = CharacterRig3D.build_character(char_id)
+	var loaded := visual_slot.attach_or_placeholder(_rig)
+	if loaded is CharacterRig3D:
+		animator.bind_rig(loaded as CharacterRig3D)
+	else:
+		animator.bind_rig(null)
 
 
-func set_camera_limits(bounds: Rect2i) -> void:
-	if camera == null:
-		return
-	camera.limit_left = bounds.position.x
-	camera.limit_top = bounds.position.y
-	camera.limit_right = bounds.position.x + bounds.size.x
-	camera.limit_bottom = bounds.position.y + bounds.size.y
+func set_camera_limits(_bounds: Rect2i) -> void:
+	# Kept for Prompt 02/03 API compatibility; 3D uses SpringArm3D collision & world bounds.
+	pass
+
+
+func set_world_bounds(half_x: float, half_z: float) -> void:
+	world_half_extent_x = half_x
+	world_half_extent_z = half_z
 
 
 func set_virtual_joystick(vec: Vector2) -> void:
@@ -47,8 +69,9 @@ func set_virtual_joystick(vec: Vector2) -> void:
 
 
 func trigger_jump() -> void:
-	if movement_locked:
+	if movement_locked or not is_on_floor():
 		return
+	velocity.y = jump_velocity
 	animator.play_state(CharacterAnimator.AnimState.JUMP)
 
 
@@ -58,14 +81,65 @@ func trigger_interact_anim() -> void:
 
 func trigger_celebrate_anim() -> void:
 	animator.play_state(CharacterAnimator.AnimState.CELEBRATE)
+	if _rig != null:
+		_rig.set_expression("excited")
 
 
-func _physics_process(_delta: float) -> void:
+func set_dialogue_focus(target_pos: Vector3) -> void:
+	_dialogue_focus_active = true
+	_dialogue_focus_pos = target_pos
+	if _rig != null:
+		var dir := Vector2(target_pos.x - global_position.x, target_pos.z - global_position.z)
+		animator.set_facing_vector(dir)
+		_rig.set_expression("happy")
+
+
+func clear_dialogue_focus() -> void:
+	_dialogue_focus_active = false
+	if _rig != null:
+		_rig.set_expression("neutral")
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if UIManager.is_modal_open() or _pause_locked:
+		_orbit_dragging = false
+		return
+
+	if event is InputEventMouseButton:
+		var mb := event as InputEventMouseButton
+		if mb.button_index == MOUSE_BUTTON_RIGHT or mb.button_index == MOUSE_BUTTON_MIDDLE:
+			_orbit_dragging = mb.pressed
+		elif mb.button_index == MOUSE_BUTTON_WHEEL_UP and mb.pressed:
+			spring_arm.spring_length = clampf(spring_arm.spring_length - 0.55, 4.0, 10.5)
+		elif mb.button_index == MOUSE_BUTTON_WHEEL_DOWN and mb.pressed:
+			spring_arm.spring_length = clampf(spring_arm.spring_length + 0.55, 4.0, 10.5)
+	elif event is InputEventMouseMotion and _orbit_dragging:
+		var mm := event as InputEventMouseMotion
+		_cam_yaw -= mm.relative.x * 0.0065
+		_cam_pitch = clampf(_cam_pitch - mm.relative.y * 0.005, -0.92, -0.18)
+
+
+func _physics_process(delta: float) -> void:
+	_update_camera(delta)
+
 	movement_locked = _dialogue_locked or _pause_locked or UIManager.is_modal_open()
+	if not is_on_floor():
+		velocity.y -= gravity * delta
+	elif velocity.y < 0.0:
+		velocity.y = 0.0
+
 	if movement_locked:
-		velocity = Vector2.ZERO
+		velocity.x = move_toward(velocity.x, 0.0, 28.0 * delta)
+		velocity.z = move_toward(velocity.z, 0.0, 28.0 * delta)
+		move_and_slide()
 		animator.play_state(CharacterAnimator.AnimState.IDLE)
 		return
+
+	# Optional Q / C keyboard camera rotation for laptop trackpads
+	if Input.is_key_pressed(KEY_Q):
+		_cam_yaw += 1.9 * delta
+	if Input.is_key_pressed(KEY_C):
+		_cam_yaw -= 1.9 * delta
 
 	var input_vec := _read_keyboard_vector()
 	if virtual_move_vector.length() > 0.1:
@@ -76,21 +150,53 @@ func _physics_process(_delta: float) -> void:
 
 	var is_running := Input.is_key_pressed(KEY_SHIFT) or input_vec.length() > 0.85
 	var speed := run_speed if is_running else walk_speed
-	velocity = input_vec * speed
+
+	# Camera-relative movement on XZ plane
+	var cam_basis := Basis(Vector3.UP, _cam_yaw)
+	var move_dir := (cam_basis * Vector3(input_vec.x, 0.0, input_vec.y))
+	move_dir.y = 0.0
+	if move_dir.length_squared() > 0.001:
+		move_dir = move_dir.normalized() * minf(1.0, input_vec.length())
+
+	velocity.x = move_dir.x * speed
+	velocity.z = move_dir.z * speed
 	move_and_slide()
 
-	if input_vec.length() > 0.08:
-		_last_facing = input_vec.normalized()
-		animator.set_facing_dir(input_vec.x)
-		if animator.current_state != CharacterAnimator.AnimState.JUMP:
+	# Keep inside walkable island bounds smoothly
+	global_position.x = clampf(global_position.x, -world_half_extent_x, world_half_extent_x)
+	global_position.z = clampf(global_position.z, -world_half_extent_z, world_half_extent_z)
+
+	if move_dir.length() > 0.08:
+		_last_facing = move_dir.normalized()
+		animator.set_facing_vector(Vector2(move_dir.x, move_dir.z))
+		if is_on_floor() and animator.current_state != CharacterAnimator.AnimState.JUMP:
 			animator.play_state(CharacterAnimator.AnimState.RUN if is_running else CharacterAnimator.AnimState.WALK)
 	else:
-		if animator.current_state != CharacterAnimator.AnimState.JUMP and animator.current_state != CharacterAnimator.AnimState.CELEBRATE and animator.current_state != CharacterAnimator.AnimState.INTERACT:
+		if is_on_floor() and animator.current_state != CharacterAnimator.AnimState.JUMP and animator.current_state != CharacterAnimator.AnimState.CELEBRATE and animator.current_state != CharacterAnimator.AnimState.INTERACT:
 			animator.play_state(CharacterAnimator.AnimState.IDLE)
 
-	if Input.is_action_just_pressed("ui_accept") or Input.is_key_pressed(KEY_SPACE):
-		if animator.current_state != CharacterAnimator.AnimState.JUMP:
-			trigger_jump()
+	if (Input.is_action_just_pressed("ui_accept") or Input.is_key_pressed(KEY_SPACE)) and is_on_floor():
+		trigger_jump()
+
+
+func _update_camera(delta: float) -> void:
+	if camera_pivot == null:
+		return
+	var target_pivot_pos := Vector3(0.0, 1.35, 0.0)
+	var target_pitch := _cam_pitch
+	var target_len := spring_arm.spring_length
+
+	if _dialogue_focus_active:
+		var mid := (_dialogue_focus_pos - global_position) * 0.45
+		target_pivot_pos = Vector3(mid.x, 1.45, mid.z)
+		target_pitch = -0.32
+		target_len = 5.2
+
+	camera_pivot.position = camera_pivot.position.lerp(target_pivot_pos, minf(1.0, delta * 6.5))
+	camera_pivot.rotation.y = lerp_angle(camera_pivot.rotation.y, _cam_yaw, minf(1.0, delta * 9.0))
+	camera_pivot.rotation.x = lerpf(camera_pivot.rotation.x, target_pitch, minf(1.0, delta * 8.0))
+	if _dialogue_focus_active:
+		spring_arm.spring_length = lerpf(spring_arm.spring_length, target_len, minf(1.0, delta * 5.0))
 
 
 func _read_keyboard_vector() -> Vector2:
@@ -115,6 +221,7 @@ func _on_dialogue_started(_dialogue_id: String) -> void:
 func _on_dialogue_ended(_dialogue_id: String) -> void:
 	_dialogue_locked = false
 	movement_locked = _pause_locked or UIManager.is_modal_open()
+	clear_dialogue_focus()
 
 
 func _on_pause_toggled(is_paused: bool) -> void:

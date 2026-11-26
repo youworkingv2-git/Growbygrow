@@ -1,14 +1,17 @@
 class_name NpcController
-extends Area2D
-## Data-driven NPC actor supporting quest badges (!, ?), state indicators, and dialogue hooks.
+extends Area3D
+## Data-driven 3D NPC actor supporting quest badges (!, ?), 3D character rigs,
+## subtle idle animations, ground focus ring, and dialogue hooks.
 
 var npc_id: String = ""
 var npc_data: Dictionary = {}
+var _rig: CharacterRig3D = null
+var _idle_t: float = 0.0
 
-@onready var sprite: Sprite2D = $Sprite2D
-@onready var name_label: Label = $NameLabel
-@onready var quest_badge: Label = $QuestBadge
-@onready var focus_ring: ColorRect = $FocusRing
+@onready var visual_slot: Asset3DSlot = $VisualSlot
+@onready var name_label: Label3D = $NameLabel3D
+@onready var quest_badge: Label3D = $QuestBadge3D
+@onready var focus_ring: MeshInstance3D = $FocusRing
 
 
 func setup(data: Dictionary) -> void:
@@ -28,10 +31,29 @@ func _ready() -> void:
 		_refresh_visuals()
 
 
+func _process(delta: float) -> void:
+	_idle_t += delta
+	if _rig != null and is_instance_valid(_rig):
+		if _rig.body_pivot != null:
+			_rig.body_pivot.position.y = sin(_idle_t * 2.2) * 0.03
+		if _rig.head_pivot != null:
+			_rig.head_pivot.rotation.y = sin(_idle_t * 1.1) * 0.12
+		if _rig.aura_mesh != null:
+			_rig.aura_mesh.rotation.y += delta * 1.2
+	if quest_badge.visible:
+		quest_badge.position.y = 2.05 + sin(_idle_t * 3.6) * 0.10
+	if focus_ring.visible:
+		focus_ring.rotation.y += delta * 1.6
+
+
 func _refresh_visuals() -> void:
-	var sprite_path := str(npc_data.get("sprite_path", ""))
-	if ResourceLoader.exists(sprite_path):
-		sprite.texture = load(sprite_path)
+	var override_glb := str(npc_data.get("model_3d_path", ""))
+	if not override_glb.is_empty():
+		visual_slot.override_model_path = override_glb
+	_rig = CharacterRig3D.build_character(npc_id)
+	var loaded := visual_slot.attach_or_placeholder(_rig)
+	if not (loaded is CharacterRig3D):
+		_rig = null
 	name_label.text = LocalizationManager.pick_text(npc_data, "name")
 	_refresh_badge()
 

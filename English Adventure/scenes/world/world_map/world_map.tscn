@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/world_map_ui.gd" id="1_map"]
 [ext_resource type="Texture2D" path="res://assets/environments/alphabet_island/owl_house.svg" id="2_area_img"]
+[ext_resource type="Script" path="res://scripts/visual3d/alphabet_island_3d_map.gd" id="3_map3d"]
 
 [node name="WorldMap" type="Control"]
 layout_mode = 3
@@ -75,25 +76,24 @@ size_flags_vertical = 3
 [node name="MapCanvas" type="Control" parent="MainMargin/MainVBox/BodySplit/MapCanvasContainer"]
 layout_mode = 2
 
-[node name="OceanTint" type="ColorRect" parent="MainMargin/MainVBox/BodySplit/MapCanvasContainer/MapCanvas"]
+[node name="Map3DViewportContainer" type="SubViewportContainer" parent="MainMargin/MainVBox/BodySplit/MapCanvasContainer/MapCanvas"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color(0.1, 0.42, 0.66, 1)
+stretch = true
 
-[node name="IslandShape" type="ColorRect" parent="MainMargin/MainVBox/BodySplit/MapCanvasContainer/MapCanvas"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 28.0
-offset_top = 28.0
-offset_right = -28.0
-offset_bottom = -28.0
-color = Color(0.2, 0.58, 0.36, 0.78)
+[node name="SubViewport" type="SubViewport" parent="MainMargin/MainVBox/BodySplit/MapCanvasContainer/MapCanvas/Map3DViewportContainer"]
+own_world_3d = true
+handle_input_locally = false
+size = Vector2i(760, 480)
+render_target_update_mode = 4
+
+[node name="AlphabetIsland3DMap" type="Node3D" parent="MainMargin/MainVBox/BodySplit/MapCanvasContainer/MapCanvas/Map3DViewportContainer/SubViewport"]
+script = ExtResource("3_map3d")
 
 [node name="ConnectionsLayer" type="Control" parent="MainMargin/MainVBox/BodySplit/MapCanvasContainer/MapCanvas"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
