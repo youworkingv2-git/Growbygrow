@@ -42,6 +42,7 @@ var _dialogue_focus_pos: Vector3 = Vector3.ZERO
 
 
 func _ready() -> void:
+	add_to_group("player")
 	apply_character_visual(GameStateManager.selected_character)
 	_sync_camera_settings()
 	EventBus.dialogue_started.connect(_on_dialogue_started)

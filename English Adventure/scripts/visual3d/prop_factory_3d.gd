@@ -195,6 +195,8 @@ static func build_stylized_tree(scale_factor: float = 1.0, leaf_color: Color = C
 	_mesh_part(tree, "CanopySide", _sph(0.90, 1.5), leaf_hi, Vector3(-0.65, 2.55, 0.35), Vector3.ZERO, Vector3.ONE, 42.0)
 
 	var body := StaticBody3D.new()
+	body.collision_layer = 2
+	body.collision_mask = 0
 	var col := CollisionShape3D.new()
 	var cyl_shape := CylinderShape3D.new()
 	cyl_shape.radius = 0.42
@@ -232,6 +234,8 @@ static func build_village_cottage(roof_color: Color = Color(0.84, 0.34, 0.28), w
 		_mesh_part(house, "AcademySign", _cyl(0.45, 0.45, 0.12), _mat(Color(0.96, 0.78, 0.24), 0.3, 0.6), Vector3(0, 2.65, 1.88), Vector3(90, 0, 0))
 
 	var body := StaticBody3D.new()
+	body.collision_layer = 2
+	body.collision_mask = 0
 	var col := CollisionShape3D.new()
 	var box_shape := BoxShape3D.new()
 	box_shape.size = Vector3(4.5, 3.2, 3.9)
@@ -259,6 +263,8 @@ static func build_fountain() -> Node3D:
 	water_disc.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 
 	var body := StaticBody3D.new()
+	body.collision_layer = 2
+	body.collision_mask = 0
 	var col := CollisionShape3D.new()
 	var cyl := CylinderShape3D.new()
 	cyl.radius = 2.25

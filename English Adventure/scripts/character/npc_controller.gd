@@ -44,6 +44,14 @@ func _process(delta: float) -> void:
 		quest_badge.position.y = 2.05 + sin(_idle_t * 3.6) * 0.10
 	if focus_ring.visible:
 		focus_ring.rotation.y += delta * 1.6
+		var player_node := get_tree().get_first_node_in_group("player") as Node3D
+		if player_node != null and is_instance_valid(player_node):
+			var d := Vector2(player_node.global_position.x - global_position.x, player_node.global_position.z - global_position.z)
+			if d.length_squared() > 0.04:
+				var target_yaw := atan2(d.x, d.y)
+				visual_slot.rotation.y = lerp_angle(visual_slot.rotation.y, target_yaw, minf(1.0, delta * 5.5))
+	else:
+		visual_slot.rotation.y = lerp_angle(visual_slot.rotation.y, 0.0, minf(1.0, delta * 3.0))
 
 
 func _refresh_visuals() -> void:
