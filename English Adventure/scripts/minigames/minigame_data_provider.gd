@@ -69,6 +69,19 @@ static func _build_listen_and_find(diff_cfg: Dictionary, context: Dictionary) ->
 	var topic := str(context.get("topic", ""))
 	var pool := _get_vocab_pool(topic, _max_diff_for_tier(tier))
 	var vm := LearningEngine.vocabulary_manager
+	if str(context.get("quest_id", "")) == "quest_01_new_adventure":
+		round_count = maxi(round_count, 5)
+		var q1_words: Array[Dictionary] = []
+		var q1_ids: Array[String] = ["word_apple", "word_cat", "word_dog", "word_book", "word_ball"]
+		for qwid in q1_ids:
+			var w := vm.get_word(qwid)
+			if not w.is_empty():
+				q1_words.append(w)
+		for w_rest in pool:
+			if not q1_ids.has(str(w_rest.get("id", ""))):
+				q1_words.append(w_rest)
+		if not q1_words.is_empty():
+			pool = q1_words
 
 	var out: Array[Dictionary] = []
 	for i in range(mini(round_count, pool.size())):
@@ -465,6 +478,26 @@ static func _build_memory_quest(diff_cfg: Dictionary, context: Dictionary) -> Ar
 	var pool := _get_vocab_pool(topic, _max_diff_for_tier(tier))
 	var vm := LearningEngine.vocabulary_manager
 	var mode := str(context.get("mode", "word_image")) # "word_image" | "word_vi" | "audio_image"
+	if str(context.get("quest_id", "")) == "quest_04_crystal_guardian":
+		pair_count = maxi(pair_count, 4)
+		var all_ids: Array[String] = []
+		for w_all in vm.get_all_words():
+			all_ids.append(str(w_all.get("id", "")))
+		var due := LearningEngine.review_engine.get_due_review_items(all_ids, pair_count)
+		var rev_pool: Array[Dictionary] = []
+		var seen_ids := {}
+		for d in due:
+			var wid := str(d.get("item_id", ""))
+			var w_rec := vm.get_word(wid)
+			if not w_rec.is_empty() and not seen_ids.has(wid):
+				seen_ids[wid] = true
+				rev_pool.append(w_rec)
+		for w_rest in pool:
+			var rwid := str(w_rest.get("id", ""))
+			if not seen_ids.has(rwid):
+				rev_pool.append(w_rest)
+		if not rev_pool.is_empty():
+			pool = rev_pool
 
 	var pairs: Array[Dictionary] = []
 	for i in range(mini(pair_count, pool.size())):

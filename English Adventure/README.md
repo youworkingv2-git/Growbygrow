@@ -121,4 +121,5 @@ English Adventure/
    - `0002_rls_policies.sql`
    - `0003_learning_engine_extensions.sql`
    - `0004_minigame_system_extensions.sql`
-4. Xem `docs/IMPLEMENTATION_CHECKLIST.md` và `docs/MINIGAME_SYSTEM.md` để vận hành đầy đủ từ Prompt 01 → Prompt 05.
+   - `0005_quest_reward_inventory_integration.sql`
+4. Xem `docs/IMPLEMENTATION_CHECKLIST.md`, `docs/MINIGAME_SYSTEM.md`, và `docs/GAMEPLAY_LOOP.md` để vận hành đầy đủ từ Prompt 01 → Prompt 06.

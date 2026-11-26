@@ -1,10 +1,11 @@
 class_name DialogueManager
 extends Node
-## Shared data-driven Dialogue Manager handling bilingual lines, speaker metadata,
-## typewriter speed, and quest trigger callbacks.
+## Shared data-driven Dialogue Manager handling bilingual lines, choices,
+## seen-dialogue tracking, speaker metadata, and quest/minigame action triggers.
 
 signal line_changed(line_data: Dictionary, index: int, total: int)
 signal sequence_finished(dialogue_id: String)
+signal action_requested(action_data: Dictionary)
 
 var _current_id: String = ""
 var _lines: Array = []
@@ -16,9 +17,13 @@ func is_active() -> bool:
 	return _active
 
 
+func is_dialogue_seen(dialogue_id: String) -> bool:
+	return GameStateManager.seen_dialogues.has(dialogue_id)
+
+
 func start_dialogue(dialogue_id: String) -> bool:
 	var raw_lines: Variant = DataRepository.dialogues_by_id.get(dialogue_id, [])
-	if typeof(raw_lines) != TYPE_ARRAY or raw_lines.is_empty():
+	if typeof(raw_lines) != TYPE_ARRAY or (raw_lines as Array).is_empty():
 		AppLogger.warn("DialogueManager", "Missing or empty dialogue_id: " + dialogue_id)
 		return false
 	_current_id = dialogue_id
@@ -50,6 +55,11 @@ func start_custom_message(title_vi: String, message_vi: String, speaker_id: Stri
 func next_line() -> void:
 	if not _active:
 		return
+	var current_line: Dictionary = _lines[_index] if _index < _lines.size() else {}
+	var choices: Array = current_line.get("choices", [])
+	if not choices.is_empty():
+		# Choices require explicit selection
+		return
 	_index += 1
 	if _index >= _lines.size():
 		close_dialogue()
@@ -57,19 +67,52 @@ func next_line() -> void:
 		_emit_current_line()
 
 
+func select_choice(choice_index: int) -> void:
+	if not _active or _index < 0 or _index >= _lines.size():
+		return
+	var line: Dictionary = _lines[_index]
+	var choices: Array = line.get("choices", [])
+	if choice_index < 0 or choice_index >= choices.size():
+		return
+	var choice: Dictionary = choices[choice_index]
+	var quest_action := str(choice.get("quest_action", ""))
+	var next_dlg := str(choice.get("next_dialogue_id", ""))
+
+	if not quest_action.is_empty():
+		action_requested.emit(choice.duplicate(true))
+
+	if not next_dlg.is_empty() and DataRepository.dialogues_by_id.has(next_dlg):
+		GameStateManager.mark_dialogue_seen(_current_id)
+		_current_id = next_dlg
+		_lines = DataRepository.dialogues_by_id.get(next_dlg, [])
+		_index = 0
+		_emit_current_line()
+	else:
+		close_dialogue()
+
+
 func close_dialogue() -> void:
 	if not _active:
 		return
 	var finished_id := _current_id
+	if finished_id != "custom_msg":
+		GameStateManager.mark_dialogue_seen(finished_id)
 	_active = false
 	_lines = []
 	_index = 0
 	EventBus.dialogue_ended.emit(finished_id)
+	EventBus.dialogue_completed.emit(finished_id)
 	sequence_finished.emit(finished_id)
 
 
 func _emit_current_line() -> void:
+	if _index < 0 or _index >= _lines.size():
+		close_dialogue()
+		return
 	var line: Dictionary = _lines[_index]
+	var line_out := line.duplicate(true)
+	line_out["_dialogue_id"] = _current_id
+	line_out["_seen_before"] = is_dialogue_seen(_current_id)
 	var buddy_state := str(line.get("buddy_state", "idle"))
 	EventBus.buddy_state_changed.emit(buddy_state, "")
-	line_changed.emit(line, _index, _lines.size())
+	line_changed.emit(line_out, _index, _lines.size())

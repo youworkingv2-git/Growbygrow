@@ -1,7 +1,7 @@
 class_name BuddyController
 extends Node3D
 ## 3D Companion Dragon Buddy with 7 expression states, wing-flapping & tail-wag animation,
-## smooth 3D follow behavior, bilingual tips, and screen-projected speech bubble.
+## smooth 3D follow behavior, bilingual tips, and reactive learning/quest feedback.
 
 enum BuddyMood { IDLE, HAPPY, SAD, SURPRISED, THINKING, TALKING, CELEBRATING }
 
@@ -36,8 +36,15 @@ func _ready() -> void:
 		_rig = null
 
 	EventBus.quest_completed.connect(_on_quest_completed)
+	EventBus.quest_reward_claimed.connect(_on_quest_claimed)
 	EventBus.area_unlocked.connect(_on_area_unlocked)
 	EventBus.buddy_state_changed.connect(_on_buddy_state_changed)
+	EventBus.minigame_answered.connect(func(_mg: String, att: Dictionary) -> void:
+		if bool(att.get("is_correct", false)):
+			set_mood(BuddyMood.HAPPY)
+		else:
+			set_mood(BuddyMood.THINKING)
+	)
 	set_mood(BuddyMood.IDLE)
 
 
@@ -95,6 +102,9 @@ func speak_tip(message: String, mood_name: String = "happy", duration_sec: float
 
 
 func offer_contextual_help() -> void:
+	GameStateManager.mark_npc_met("buddy", "buddy_help")
+	QuestManager.report_npc_talk("buddy")
+
 	var q: Dictionary = QuestManager.get_next_suggested_quest()
 	if not q.is_empty():
 		var qid := str(q.get("id", ""))
@@ -102,7 +112,10 @@ func offer_contextual_help() -> void:
 		if status == "active":
 			var step := QuestManager.get_current_step(qid)
 			var step_title := LocalizationManager.pick_text(step, "title")
-			speak_tip("Gợi ý: Hãy " + step_title + " nhé!", "thinking", 6.0)
+			var prog := QuestManager.get_objective_progress(qid, str(step.get("id", "")))
+			var tgt := int(prog.get("target", 1))
+			var suffix := " (%d/%d)" % [int(prog.get("current", 0)), tgt] if tgt > 1 else ""
+			speak_tip("Buddy gợi ý: Hãy " + step_title + suffix + " nhé!", "thinking", 6.0)
 			return
 		elif status == "available":
 			var npc_id := str(q.get("giver_npc_id", ""))
@@ -115,7 +128,7 @@ func offer_contextual_help() -> void:
 	if typeof(greeting) == TYPE_DICTIONARY and not greeting.is_empty():
 		speak_tip(LocalizationManager.pick_text(greeting, "text"), str(greeting.get("state", "happy")), 6.0)
 	else:
-		speak_tip("Cậu đang làm rất tốt! Hãy thử mở Bản đồ để khám phá thêm nhé!", "happy", 5.0)
+		speak_tip("Cậu đang làm rất tốt! Hãy thử mở Bản đồ hoặc Trò chơi [G] để khám phá thêm nhé!", "happy", 5.0)
 
 
 func _process(delta: float) -> void:
@@ -128,7 +141,6 @@ func _process(delta: float) -> void:
 			var yaw := atan2(look_dir.x, look_dir.y)
 			visual_slot.rotation.y = lerp_angle(visual_slot.rotation.y, yaw, minf(1.0, delta * 6.0))
 
-	# 3D Dragon Hover, Wing Flap & Tail Wag
 	visual_slot.position.y = sin(_hover_time * 3.8) * 0.16
 	if _rig != null and is_instance_valid(_rig):
 		var flap_speed := 15.0 if current_mood == BuddyMood.CELEBRATING else 8.5
@@ -149,7 +161,7 @@ func _process(delta: float) -> void:
 
 func _update_screen_bubble() -> void:
 	var cam := get_viewport().get_camera_3d()
-	if cam == null or not speech_panel.visible and not mood_badge.visible:
+	if cam == null or (not speech_panel.visible and not mood_badge.visible):
 		return
 	var world_anchor := global_position + Vector3(0.0, 1.35 + visual_slot.position.y, 0.0)
 	if cam.is_position_behind(world_anchor):
@@ -169,7 +181,11 @@ func _update_screen_bubble() -> void:
 
 
 func _on_quest_completed(_quest_id: String, _rewards: Dictionary) -> void:
-	speak_tip("Hoan hô! Chúng ta làm được rồi!", "celebrating", 4.5)
+	speak_tip("Hoan hô! Chúng ta hoàn thành nhiệm vụ rồi! Hãy nhận thưởng nhé!", "celebrating", 4.5)
+
+
+func _on_quest_claimed(_quest_id: String, _rewards: Dictionary) -> void:
+	speak_tip("Tuyệt vời! Phần thưởng đã vào túi đồ rồi!", "celebrating", 4.0)
 
 
 func _on_area_unlocked(area_id: String) -> void:

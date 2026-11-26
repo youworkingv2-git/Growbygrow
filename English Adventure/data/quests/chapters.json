@@ -1,0 +1,75 @@
+{
+  "world_id": "world_01",
+  "chapters": [
+    {
+      "id": "chapter_01",
+      "order_index": 1,
+      "title_en": "Chapter 1 - A New Adventure",
+      "title_vi": "Chương 1: Khởi Hành Mới",
+      "summary_vi": "Gặp Giáo sư Cú Mèo và Buddy tại Làng Khởi Đầu, làm quen những từ tiếng Anh đầu tiên và mở đường ra Đồng Cỏ.",
+      "area_id": "welcome_village",
+      "main_quests": ["quest_01_new_adventure"],
+      "side_quests": ["side_buddy_treasure"],
+      "key_npcs": ["professor_owl", "lily", "buddy"],
+      "learning_objectives_vi": ["Chào hỏi cơ bản", "Nghe và nhận diện 5 từ vựng quen thuộc (Apple, Cat, Dog, Book, Ball)"],
+      "unlock_condition": { "type": "always_unlocked" },
+      "completion_condition": { "type": "quests_completed", "required_quests": ["quest_01_new_adventure"] }
+    },
+    {
+      "id": "chapter_02",
+      "order_index": 2,
+      "title_en": "Chapter 2 - The Lost Letters",
+      "title_vi": "Chương 2: Những Chữ Cái Thất Lạc",
+      "summary_vi": "Khám phá Đồng Cỏ Bảng Chữ Cái cùng Lily, tìm lại A-B-C và ghép chữ thành từ.",
+      "area_id": "alphabet_meadow",
+      "main_quests": ["quest_02_lost_letters"],
+      "side_quests": ["side_lily_garden"],
+      "key_npcs": ["lily"],
+      "learning_objectives_vi": ["Phân biệt tên chữ và âm chữ A, B, C", "Ghép chữ cái tạo từ đơn giản qua Word Builder"],
+      "unlock_condition": { "type": "quests_completed", "required_quests": ["quest_01_new_adventure"] },
+      "completion_condition": { "type": "quests_completed", "required_quests": ["quest_02_lost_letters"] }
+    },
+    {
+      "id": "chapter_03",
+      "order_index": 3,
+      "title_en": "Chapter 3 - The Mysterious Cave",
+      "title_vi": "Chương 3: Hang Động Bí Ẩn",
+      "summary_vi": "Tiến vào Hang Động Chữ Cái gặp Rocky, ghép từ và dựng câu đơn giản để mở lối tới Hồ Pha Lê.",
+      "area_id": "letter_cave",
+      "main_quests": ["quest_03_mysterious_gate"],
+      "side_quests": ["side_rocky_animals"],
+      "key_npcs": ["rocky", "crystal_guardian"],
+      "learning_objectives_vi": ["Đọc ghép cặp từ-hình", "Xếp từ thành câu hoàn chỉnh (I like apples, This is a cat...)"],
+      "unlock_condition": { "type": "quests_completed", "required_quests": ["quest_02_lost_letters"] },
+      "completion_condition": { "type": "quests_completed", "required_quests": ["quest_03_mysterious_gate"] }
+    },
+    {
+      "id": "chapter_04",
+      "order_index": 4,
+      "title_en": "Chapter 4 - The Crystal Lake",
+      "title_vi": "Chương 4: Hồ Pha Lê",
+      "summary_vi": "Vượt qua thử thách ôn tập trí nhớ của Crystal Guardian để nhận Chìa Khóa Vàng.",
+      "area_id": "crystal_lake",
+      "main_quests": ["quest_04_crystal_guardian"],
+      "side_quests": [],
+      "key_npcs": ["crystal_guardian"],
+      "learning_objectives_vi": ["Ôn tập tổng hợp từ vựng đã học qua Spaced Repetition, Memory Quest và Sound Detective"],
+      "unlock_condition": { "type": "flags_required", "required_flags": ["rocky_clue_found"] },
+      "completion_condition": { "type": "quests_completed", "required_quests": ["quest_04_crystal_guardian"] }
+    },
+    {
+      "id": "chapter_05",
+      "order_index": 5,
+      "title_en": "Chapter 5 - The Shadow Gate",
+      "title_vi": "Chương 5: Cổng Bóng Tối",
+      "summary_vi": "Hội tụ toàn bộ kỹ năng Nghe – Nói – Đọc – Viết để phá tan phong ấn của The Silent Shadow tại Đảo Chữ Cái!",
+      "area_id": "shadow_gate",
+      "main_quests": ["quest_05_shadow_gate"],
+      "side_quests": [],
+      "key_npcs": ["professor_owl", "buddy"],
+      "learning_objectives_vi": ["Tổng hợp nghe, đánh vần, dựng câu và hội thoại giao tiếp tiếng Anh Pre-A1"],
+      "unlock_condition": { "type": "quests_and_items", "required_quests": ["quest_03_mysterious_gate"], "required_items": ["magic_crystal_shard"] },
+      "completion_condition": { "type": "quests_completed", "required_quests": ["quest_05_shadow_gate"] }
+    }
+  ]
+}

@@ -1,9 +1,12 @@
 extends Node
-## Loads and indexes all data-driven JSON files for Worlds, Areas, Characters, NPCs, Dialogues, Quests, and Objects.
+## Loads and indexes all data-driven JSON files for Worlds, Areas, Chapters, Characters,
+## NPCs, Dialogues, Quests, Objects, Items, and Achievements.
 
 var worlds: Array[Dictionary] = []
 var areas_by_id: Dictionary = {}
 var areas_ordered: Array[Dictionary] = []
+var chapters_by_id: Dictionary = {}
+var chapters_ordered: Array[Dictionary] = []
 var playable_characters: Array[Dictionary] = []
 var buddy_config: Dictionary = {}
 var npcs_by_id: Dictionary = {}
@@ -11,6 +14,10 @@ var dialogues_by_id: Dictionary = {}
 var quests_by_id: Dictionary = {}
 var quests_ordered: Array[Dictionary] = []
 var objects_by_id: Dictionary = {}
+var items_by_id: Dictionary = {}
+var items_ordered: Array[Dictionary] = []
+var achievements_by_id: Dictionary = {}
+var achievements_ordered: Array[Dictionary] = []
 
 
 func _ready() -> void:
@@ -21,6 +28,8 @@ func reload_all() -> void:
 	worlds.clear()
 	areas_by_id.clear()
 	areas_ordered.clear()
+	chapters_by_id.clear()
+	chapters_ordered.clear()
 	playable_characters.clear()
 	buddy_config.clear()
 	npcs_by_id.clear()
@@ -28,16 +37,24 @@ func reload_all() -> void:
 	quests_by_id.clear()
 	quests_ordered.clear()
 	objects_by_id.clear()
+	items_by_id.clear()
+	items_ordered.clear()
+	achievements_by_id.clear()
+	achievements_ordered.clear()
 
 	_load_worlds()
 	_load_areas()
+	_load_chapters()
 	_load_characters()
 	_load_npcs()
 	_load_dialogues()
 	_load_quests()
 	_load_objects()
-	AppLogger.info("DataRepository", "Loaded %d areas, %d NPCs, %d quests, %d objects" % [
-		areas_ordered.size(), npcs_by_id.size(), quests_ordered.size(), objects_by_id.size()
+	_load_items()
+	_load_achievements()
+	AppLogger.info("DataRepository", "Loaded %d areas, %d chapters, %d NPCs, %d quests, %d objects, %d items, %d achievements" % [
+		areas_ordered.size(), chapters_ordered.size(), npcs_by_id.size(),
+		quests_ordered.size(), objects_by_id.size(), items_ordered.size(), achievements_ordered.size()
 	])
 
 
@@ -72,6 +89,19 @@ func _load_areas() -> void:
 			areas_by_id[str(a["id"])] = a
 			areas_ordered.append(a)
 	areas_ordered.sort_custom(func(x: Dictionary, y: Dictionary) -> bool:
+		return int(x.get("order_index", 0)) < int(y.get("order_index", 0))
+	)
+
+
+func _load_chapters() -> void:
+	if not FileAccess.file_exists("res://data/quests/chapters.json"):
+		return
+	var doc := _read_json("res://data/quests/chapters.json")
+	for ch in doc.get("chapters", []):
+		if typeof(ch) == TYPE_DICTIONARY and ch.has("id"):
+			chapters_by_id[str(ch["id"])] = ch
+			chapters_ordered.append(ch)
+	chapters_ordered.sort_custom(func(x: Dictionary, y: Dictionary) -> bool:
 		return int(x.get("order_index", 0)) < int(y.get("order_index", 0))
 	)
 
@@ -118,8 +148,32 @@ func _load_objects() -> void:
 			objects_by_id[str(obj["id"])] = obj
 
 
+func _load_items() -> void:
+	if not FileAccess.file_exists("res://data/items/world_01_items.json"):
+		return
+	var doc := _read_json("res://data/items/world_01_items.json")
+	for it in doc.get("items", []):
+		if typeof(it) == TYPE_DICTIONARY and it.has("id"):
+			items_by_id[str(it["id"])] = it
+			items_ordered.append(it)
+
+
+func _load_achievements() -> void:
+	if not FileAccess.file_exists("res://data/rewards/achievements.json"):
+		return
+	var doc := _read_json("res://data/rewards/achievements.json")
+	for ach in doc.get("achievements", []):
+		if typeof(ach) == TYPE_DICTIONARY and ach.has("id"):
+			achievements_by_id[str(ach["id"])] = ach
+			achievements_ordered.append(ach)
+
+
 func get_area(area_id: String) -> Dictionary:
 	return areas_by_id.get(area_id, {})
+
+
+func get_item_def(item_id: String) -> Dictionary:
+	return items_by_id.get(item_id, {})
 
 
 func get_npcs_for_area(area_id: String) -> Array[Dictionary]:

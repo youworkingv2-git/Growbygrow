@@ -1,0 +1,67 @@
+{
+  "achievements": [
+    {
+      "id": "ach_first_quest",
+      "title_vi": "Nhà Thám Hiểm Mới",
+      "title_en": "First Adventurer",
+      "description_vi": "Hoàn thành và nhận thưởng nhiệm vụ đầu tiên tại Làng Khởi Đầu.",
+      "condition": { "type": "quests_claimed_count", "min_count": 1 },
+      "rewards": { "exp": 20, "gold": 15, "stars": 1 }
+    },
+    {
+      "id": "ach_first_minigame",
+      "title_vi": "Khởi Động Thử Thách",
+      "title_en": "Mini-Game Starter",
+      "description_vi": "Hoàn thành ít nhất 1 phiên mini-game học tiếng Anh.",
+      "condition": { "type": "minigames_played_count", "min_count": 1 },
+      "rewards": { "exp": 15, "gold": 10, "stars": 1 }
+    },
+    {
+      "id": "ach_five_words",
+      "title_vi": "Bạn Của Từ Vựng",
+      "title_en": "Word Collector",
+      "description_vi": "Trả lời đúng ít nhất 5 câu hỏi từ vựng hoặc kỹ năng.",
+      "condition": { "type": "correct_answers_total", "min_count": 5 },
+      "rewards": { "exp": 25, "gold": 15, "stars": 1 }
+    },
+    {
+      "id": "ach_meadow_explorer",
+      "title_vi": "Người Giải Cứu Chữ Cái",
+      "title_en": "Letter Rescuer",
+      "description_vi": "Mở khóa Đồng Cỏ Bảng Chữ Cái và thu thập đủ 3 chữ cái thất lạc.",
+      "condition": { "type": "area_unlocked", "area_id": "alphabet_meadow" },
+      "rewards": { "exp": 20, "gold": 15, "stars": 1 }
+    },
+    {
+      "id": "ach_crystal_collector",
+      "title_vi": "Người Sưu Tầm Pha Lê",
+      "title_en": "Crystal Collector",
+      "description_vi": "Sở hữu ít nhất 3 Magic Crystal trong túi đồ.",
+      "condition": { "type": "crystals_count", "min_count": 3 },
+      "rewards": { "exp": 35, "gold": 25, "stars": 2 }
+    },
+    {
+      "id": "ach_side_helper",
+      "title_vi": "Người Bạn Tốt Bụng",
+      "title_en": "Helpful Friend",
+      "description_vi": "Hoàn thành ít nhất 1 nhiệm vụ phụ giúp đỡ Buddy, Lily hoặc Rocky.",
+      "condition": { "type": "side_quests_claimed_count", "min_count": 1 },
+      "rewards": {
+        "exp": 30,
+        "gold": 20,
+        "stars": 1,
+        "items": [
+          { "id": "star_fragment", "name_vi": "Mảnh Sao Tri Thức", "name_en": "Star Fragment", "quantity": 1 }
+        ]
+      }
+    },
+    {
+      "id": "ach_island_hero",
+      "title_vi": "Anh Hùng Đảo Chữ Cái",
+      "title_en": "Alphabet Island Hero",
+      "description_vi": "Chinh phục Cổng Bóng Tối và hoàn thành cốt truyện Alphabet Island.",
+      "condition": { "type": "quests_claimed_contains", "quest_id": "quest_05_shadow_gate" },
+      "rewards": { "exp": 100, "gold": 80, "stars": 3 }
+    }
+  ]
+}

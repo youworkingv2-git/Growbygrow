@@ -45,26 +45,112 @@
         "speaker_name_en": "Professor Owl",
         "portrait": "res://assets/characters/npcs/professor_owl.svg",
         "buddy_state": "talking",
-        "text_en": "Welcome, young adventurer!",
-        "text_vi": "Chào mừng con tới Làng Khởi Đầu! Nơi đây từng tràn ngập tiếng cười và chữ cái."
-      },
+        "text_en": "Welcome, young adventurer! Are you ready for your first quest?",
+        "text_vi": "Chào mừng nhà thám hiểm trẻ tuổi! Con đã sẵn sàng cho nhiệm vụ đầu tiên để khôi phục 5 từ vựng cơ bản chưa?",
+        "choices": [
+          {
+            "text_en": "Yes, I'm ready!",
+            "text_vi": "Vâng, con sẵn sàng rồi!",
+            "quest_action": "accept_quest",
+            "quest_id": "quest_01_new_adventure",
+            "next_dialogue_id": "dlg_owl_accepted"
+          },
+          {
+            "text_en": "Not yet.",
+            "text_vi": "Chưa ạ, con muốn dạo quanh một chút.",
+            "next_dialogue_id": "dlg_owl_not_yet"
+          }
+        ]
+      }
+    ],
+    "dlg_owl_accepted": [
       {
-        "speaker_id": "buddy",
-        "speaker_name_vi": "Buddy",
-        "speaker_name_en": "Buddy",
-        "portrait": "res://assets/characters/buddy/buddy_dragon.svg",
+        "speaker_id": "professor_owl",
+        "speaker_name_vi": "Giáo sư Cú Mèo",
+        "speaker_name_en": "Professor Owl",
+        "portrait": "res://assets/characters/npcs/professor_owl.svg",
         "buddy_state": "happy",
-        "text_en": "Let's start our first quest!",
-        "text_vi": "Thưa Giáo sư, chúng cháu sẵn sàng nhận nhiệm vụ đầu tiên ạ!"
-      },
+        "text_en": "Talk to Buddy and complete Listen and Find!",
+        "text_vi": "Tuyệt vời! Con hãy bấm [H] (hoặc nút Hỏi Buddy) để trò chuyện với Buddy, rồi thử thách bản thân với trò chơi Listen and Find nhé!",
+        "choices": [
+          {
+            "text_en": "Play Listen and Find now!",
+            "text_vi": "Chơi Listen and Find ngay!",
+            "quest_action": "start_minigame",
+            "minigame_id": "listen_and_find",
+            "quest_id": "quest_01_new_adventure"
+          },
+          {
+            "text_en": "Open Learning Hub",
+            "text_vi": "Mở Trung tâm Học tập",
+            "quest_action": "open_learning_hub",
+            "lesson_id": "lesson_01_00_intro"
+          },
+          {
+            "text_en": "I will explore first!",
+            "text_vi": "Con sẽ đi khám phá trước!"
+          }
+        ]
+      }
+    ],
+    "dlg_owl_not_yet": [
       {
         "speaker_id": "professor_owl",
         "speaker_name_vi": "Giáo sư Cú Mèo",
         "speaker_name_en": "Professor Owl",
         "portrait": "res://assets/characters/npcs/professor_owl.svg",
         "buddy_state": "thinking",
-        "text_en": "Find Lily in the village square.",
-        "text_vi": "Tốt lắm! Hãy đi gặp bé Lily ở quảng trường phía đông làng và kiểm tra tấm biển chỉ dẫn bị mất chữ nhé!"
+        "text_en": "Take your time! Come back when you are ready.",
+        "text_vi": "Không sao đâu! Hãy dạo quanh Làng Khởi Đầu và quay lại gặp ta bất cứ khi nào con sẵn sàng nhé."
+      }
+    ],
+    "dlg_owl_q1_in_progress": [
+      {
+        "speaker_id": "professor_owl",
+        "speaker_name_vi": "Giáo sư Cú Mèo",
+        "speaker_name_en": "Professor Owl",
+        "portrait": "res://assets/characters/npcs/professor_owl.svg",
+        "buddy_state": "talking",
+        "text_en": "Keep going! Let's learn 5 words and finish Listen and Find.",
+        "text_vi": "Con đang làm rất tốt! Hãy trò chuyện với Buddy, học 5 từ mới và hoàn thành thử thách Listen and Find nhé.",
+        "choices": [
+          {
+            "text_en": "Play Listen and Find",
+            "text_vi": "Chơi Listen and Find ngay!",
+            "quest_action": "start_minigame",
+            "minigame_id": "listen_and_find",
+            "quest_id": "quest_01_new_adventure"
+          },
+          {
+            "text_en": "Open Learning Hub",
+            "text_vi": "Học bài 00 trước",
+            "quest_action": "open_learning_hub",
+            "lesson_id": "lesson_01_00_intro"
+          },
+          {
+            "text_en": "Continue exploring",
+            "text_vi": "Tiếp tục khám phá"
+          }
+        ]
+      }
+    ],
+    "dlg_owl_q1_turn_in": [
+      {
+        "speaker_id": "professor_owl",
+        "speaker_name_vi": "Giáo sư Cú Mèo",
+        "speaker_name_en": "Professor Owl",
+        "portrait": "res://assets/characters/npcs/professor_owl.svg",
+        "buddy_state": "celebrating",
+        "text_en": "Wonderful! You completed your first quest!",
+        "text_vi": "Xuất sắc! Con đã học 5 từ tiếng Anh đầu tiên và hoàn thành Listen and Find! Hãy nhận phần thưởng và mở đường tới Đồng Cỏ Bảng Chữ Cái!",
+        "choices": [
+          {
+            "text_en": "Claim Quest Reward!",
+            "text_vi": "Nhận thưởng nhiệm vụ!",
+            "quest_action": "claim_quest",
+            "quest_id": "quest_01_new_adventure"
+          }
+        ]
       }
     ],
     "dlg_owl_quest_done": [
@@ -74,8 +160,20 @@
         "speaker_name_en": "Professor Owl",
         "portrait": "res://assets/characters/npcs/professor_owl.svg",
         "buddy_state": "celebrating",
-        "text_en": "Great job, adventurer!",
-        "text_vi": "Xuất sắc! Con đã làm quen với làng và mở được đường tới Đồng Cỏ Bảng Chữ Cái rồi đấy!"
+        "text_en": "Great job, adventurer! Would you like to practice Listen and Find again?",
+        "text_vi": "Giỏi lắm! Con đã mở được đường tới Đồng Cỏ Bảng Chữ Cái rồi đấy. Con có muốn luyện nghe thêm không?",
+        "choices": [
+          {
+            "text_en": "Practice Listen and Find",
+            "text_vi": "Luyện tập Listen and Find",
+            "quest_action": "start_minigame",
+            "minigame_id": "listen_and_find"
+          },
+          {
+            "text_en": "Not right now",
+            "text_vi": "Để sau ạ"
+          }
+        ]
       }
     ],
     "dlg_lily_default": [
@@ -95,7 +193,7 @@
         "portrait": "res://assets/characters/buddy/buddy_dragon.svg",
         "buddy_state": "happy",
         "text_en": "We can help you, Lily!",
-        "text_vi": "Đừng buồn nhé Lily! Tớ và nhà thám hiểm sẽ kiểm tra biển chỉ dẫn rồi qua Đồng Cỏ tìm chữ cái giúp cậu!"
+        "text_vi": "Đừng buồn nhé Lily! Chúng tớ sẽ hoàn thành nhiệm vụ của Giáo sư Cú Mèo rồi sang Đồng Cỏ tìm chữ cái giúp cậu!"
       }
     ],
     "dlg_lily_after_q1": [
@@ -105,8 +203,39 @@
         "speaker_name_en": "Lily",
         "portrait": "res://assets/characters/npcs/lily.svg",
         "buddy_state": "happy",
-        "text_en": "Please find A, B, and C in Alphabet Meadow!",
-        "text_vi": "Cổng sang Đồng Cỏ Bảng Chữ Cái đã mở rồi! Cậu hãy sang đó tìm 3 chữ cái phát sáng A, B, C và mở chiếc rương cổ giúp mình nhé!"
+        "text_en": "Please find A, B, and C in Alphabet Meadow and solve Word Builder!",
+        "text_vi": "Cổng sang Đồng Cỏ Bảng Chữ Cái đã mở rồi! Cậu hãy sang đó tìm 3 chữ cái A, B, C, chơi Word Builder và mở rương cổ giúp mình nhé!",
+        "choices": [
+          {
+            "text_en": "Play Dialogue Adventure",
+            "text_vi": "Luyện hội thoại cùng Lily",
+            "quest_action": "start_minigame",
+            "minigame_id": "dialogue_adventure"
+          },
+          {
+            "text_en": "Go to Alphabet Meadow!",
+            "text_vi": "Đi tới Đồng Cỏ ngay!"
+          }
+        ]
+      }
+    ],
+    "dlg_lily_q2_turn_in": [
+      {
+        "speaker_id": "lily",
+        "speaker_name_vi": "Bé Lily",
+        "speaker_name_en": "Lily",
+        "portrait": "res://assets/characters/npcs/lily.svg",
+        "buddy_state": "celebrating",
+        "text_en": "Thank you! You restored the lost letters A, B, C!",
+        "text_vi": "Cảm ơn cậu nhiều lắm! Các chữ cái A, B, C đã sáng rực trở lại rồi! Hãy nhận phần thưởng và tiến vào Hang Động Chữ Cái nhé!",
+        "choices": [
+          {
+            "text_en": "Claim Quest 02 Reward!",
+            "text_vi": "Nhận thưởng Quest 02!",
+            "quest_action": "claim_quest",
+            "quest_id": "quest_02_lost_letters"
+          }
+        ]
       }
     ],
     "dlg_rocky_default": [
@@ -125,8 +254,55 @@
         "speaker_name_en": "Rocky",
         "portrait": "res://assets/characters/npcs/rocky.svg",
         "buddy_state": "talking",
-        "text_en": "Go to Crystal Lake and meet the Crystal Guardian!",
-        "text_vi": "Cậu hãy chạm vào cánh cửa cổ phía đông hang, đi tới Hồ Pha Lê gặp Người Bảo Vệ Pha Lê để tìm hiểu về Cổng Bóng Tối nhé!"
+        "text_en": "Practice Word Matching and go to Crystal Lake!",
+        "text_vi": "Cậu hãy ghép từ ở Word Matching, rồi qua cánh cửa phía đông tới Hồ Pha Lê gặp Người Bảo Vệ Pha Lê nhé!",
+        "choices": [
+          {
+            "text_en": "Play Word Matching",
+            "text_vi": "Chơi Word Matching",
+            "quest_action": "start_minigame",
+            "minigame_id": "word_matching"
+          },
+          {
+            "text_en": "Practice Speaking Hero",
+            "text_vi": "Luyện nói cùng Rocky",
+            "quest_action": "start_minigame",
+            "minigame_id": "speaking_hero"
+          },
+          {
+            "text_en": "Continue exploring",
+            "text_vi": "Tiếp tục khám phá"
+          }
+        ]
+      }
+    ],
+    "dlg_rocky_q3_active": [
+      {
+        "speaker_id": "rocky",
+        "speaker_name_vi": "Rocky",
+        "speaker_name_en": "Rocky",
+        "portrait": "res://assets/characters/npcs/rocky.svg",
+        "buddy_state": "happy",
+        "text_en": "Complete Word Matching and visit Crystal Lake!",
+        "text_vi": "Đường sang Hồ Pha Lê đã mở rồi! Cậu có muốn luyện thêm Word Matching hoặc Speaking Hero không?",
+        "choices": [
+          {
+            "text_en": "Play Word Matching",
+            "text_vi": "Chơi Word Matching",
+            "quest_action": "start_minigame",
+            "minigame_id": "word_matching"
+          },
+          {
+            "text_en": "Play Sentence Builder",
+            "text_vi": "Chơi Sentence Builder",
+            "quest_action": "start_minigame",
+            "minigame_id": "sentence_builder"
+          },
+          {
+            "text_en": "Let's go!",
+            "text_vi": "Đi tiếp thôi!"
+          }
+        ]
       }
     ],
     "dlg_guardian_default": [
@@ -136,17 +312,69 @@
         "speaker_name_en": "Crystal Guardian",
         "portrait": "res://assets/characters/npcs/crystal_guardian.svg",
         "buddy_state": "thinking",
-        "text_en": "You need a Magic Crystal Shard!",
-        "text_vi": "Hoan nghênh nhà thám hiểm! Phía bắc là Cổng Bóng Tối của The Silent Shadow. Để mở đường tiến tới đó, hãy thu thập Mảnh Pha Lê Phép Thuật ngay bên bờ hồ!"
-      },
+        "text_en": "You need a Magic Crystal Shard to reach The Shadow Gate!",
+        "text_vi": "Hoan nghênh nhà thám hiểm! Phía bắc là Cổng Bóng Tối của The Silent Shadow. Hãy hoàn thành Sentence Builder và thu thập Mảnh Pha Lê ngay bên bờ hồ!",
+        "choices": [
+          {
+            "text_en": "Play Sentence Builder",
+            "text_vi": "Chơi Sentence Builder",
+            "quest_action": "start_minigame",
+            "minigame_id": "sentence_builder"
+          },
+          {
+            "text_en": "I will look for the crystal!",
+            "text_vi": "Con sẽ đi tìm Mảnh Pha Lê!"
+          }
+        ]
+      }
+    ],
+    "dlg_guardian_q4_active": [
       {
-        "speaker_id": "buddy",
-        "speaker_name_vi": "Buddy",
-        "speaker_name_en": "Buddy",
-        "portrait": "res://assets/characters/buddy/buddy_dragon.svg",
+        "speaker_id": "crystal_guardian",
+        "speaker_name_vi": "Người Bảo Vệ Pha Lê",
+        "speaker_name_en": "Crystal Guardian",
+        "portrait": "res://assets/characters/npcs/crystal_guardian.svg",
+        "buddy_state": "thinking",
+        "text_en": "Show me your memory in Memory Quest to earn the Golden Key!",
+        "text_vi": "Hãy vượt qua thử thách ôn tập trí nhớ Memory Quest để nhận Chìa Khóa Vàng trước khi tiến vào Cổng Bóng Tối!",
+        "choices": [
+          {
+            "text_en": "Play Memory Quest",
+            "text_vi": "Chơi Memory Quest ngay!",
+            "quest_action": "start_minigame",
+            "minigame_id": "memory_quest",
+            "quest_id": "quest_04_crystal_guardian"
+          },
+          {
+            "text_en": "Review in Learning Hub",
+            "text_vi": "Ôn tập ở Trung tâm Học tập",
+            "quest_action": "open_learning_hub",
+            "lesson_id": "lesson_04_01_context"
+          },
+          {
+            "text_en": "Later",
+            "text_vi": "Để sau"
+          }
+        ]
+      }
+    ],
+    "dlg_guardian_q4_turn_in": [
+      {
+        "speaker_id": "crystal_guardian",
+        "speaker_name_vi": "Người Bảo Vệ Pha Lê",
+        "speaker_name_en": "Crystal Guardian",
+        "portrait": "res://assets/characters/npcs/crystal_guardian.svg",
         "buddy_state": "celebrating",
-        "text_en": "Look! There is a glowing crystal!",
-        "text_vi": "Nhìn kìa! Mảnh Pha Lê xanh đang phát sáng bên hồ nước! Chúng ta tới nhặt nó thôi!"
+        "text_en": "Well done! Take this Golden Key to unlock The Shadow Gate!",
+        "text_vi": "Tuyệt vời! Trí nhớ tiếng Anh của con thật đáng nể! Hãy nhận Chìa Khóa Vàng và tiến tới Cổng Bóng Tối!",
+        "choices": [
+          {
+            "text_en": "Claim Golden Key Reward!",
+            "text_vi": "Nhận Chìa Khóa Vàng!",
+            "quest_action": "claim_quest",
+            "quest_id": "quest_04_crystal_guardian"
+          }
+        ]
       }
     ]
   }

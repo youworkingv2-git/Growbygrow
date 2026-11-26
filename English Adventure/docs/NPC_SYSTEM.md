@@ -34,5 +34,7 @@ Mỗi bản ghi NPC gồm:
 ## 3. CHỈ BÁO TRẠNG THÁI TRÊN ĐẦU NPC
 
 - `!` (vàng): NPC đang có nhiệm vụ `available` có thể nhận.
-- `?` (xanh lá): NPC là mục tiêu bước hiện tại của một nhiệm vụ `active`.
-- Không hiện badge: Đang rảnh hoặc chỉ hội thoại thường.
+- `?` (xanh lá): NPC là mục tiêu bước hiện tại của một nhiệm vụ `active` (hoặc có nhiệm vụ `completed` chờ trả thưởng ở Prompt 06).
+- `...` (xanh dương, Prompt 06): NPC là mục tiêu đang thực hiện của nhiệm vụ hiện tại.
+- Không hiện badge: Đang rảnh hoặc đã nhận thưởng xong (`claimed`).
+- Xem thêm chi tiết máy trạng thái & `dialogue_rules` tại `docs/NPC_INTERACTION.md`.

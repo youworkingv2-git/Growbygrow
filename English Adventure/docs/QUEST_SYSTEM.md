@@ -45,3 +45,11 @@
 
 - `QuestManager` lắng nghe `EventBus.minigame_completed` và hỗ trợ step type `minigame_completed`, đồng thời đọc `learning_hook.future_minigame_id` (`listen_and_find`, `word_builder`, `sentence_builder`) để hiển thị nút **"Chơi thử thách Mini-Game của nhiệm vụ"** ngay trong `QuestLogModal`.
 - Các NPC & Vật thể 3D gắn liền nhiệm vụ (`professor_owl`, `lily`, `rocky`, `crystal_guardian`, `obj_village_chest`, `obj_meadow_chest`, `obj_cave_sign`, `obj_lake_chest`, `obj_shadow_gate_seal`) tự động mở mini-game phù hợp sau hội thoại mà không phá vỡ luồng Quest 01/02/03.
+
+---
+
+## 5. MỞ RỘNG KIẾN TRÚC TÍCH HỢP (PROMPT 06)
+
+- Phân rã `QuestManager` thành 10 thành phần (`QuestRepository`, `QuestRegistry`, `QuestInstance`, `QuestStateManager`, `QuestObjectiveManager`, `QuestConditionEvaluator`, `QuestProgressTracker`, `QuestRewardManager`, `QuestNotificationManager`, `QuestEventHandler`).
+- Hỗ trợ 6 trạng thái (`locked`, `available`, `accepted`, `in_progress`, `completed`, `claimed`), 12 loại objective, chế độ `sequential` / `parallel` / `optional` / `repeatable` / `hidden`, và tiến độ số (`3/5`).
+- Bổ sung `quest_04_crystal_guardian`, `quest_05_shadow_gate`, 3 Side Quests và 5 Chapters (`chapters.json`). Xem thêm `docs/QUEST_INTEGRATION.md`.

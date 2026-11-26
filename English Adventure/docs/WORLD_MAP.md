@@ -23,3 +23,5 @@
 ### Responsive
 - Trên màn hình rộng (`>= 860px`): Bản đồ ở bên trái + Bảng chi tiết khu vực ở bên phải.
 - Trên màn hình dọc / nhỏ (`< 860px`): Tự động xếp dọc (Bản đồ trên – Chi tiết dưới) và tự tính lại vị trí các đường nối (`_layout_map_nodes`).
+
+*(Cập nhật Prompt 06)*: Hiển thị thêm tiến độ số chương hoàn thành (`completed_chapters`) của Alphabet Island trên bảng chi tiết. Xem `docs/WORLD_PROGRESSION.md`.

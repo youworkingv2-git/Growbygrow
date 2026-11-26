@@ -1,7 +1,7 @@
 class_name InteractionManager
 extends Node
 ## Shared 3D Interaction Manager tracking nearby NPCs & objects, highlighting closest target,
-## and routing interaction actions uniformly.
+## and routing interaction actions & unified object rewards cleanly.
 
 signal target_changed(target_meta: Dictionary)
 signal object_message_requested(title: String, message: String, object_data: Dictionary)
@@ -49,9 +49,11 @@ func trigger_current_interaction() -> void:
 
 	if _current_target is NpcController:
 		var npc := _current_target as NpcController
+		npc.set_talking(true)
 		if _player_node is PlayerController:
 			(_player_node as PlayerController).set_dialogue_focus(npc.global_position)
 		EventBus.interaction_triggered.emit(npc.npc_id, "npc")
+		EventBus.player_interacted_with_npc.emit(npc.npc_id)
 		npc_interaction_requested.emit(npc.npc_data)
 	elif _current_target is InteractableObject:
 		var obj := _current_target as InteractableObject
@@ -72,11 +74,20 @@ func _handle_object_interaction(obj: InteractableObject) -> void:
 	var already_collected := GameStateManager.is_object_collected(obj.object_id)
 	if bool(data.get("one_time_reward", false)) and not already_collected:
 		GameStateManager.mark_object_collected(obj.object_id)
-		var gold_amt := int(data.get("reward_gold", 0))
-		if gold_amt > 0:
-			GameStateManager.add_exp_and_gold(10, gold_amt)
+		var items_arr: Array = []
 		if data.has("reward_item") and typeof(data["reward_item"]) == TYPE_DICTIONARY:
-			GameStateManager.add_item(data["reward_item"])
+			items_arr.append(data["reward_item"])
+		RewardManager.grant_reward(
+			"object:" + obj.object_id,
+			"object",
+			obj.object_id,
+			{
+				"exp": 10 if int(data.get("reward_gold", 0)) > 0 else 5,
+				"gold": int(data.get("reward_gold", 0)),
+				"items": items_arr
+			},
+			false
+		)
 	elif already_collected and obj.object_type == "chest":
 		msg = "Chiếc rương này bạn đã mở rồi!"
 

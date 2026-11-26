@@ -3,42 +3,78 @@
   "quests": [
     {
       "id": "quest_01_new_adventure",
+      "quest_type": "main",
+      "chapter_id": "chapter_01",
       "order_index": 1,
       "title_en": "A New Adventure",
       "title_vi": "Khởi Hành Mới",
-      "description_vi": "Làm quen với Làng Khởi Đầu, gặp Giáo sư Cú Mèo, trò chuyện với Lily và kiểm tra biển chỉ dẫn trung tâm.",
-      "description_en": "Meet Professor Owl and Lily, and check the village signpost.",
+      "description_vi": "Gặp Giáo sư Cú Mèo, trò chuyện với Buddy, học 5 từ tiếng Anh đầu tiên qua Listen and Find và quay lại báo cáo với Giáo sư!",
+      "description_en": "Meet Professor Owl, talk to Buddy, learn 5 basic words, complete Listen and Find, and return to Professor Owl.",
+      "story_intro_vi": "The Silent Shadow đã đánh cắp chữ cái khỏi hòn đảo! Giáo sư Cú Mèo cần con khôi phục những từ vựng đầu tiên.",
       "giver_npc_id": "professor_owl",
+      "turn_in_npc_id": "professor_owl",
       "area_id": "welcome_village",
+      "required_level": 1,
+      "claim_mode": "manual_or_npc",
       "start_condition": {
         "type": "always_available"
       },
+      "learning_objectives_vi": [
+        "Nghe và nhận biết 5 từ vựng cơ bản: Apple, Cat, Dog, Book, Ball",
+        "Hoàn thành hoạt động Nghe và Chọn hình (Listen and Find)"
+      ],
+      "minigame_requirements": ["listen_and_find"],
       "steps": [
         {
           "id": "q1_step_1",
           "type": "talk_to_npc",
           "target_id": "professor_owl",
+          "mode": "sequential",
+          "required_count": 1,
           "title_vi": "Nói chuyện với Giáo sư Cú Mèo",
-          "title_en": "Talk to Professor Owl"
+          "title_en": "Meet Professor Owl"
         },
         {
           "id": "q1_step_2",
           "type": "talk_to_npc",
-          "target_id": "lily",
-          "title_vi": "Gặp bé Lily ở quảng trường",
-          "title_en": "Meet Lily in the square"
+          "target_id": "buddy",
+          "mode": "parallel",
+          "required_count": 1,
+          "title_vi": "Trò chuyện với rồng nhỏ Buddy (nhấn H hoặc nút Hỏi Buddy)",
+          "title_en": "Talk to Buddy"
         },
         {
           "id": "q1_step_3",
-          "type": "interact_object",
-          "target_id": "obj_village_sign",
-          "title_vi": "Kiểm tra biển chỉ dẫn trung tâm",
-          "title_en": "Inspect the village signpost"
+          "type": "learn_vocabulary",
+          "target_id": "any",
+          "mode": "parallel",
+          "required_count": 5,
+          "title_vi": "Học 5 từ tiếng Anh cơ bản (qua Listen and Find hoặc Học tập)",
+          "title_en": "Learn 5 basic English words"
+        },
+        {
+          "id": "q1_step_4",
+          "type": "complete_minigame",
+          "target_id": "listen_and_find",
+          "mode": "parallel",
+          "required_count": 1,
+          "title_vi": "Hoàn thành thử thách Listen and Find",
+          "title_en": "Complete Listen and Find"
+        },
+        {
+          "id": "q1_step_5",
+          "type": "return_to_npc",
+          "target_id": "professor_owl",
+          "mode": "sequential",
+          "required_count": 1,
+          "title_vi": "Quay lại gặp Giáo sư Cú Mèo để nhận thưởng",
+          "title_en": "Return to Professor Owl"
         }
       ],
       "rewards": {
         "exp": 50,
         "gold": 25,
+        "stars": 1,
         "items": [],
         "unlock_areas": ["alphabet_meadow"],
         "set_flags": ["q1_done"]
@@ -51,22 +87,35 @@
     },
     {
       "id": "quest_02_lost_letters",
+      "quest_type": "main",
+      "chapter_id": "chapter_02",
       "order_index": 2,
       "title_en": "Find the Lost Letters",
       "title_vi": "Tìm Lại Chữ Cái Thất Lạc",
-      "description_vi": "Tiến vào Đồng Cỏ Bảng Chữ Cái, thu thập 3 chữ cái phát sáng A, B, C và mở Rương Kho Báu cổ.",
-      "description_en": "Explore Alphabet Meadow, collect lost letters A, B, C, and open the chest.",
+      "description_vi": "Tiến vào Đồng Cỏ Bảng Chữ Cái gặp Lily, thu thập 3 chữ cái A, B, C, giải đố Word Builder, mở Rương Đồng Cỏ và quay lại gặp Lily.",
+      "description_en": "Explore Alphabet Meadow, talk to Lily, collect A, B, C, complete Word Builder, open the chest, and return to Lily.",
+      "story_intro_vi": "Lily bị gió bóng tối thổi bay các chữ cái sang Đồng Cỏ! Hãy thu thập lại và sửa chữa các từ bị xáo trộn.",
       "giver_npc_id": "lily",
+      "turn_in_npc_id": "lily",
       "area_id": "alphabet_meadow",
+      "required_level": 1,
+      "claim_mode": "manual_or_npc",
       "start_condition": {
         "type": "quests_completed",
         "required_quests": ["quest_01_new_adventure"]
       },
+      "learning_objectives_vi": [
+        "Nhận diện 3 chữ cái A, B, C và âm cơ bản",
+        "Xếp chữ thành từ tiếng Anh qua Word Builder"
+      ],
+      "minigame_requirements": ["word_builder"],
       "steps": [
         {
           "id": "q2_step_1",
           "type": "visit_area",
           "target_id": "alphabet_meadow",
+          "mode": "sequential",
+          "required_count": 1,
           "title_vi": "Đi tới Đồng Cỏ Bảng Chữ Cái",
           "title_en": "Enter Alphabet Meadow"
         },
@@ -74,14 +123,26 @@
           "id": "q2_step_2",
           "type": "collect_tag",
           "target_tag": "lost_letter_meadow",
+          "mode": "parallel",
           "required_count": 3,
           "title_vi": "Thu thập 3 chữ cái thất lạc (A, B, C)",
           "title_en": "Collect 3 lost letters (A, B, C)"
         },
         {
           "id": "q2_step_3",
+          "type": "complete_minigame",
+          "target_id": "word_builder",
+          "mode": "parallel",
+          "required_count": 1,
+          "title_vi": "Hoàn thành mini-game Word Builder",
+          "title_en": "Complete Word Builder"
+        },
+        {
+          "id": "q2_step_4",
           "type": "interact_object",
           "target_id": "obj_meadow_chest",
+          "mode": "sequential",
+          "required_count": 1,
           "title_vi": "Mở Rương Kho Báu trên đồng cỏ",
           "title_en": "Open the Meadow Treasure Chest"
         }
@@ -89,6 +150,7 @@
       "rewards": {
         "exp": 80,
         "gold": 40,
+        "stars": 2,
         "items": [
           { "id": "lost_letters_abc", "name_vi": "Bộ Chữ Cái A-B-C", "name_en": "Lost Letters A-B-C", "quantity": 1 }
         ],
@@ -103,36 +165,71 @@
     },
     {
       "id": "quest_03_mysterious_gate",
+      "quest_type": "main",
+      "chapter_id": "chapter_03",
       "order_index": 3,
       "title_en": "The Mysterious Gate",
       "title_vi": "Cánh Cổng Bí Ẩn",
-      "description_vi": "Tìm manh mối từ Rocky trong Hang Động Chữ Cái, tới Hồ Pha Lê gặp Crystal Guardian và lấy Mảnh Pha Lê mở Cổng Bóng Tối.",
-      "description_en": "Get Rocky's clue, meet the Crystal Guardian, and collect a Magic Crystal Shard.",
+      "description_vi": "Tìm manh mối từ Rocky trong Hang Động, ghép từ với Word Matching, dựng câu với Sentence Builder, gặp Crystal Guardian và lấy Mảnh Pha Lê!",
+      "description_en": "Get Rocky's clue, complete Word Matching & Sentence Builder, meet Crystal Guardian, and collect a Magic Crystal Shard.",
+      "story_intro_vi": "Hang Động Chữ Cái dẫn tới Hồ Pha Lê đang bị khóa bằng các từ và câu tiếng Anh!",
       "giver_npc_id": "rocky",
+      "turn_in_npc_id": "crystal_guardian",
       "area_id": "letter_cave",
+      "required_level": 1,
+      "claim_mode": "manual_or_npc",
       "start_condition": {
         "type": "quests_completed",
         "required_quests": ["quest_02_lost_letters"]
       },
+      "learning_objectives_vi": [
+        "Ghép 5 cặp từ vựng tiếng Anh chính xác",
+        "Sắp xếp các từ thành câu tiếng Anh có nghĩa"
+      ],
+      "minigame_requirements": ["word_matching", "sentence_builder"],
       "steps": [
         {
           "id": "q3_step_1",
           "type": "talk_to_npc",
           "target_id": "rocky",
+          "mode": "sequential",
+          "required_count": 1,
           "title_vi": "Hỏi manh mối từ Rocky trong Hang Động",
           "title_en": "Ask Rocky for a clue"
         },
         {
           "id": "q3_step_2",
+          "type": "complete_minigame",
+          "target_id": "word_matching",
+          "mode": "parallel",
+          "required_count": 1,
+          "title_vi": "Hoàn thành mini-game Word Matching",
+          "title_en": "Complete Word Matching"
+        },
+        {
+          "id": "q3_step_3",
           "type": "talk_to_npc",
           "target_id": "crystal_guardian",
+          "mode": "parallel",
+          "required_count": 1,
           "title_vi": "Gặp Crystal Guardian ở Hồ Pha Lê",
           "title_en": "Meet Crystal Guardian at Crystal Lake"
         },
         {
-          "id": "q3_step_3",
+          "id": "q3_step_4",
+          "type": "complete_minigame",
+          "target_id": "sentence_builder",
+          "mode": "parallel",
+          "required_count": 1,
+          "title_vi": "Hoàn thành mini-game Sentence Builder",
+          "title_en": "Complete Sentence Builder"
+        },
+        {
+          "id": "q3_step_5",
           "type": "interact_object",
           "target_id": "obj_lake_crystal",
+          "mode": "sequential",
+          "required_count": 1,
           "title_vi": "Thu thập Mảnh Pha Lê Phép Thuật",
           "title_en": "Collect Magic Crystal Shard"
         }
@@ -140,6 +237,7 @@
       "rewards": {
         "exp": 120,
         "gold": 60,
+        "stars": 2,
         "items": [
           { "id": "magic_crystal_shard", "name_vi": "Mảnh Pha Lê Phép Thuật", "name_en": "Magic Crystal Shard", "quantity": 1 }
         ],
@@ -150,6 +248,325 @@
         "future_lesson_id": "lesson_01_18_gate",
         "future_minigame_id": "sentence_builder",
         "skills": ["listening", "speaking", "reading", "writing"]
+      }
+    },
+    {
+      "id": "quest_04_crystal_guardian",
+      "quest_type": "main",
+      "chapter_id": "chapter_04",
+      "order_index": 4,
+      "title_en": "The Crystal Guardian",
+      "title_vi": "Thử Thách Hồ Pha Lê",
+      "description_vi": "Crystal Guardian kiểm tra trí nhớ và ôn tập từ vựng bạn đã học để trao Chìa Khóa Vàng mở phong ấn Cổng Bóng Tối.",
+      "description_en": "Meet Crystal Guardian, review learned vocabulary, complete Memory Quest, and earn the Golden Key.",
+      "story_intro_vi": "Trước khi đối diện Cổng Bóng Tối, hãy chứng minh kiến thức tiếng Anh của con thật vững vàng!",
+      "giver_npc_id": "crystal_guardian",
+      "turn_in_npc_id": "crystal_guardian",
+      "area_id": "crystal_lake",
+      "required_level": 1,
+      "claim_mode": "manual_or_npc",
+      "start_condition": {
+        "type": "quests_completed",
+        "required_quests": ["quest_03_mysterious_gate"]
+      },
+      "learning_objectives_vi": [
+        "Ôn tập lại các từ vựng đã học qua Spaced Repetition",
+        "Kết hợp Nghe, Đọc và Ghi nhớ trong Memory Quest"
+      ],
+      "minigame_requirements": ["memory_quest"],
+      "steps": [
+        {
+          "id": "q4_step_1",
+          "type": "talk_to_npc",
+          "target_id": "crystal_guardian",
+          "mode": "sequential",
+          "required_count": 1,
+          "title_vi": "Nhận thử thách từ Crystal Guardian",
+          "title_en": "Meet Crystal Guardian"
+        },
+        {
+          "id": "q4_step_2",
+          "type": "answer_questions_correctly",
+          "target_id": "any",
+          "mode": "parallel",
+          "required_count": 4,
+          "title_vi": "Trả lời đúng 4 câu ôn tập từ vựng (Memory Quest / Ôn Tập Thông Minh)",
+          "title_en": "Answer 4 review questions correctly"
+        },
+        {
+          "id": "q4_step_3",
+          "type": "complete_minigame",
+          "target_id": "memory_quest",
+          "mode": "parallel",
+          "required_count": 1,
+          "title_vi": "Hoàn thành mini-game Memory Quest",
+          "title_en": "Complete Memory Quest"
+        },
+        {
+          "id": "q4_step_4",
+          "type": "return_to_npc",
+          "target_id": "crystal_guardian",
+          "mode": "sequential",
+          "required_count": 1,
+          "title_vi": "Quay lại báo cáo Crystal Guardian để nhận Chìa Khóa Vàng",
+          "title_en": "Return to Crystal Guardian"
+        }
+      ],
+      "rewards": {
+        "exp": 140,
+        "gold": 75,
+        "stars": 3,
+        "items": [
+          { "id": "golden_key", "name_vi": "Chìa Khóa Vàng", "name_en": "Golden Key", "quantity": 1 },
+          { "id": "star_fragment", "name_vi": "Mảnh Sao Tri Thức", "name_en": "Star Fragment", "quantity": 1 }
+        ],
+        "set_flags": ["q4_done", "golden_key_earned"]
+      },
+      "learning_hook": {
+        "future_lesson_id": "lesson_04_01_context",
+        "future_minigame_id": "memory_quest",
+        "skills": ["listening", "reading"]
+      }
+    },
+    {
+      "id": "quest_05_shadow_gate",
+      "quest_type": "main",
+      "chapter_id": "chapter_05",
+      "order_index": 5,
+      "title_en": "The Shadow Gate",
+      "title_vi": "Giải Ấn Cổng Bóng Tối",
+      "description_vi": "Khám phá Cổng Bóng Tối và kết hợp Nghe (Listen & Find), Đánh vần (Word Builder), Ghép câu (Sentence Builder) và Hội thoại (Dialogue Adventure) để giải cứu Đảo Chữ Cái!",
+      "description_en": "Discover The Shadow Gate and pass vocabulary, sentence, listening, and dialogue challenges.",
+      "story_intro_vi": "Cánh cổng cuối cùng của The Silent Shadow đang rung chuyển! Hãy dùng toàn bộ kiến thức tiếng Anh để mở cổng!",
+      "giver_npc_id": "professor_owl",
+      "turn_in_npc_id": "professor_owl",
+      "area_id": "shadow_gate",
+      "required_level": 1,
+      "claim_mode": "manual_or_npc",
+      "start_condition": {
+        "type": "quests_and_items",
+        "required_quests": ["quest_03_mysterious_gate"],
+        "required_items": ["magic_crystal_shard"]
+      },
+      "learning_objectives_vi": [
+        "Vận dụng 4 kỹ năng tiếng Anh cơ bản để mở Cổng Bóng Tối",
+        "Hoàn thành hội thoại song ngữ trong Dialogue Adventure"
+      ],
+      "minigame_requirements": ["word_builder", "sentence_builder", "listen_and_find", "dialogue_adventure"],
+      "steps": [
+        {
+          "id": "q5_step_1",
+          "type": "interact_object",
+          "target_id": "obj_shadow_gate_seal",
+          "mode": "sequential",
+          "required_count": 1,
+          "title_vi": "Khám phá phong ấn Cổng Bóng Tối",
+          "title_en": "Discover The Shadow Gate"
+        },
+        {
+          "id": "q5_step_2",
+          "type": "complete_minigame",
+          "target_id": "word_builder",
+          "mode": "parallel",
+          "required_count": 1,
+          "title_vi": "Vượt thử thách từ vựng (Word Builder)",
+          "title_en": "Complete Word Builder challenge"
+        },
+        {
+          "id": "q5_step_3",
+          "type": "complete_minigame",
+          "target_id": "sentence_builder",
+          "mode": "parallel",
+          "required_count": 1,
+          "title_vi": "Vượt thử thách dựng câu (Sentence Builder)",
+          "title_en": "Complete Sentence Builder challenge"
+        },
+        {
+          "id": "q5_step_4",
+          "type": "complete_minigame",
+          "target_id": "listen_and_find",
+          "mode": "parallel",
+          "required_count": 1,
+          "title_vi": "Vượt thử thách nghe (Listen and Find)",
+          "title_en": "Complete Listening challenge"
+        },
+        {
+          "id": "q5_step_5",
+          "type": "complete_minigame",
+          "target_id": "dialogue_adventure",
+          "mode": "sequential",
+          "required_count": 1,
+          "title_vi": "Hoàn thành thử thách Hội thoại cuối cùng (Dialogue Adventure)",
+          "title_en": "Complete Final Dialogue Challenge"
+        }
+      ],
+      "rewards": {
+        "exp": 200,
+        "gold": 120,
+        "stars": 3,
+        "items": [
+          { "id": "star_fragment", "name_vi": "Mảnh Sao Tri Thức", "name_en": "Star Fragment", "quantity": 2 }
+        ],
+        "set_flags": ["shadow_gate_inspected", "q5_done", "world_completed_world_01"]
+      },
+      "learning_hook": {
+        "future_lesson_id": "lesson_01_18_gate",
+        "future_minigame_id": "dialogue_adventure",
+        "skills": ["listening", "speaking", "reading", "writing"]
+      }
+    },
+    {
+      "id": "side_buddy_treasure",
+      "quest_type": "side",
+      "chapter_id": "chapter_01",
+      "order_index": 101,
+      "title_en": "Help Buddy Find His Treasure",
+      "title_vi": "[Phụ] Giúp Buddy Tìm Kho Báu",
+      "description_vi": "Tìm mở Rương Tiếp Tế tại Làng Khởi Đầu và luyện ghép từ với Word Matching để nhận thưởng phụ!",
+      "description_en": "Open the Village Supply Chest and play Word Matching.",
+      "giver_npc_id": "professor_owl",
+      "area_id": "welcome_village",
+      "required_level": 1,
+      "claim_mode": "manual_or_npc",
+      "start_condition": {
+        "type": "always_available"
+      },
+      "learning_objectives_vi": [
+        "Ôn tập ghép cặp từ tiếng Anh với hình ảnh"
+      ],
+      "minigame_requirements": ["word_matching"],
+      "steps": [
+        {
+          "id": "sq1_step_1",
+          "type": "interact_object",
+          "target_id": "obj_village_chest",
+          "mode": "parallel",
+          "required_count": 1,
+          "title_vi": "Mở Rương Tiếp Tế Làng Khởi Đầu",
+          "title_en": "Open the Village Supply Chest"
+        },
+        {
+          "id": "sq1_step_2",
+          "type": "complete_minigame",
+          "target_id": "word_matching",
+          "mode": "parallel",
+          "required_count": 1,
+          "title_vi": "Hoàn thành 1 ván Word Matching",
+          "title_en": "Complete Word Matching"
+        }
+      ],
+      "rewards": {
+        "exp": 40,
+        "gold": 30,
+        "stars": 1,
+        "items": [
+          { "id": "star_fragment", "name_vi": "Mảnh Sao Tri Thức", "name_en": "Star Fragment", "quantity": 1 }
+        ],
+        "set_flags": ["side_buddy_done"]
+      },
+      "learning_hook": {
+        "future_lesson_id": "lesson_02_01_food_animals",
+        "future_minigame_id": "word_matching",
+        "skills": ["reading"]
+      }
+    },
+    {
+      "id": "side_lily_garden",
+      "quest_type": "side",
+      "chapter_id": "chapter_02",
+      "order_index": 102,
+      "title_en": "Help Lily Restore the Garden",
+      "title_vi": "[Phụ] Giúp Lily Khôi Phục Khu Vườn",
+      "description_vi": "Phân biệt âm chữ cái qua Sound Detective để giúp Lily sắp xếp lại khu vườn chữ cái.",
+      "description_en": "Complete Sound Detective to help Lily restore her garden.",
+      "giver_npc_id": "lily",
+      "area_id": "alphabet_meadow",
+      "required_level": 1,
+      "claim_mode": "manual_or_npc",
+      "start_condition": {
+        "type": "quests_completed",
+        "required_quests": ["quest_01_new_adventure"]
+      },
+      "learning_objectives_vi": [
+        "Phân biệt tên chữ cái và âm chữ cái trong Sound Detective"
+      ],
+      "minigame_requirements": ["sound_detective"],
+      "steps": [
+        {
+          "id": "sq2_step_1",
+          "type": "complete_minigame",
+          "target_id": "sound_detective",
+          "mode": "parallel",
+          "required_count": 1,
+          "title_vi": "Hoàn thành Sound Detective",
+          "title_en": "Complete Sound Detective"
+        },
+        {
+          "id": "sq2_step_2",
+          "type": "learn_vocabulary",
+          "target_id": "any",
+          "mode": "parallel",
+          "required_count": 3,
+          "title_vi": "Học hoặc ôn lại 3 từ/âm chữ cái",
+          "title_en": "Practice 3 words or letter sounds"
+        }
+      ],
+      "rewards": {
+        "exp": 45,
+        "gold": 30,
+        "stars": 1,
+        "items": [],
+        "set_flags": ["side_lily_done"]
+      },
+      "learning_hook": {
+        "future_lesson_id": "lesson_01_02_alphabet_all",
+        "future_minigame_id": "sound_detective",
+        "skills": ["listening", "reading"]
+      }
+    },
+    {
+      "id": "side_rocky_animals",
+      "quest_type": "side",
+      "chapter_id": "chapter_03",
+      "order_index": 103,
+      "title_en": "Help Rocky Name the Animals",
+      "title_vi": "[Phụ] Giúp Rocky Gọi Tên Động Vật",
+      "description_vi": "Thực hành nói từ vựng động vật cùng Speaking Hero hoặc trò chuyện với Rocky qua Dialogue Adventure.",
+      "description_en": "Practice speaking animal words with Rocky.",
+      "giver_npc_id": "rocky",
+      "area_id": "letter_cave",
+      "required_level": 1,
+      "claim_mode": "manual_or_npc",
+      "start_condition": {
+        "type": "quests_completed",
+        "required_quests": ["quest_02_lost_letters"]
+      },
+      "learning_objectives_vi": [
+        "Thực hành nghe mẫu và tự đọc từ/câu giao tiếp"
+      ],
+      "minigame_requirements": ["speaking_hero"],
+      "steps": [
+        {
+          "id": "sq3_step_1",
+          "type": "complete_minigame",
+          "target_id": "speaking_hero",
+          "mode": "sequential",
+          "required_count": 1,
+          "title_vi": "Hoàn thành 1 phiên luyện nói Speaking Hero",
+          "title_en": "Complete Speaking Hero"
+        }
+      ],
+      "rewards": {
+        "exp": 50,
+        "gold": 35,
+        "stars": 1,
+        "items": [],
+        "set_flags": ["side_rocky_done"]
+      },
+      "learning_hook": {
+        "future_lesson_id": "lesson_02_01_food_animals",
+        "future_minigame_id": "speaking_hero",
+        "skills": ["speaking"]
       }
     }
   ]

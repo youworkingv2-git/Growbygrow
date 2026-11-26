@@ -40,3 +40,5 @@ Hệ thống hội thoại gồm hai thành phần tách biệt giữa dữ li�
 }
 ```
 Hỗ trợ bổ sung hội thoại mới hoặc dịch sang nhiều ngôn ngữ mà không cần sửa GDScript.
+
+*(Cập nhật Prompt 06)*: Hỗ trợ thêm `choices` tương tác (`quest_action`: `accept_quest`, `claim_quest`, `start_minigame`, `open_learning_hub`), nút bật/tắt bản dịch tiếng Việt, nút nghe thoại tiếng Anh và lưu `seen_dialogues`. Xem `docs/DIALOGUE_INTEGRATION.md`.

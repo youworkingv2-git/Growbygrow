@@ -83,4 +83,14 @@ Tài liệu này tổng hợp kết quả kiểm tra tính nhất quán của **
 - [x] 4 mini-game ưu tiên: `listen_and_find`, `word_builder`, `word_matching`, `sentence_builder`.
 - [x] 4 mini-game mở rộng: `sound_detective`, `speaking_hero` (ghi âm & phát lại tách biệt AI scoring đang chờ tích hợp), `memory_quest`, `dialogue_adventure` (8 tình huống song ngữ).
 - [x] Kết nối `LearningEngine`, `AssessmentEngine`, `LearningProgressManager`, `ReviewEngine`, `QuestManager`, NPC, Vật thể 3D, HUD (`[G]`), `LearningHubModal`, và migration `0004_minigame_system_extensions.sql`.
-- [ ] Bổ sung file thu âm `.ogg` chuẩn cho từ vựng/âm chữ cái/câu mẫu và tích hợp dịch vụ ASR/AI Pronunciation Scoring (Prompt 06+).
+- [ ] Bổ sung file thu âm `.ogg` chuẩn cho từ vựng/âm chữ cái/câu mẫu và tích hợp dịch vụ ASR/AI Pronunciation Scoring (Prompt 07+).
+
+---
+
+## 4. TRẠNG THÁI TRIỂN KHAI PROMPT 06 – QUEST, NPC, REWARD & WORLD PROGRESSION INTEGRATION
+- [x] Kiến trúc 10 module `QuestManager` (`QuestRepository`, `QuestRegistry`, `QuestInstance`, `QuestStateManager`, `QuestObjectiveManager`, `QuestConditionEvaluator`, `QuestProgressTracker`, `QuestRewardManager`, `QuestNotificationManager`, `QuestEventHandler`).
+- [x] 5 Main Quests (`quest_01_new_adventure` .. `quest_05_shadow_gate`), 3 Side Quests (`side_buddy_treasure`, `side_lily_garden`, `side_rocky_animals`), và 5 Chapters (`data/quests/chapters.json`).
+- [x] `RewardManager`, `InventoryManager`, `AchievementManager` với `data/items/world_01_items.json` và `data/rewards/achievements.json`, chống nhận trùng phần thưởng và kiểm tra điều kiện sử dụng vật phẩm.
+- [x] Hội thoại song ngữ tương tác (`choices` + `quest_action` + bật/tắt tiếng Việt + nghe thoại) và máy trạng thái 3D cho NPC.
+- [x] Migration `0005_quest_reward_inventory_integration.sql` và save schema v2 chống xung đột timestamp/revision.
+- [ ] Chạy `0001`–`0005` trên Supabase server thật và tích hợp audio thu âm + AI Pronunciation Scoring (Prompt 07+).

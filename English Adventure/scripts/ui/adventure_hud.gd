@@ -17,6 +17,10 @@ var _pending_intro_quest_id: String = ""
 var _queued_intro_quest_id: String = ""
 var _pending_unlocked_area_id: String = ""
 var _pending_completed_quest: Dictionary = {}
+var _suppress_immediate_unlock_popup: bool = false
+var _active_popup_quest_id: String = ""
+var _quest_log_filter: String = "main"
+var _bag_tab: String = "items"
 var _has_focused_target: bool = false
 var _touch_input_seen: bool = false
 var _reward_claim_locked: bool = false
@@ -179,7 +183,13 @@ func _ready() -> void:
 	EventBus.progress_updated.connect(_refresh_header)
 	EventBus.quest_started.connect(func(_id: String) -> void: _refresh_quest_tracker())
 	EventBus.quest_step_updated.connect(func(_id: String, _idx: int) -> void: _refresh_quest_tracker())
+	EventBus.quest_objective_updated.connect(func(_id: String, _oid: String, _c: int, _t: int) -> void: _refresh_quest_tracker())
 	EventBus.quest_completed.connect(_on_quest_completed)
+	EventBus.quest_reward_claimed.connect(func(_id: String, _r: Dictionary) -> void:
+		_refresh_quest_tracker()
+		_refresh_header()
+	)
+	EventBus.toast_requested.connect(func(msg: String, _kind: String) -> void: show_toast(msg))
 	EventBus.area_locked_attempted.connect(_on_area_locked_attempted)
 	EventBus.area_unlocked.connect(_on_area_unlocked)
 	EventBus.dialogue_started.connect(func(_id: String) -> void:
@@ -442,6 +452,19 @@ func _on_accept_quest_pressed() -> void:
 		_pending_intro_quest_id = ""
 
 
+func set_dialogue_pending(active: bool) -> void:
+	_dialogue_active = active
+
+
+func clear_pending_completed_quest(quest_id: String = "") -> void:
+	if quest_id.is_empty() or str(_pending_completed_quest.get("quest_id", "")) == quest_id:
+		_pending_completed_quest.clear()
+
+
+func set_suppress_immediate_unlock_popup(suppress: bool) -> void:
+	_suppress_immediate_unlock_popup = suppress
+
+
 func _on_quest_completed(quest_id: String, rewards: Dictionary) -> void:
 	_refresh_quest_tracker()
 	_refresh_header()
@@ -451,11 +474,18 @@ func _on_quest_completed(quest_id: String, rewards: Dictionary) -> void:
 	_show_quest_completed_modal(quest_id, rewards)
 
 
+func show_claimed_reward_popup(quest_id: String, rewards: Dictionary) -> void:
+	_show_quest_completed_modal(quest_id, rewards)
+
+
 func _show_quest_completed_modal(quest_id: String, rewards: Dictionary) -> void:
 	_reward_claim_locked = false
+	_active_popup_quest_id = quest_id
 	qd_continue_btn.disabled = false
 	var q: Dictionary = DataRepository.quests_by_id.get(quest_id, {})
+	var already_claimed := GameStateManager.claimed_quests.has(quest_id)
 	qd_title.text = "Hoàn thành: %s!" % str(q.get("title_vi", quest_id))
+	qd_continue_btn.text = "Tuyệt vời!" if already_claimed else LocalizationManager.tr_key("btn_claim_reward", "Nhận thưởng!")
 	qd_reward_display.set_rewards(rewards)
 	UIAnimator.animate_popup_open(quest_done_popup)
 	UIAnimator.animate_reward_pop(qd_reward_display)
@@ -467,6 +497,9 @@ func _on_quest_done_continue() -> void:
 		return
 	_reward_claim_locked = true
 	qd_continue_btn.disabled = true
+	if not _active_popup_quest_id.is_empty() and not GameStateManager.claimed_quests.has(_active_popup_quest_id):
+		QuestManager.claim_quest_reward(_active_popup_quest_id)
+	_active_popup_quest_id = ""
 	UIAnimator.animate_popup_close(quest_done_popup, func() -> void:
 		_sync_overlay_visibility()
 		if not _show_next_pending_unlock():
@@ -481,6 +514,8 @@ func _on_area_locked_attempted(_area_id: String, reason_vi: String) -> void:
 
 
 func _on_area_unlocked(area_id: String) -> void:
+	if _suppress_immediate_unlock_popup:
+		return
 	if not quest_done_popup.visible and not dialogue_box.visible and not _dialogue_active and _pending_completed_quest.is_empty():
 		_show_area_unlocked_modal(area_id)
 
@@ -517,6 +552,13 @@ func _refresh_header() -> void:
 
 
 func _refresh_quest_tracker() -> void:
+	for q_done in DataRepository.quests_ordered:
+		var qid_done := str(q_done.get("id", ""))
+		if QuestManager.get_detailed_quest_status(qid_done) == "completed":
+			tracker_title.text = "Hoàn thành! Chờ nhận thưởng:"
+			tracker_step.text = "• %s (Nhấn [Tab] hoặc gặp NPC để nhận thưởng)" % str(q_done.get("title_vi", qid_done))
+			return
+
 	var active_id := QuestManager.get_active_quest_id()
 	if not active_id.is_empty():
 		var q: Dictionary = DataRepository.quests_by_id.get(active_id, {})
@@ -524,8 +566,11 @@ func _refresh_quest_tracker() -> void:
 		var q_state: Dictionary = GameStateManager.active_quests.get(active_id, {})
 		var steps: Array = q.get("steps", [])
 		var step_num := mini(int(q_state.get("step_index", 0)) + 1, maxi(1, steps.size()))
+		var prog := QuestManager.get_objective_progress(active_id, str(step.get("id", "")))
+		var tgt := int(prog.get("target", 1))
+		var prog_str := " (%d/%d)" % [int(prog.get("current", 0)), tgt] if tgt > 1 else ""
 		tracker_title.text = "Nhiệm vụ (%d/%d): %s" % [step_num, maxi(1, steps.size()), str(q.get("title_vi", ""))]
-		tracker_step.text = "• " + LocalizationManager.pick_text(step, "title")
+		tracker_step.text = "• " + LocalizationManager.pick_text(step, "title") + prog_str
 		return
 
 	var next_q := QuestManager.get_next_suggested_quest()
@@ -536,7 +581,7 @@ func _refresh_quest_tracker() -> void:
 		tracker_step.text = "• Gặp %s để nhận nhiệm vụ" % str(npc.get("name_vi", npc_id))
 	else:
 		tracker_title.text = "Tiến trình Đảo Chữ Cái"
-		tracker_step.text = "• Bạn đã hoàn thành toàn bộ nhiệm vụ mẫu!"
+		tracker_step.text = "• Chúc mừng! Bạn đã hoàn thành toàn bộ nhiệm vụ trên Đảo Chữ Cái!"
 
 
 func _refresh_localized_labels() -> void:
@@ -556,19 +601,92 @@ func _refresh_localized_labels() -> void:
 
 
 func _open_quest_log() -> void:
+	_populate_quest_log()
+	UIAnimator.animate_popup_open(quest_log_modal)
+	_sync_overlay_visibility()
+
+
+func _populate_quest_log() -> void:
 	for c in quest_log_list.get_children():
 		c.queue_free()
-	for q in DataRepository.quests_ordered:
+
+	var tabs_row := HBoxContainer.new()
+	tabs_row.add_theme_constant_override("separation", 6)
+	var filters := [
+		{ "id": "main", "label": "Chính tuyến" },
+		{ "id": "side", "label": "Nhiệm vụ phụ" },
+		{ "id": "completed", "label": "Hoàn thành" },
+		{ "id": "locked", "label": "Chưa mở" }
+	]
+	for f_dict in filters:
+		var fid := str(f_dict["id"])
+		var tb := Button.new()
+		tb.text = str(f_dict["label"])
+		tb.custom_minimum_size = Vector2(0, 34)
+		tb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		tb.focus_mode = Control.FOCUS_NONE
+		UIDesignSystem.apply_button_variant(tb, "primary" if _quest_log_filter == fid else "secondary")
+		tb.pressed.connect(func() -> void:
+			_quest_log_filter = fid
+			_populate_quest_log()
+		)
+		tabs_row.add_child(tb)
+	quest_log_list.add_child(tabs_row)
+
+	var filtered := QuestManager.get_quests_by_filter(_quest_log_filter)
+	if filtered.is_empty():
+		var empty_lbl := Label.new()
+		empty_lbl.text = "Chưa có nhiệm vụ nào trong mục này."
+		empty_lbl.add_theme_color_override("font_color", UIDesignSystem.TEXT_MUTED)
+		quest_log_list.add_child(empty_lbl)
+		return
+
+	for q in filtered:
 		var card := QUEST_CARD_SCENE.instantiate() as QuestCardWidget
 		quest_log_list.add_child(card)
 		card.setup_quest(q)
 		var qid := str(q.get("id", ""))
+		var detailed := QuestManager.get_detailed_quest_status(qid)
+
+		var action_row := HBoxContainer.new()
+		action_row.add_theme_constant_override("separation", 8)
+		var has_actions := false
+
+		if detailed == "available":
+			has_actions = true
+			var acc_btn := Button.new()
+			acc_btn.text = "Nhận nhiệm vụ này"
+			acc_btn.custom_minimum_size = Vector2(0, 36)
+			acc_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			UIDesignSystem.apply_button_variant(acc_btn, "confirm")
+			acc_btn.pressed.connect(func() -> void:
+				QuestManager.start_quest(qid)
+				_populate_quest_log()
+			)
+			action_row.add_child(acc_btn)
+		elif detailed == "completed":
+			has_actions = true
+			var claim_btn := Button.new()
+			claim_btn.text = LocalizationManager.tr_key("btn_claim_reward", "Nhận thưởng!")
+			claim_btn.custom_minimum_size = Vector2(0, 38)
+			claim_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			UIDesignSystem.apply_button_variant(claim_btn, "reward")
+			claim_btn.pressed.connect(func() -> void:
+				var res := QuestManager.claim_quest_reward(qid)
+				if bool(res.get("granted", false)):
+					_populate_quest_log()
+					show_claimed_reward_popup(qid, q.get("rewards", {}))
+			)
+			action_row.add_child(claim_btn)
+
 		var mg_id := QuestManager.get_quest_minigame_id(qid)
-		if not mg_id.is_empty():
+		if not mg_id.is_empty() and detailed != "locked":
+			has_actions = true
 			var mg_btn := Button.new()
-			mg_btn.text = "Chơi thử thách Mini-Game của nhiệm vụ (%s)" % mg_id.replace("_", " ").capitalize()
+			mg_btn.text = "Chơi Mini-Game (%s)" % mg_id.replace("_", " ").capitalize()
 			mg_btn.custom_minimum_size = Vector2(0, 36)
-			UIDesignSystem.apply_button_variant(mg_btn, "reward")
+			mg_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			UIDesignSystem.apply_button_variant(mg_btn, "primary")
 			mg_btn.pressed.connect(func() -> void:
 				quest_log_modal.visible = false
 				_sync_overlay_visibility()
@@ -579,27 +697,62 @@ func _open_quest_log() -> void:
 					"bypass_unlock": true
 				})
 			)
-			quest_log_list.add_child(mg_btn)
-	UIAnimator.animate_popup_open(quest_log_modal)
-	_sync_overlay_visibility()
+			action_row.add_child(mg_btn)
+
+		if has_actions:
+			quest_log_list.add_child(action_row)
 
 
 func _open_bag() -> void:
+	_populate_bag()
+	UIAnimator.animate_popup_open(bag_modal)
+	_sync_overlay_visibility()
+
+
+func _populate_bag() -> void:
 	for c in bag_list.get_children():
 		c.queue_free()
-	if GameStateManager.inventory.is_empty():
-		var empty_lbl := Label.new()
-		empty_lbl.text = LocalizationManager.tr_key(
-			"bag_empty",
-			"Túi đồ đang trống. Hãy mở rương và hoàn thành nhiệm vụ trên Đảo Chữ Cái để thu thập vật phẩm!"
+
+	var tabs_row := HBoxContainer.new()
+	tabs_row.add_theme_constant_override("separation", 8)
+	for t_dict in [
+		{ "id": "items", "label": "Vật phẩm (%d)" % InventoryManager.get_enriched_items().size() },
+		{ "id": "achievements", "label": "Thành tựu (%d/%d)" % [GameStateManager.unlocked_achievements.size(), DataRepository.achievements_ordered.size()] },
+		{ "id": "history", "label": "Lịch sử thưởng (%d)" % GameStateManager.reward_history.size() }
+	]:
+		var tid := str(t_dict["id"])
+		var tb := Button.new()
+		tb.text = str(t_dict["label"])
+		tb.custom_minimum_size = Vector2(0, 34)
+		tb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		tb.focus_mode = Control.FOCUS_NONE
+		UIDesignSystem.apply_button_variant(tb, "primary" if _bag_tab == tid else "secondary")
+		tb.pressed.connect(func() -> void:
+			_bag_tab = tid
+			_populate_bag()
 		)
-		empty_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		bag_list.add_child(empty_lbl)
-	else:
-		for item_var in GameStateManager.inventory.values():
-			if typeof(item_var) != TYPE_DICTIONARY:
-				continue
-			var item: Dictionary = item_var
+		tabs_row.add_child(tb)
+	bag_list.add_child(tabs_row)
+
+	var sync_lbl := Label.new()
+	sync_lbl.text = SaveLoadManager.get_sync_status_summary()
+	sync_lbl.add_theme_font_size_override("font_size", 12)
+	sync_lbl.add_theme_color_override("font_color", UIDesignSystem.TEXT_MUTED)
+	sync_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	bag_list.add_child(sync_lbl)
+
+	if _bag_tab == "items":
+		var items := InventoryManager.get_enriched_items()
+		if items.is_empty():
+			var empty_lbl := Label.new()
+			empty_lbl.text = LocalizationManager.tr_key(
+				"bag_empty",
+				"Túi đồ đang trống. Hãy mở rương và hoàn thành nhiệm vụ trên Đảo Chữ Cái để thu thập vật phẩm!"
+			)
+			empty_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			bag_list.add_child(empty_lbl)
+			return
+		for item in items:
 			var item_id := str(item.get("id", ""))
 			var card := PanelContainer.new()
 			card.add_theme_stylebox_override(
@@ -618,22 +771,82 @@ func _open_bag() -> void:
 			var info_col := VBoxContainer.new()
 			info_col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 			var title := Label.new()
-			title.text = "%s (%s)  x%d" % [
+			title.text = "%s (%s)  x%d  [%s]" % [
 				str(item.get("name_vi", item_id)),
 				str(item.get("name_en", "")),
-				int(item.get("quantity", 1))
+				int(item.get("quantity", 1)),
+				str(item.get("rarity", "common")).to_upper()
 			]
 			var note := Label.new()
-			note.text = LocalizationManager.tr_key("bag_status_readonly", "Vật phẩm thám hiểm (tự động kích hoạt khi cần)")
+			note.text = "%s\nNguồn: %s" % [str(item.get("description_vi", "")), str(item.get("acquisition_source_vi", ""))]
+			note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 			note.add_theme_font_size_override("font_size", 12)
 			note.add_theme_color_override("font_color", UIDesignSystem.TEXT_MUTED)
 			info_col.add_child(title)
 			info_col.add_child(note)
 			row.add_child(info_col)
+
+			if bool(item.get("usable", false)):
+				var use_btn := Button.new()
+				use_btn.text = LocalizationManager.tr_key("btn_use_item", "Sử dụng")
+				use_btn.custom_minimum_size = Vector2(96, 36)
+				use_btn.focus_mode = Control.FOCUS_NONE
+				var check := InventoryManager.can_use_item(item_id)
+				UIDesignSystem.apply_button_variant(use_btn, "confirm" if bool(check.get("ok", false)) else "secondary")
+				use_btn.pressed.connect(func() -> void:
+					InventoryManager.use_item(item_id)
+					_populate_bag()
+				)
+				row.add_child(use_btn)
+
 			card.add_child(row)
 			bag_list.add_child(card)
-	UIAnimator.animate_popup_open(bag_modal)
-	_sync_overlay_visibility()
+	elif _bag_tab == "achievements":
+		for ach in DataRepository.achievements_ordered:
+			var aid := str(ach.get("id", ""))
+			var unlocked := GameStateManager.unlocked_achievements.has(aid)
+			var card := PanelContainer.new()
+			card.add_theme_stylebox_override(
+				"panel",
+				UIDesignSystem.make_panel_style(
+					Color(0.12, 0.22, 0.24, 0.96) if unlocked else Color(0.11, 0.15, 0.24, 0.92),
+					UIDesignSystem.SUCCESS if unlocked else UIDesignSystem.BORDER_DEFAULT,
+					10, 1, 12, 8
+				)
+			)
+			var lbl := Label.new()
+			lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			var rw: Dictionary = ach.get("rewards", {})
+			lbl.text = "%s %s (%s)\n%s | Thưởng: +%d EXP, +%d Gold" % [
+				"[Đạt được]" if unlocked else "[Chưa mở]",
+				str(ach.get("title_vi", aid)),
+				str(ach.get("title_en", "")),
+				str(ach.get("description_vi", "")),
+				int(rw.get("exp", 0)),
+				int(rw.get("gold", 0))
+			]
+			lbl.add_theme_color_override("font_color", UIDesignSystem.SUCCESS if unlocked else UIDesignSystem.TEXT_LIGHT)
+			card.add_child(lbl)
+			bag_list.add_child(card)
+	else:
+		if GameStateManager.reward_history.is_empty():
+			var empty_h := Label.new()
+			empty_h.text = "Chưa có phần thưởng nào được ghi nhận."
+			bag_list.add_child(empty_h)
+		else:
+			for i in range(GameStateManager.reward_history.size() - 1, -1, -1):
+				var entry: Dictionary = GameStateManager.reward_history[i]
+				var lbl := Label.new()
+				lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+				lbl.add_theme_font_size_override("font_size", 13)
+				lbl.text = "• [%s] %s: +%d EXP, +%d Gold, +%d Sao" % [
+					str(entry.get("source_type", "")),
+					str(entry.get("source_id", "")),
+					int(entry.get("exp", 0)),
+					int(entry.get("gold", 0)),
+					int(entry.get("stars", 0))
+				]
+				bag_list.add_child(lbl)
 
 
 func _resolve_item_icon(item_id: String) -> Texture2D:

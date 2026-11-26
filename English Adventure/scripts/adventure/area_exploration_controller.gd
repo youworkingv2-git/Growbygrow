@@ -1,8 +1,8 @@
 extends Node3D
 ## Orchestrates the active 3D Alphabet Island Area Exploration scene:
 ## instantiates the specific 3D area layout, configures lighting/quality via WorldEnvironment3DController,
-## spawns 3D Player + Buddy + NPCs + Interactables + Portals using Coord3D compatibility,
-## and wires InteractionManager, DialogueManager, QuestManager, and HUD.
+## spawns 3D Player + Buddy + NPCs + Interactables + Portals,
+## and wires InteractionManager, DialogueManager (with choices & actions), QuestManager, and HUD.
 
 const PLAYER_SCENE := preload("res://scenes/characters/player/player.tscn")
 const BUDDY_SCENE := preload("res://scenes/characters/buddy/buddy.tscn")
@@ -17,6 +17,7 @@ var _pending_quest_offer_id: String = ""
 var _pending_learning_lesson_id: String = ""
 var _pending_minigame_id: String = ""
 var _pending_minigame_ctx: Dictionary = {}
+var _pending_claim_quest_id: String = ""
 var _autosave_timer: float = 0.0
 
 @onready var world_env: WorldEnvironment = $WorldEnvironment
@@ -54,7 +55,7 @@ func _ready() -> void:
 func _check_auto_quest_offer_on_area_enter() -> void:
 	for q in DataRepository.quests_ordered:
 		var qid := str(q.get("id", ""))
-		if str(q.get("area_id", "")) == _area_id and QuestManager.get_quest_status(qid) == "available":
+		if str(q.get("area_id", "")) == _area_id and QuestManager.get_detailed_quest_status(qid) == "available":
 			var giver_id := str(q.get("giver_npc_id", ""))
 			var giver_cfg: Dictionary = DataRepository.npcs_by_id.get(giver_id, {})
 			if str(giver_cfg.get("area_id", "")) != _area_id:
@@ -185,8 +186,10 @@ func _connect_systems() -> void:
 		hud.dialogue_box.show_line(line, idx, total, true)
 	)
 	dialogue_manager.sequence_finished.connect(_on_dialogue_finished)
+	dialogue_manager.action_requested.connect(_on_dialogue_action_requested)
 	hud.dialogue_box.next_requested.connect(func() -> void: dialogue_manager.next_line())
 	hud.dialogue_box.close_requested.connect(func() -> void: dialogue_manager.close_dialogue())
+	hud.dialogue_box.choice_selected.connect(func(idx: int) -> void: dialogue_manager.select_choice(idx))
 
 	hud.interact_pressed.connect(func() -> void: interaction_manager.trigger_current_interaction())
 	hud.jump_pressed.connect(func() -> void: _player.trigger_jump())
@@ -201,47 +204,77 @@ func _connect_systems() -> void:
 
 func _on_npc_interacted(npc_data: Dictionary) -> void:
 	var npc_id := str(npc_data.get("id", ""))
-	GameStateManager.mark_npc_met(npc_id)
 	if npc_data.has("on_talk_set_flag") and not str(npc_data["on_talk_set_flag"]).is_empty():
 		GameStateManager.set_flag(str(npc_data["on_talk_set_flag"]), true)
 
-	var dlg_id := str(npc_data.get("default_dialogue_id", ""))
-	if npc_id == "professor_owl" and GameStateManager.completed_quests.has("quest_01_new_adventure"):
-		dlg_id = "dlg_owl_quest_done"
-	elif npc_id == "lily" and GameStateManager.completed_quests.has("quest_01_new_adventure"):
-		dlg_id = "dlg_lily_after_q1"
+	# Guard HUD quest-completion modal while resolving talk + dialogue sequence
+	hud.set_dialogue_pending(true)
 
-	var started_dlg := dialogue_manager.start_dialogue(dlg_id)
+	# Process NPC talk step BEFORE resolving dialogue so return_to_npc transitions Quest -> Completed cleanly
 	QuestManager.report_npc_talk(npc_id)
-	_pending_quest_offer_id = QuestManager.has_available_quest_for_npc(npc_id)
 
-	# Connect NPCs to contextual Mini-Games after their quest intro / dialogue
+	var dlg_id := QuestManager.resolve_npc_dialogue(npc_data)
+	GameStateManager.mark_npc_met(npc_id, dlg_id)
+
+	_pending_quest_offer_id = ""
 	_pending_minigame_id = ""
 	_pending_minigame_ctx = {}
-	if _pending_quest_offer_id.is_empty():
-		if npc_id == "professor_owl" and GameStateManager.completed_quests.has("quest_01_new_adventure"):
-			_pending_minigame_id = "listen_and_find"
-			_pending_minigame_ctx = { "source_type": "npc", "source_id": npc_id, "bypass_unlock": true }
-		elif npc_id == "lily" and GameStateManager.completed_quests.has("quest_01_new_adventure"):
-			_pending_minigame_id = "dialogue_adventure"
-			_pending_minigame_ctx = { "source_type": "npc", "source_id": npc_id, "bypass_unlock": true }
-		elif npc_id == "rocky":
-			_pending_minigame_id = "speaking_hero"
-			_pending_minigame_ctx = { "source_type": "npc", "source_id": npc_id, "bypass_unlock": true }
-		elif npc_id == "crystal_guardian":
-			_pending_minigame_id = "sentence_builder"
-			_pending_minigame_ctx = { "source_type": "npc", "source_id": npc_id, "bypass_unlock": true }
+	_pending_claim_quest_id = ""
+
+	var started_dlg := dialogue_manager.start_dialogue(dlg_id)
+	if not started_dlg:
+		hud.set_dialogue_pending(false)
+
+	# Only queue fallback quest offer or followup mini-game if the dialogue itself doesn't handle choices
+	var raw_lines: Variant = DataRepository.dialogues_by_id.get(dlg_id, [])
+	var dlg_has_choices := false
+	if typeof(raw_lines) == TYPE_ARRAY:
+		for l_var in raw_lines:
+			if typeof(l_var) == TYPE_DICTIONARY and not ((l_var as Dictionary).get("choices", []) as Array).is_empty():
+				dlg_has_choices = true
+				break
+
+	if not dlg_has_choices:
+		var turn_in_q := QuestManager.is_npc_turn_in_ready(npc_id)
+		if not turn_in_q.is_empty():
+			_pending_claim_quest_id = turn_in_q
+		else:
+			_pending_quest_offer_id = QuestManager.has_available_quest_for_npc(npc_id)
+			if _pending_quest_offer_id.is_empty():
+				var follow := QuestManager.resolve_npc_followup_minigame(npc_data)
+				if not follow.is_empty():
+					_pending_minigame_id = str(follow.get("minigame_id", ""))
+					_pending_minigame_ctx = (follow.get("context", {}) as Dictionary).duplicate(true)
 
 	if not started_dlg:
-		if not _pending_quest_offer_id.is_empty():
-			hud.show_quest_intro(_pending_quest_offer_id)
-			_pending_quest_offer_id = ""
-		elif not _pending_minigame_id.is_empty():
-			var mg_id := _pending_minigame_id
-			var mg_ctx := _pending_minigame_ctx.duplicate(true)
-			_pending_minigame_id = ""
-			_pending_minigame_ctx = {}
-			MiniGameManager.start_minigame(mg_id, mg_ctx)
+		_flush_pending_after_dialogue()
+
+
+func _on_dialogue_action_requested(action_data: Dictionary) -> void:
+	var act := str(action_data.get("quest_action", ""))
+	match act:
+		"accept_quest":
+			var qid := str(action_data.get("quest_id", ""))
+			if not qid.is_empty():
+				QuestManager.start_quest(qid)
+		"claim_quest":
+			var cqid := str(action_data.get("quest_id", ""))
+			if not cqid.is_empty():
+				_pending_claim_quest_id = cqid
+				hud.clear_pending_completed_quest(cqid)
+		"start_minigame":
+			var mg_id := str(action_data.get("minigame_id", ""))
+			if not mg_id.is_empty():
+				_pending_minigame_id = mg_id
+				_pending_minigame_ctx = {
+					"source_type": "npc",
+					"source_id": str(action_data.get("quest_id", "dialogue")),
+					"quest_id": str(action_data.get("quest_id", "")),
+					"bypass_unlock": true
+				}
+		"open_learning_hub":
+			var lid := str(action_data.get("lesson_id", ""))
+			_pending_learning_lesson_id = lid
 
 
 func _on_object_message(title: String, message: String, obj_data: Dictionary) -> void:
@@ -250,19 +283,19 @@ func _on_object_message(title: String, message: String, obj_data: Dictionary) ->
 	_pending_minigame_ctx = {}
 	if oid == "obj_shadow_gate_seal":
 		_pending_minigame_id = "sentence_builder"
-		_pending_minigame_ctx = { "source_type": "object", "source_id": oid, "bypass_unlock": true }
+		_pending_minigame_ctx = { "source_type": "object", "source_id": oid, "quest_id": "quest_05_shadow_gate", "bypass_unlock": true }
 	elif oid == "obj_meadow_chest":
 		_pending_minigame_id = "word_builder"
-		_pending_minigame_ctx = { "source_type": "object", "source_id": oid, "bypass_unlock": true }
+		_pending_minigame_ctx = { "source_type": "object", "source_id": oid, "quest_id": "quest_02_lost_letters", "bypass_unlock": true }
 	elif oid == "obj_village_chest":
 		_pending_minigame_id = "word_matching"
-		_pending_minigame_ctx = { "source_type": "object", "source_id": oid, "bypass_unlock": true }
+		_pending_minigame_ctx = { "source_type": "object", "source_id": oid, "quest_id": "side_buddy_treasure", "bypass_unlock": true }
 	elif oid == "obj_cave_sign":
 		_pending_minigame_id = "sound_detective"
 		_pending_minigame_ctx = { "source_type": "object", "source_id": oid, "bypass_unlock": true }
 	elif oid == "obj_lake_chest":
 		_pending_minigame_id = "memory_quest"
-		_pending_minigame_ctx = { "source_type": "object", "source_id": oid, "bypass_unlock": true }
+		_pending_minigame_ctx = { "source_type": "object", "source_id": oid, "quest_id": "quest_04_crystal_guardian", "bypass_unlock": true }
 	elif oid == "obj_letter_e":
 		_pending_minigame_id = "listen_and_find"
 		_pending_minigame_ctx = { "source_type": "object", "source_id": oid, "bypass_unlock": true }
@@ -275,7 +308,22 @@ func _on_dialogue_finished(_dialogue_id: String) -> void:
 	hud.dialogue_box.visible = false
 	if _player != null:
 		_player.clear_dialogue_focus()
-	if not _pending_quest_offer_id.is_empty():
+	_flush_pending_after_dialogue()
+
+
+func _flush_pending_after_dialogue() -> void:
+	if not _pending_claim_quest_id.is_empty():
+		var cqid := _pending_claim_quest_id
+		_pending_claim_quest_id = ""
+		var q_def: Dictionary = DataRepository.quests_by_id.get(cqid, {})
+		hud.set_suppress_immediate_unlock_popup(true)
+		var res := QuestManager.claim_quest_reward(cqid)
+		hud.set_suppress_immediate_unlock_popup(false)
+		if bool(res.get("granted", false)):
+			hud.show_claimed_reward_popup(cqid, q_def.get("rewards", {}))
+		elif not GameStateManager.pending_area_unlocked_popup.is_empty():
+			hud._show_next_pending_unlock()
+	elif not _pending_quest_offer_id.is_empty():
 		var qid := _pending_quest_offer_id
 		_pending_quest_offer_id = ""
 		_pending_minigame_id = ""

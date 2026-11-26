@@ -276,3 +276,11 @@ Các thành phần đã triển khai thành GDScript & Scene thực thi trong `p
 - **Module lõi (`scripts/minigames/`):** `MiniGameRegistry`, `MiniGameFactory`, `MiniGameSession`, `MiniGameDataProvider`, `MiniGameController`, `MiniGameUI`, `MiniGameAudioManager`, `MiniGameScoring`, `MiniGameDifficulty`, `MiniGameFeedback`, `MiniGameReward`, `MiniGameResult`.
 - **8 Mini-game đã triển khai:** `listen_and_find`, `word_builder`, `word_matching`, `sentence_builder`, `sound_detective`, `speaking_hero`, `memory_quest`, `dialogue_adventure` (+ 8 template mở rộng trong `minigame_registry.json`).
 - **Kết nối đa chiều:** Mở từ NPC (`professor_owl`, `lily`, `rocky`, `crystal_guardian`), Quest Log (`future_minigame_id`), Vật thể 3D (`obj_village_chest`, `obj_meadow_chest`, `obj_cave_sign`, `obj_lake_chest`, `obj_letter_e`, `obj_shadow_gate_seal`), HUD (`Trò chơi [G]`), và `LearningHubModal`. Chi tiết xem [`docs/MINIGAME_ARCHITECTURE.md`](MINIGAME_ARCHITECTURE.md).
+
+---
+
+## 11. TRẠNG THÁI TRIỂN KHAI PROMPT 06 – QUEST, NPC, REWARD & WORLD PROGRESSION INTEGRATION
+
+- **Autoload mới:** `RewardManager` (`scripts/progression/reward_manager.gd`) kết hợp cùng `InventoryManager` (`inventory_manager.gd`) và `AchievementManager` (`achievement_manager.gd`).
+- **Tái cấu trúc `QuestManager` (`scripts/quest/`):** Gồm 10 module (`QuestRepository`, `QuestRegistry`, `QuestInstance`, `QuestStateManager`, `QuestObjectiveManager`, `QuestConditionEvaluator`, `QuestProgressTracker`, `QuestRewardManager`, `QuestNotificationManager`, `QuestEventHandler`) quản lý 6 trạng thái (`locked` -> `available` -> `accepted` -> `in_progress` -> `completed` -> `claimed`) và 12 loại mục tiêu.
+- **Nội dung tích hợp:** `chapters.json` (5 Chapters), `world_01_items.json` (15 vật phẩm có `usage_conditions`), `achievements.json` (7 thành tích), 5 Main Quests (`quest_01`..`quest_05`), 3 Side Quests, hội thoại tương tác có lựa chọn và điều kiện sử dụng vật phẩm. Xem [`docs/GAMEPLAY_LOOP.md`](GAMEPLAY_LOOP.md).

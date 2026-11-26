@@ -221,7 +221,11 @@ func _select_area(area_id: String) -> void:
 		travel_btn.disabled = true
 		UIDesignSystem.apply_button_variant(travel_btn, "disabled")
 	else:
-		info_unlock.visible = false
+		info_unlock.visible = true
+		info_unlock.text = "Tiến trình Chương Alphabet Island: %d/%d chương hoàn thành" % [
+			GameStateManager.completed_chapters.size(),
+			maxi(1, DataRepository.chapters_ordered.size())
+		]
 		travel_btn.text = "Đi tới khu vực này!"
 		travel_btn.disabled = false
 		UIDesignSystem.apply_button_variant(travel_btn, "confirm")
