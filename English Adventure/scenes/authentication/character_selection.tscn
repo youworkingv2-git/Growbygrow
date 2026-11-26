@@ -90,9 +90,8 @@ theme_override_constants/separation = 8
 alignment = 1
 
 [node name="Preview" type="SubViewportContainer" parent="RootMargin/Scroll/VBox/CardsRow/BoyCard/Margin/VBox"]
-custom_minimum_size = Vector2(148, 168)
+custom_minimum_size = Vector2(148, 175)
 layout_mode = 2
-size_flags_vertical = 3
 stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="RootMargin/Scroll/VBox/CardsRow/BoyCard/Margin/VBox/Preview"]
@@ -142,9 +141,8 @@ theme_override_constants/separation = 8
 alignment = 1
 
 [node name="Preview" type="SubViewportContainer" parent="RootMargin/Scroll/VBox/CardsRow/GirlCard/Margin/VBox"]
-custom_minimum_size = Vector2(148, 168)
+custom_minimum_size = Vector2(148, 175)
 layout_mode = 2
-size_flags_vertical = 3
 stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="RootMargin/Scroll/VBox/CardsRow/GirlCard/Margin/VBox/Preview"]

@@ -106,7 +106,8 @@ func _on_breakpoint_changed(_bp: String, _size: Vector2) -> void:
 func _apply_responsive_layout() -> void:
 	ResponsiveHelper.apply_safe_margin_to_container(root_margin, get_viewport(), 18)
 	var vp := get_viewport().get_visible_rect().size
-	cards_row.vertical = vp.x < 720.0
+	var is_portrait := vp.y > vp.x or SceneRouter.current_breakpoint == SceneRouter.Breakpoint.MOBILE_PORTRAIT
+	cards_row.vertical = vp.x < 720.0 or is_portrait
 	var compact_h := vp.y < 540.0
-	boy_preview.custom_minimum_size = Vector2(96, 108) if compact_h else Vector2(128, 150)
-	girl_preview.custom_minimum_size = Vector2(96, 108) if compact_h else Vector2(128, 150)
+	boy_preview.custom_minimum_size = Vector2(120, 140) if compact_h else (Vector2(180, 210) if is_portrait else Vector2(160, 190))
+	girl_preview.custom_minimum_size = Vector2(120, 140) if compact_h else (Vector2(180, 210) if is_portrait else Vector2(160, 190))
