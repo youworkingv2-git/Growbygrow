@@ -44,7 +44,8 @@ static func _mesh_part(parent: Node3D, node_name: String, mesh: Mesh, mat: Mater
 	mi.rotation_degrees = rot_deg
 	mi.scale = scl
 	mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
-	if lod_end > 0.0:
+	# Keep all village/area meshes continuously visible (no mid-range LOD popping)
+	if lod_end > 90.0:
 		mi.visibility_range_end = lod_end
 		mi.visibility_range_fade_mode = GeometryInstance3D.VISIBILITY_RANGE_FADE_SELF
 	parent.add_child(mi)
@@ -195,7 +196,7 @@ static func build_stylized_tree(scale_factor: float = 1.0, leaf_color: Color = C
 	_mesh_part(tree, "CanopySide", _sph(0.90, 1.5), leaf_hi, Vector3(-0.65, 2.55, 0.35), Vector3.ZERO, Vector3.ONE, 42.0)
 
 	var body := StaticBody3D.new()
-	body.collision_layer = 2
+	body.collision_layer = 32
 	body.collision_mask = 0
 	var col := CollisionShape3D.new()
 	var cyl_shape := CylinderShape3D.new()
@@ -206,17 +207,25 @@ static func build_stylized_tree(scale_factor: float = 1.0, leaf_color: Color = C
 	body.add_child(col)
 	tree.add_child(body)
 
-	# Camera-only canopy collider (layer 16) so SpringArm3D avoids clipping inside tree leaves while Player walks underneath
-	var canopy_cam_body := StaticBody3D.new()
-	canopy_cam_body.collision_layer = 16
-	canopy_cam_body.collision_mask = 0
+	# Camera-fade occluder (layer 16) so tree softly turns translucent if between Camera3D and Player
+	var cam_occ_body := StaticBody3D.new()
+	cam_occ_body.collision_layer = 16
+	cam_occ_body.collision_mask = 0
+	cam_occ_body.set_meta("occluder_root", tree)
+	var trunk_occ := CollisionShape3D.new()
+	var trunk_sph := CylinderShape3D.new()
+	trunk_sph.radius = 0.45
+	trunk_sph.height = 2.2
+	trunk_occ.shape = trunk_sph
+	trunk_occ.position = Vector3(0, 1.1, 0)
+	cam_occ_body.add_child(trunk_occ)
 	var canopy_col := CollisionShape3D.new()
 	var canopy_sph := SphereShape3D.new()
-	canopy_sph.radius = 1.35
+	canopy_sph.radius = 1.45
 	canopy_col.shape = canopy_sph
 	canopy_col.position = Vector3(0, 2.75, 0)
-	canopy_cam_body.add_child(canopy_col)
-	tree.add_child(canopy_cam_body)
+	cam_occ_body.add_child(canopy_col)
+	tree.add_child(cam_occ_body)
 
 	tree.scale = Vector3.ONE * scale_factor
 	return tree
@@ -246,7 +255,7 @@ static func build_village_cottage(roof_color: Color = Color(0.84, 0.34, 0.28), w
 		_mesh_part(house, "AcademySign", _cyl(0.45, 0.45, 0.12), _mat(Color(0.96, 0.78, 0.24), 0.3, 0.6), Vector3(0, 2.65, 1.88), Vector3(90, 0, 0))
 
 	var body := StaticBody3D.new()
-	body.collision_layer = 2
+	body.collision_layer = 32
 	body.collision_mask = 0
 	var col := CollisionShape3D.new()
 	var box_shape := BoxShape3D.new()
@@ -256,17 +265,18 @@ static func build_village_cottage(roof_color: Color = Color(0.84, 0.34, 0.28), w
 	body.add_child(col)
 	house.add_child(body)
 
-	# Camera-only roof collider (layer 16) so SpringArm3D never clips through the overhanging roof pyramid
-	var roof_cam_body := StaticBody3D.new()
-	roof_cam_body.collision_layer = 16
-	roof_cam_body.collision_mask = 0
-	var roof_col := CollisionShape3D.new()
-	var roof_box := BoxShape3D.new()
-	roof_box.size = Vector3(5.3, 2.3, 5.3)
-	roof_col.shape = roof_box
-	roof_col.position = Vector3(0, 4.15, 0)
-	roof_cam_body.add_child(roof_col)
-	house.add_child(roof_cam_body)
+	# Camera-fade occluder (layer 16) so cottage softly turns translucent when Leo walks behind it
+	var house_occ_body := StaticBody3D.new()
+	house_occ_body.collision_layer = 16
+	house_occ_body.collision_mask = 0
+	house_occ_body.set_meta("occluder_root", house)
+	var house_occ_col := CollisionShape3D.new()
+	var house_occ_box := BoxShape3D.new()
+	house_occ_box.size = Vector3(5.3, 5.2, 5.2)
+	house_occ_col.shape = house_occ_box
+	house_occ_col.position = Vector3(0, 2.6, 0)
+	house_occ_body.add_child(house_occ_col)
+	house.add_child(house_occ_body)
 	return house
 
 
@@ -287,7 +297,7 @@ static func build_fountain() -> Node3D:
 	water_disc.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 
 	var body := StaticBody3D.new()
-	body.collision_layer = 2
+	body.collision_layer = 32
 	body.collision_mask = 0
 	var col := CollisionShape3D.new()
 	var cyl := CylinderShape3D.new()
@@ -309,6 +319,31 @@ static func build_lamppost() -> Node3D:
 	_mesh_part(lamp, "Pole", _cyl(0.06, 0.08, 2.6, 10), iron, Vector3(0, 1.5, 0))
 	_mesh_part(lamp, "Arm", _box(Vector3(0.48, 0.08, 0.08)), iron, Vector3(0.20, 2.75, 0))
 	_mesh_part(lamp, "Lantern", _sph(0.20), glow, Vector3(0.40, 2.58, 0))
+
+	var body := StaticBody3D.new()
+	body.collision_layer = 32
+	body.collision_mask = 0
+	var col := CollisionShape3D.new()
+	var cyl := CylinderShape3D.new()
+	cyl.radius = 0.22
+	cyl.height = 2.6
+	col.shape = cyl
+	col.position = Vector3(0, 1.3, 0)
+	body.add_child(col)
+	lamp.add_child(body)
+
+	var occ_body := StaticBody3D.new()
+	occ_body.collision_layer = 16
+	occ_body.collision_mask = 0
+	occ_body.set_meta("occluder_root", lamp)
+	var occ_col := CollisionShape3D.new()
+	var occ_cyl := CylinderShape3D.new()
+	occ_cyl.radius = 0.42
+	occ_cyl.height = 2.9
+	occ_col.shape = occ_cyl
+	occ_col.position = Vector3(0.15, 1.45, 0)
+	occ_body.add_child(occ_col)
+	lamp.add_child(occ_body)
 	return lamp
 
 

@@ -72,7 +72,7 @@ func _apply_area_palette() -> void:
 			env.ambient_light_energy = 0.42
 			env.fog_enabled = true
 			env.fog_light_color = Color("#1A2B4C")
-			env.fog_density = 0.014
+			env.fog_density = 0.007
 		"crystal_lake":
 			sky_mat.sky_top_color = Color("#186CC4")
 			sky_mat.sky_horizon_color = Color("#8CDCF5")
@@ -96,7 +96,7 @@ func _apply_area_palette() -> void:
 			env.ambient_light_energy = 0.40
 			env.fog_enabled = true
 			env.fog_light_color = Color("#352159")
-			env.fog_density = 0.011
+			env.fog_density = 0.006
 
 
 func _apply_quality() -> void:
@@ -119,7 +119,7 @@ func _apply_quality() -> void:
 		"high":
 			_sun.shadow_enabled = true
 			_sun.directional_shadow_mode = DirectionalLight3D.SHADOW_PARALLEL_4_SPLITS
-			_sun.directional_shadow_max_distance = 55.0
+			_sun.directional_shadow_max_distance = 75.0
 			if env != null:
 				env.glow_enabled = true
 				env.glow_intensity = 0.36
@@ -133,7 +133,7 @@ func _apply_quality() -> void:
 		"medium", _:
 			_sun.shadow_enabled = true
 			_sun.directional_shadow_mode = DirectionalLight3D.SHADOW_PARALLEL_2_SPLITS
-			_sun.directional_shadow_max_distance = 40.0
+			_sun.directional_shadow_max_distance = 60.0
 			if env != null:
 				env.glow_enabled = true
 				env.glow_intensity = 0.24

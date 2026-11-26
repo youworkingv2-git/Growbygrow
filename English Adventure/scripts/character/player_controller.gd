@@ -14,12 +14,17 @@ extends CharacterBody3D
 @export var world_half_extent_z: float = 11.5
 
 @export_group("Third-person Camera Manager")
-@export_range(4.0, 10.5, 0.2) var camera_distance: float = 6.8
-@export_range(0.9, 2.5, 0.05) var camera_height: float = 1.55
+@export_range(6.0, 18.0, 0.5) var camera_distance: float = 12.5
+@export_range(0.9, 2.5, 0.05) var camera_height: float = 1.35
 @export_range(0.4, 2.0, 0.1) var camera_sensitivity: float = 1.0
 @export_range(3.0, 16.0, 0.5) var camera_smoothing: float = 8.5
 @export_range(0.8, 3.5, 0.1) var camera_rotation_speed: float = 1.9
 @export var camera_collision: bool = true
+
+const MIN_CAM_DIST: float = 6.0
+const MAX_CAM_DIST: float = 18.0
+const DEFAULT_CAM_DIST: float = 12.5
+const DEFAULT_CAM_PITCH: float = -0.58
 
 var virtual_move_vector: Vector2 = Vector2.ZERO
 var movement_locked: bool = false
@@ -35,10 +40,11 @@ var _rig: CharacterRig3D = null
 var _dialogue_locked: bool = false
 var _pause_locked: bool = false
 var _cam_yaw: float = 0.0
-var _cam_pitch: float = -0.44
+var _cam_pitch: float = DEFAULT_CAM_PITCH
 var _orbit_dragging: bool = false
 var _dialogue_focus_active: bool = false
 var _dialogue_focus_pos: Vector3 = Vector3.ZERO
+var _faded_occluders: Dictionary = {} # instance_id -> { "node": Node3D, "alpha": float, "mats": Array[StandardMaterial3D] }
 
 
 func _ready() -> void:
@@ -54,9 +60,16 @@ func _ready() -> void:
 func _sync_camera_settings() -> void:
 	camera_sensitivity = SettingsManager.camera_sensitivity
 	if spring_arm != null:
-		spring_arm.collision_mask = 18 if camera_collision else 0
+		# Collide SpringArm3D ONLY with ground (layer 2) so trees/cottages smoothly fade instead of violently zooming in
+		spring_arm.collision_mask = 2 if camera_collision else 0
 		if not _dialogue_focus_active:
-			spring_arm.spring_length = clampf(camera_distance, 4.0, 10.5)
+			spring_arm.spring_length = clampf(camera_distance, MIN_CAM_DIST, MAX_CAM_DIST)
+
+
+func reset_overview_camera() -> void:
+	_cam_yaw = 0.0
+	_cam_pitch = DEFAULT_CAM_PITCH
+	camera_distance = DEFAULT_CAM_DIST
 
 
 func apply_look_delta(delta_px: Vector2) -> void:
@@ -65,7 +78,7 @@ func apply_look_delta(delta_px: Vector2) -> void:
 	var yaw_step := clampf(delta_px.x * 0.0055 * camera_sensitivity, -0.14, 0.14)
 	var pitch_step := clampf(delta_px.y * 0.0042 * camera_sensitivity, -0.10, 0.10)
 	_cam_yaw -= yaw_step
-	_cam_pitch = clampf(_cam_pitch - pitch_step, -0.92, -0.18)
+	_cam_pitch = clampf(_cam_pitch - pitch_step, -1.05, -0.26)
 
 
 func apply_character_visual(gender_id: String) -> void:
@@ -138,14 +151,17 @@ func _unhandled_input(event: InputEvent) -> void:
 		if mb.button_index == MOUSE_BUTTON_RIGHT or mb.button_index == MOUSE_BUTTON_MIDDLE:
 			_orbit_dragging = mb.pressed
 		elif mb.button_index == MOUSE_BUTTON_WHEEL_UP and mb.pressed:
-			camera_distance = clampf(camera_distance - 0.55, 4.0, 10.5)
+			camera_distance = clampf(camera_distance - 0.85, MIN_CAM_DIST, MAX_CAM_DIST)
 			spring_arm.spring_length = camera_distance
 		elif mb.button_index == MOUSE_BUTTON_WHEEL_DOWN and mb.pressed:
-			camera_distance = clampf(camera_distance + 0.55, 4.0, 10.5)
+			camera_distance = clampf(camera_distance + 0.85, MIN_CAM_DIST, MAX_CAM_DIST)
 			spring_arm.spring_length = camera_distance
 	elif event is InputEventMouseMotion and _orbit_dragging:
 		var mm := event as InputEventMouseMotion
 		apply_look_delta(mm.relative)
+	elif event is InputEventKey and event.pressed and not event.echo:
+		if (event as InputEventKey).keycode == KEY_R:
+			reset_overview_camera()
 
 
 func _physics_process(delta: float) -> void:
@@ -213,13 +229,13 @@ func _update_camera(delta: float) -> void:
 		return
 	var target_pivot_pos := Vector3(0.0, camera_height, 0.0)
 	var target_pitch := _cam_pitch
-	var target_len := clampf(camera_distance, 4.0, 10.5)
+	var target_len := clampf(camera_distance, MIN_CAM_DIST, MAX_CAM_DIST)
 
 	if _dialogue_focus_active:
 		var mid := (_dialogue_focus_pos - global_position) * 0.45
-		target_pivot_pos = Vector3(mid.x, camera_height + 0.1, mid.z)
-		target_pitch = -0.32
-		target_len = 5.2
+		target_pivot_pos = Vector3(mid.x, camera_height + 0.15, mid.z)
+		target_pitch = -0.38
+		target_len = 7.2
 
 	var pos_alpha := minf(1.0, delta * maxf(2.0, camera_smoothing * 0.78))
 	var rot_alpha := minf(1.0, delta * maxf(2.5, camera_smoothing))
@@ -228,14 +244,103 @@ func _update_camera(delta: float) -> void:
 	camera_pivot.rotation.x = lerpf(camera_pivot.rotation.x, target_pitch, rot_alpha)
 	spring_arm.spring_length = lerpf(spring_arm.spring_length, target_len, minf(1.0, delta * 6.0))
 
-	# Never let player's own head/cap mesh block the camera if SpringArm3D compresses near a wall
+	# Extreme fallback only: hide character mesh only if camera is physically inside < 1.3m of head
 	if camera != null and visual_slot != null:
 		var head_world := global_position + Vector3(0.0, 1.25, 0.0)
 		var head_dist := camera.global_position.distance_to(head_world)
-		if visual_slot.visible and head_dist < 2.35:
+		if visual_slot.visible and head_dist < 1.30:
 			visual_slot.visible = false
-		elif (not visual_slot.visible) and head_dist > 2.60:
+		elif (not visual_slot.visible) and head_dist > 1.60:
 			visual_slot.visible = true
+
+	_update_camera_occluders(delta)
+
+
+func _update_camera_occluders(delta: float) -> void:
+	if camera == null or get_world_3d() == null:
+		return
+	var space_state := get_world_3d().direct_space_state
+	if space_state == null:
+		return
+
+	var cam_pos := camera.global_position
+	var ray_targets: Array[Vector3] = [
+		global_position + Vector3(0.0, 1.35, 0.0),
+		global_position + Vector3(0.0, 0.45, 0.0)
+	]
+	var hit_roots := {}
+
+	for target_pos in ray_targets:
+		var exclude: Array[RID] = []
+		for _i in range(6):
+			var query := PhysicsRayQueryParameters3D.create(cam_pos, target_pos, 16, exclude)
+			query.collide_with_bodies = true
+			query.collide_with_areas = false
+			var hit := space_state.intersect_ray(query)
+			if hit.is_empty():
+				break
+			var rid_val: Variant = hit.get("rid")
+			if rid_val is RID:
+				exclude.append(rid_val as RID)
+			var collider_obj: Variant = hit.get("collider")
+			if collider_obj is Node:
+				var col_node := collider_obj as Node
+				var root_node: Node = col_node.get_meta("occluder_root", null) as Node
+				if root_node == null:
+					root_node = col_node.get_parent()
+				if root_node is Node3D:
+					var key := root_node.get_instance_id()
+					hit_roots[key] = root_node
+					if not _faded_occluders.has(key):
+						var mats: Array[StandardMaterial3D] = []
+						_collect_standard_materials(root_node, mats)
+						_faded_occluders[key] = {
+							"node": root_node,
+							"alpha": 1.0,
+							"mats": mats
+						}
+
+	var to_remove: Array[int] = []
+	for key in _faded_occluders.keys():
+		var entry: Dictionary = _faded_occluders[key]
+		var node_ref: Variant = entry.get("node")
+		if node_ref == null or not is_instance_valid(node_ref):
+			to_remove.append(key)
+			continue
+		var is_blocking := hit_roots.has(key)
+		var target_alpha := 0.26 if is_blocking else 1.0
+		var cur_alpha := lerpf(float(entry.get("alpha", 1.0)), target_alpha, minf(1.0, delta * 12.0))
+		entry["alpha"] = cur_alpha
+		var mats: Array = entry.get("mats", [])
+		for m_var in mats:
+			if m_var is StandardMaterial3D:
+				var m := m_var as StandardMaterial3D
+				if cur_alpha < 0.985:
+					m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+					var c := m.albedo_color
+					c.a = cur_alpha
+					m.albedo_color = c
+				else:
+					var c := m.albedo_color
+					c.a = 1.0
+					m.albedo_color = c
+					m.transparency = BaseMaterial3D.TRANSPARENCY_DISABLED
+		if (not is_blocking) and cur_alpha >= 0.985:
+			to_remove.append(key)
+
+	for key in to_remove:
+		_faded_occluders.erase(key)
+
+
+func _collect_standard_materials(node: Node, out_mats: Array[StandardMaterial3D]) -> void:
+	if node is MeshInstance3D:
+		var mi := node as MeshInstance3D
+		if mi.material_override is StandardMaterial3D:
+			var sm := mi.material_override as StandardMaterial3D
+			if not out_mats.has(sm):
+				out_mats.append(sm)
+	for child in node.get_children():
+		_collect_standard_materials(child, out_mats)
 
 
 func _read_keyboard_vector() -> Vector2:

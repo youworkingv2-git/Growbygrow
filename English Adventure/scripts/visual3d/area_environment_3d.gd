@@ -41,7 +41,8 @@ func _mesh(parent: Node3D, node_name: String, mesh: Mesh, mat: Material, pos: Ve
 	mi.position = pos
 	mi.rotation_degrees = rot_deg
 	mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON if shadows else GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	if lod_end > 0.0:
+	# Keep all village/area meshes continuously visible (no mid-range LOD popping)
+	if lod_end > 90.0:
 		mi.visibility_range_end = lod_end
 		mi.visibility_range_fade_mode = GeometryInstance3D.VISIBILITY_RANGE_FADE_SELF
 	parent.add_child(mi)
@@ -146,7 +147,8 @@ func _add_rock(pos: Vector3, radius: float, color: Color = Color(0.46, 0.49, 0.5
 	_mesh(self, "Rock3D", rm, _mat(color, 0.88), pos + Vector3(0, radius * 0.45, 0), Vector3(8, 22, -6))
 	if has_collider:
 		var body := StaticBody3D.new()
-		body.collision_layer = 2
+		body.collision_layer = 32
+		body.collision_mask = 0
 		var col := CollisionShape3D.new()
 		var sp := SphereShape3D.new()
 		sp.radius = radius * 0.9
@@ -171,7 +173,7 @@ func _add_hills_backdrop(hill_color: Color) -> void:
 
 
 func _build_welcome_village() -> void:
-	_add_ground_plane(92.0, 74.0, Color(0.26, 0.58, 0.30))
+	_add_ground_plane(110.0, 90.0, Color(0.26, 0.58, 0.30))
 	_add_hills_backdrop(Color(0.22, 0.50, 0.28))
 
 	# Raised lush village lawn
@@ -264,7 +266,7 @@ func _build_welcome_village() -> void:
 
 
 func _build_alphabet_meadow() -> void:
-	_add_ground_plane(92.0, 74.0, Color(0.34, 0.74, 0.42))
+	_add_ground_plane(110.0, 90.0, Color(0.34, 0.74, 0.42))
 	_add_hills_backdrop(Color(0.28, 0.64, 0.34))
 
 	var path_mat := _mat(Color(0.88, 0.80, 0.54), 0.76)
@@ -320,7 +322,7 @@ func _build_letter_cave() -> void:
 
 
 func _build_crystal_lake() -> void:
-	_add_ground_plane(92.0, 74.0, Color(0.28, 0.68, 0.54))
+	_add_ground_plane(110.0, 90.0, Color(0.28, 0.68, 0.54))
 	_add_hills_backdrop(Color(0.22, 0.56, 0.48))
 
 	# Sandy shoreline around lake
@@ -339,7 +341,8 @@ func _build_crystal_lake() -> void:
 	_mesh(self, "LakeWaterSurface", water_mesh, PropFactory3D.create_stylized_water_material(Color(0.18, 0.74, 0.96, 0.88)), Vector3(-0.3, 0.05, 4.2), Vector3.ZERO, false)
 
 	var lake_body := StaticBody3D.new()
-	lake_body.collision_layer = 2
+	lake_body.collision_layer = 32
+	lake_body.collision_mask = 0
 	var lake_col := CollisionShape3D.new()
 	var cyl := CylinderShape3D.new()
 	cyl.radius = 5.8
