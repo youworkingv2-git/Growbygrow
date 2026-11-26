@@ -206,6 +206,18 @@ static func build_stylized_tree(scale_factor: float = 1.0, leaf_color: Color = C
 	body.add_child(col)
 	tree.add_child(body)
 
+	# Camera-only canopy collider (layer 16) so SpringArm3D avoids clipping inside tree leaves while Player walks underneath
+	var canopy_cam_body := StaticBody3D.new()
+	canopy_cam_body.collision_layer = 16
+	canopy_cam_body.collision_mask = 0
+	var canopy_col := CollisionShape3D.new()
+	var canopy_sph := SphereShape3D.new()
+	canopy_sph.radius = 1.35
+	canopy_col.shape = canopy_sph
+	canopy_col.position = Vector3(0, 2.75, 0)
+	canopy_cam_body.add_child(canopy_col)
+	tree.add_child(canopy_cam_body)
+
 	tree.scale = Vector3.ONE * scale_factor
 	return tree
 
@@ -243,6 +255,18 @@ static func build_village_cottage(roof_color: Color = Color(0.84, 0.34, 0.28), w
 	col.position = Vector3(0, 1.6, 0)
 	body.add_child(col)
 	house.add_child(body)
+
+	# Camera-only roof collider (layer 16) so SpringArm3D never clips through the overhanging roof pyramid
+	var roof_cam_body := StaticBody3D.new()
+	roof_cam_body.collision_layer = 16
+	roof_cam_body.collision_mask = 0
+	var roof_col := CollisionShape3D.new()
+	var roof_box := BoxShape3D.new()
+	roof_box.size = Vector3(5.3, 2.3, 5.3)
+	roof_col.shape = roof_box
+	roof_col.position = Vector3(0, 4.15, 0)
+	roof_cam_body.add_child(roof_col)
+	house.add_child(roof_cam_body)
 	return house
 
 

@@ -54,7 +54,7 @@ func _ready() -> void:
 func _sync_camera_settings() -> void:
 	camera_sensitivity = SettingsManager.camera_sensitivity
 	if spring_arm != null:
-		spring_arm.collision_mask = 2 if camera_collision else 0
+		spring_arm.collision_mask = 18 if camera_collision else 0
 		if not _dialogue_focus_active:
 			spring_arm.spring_length = clampf(camera_distance, 4.0, 10.5)
 

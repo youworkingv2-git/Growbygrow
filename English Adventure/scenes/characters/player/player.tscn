@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://scripts/character/player_controller.gd" id="1_player"]
 [ext_resource type="Script" path="res://scripts/character/character_animator.gd" id="2_anim"]
@@ -7,6 +7,9 @@
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_body"]
 radius = 0.38
 height = 1.45
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_cam"]
+radius = 0.32
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_interact"]
 radius = 2.6
@@ -31,9 +34,10 @@ shape = SubResource("CapsuleShape3D_body")
 transform = Transform3D(1, 0, 0, 0, 0.906308, 0.422618, 0, -0.422618, 0.906308, 0, 1.35, 0)
 
 [node name="SpringArm3D" type="SpringArm3D" parent="CameraPivot"]
-collision_mask = 2
+collision_mask = 18
+shape = SubResource("SphereShape3D_cam")
 spring_length = 6.8
-margin = 0.35
+margin = 0.25
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot/SpringArm3D"]
 current = true
