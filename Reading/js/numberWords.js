@@ -32,6 +32,41 @@ const WORD_TO_NUM = {
   ninety: 90,
 };
 
+/** @type {Record<string, number>} */
+const ORDINAL_WORD_TO_NUM = {
+  first: 1,
+  second: 2,
+  third: 3,
+  fourth: 4,
+  fifth: 5,
+  sixth: 6,
+  seventh: 7,
+  eighth: 8,
+  ninth: 9,
+  tenth: 10,
+  eleventh: 11,
+  twelfth: 12,
+  thirteenth: 13,
+  fourteenth: 14,
+  fifteenth: 15,
+  sixteenth: 16,
+  seventeenth: 17,
+  eighteenth: 18,
+  nineteenth: 19,
+  twentieth: 20,
+  twentyfirst: 21,
+  twentysecond: 22,
+  twentythird: 23,
+  twentyfourth: 24,
+  twentyfifth: 25,
+  twentysixth: 26,
+  twentyseventh: 27,
+  twentyeighth: 28,
+  twentyninth: 29,
+  thirtieth: 30,
+  thirtyfirst: 31,
+};
+
 /**
  * Ignore punctuation when matching spoken words (?, !, ., ,, ;, …, quotes, …).
  * Keep letters, digits, apostrophes (I'm) and colons (6:00).
@@ -67,6 +102,7 @@ const SPELLING_ALIASES = {
  */
 export const COMPOUND_EXPANSIONS = {
   vietnam: ['viet', 'nam'],
+  flashcards: ['flash', 'cards'],
 };
 
 /**
@@ -245,6 +281,21 @@ export function parseNumberToken(word) {
 }
 
 /**
+ * Ordinal forms: "1st", "21st", "first", "twenty-first" → 1, 21, …
+ * @param {string} word
+ * @returns {number | null}
+ */
+export function parseOrdinalToken(word) {
+  const raw = stripIgnoredPunctuation(String(word || '').replace(/\s+/g, ''));
+  const suffix = raw.match(/^(\d{1,2})(?:st|nd|rd|th)$/i);
+  if (suffix) {
+    return parseInt(suffix[1], 10);
+  }
+  const spelled = ORDINAL_WORD_TO_NUM[canonicalizeSpelling(raw.replace(/-/g, ''))];
+  return spelled === undefined ? null : spelled;
+}
+
+/**
  * True when the token is a clock time on the hour (ASR often returns "6:00" for "six o'clock").
  * @param {string} word
  * @returns {boolean}
@@ -261,6 +312,10 @@ export function isOnTheHourTime(word) {
  */
 export function matchKey(word) {
   const cleaned = stripIgnoredPunctuation(word);
+  const ord = parseOrdinalToken(cleaned);
+  if (ord !== null) {
+    return `ord:${ord}`;
+  }
   const n = parseNumberToken(cleaned);
   if (n !== null) {
     return `n:${n}`;

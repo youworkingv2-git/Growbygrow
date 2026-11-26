@@ -226,6 +226,12 @@ assert(m3.size === 3, 'two I slots + wake');
 
 // number words: ASR often returns digits, "6.", or "6:00"
 assert(wordsMatch('20', 'twenty'), 'twenty matches 20');
+assert(wordsMatch('first', '1st'), 'first matches 1st');
+assert(wordsMatch('1st', 'first'), '1st matches first');
+assert(wordsMatch('second', '2nd'), 'second matches 2nd');
+assert(wordsMatch('third', '3rd'), 'third matches 3rd');
+assert(wordsMatch('21st', 'twenty-first'), '21st matches twenty-first');
+assert(!wordsMatch('one', '1st'), 'one does not match 1st (cardinal vs ordinal)');
 assert(wordsMatch('6', 'six'), 'six matches 6');
 assert(wordsMatch('6.', 'six'), 'six matches 6.');
 assert(wordsMatch('6:00', 'six'), 'six matches 6:00');
@@ -335,6 +341,15 @@ const tVietOne = tokenizeSentence("I'm from Vietnam.");
 const mVietSplit = new Set();
 matchAccumulating(wordsFromTranscript("I'm from Viet Nam."), tVietOne, mVietSplit);
 assert(mVietSplit.has(2), 'spoken Viet Nam matches Vietnam');
+
+const tFlashOne = tokenizeSentence('Use flashcards every day.');
+const mFlashSplit = new Set();
+matchAccumulating(wordsFromTranscript('use flash cards every day'), tFlashOne, mFlashSplit);
+assert(mFlashSplit.has(1), 'spoken flash cards matches flashcards');
+const tFlashSplit = tokenizeSentence('Use flash cards every day.');
+const mFlashOne = new Set();
+matchAccumulating(wordsFromTranscript('use flashcards every day'), tFlashSplit, mFlashOne);
+assert(mFlashOne.has(1) && mFlashOne.has(2), 'spoken flashcards matches flash cards');
 
 // misread tracking
 const misTokens = tokenizeSentence('I like apples.');

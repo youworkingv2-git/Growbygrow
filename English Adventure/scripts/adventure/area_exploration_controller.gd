@@ -168,6 +168,7 @@ func _connect_systems() -> void:
 	hud.jump_pressed.connect(func() -> void: _player.trigger_jump())
 	hud.buddy_help_pressed.connect(func() -> void: _buddy.offer_contextual_help())
 	hud.joystick_changed.connect(func(vec: Vector2) -> void: _player.set_virtual_joystick(vec))
+	hud.overlay_blocking_changed.connect(func(blocked: bool) -> void: interaction_manager.set_ui_blocked(blocked))
 	hud.quest_accepted.connect(func(qid: String) -> void:
 		QuestManager.start_quest(qid)
 		hud.show_toast("Đã nhận nhiệm vụ mới!")
@@ -179,9 +180,6 @@ func _on_npc_interacted(npc_data: Dictionary) -> void:
 	GameStateManager.mark_npc_met(npc_id)
 	if npc_data.has("on_talk_set_flag") and not str(npc_data["on_talk_set_flag"]).is_empty():
 		GameStateManager.set_flag(str(npc_data["on_talk_set_flag"]), true)
-	QuestManager.report_npc_talk(npc_id)
-
-	_pending_quest_offer_id = QuestManager.has_available_quest_for_npc(npc_id)
 
 	var dlg_id := str(npc_data.get("default_dialogue_id", ""))
 	if npc_id == "professor_owl" and GameStateManager.completed_quests.has("quest_01_new_adventure"):
@@ -189,7 +187,11 @@ func _on_npc_interacted(npc_data: Dictionary) -> void:
 	elif npc_id == "lily" and GameStateManager.completed_quests.has("quest_01_new_adventure"):
 		dlg_id = "dlg_lily_after_q1"
 
-	if not dialogue_manager.start_dialogue(dlg_id):
+	var started_dlg := dialogue_manager.start_dialogue(dlg_id)
+	QuestManager.report_npc_talk(npc_id)
+	_pending_quest_offer_id = QuestManager.has_available_quest_for_npc(npc_id)
+
+	if not started_dlg:
 		if not _pending_quest_offer_id.is_empty():
 			hud.show_quest_intro(_pending_quest_offer_id)
 			_pending_quest_offer_id = ""

@@ -58,7 +58,10 @@ func show_line(line_data: Dictionary, index: int, total: int, allow_close: bool 
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if not visible:
+	if not visible or UIManager.is_modal_open():
+		return
+	var p := get_parent()
+	if p != null and p.has_method("is_blocking_overlay_above_dialogue") and bool(p.call("is_blocking_overlay_above_dialogue")):
 		return
 	if event is InputEventKey and event.pressed and not event.echo:
 		var kc: Key = (event as InputEventKey).keycode

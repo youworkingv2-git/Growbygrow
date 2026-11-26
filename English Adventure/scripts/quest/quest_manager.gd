@@ -169,7 +169,7 @@ func _complete_quest(quest_id: String) -> void:
 				GameStateManager.add_item(item)
 
 		for flag_name in rewards.get("set_flags", []):
-			GameStateManager.set_flag(str(flag_name), true)
+			GameStateManager.flags[str(flag_name)] = true
 
 	EventBus.quest_completed.emit(quest_id, rewards)
 	GameStateManager.evaluate_all_unlocks(true)

@@ -1,5 +1,8 @@
 import { normalizeWord } from './matcher.js';
 
+/** Build id — change when IPA logic changes (helps verify cache refresh). */
+export const IPA_MODULE_BUILD = '20261020-no-network';
+
 /** Show IPA and require practice after this many misreads (>= 5). */
 export const MISREAD_PRACTICE_THRESHOLD = 5;
 
@@ -23,7 +26,7 @@ function loadPersistentCache() {
     const parsed = JSON.parse(raw);
     if (!parsed || typeof parsed !== 'object') return;
     for (const [key, value] of Object.entries(parsed)) {
-      if (typeof value === 'string' && value) memoryCache.set(key, value);
+      if (typeof value === 'string') memoryCache.set(key, value);
     }
   } catch {
     /* ignore */
@@ -42,19 +45,17 @@ function savePersistentCache() {
 loadPersistentCache();
 
 /**
- * @param {unknown} phonetics
+ * @param {string} key
  * @returns {string | null}
  */
-function pickPhonetic(phonetics) {
-  if (!Array.isArray(phonetics)) return null;
-  for (const item of phonetics) {
-    const text = item?.text;
-    if (typeof text === 'string' && text.trim()) return text.trim();
-  }
-  return null;
+function cachedIpaForKey(key) {
+  if (!key || !memoryCache.has(key)) return null;
+  const value = memoryCache.get(key);
+  return value ? value : null;
 }
 
 /**
+ * IPA: cache + nhập tay trong bảng từ khó. Không gọi API ngoài (tránh CORS trên Live Server).
  * @param {string} word
  * @returns {Promise<string | null>}
  */
@@ -62,29 +63,10 @@ export async function lookupIpa(word) {
   const key = cacheKey(word);
   if (!key) return null;
   if (manualIpaKeys.has(key)) return memoryCache.get(key) || null;
-  if (memoryCache.has(key)) return memoryCache.get(key) || null;
-
-  try {
-    const response = await fetch(
-      `https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(key)}`,
-    );
-    if (manualIpaKeys.has(key)) return memoryCache.get(key) || null;
-    if (!response.ok) {
-      memoryCache.set(key, '');
-      savePersistentCache();
-      return null;
-    }
-    const data = await response.json();
-    const entry = Array.isArray(data) ? data[0] : null;
-    const ipa = pickPhonetic(entry?.phonetics) ?? pickPhonetic(entry?.phonetic);
-    const value = ipa || '';
-    if (manualIpaKeys.has(key)) return memoryCache.get(key) || null;
-    memoryCache.set(key, value);
-    savePersistentCache();
-    return value || null;
-  } catch {
-    return manualIpaKeys.has(key) ? memoryCache.get(key) || null : null;
-  }
+  if (memoryCache.has(key)) return cachedIpaForKey(key);
+  memoryCache.set(key, '');
+  savePersistentCache();
+  return null;
 }
 
 /**
@@ -93,7 +75,9 @@ export async function lookupIpa(word) {
  */
 export async function prefetchIpa(words) {
   const unique = [...new Set(words.map(cacheKey).filter(Boolean))];
-  await Promise.all(unique.map((word) => lookupIpa(word)));
+  for (const key of unique) {
+    await lookupIpa(key);
+  }
 }
 
 /**
@@ -102,9 +86,7 @@ export async function prefetchIpa(words) {
  */
 export function getCachedIpa(word) {
   const key = cacheKey(word);
-  if (!key || !memoryCache.has(key)) return null;
-  const value = memoryCache.get(key);
-  return value ? value : null;
+  return cachedIpaForKey(key);
 }
 
 /**
@@ -136,4 +118,14 @@ export function hasCachedIpaAttempt(word) {
  */
 export function needsPronunciationHelp(misreadCount) {
   return misreadCount >= MISREAD_PRACTICE_THRESHOLD;
+}
+
+/** @deprecated Online lookup removed — always false. */
+export function isRemoteIpaLookupEnabled() {
+  return false;
+}
+
+/** @deprecated Online lookup removed. */
+export function getRemoteIpaDisabledReason() {
+  return 'no-network-ipa';
 }

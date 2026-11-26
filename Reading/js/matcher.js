@@ -1,4 +1,5 @@
 import {
+  canonicalizeSpelling,
   compoundKeyFromPair,
   getCompoundExpansion,
   getContractionExpansion,
@@ -144,6 +145,19 @@ export function matchAccumulating(spokenWords, sentenceTokens, matchedIndices) {
         }
       }
       if (handled) continue;
+
+      const mergedSpoken = canonicalizeSpelling(spoken + nextSpoken);
+      for (let i = 0; i < sentenceTokens.length; i++) {
+        if (matchedIndices.has(i)) continue;
+        if (wordsMatch(mergedSpoken, sentenceTokens[i].normalized)) {
+          matchedIndices.add(i);
+          newlyMatched.push(i);
+          handled = true;
+          s++;
+          break;
+        }
+      }
+      if (handled) continue;
     }
 
     // 2. Check if spoken is a contraction expanding to [w1, w2] matching 2 consecutive sentence tokens
@@ -166,6 +180,22 @@ export function matchAccumulating(spokenWords, sentenceTokens, matchedIndices) {
       }
       if (handled) continue;
     }
+
+    for (let i = 0; i < sentenceTokens.length - 1; i++) {
+      if (matchedIndices.has(i) || matchedIndices.has(i + 1)) continue;
+      const mergedLesson = canonicalizeSpelling(
+        sentenceTokens[i].normalized + sentenceTokens[i + 1].normalized,
+      );
+      if (wordsMatch(spoken, mergedLesson)) {
+        matchedIndices.add(i);
+        newlyMatched.push(i);
+        matchedIndices.add(i + 1);
+        newlyMatched.push(i + 1);
+        handled = true;
+        break;
+      }
+    }
+    if (handled) continue;
 
     const spokenExp = getContractionExpansion(spoken);
     if (spokenExp) {

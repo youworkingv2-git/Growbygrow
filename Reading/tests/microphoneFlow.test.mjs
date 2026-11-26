@@ -53,6 +53,17 @@ class FakeElement {
     this._value = '';
     this._textContent = '';
     this._innerHTML = '';
+    this._className = '';
+  }
+
+  get className() {
+    return this._className;
+  }
+
+  set className(value) {
+    this._className = String(value ?? '');
+    this.classList.items.clear();
+    this._className.split(/\s+/).filter(Boolean).forEach((name) => this.classList.add(name));
   }
 
   get value() {
@@ -116,9 +127,10 @@ class FakeElement {
   }
 
   dispatchEvent(event) {
-    event.target ??= this;
-    for (const callback of this.listeners.get(event.type) ?? []) {
-      callback(event);
+    const type = event?.type ?? 'unknown';
+    const payload = { type, target: this };
+    for (const callback of this.listeners.get(type) ?? []) {
+      callback(payload);
     }
     return true;
   }
@@ -190,6 +202,14 @@ class FakeDocument {
   getElementById(id) {
     if (!this.nodes.has(id)) this.nodes.set(id, new FakeElement('div', id));
     return this.nodes.get(id);
+  }
+
+  querySelector(selector) {
+    for (const node of this.nodes.values()) {
+      const hit = node.querySelector?.(selector);
+      if (hit) return hit;
+    }
+    return null;
   }
 
   createElement(tagName) {
@@ -353,6 +373,9 @@ const window = {
   webkitSpeechRecognition: FakeRecognition,
   setTimeout,
   clearTimeout,
+  addEventListener() {},
+  removeEventListener() {},
+  location: { protocol: 'http:', hostname: '127.0.0.1' },
 };
 
 globalThis.window = window;
@@ -408,10 +431,21 @@ const btnAutoRead = document.getElementById('btn-auto-read');
 const btnNext = document.getElementById('btn-next-sentence');
 const btnPrev = document.getElementById('btn-prev-sentence');
 
-assert(lessonSelect.value === 'a1-greetings', 'first lesson loads by default');
+assert(document.querySelector('.idle-lesson-message'), 'shows idle hint before a lesson is opened');
 assert(btnAutoRead.classList.contains('is-on'), 'auto-read sample is enabled by default');
-assert(micStatus.textContent === 'Mic tắt', 'mic waits for user action on load');
+assert(micStatus.textContent === 'Mic tắt', 'mic waits for user action before a lesson opens');
 assert(activeRecognitionCount() === 0, 'no recognition starts before user action');
+
+const openLessonId = 'a1-greetings';
+lessonSelect.value = openLessonId;
+lessonSelect.dispatchEvent(new Event('change'));
+await tick(500);
+assert(lessonSelect.value === openLessonId, 'user-selected lesson id is kept');
+assert(document.getElementById('sentences-root').querySelector('.sentence'), 'lesson content loads after selection');
+if (speechSynthesis.pendingUtterance) {
+  speechSynthesis.finish();
+  await tick();
+}
 
 btnMic.click();
 await tick();

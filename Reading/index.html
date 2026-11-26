@@ -4,11 +4,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
   <title>Reading Aloud — Luyện đọc tiếng Anh</title>
     <link rel="stylesheet" href="css/style.css?v=20261004-hardword-ipa" />
 </head>
 
-<body class="show-vietnamese">
+<body class="show-vietnamese" data-reading-aloud-build="20261020-no-network">
   <div class="app">
     <header>
       <h1>Reading Aloud</h1>
@@ -20,9 +22,13 @@
     <section class="panel" aria-label="Điều khiển">
       <div class="controls-row filter-row">
         <label for="topic-select">Chủ đề</label>
-        <select id="topic-select" aria-label="Lọc theo chủ đề"></select>
+        <select id="topic-select" aria-label="Lọc theo chủ đề">
+          <option value="all">Đang tải chủ đề…</option>
+        </select>
         <label for="level-filter">Cấp độ</label>
-        <select id="level-filter" aria-label="Lọc theo cấp độ"></select>
+        <select id="level-filter" aria-label="Lọc theo cấp độ">
+          <option value="all">Đang tải cấp độ…</option>
+        </select>
         <button type="button" id="btn-topic-tree-toggle" class="topic-tree-btn" title="Danh sách Chủ Đề"
           aria-label="Danh sách Chủ Đề" aria-expanded="false" aria-controls="topic-tree-panel">
           <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -389,7 +395,9 @@
 
       <div class="controls-row lesson-row">
         <label for="lesson-select">Bài luyện</label>
-        <select id="lesson-select" aria-label="Chọn bài luyện"></select>
+        <select id="lesson-select" aria-label="Chọn bài luyện">
+          <option value="">Đang tải danh sách bài…</option>
+        </select>
       </div>
 
       <div class="controls-row voice-row">
@@ -641,7 +649,25 @@
 
   <input type="checkbox" id="auto-read-sample" class="hidden" hidden aria-hidden="true" tabindex="-1" />
 
-  <script type="module" src="js/app.js?v=20261019-import-dictation"></script>
+  <script>
+    (function blockDictionaryApiCors() {
+      var nativeFetch = window.fetch;
+      if (typeof nativeFetch !== 'function') return;
+      window.fetch = function (input, init) {
+        var url = typeof input === 'string' ? input : (input && input.url) || '';
+        if (String(url).indexOf('api.dictionaryapi.dev') !== -1) {
+          return Promise.resolve(
+            new Response('[]', {
+              status: 200,
+              headers: { 'Content-Type': 'application/json' },
+            }),
+          );
+        }
+        return nativeFetch.apply(this, arguments);
+      };
+    })();
+  </script>
+  <script type="module" src="js/app.js?v=20261023-perf"></script>
 </body>
 
 </html>

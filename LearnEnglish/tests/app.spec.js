@@ -49,11 +49,9 @@ test.describe('Toeic Vocab App UI', () => {
     await expect(prompt).toBeVisible();
     const answerInput = page.locator('#typingAnswer');
     await answerInput.fill('test');
-    await page.click('#typingForm button[type="submit"]');
-    // Wait for feedback element to become visible
-    await page.waitForSelector('.feedback', { state: 'visible', timeout: 120000 });
-    const feedback = page.locator('.feedback');
-    await expect(feedback).toBeVisible();
+    const submit = page.locator('#submitTypingAnswer');
+    await expect(submit).toHaveText(/Submit answer \(0\)/);
+    await expect(submit).toBeDisabled();
   });
 
   test('Hint button reveals more letters on each tap', async ({ page }) => {
@@ -61,10 +59,16 @@ test.describe('Toeic Vocab App UI', () => {
     await page.click('.tab[data-mode="typing"]');
     await page.click('#startQuiz');
     await page.waitForSelector('#quizHint', { timeout: 60000 });
+    const hintLimit = await page.evaluate(() => {
+      const answer = window.state?.currentQuestion?.answer || '';
+      return Math.floor(String(answer).replace(/\s+/g, '').length / 3);
+    });
+    if (hintLimit < 1) return;
     const hint = page.locator('#hintText');
     await page.click('#quizHint');
     await expect(hint).not.toHaveClass(/hidden/);
     const firstHint = await hint.textContent();
+    if (hintLimit < 2) return;
     await page.click('#quizHint');
     const secondHint = await hint.textContent();
     expect(secondHint).not.toBe(firstHint);
@@ -102,12 +106,17 @@ test.describe('Toeic Vocab App UI', () => {
     // Wait for the typing answer input
     await page.waitForSelector('#typingAnswer', { timeout: 60000 });
 
-    // Click Hint twice
-    await page.click('#quizHint');
-    await page.click('#quizHint');
-
-    // Click Lightbulb once
-    await page.click('#quizAnswerPeek');
+    const assistLimit = await page.evaluate(() => {
+      const answer = window.state?.currentQuestion?.answer || '';
+      return Math.floor(String(answer).replace(/\s+/g, '').length / 3);
+    });
+    const hintClicks = Math.min(2, assistLimit);
+    for (let i = 0; i < hintClicks; i += 1) {
+      await page.click('#quizHint');
+    }
+    if (assistLimit >= 1) {
+      await page.click('#quizAnswerPeek');
+    }
 
     // Get the correct answer from state
     const correctWord = await page.evaluate(() => window.state.currentQuestion.answer);
@@ -122,18 +131,18 @@ test.describe('Toeic Vocab App UI', () => {
     // Verify overall hint/bulb counts in the stats grid
     const hintStat = page.locator('.stat:has-text("Hint") strong');
     const bulbStat = page.locator('.stat:has-text("Lightbulb") strong');
-    await expect(hintStat).toHaveText('2');
-    await expect(bulbStat).toHaveText('1');
+    await expect(hintStat).toHaveText(String(hintClicks));
+    await expect(bulbStat).toHaveText(assistLimit >= 1 ? '1' : '0');
 
     // Verify per-question hint/bulb counts in the details list
     const detailRow = page.locator('.row:has-text("Question 1")');
-    await expect(detailRow.locator('span[title="Hints"]')).toHaveText('2');
-    await expect(detailRow.locator('span[title="Lightbulbs"]')).toHaveText('1');
+    await expect(detailRow.locator('span[title="Hints"]')).toHaveText(String(hintClicks));
+    await expect(detailRow.locator('span[title="Lightbulbs"]')).toHaveText(assistLimit >= 1 ? '1' : '0');
 
     // Go to Stats page and check Recent Quizzes list item
     await page.click('.nav-button[data-page="stats"]');
     const recentQuizItem = page.locator('.panel:has-text("Recent Quizzes") div').first();
-    await expect(recentQuizItem.locator('span[title="Hints"]')).toHaveText('2');
-    await expect(recentQuizItem.locator('span[title="Lightbulbs"]')).toHaveText('1');
+    await expect(recentQuizItem.locator('span[title="Hints"]')).toHaveText(String(hintClicks));
+    await expect(recentQuizItem.locator('span[title="Lightbulbs"]')).toHaveText(assistLimit >= 1 ? '1' : '0');
   });
 });

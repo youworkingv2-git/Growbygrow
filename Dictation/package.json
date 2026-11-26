@@ -1,0 +1,12 @@
+{
+  "name": "english-dictation",
+  "version": "1.0.0",
+  "description": "Ứng dụng học tiếng Anh dạng dictation (nghe – chép)",
+  "scripts": {
+    "start": "npx http-server -c-1 -p 5173 -o",
+    "serve": "npx http-server -c-1 -p 5173"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}

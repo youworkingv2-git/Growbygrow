@@ -1,0 +1,84 @@
+{
+  "sentences": [
+    {
+      "id": "sent-001",
+      "text": "I go to school every day.",
+      "meaning_vi": "Tôi đi học mỗi ngày.",
+      "topic": "sentences-daily",
+      "cefr_level": "A1",
+      "difficulty": 1
+    },
+    {
+      "id": "sent-002",
+      "text": "She likes reading books.",
+      "meaning_vi": "Cô ấy thích đọc sách.",
+      "topic": "sentences-daily",
+      "cefr_level": "A1",
+      "difficulty": 1
+    },
+    {
+      "id": "sent-003",
+      "text": "We play football after class.",
+      "meaning_vi": "Chúng tôi chơi bóng đá sau giờ học.",
+      "topic": "sentences-daily",
+      "cefr_level": "A1",
+      "difficulty": 2
+    },
+    {
+      "id": "sent-004",
+      "text": "My favorite subject is English.",
+      "meaning_vi": "Môn học yêu thích của tôi là tiếng Anh.",
+      "topic": "sentences-school",
+      "cefr_level": "A2",
+      "difficulty": 2
+    },
+    {
+      "id": "sent-005",
+      "text": "The teacher explains the lesson clearly.",
+      "meaning_vi": "Giáo viên giải thích bài học rõ ràng.",
+      "topic": "sentences-school",
+      "cefr_level": "A2",
+      "difficulty": 3
+    },
+    {
+      "id": "sent-006",
+      "text": "Please open your book on page ten.",
+      "meaning_vi": "Mở sách trang mười nhé.",
+      "topic": "sentences-school",
+      "cefr_level": "A2",
+      "difficulty": 2
+    },
+    {
+      "id": "sent-007",
+      "text": "It is raining outside today.",
+      "meaning_vi": "Hôm nay trời đang mưa bên ngoài.",
+      "topic": "sentences-daily",
+      "cefr_level": "A1",
+      "difficulty": 2
+    },
+    {
+      "id": "sent-008",
+      "text": "They visited the museum last weekend.",
+      "meaning_vi": "Họ đã thăm bảo tàng cuối tuần trước.",
+      "topic": "sentences-past",
+      "cefr_level": "A2",
+      "difficulty": 3
+    },
+    {
+      "id": "sent-009",
+      "text": "I have finished my homework.",
+      "meaning_vi": "Tôi đã làm xong bài tập về nhà.",
+      "topic": "sentences-past",
+      "cefr_level": "A2",
+      "difficulty": 2
+    },
+    {
+      "id": "sent-010",
+      "text": "Could you speak more slowly, please?",
+      "meaning_vi": "Bạn nói chậm hơn được không?",
+      "topic": "sentences-useful",
+      "cefr_level": "A2",
+      "difficulty": 3
+    }
+  ]
+}

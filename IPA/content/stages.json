@@ -1,0 +1,171 @@
+{
+  "stages": [
+    {
+      "id": "stage_0",
+      "number": 0,
+      "title": "Pre-Phonics",
+      "description": "Foundation awareness: sounds exist and have meaning.",
+      "icon": "🌱",
+      "colorToken": "#6ee7b7",
+      "order": 0,
+      "prerequisiteStageIds": [],
+      "isPublished": true
+    },
+    {
+      "id": "stage_1",
+      "number": 1,
+      "title": "Letters & Sounds",
+      "description": "Each letter maps to a sound.",
+      "icon": "🔤",
+      "colorToken": "#93c5fd",
+      "order": 1,
+      "prerequisiteStageIds": [
+        "stage_0"
+      ],
+      "isPublished": true
+    },
+    {
+      "id": "stage_2",
+      "number": 2,
+      "title": "Short Vowels & CVC",
+      "description": "Short vowel sounds and consonant-vowel-consonant words.",
+      "icon": "🗣️",
+      "colorToken": "#fca5a5",
+      "order": 2,
+      "prerequisiteStageIds": [
+        "stage_1"
+      ],
+      "isPublished": true
+    },
+    {
+      "id": "stage_3",
+      "number": 3,
+      "title": "Blending & Segmenting",
+      "description": "Blend phonemes to read, segment words to spell.",
+      "icon": "🔗",
+      "colorToken": "#fdba74",
+      "order": 3,
+      "prerequisiteStageIds": [
+        "stage_2"
+      ],
+      "isPublished": true
+    },
+    {
+      "id": "stage_4",
+      "number": 4,
+      "title": "Long Vowels & Magic E",
+      "description": "Silent E changes the vowel sound.",
+      "icon": "✨",
+      "colorToken": "#c4b5fd",
+      "order": 4,
+      "prerequisiteStageIds": [
+        "stage_3"
+      ],
+      "isPublished": true
+    },
+    {
+      "id": "stage_5",
+      "number": 5,
+      "title": "Digraphs, Blends & Trigraphs",
+      "description": "Two or three letters making one sound.",
+      "icon": "🔀",
+      "colorToken": "#a5f3fc",
+      "order": 5,
+      "prerequisiteStageIds": [
+        "stage_4"
+      ],
+      "isPublished": true
+    },
+    {
+      "id": "stage_6",
+      "number": 6,
+      "title": "Vowel Teams & Diphthongs",
+      "description": "Two vowels working together.",
+      "icon": "👥",
+      "colorToken": "#86efac",
+      "order": 6,
+      "prerequisiteStageIds": [
+        "stage_5"
+      ],
+      "isPublished": true
+    },
+    {
+      "id": "stage_7",
+      "number": 7,
+      "title": "R-Controlled & Complex Patterns",
+      "description": "R changes the vowel sound.",
+      "icon": "🌀",
+      "colorToken": "#fde68a",
+      "order": 7,
+      "prerequisiteStageIds": [
+        "stage_6"
+      ],
+      "isPublished": true
+    },
+    {
+      "id": "stage_8",
+      "number": 8,
+      "title": "Syllables & Multisyllabic Words",
+      "description": "Breaking long words into parts.",
+      "icon": "📐",
+      "colorToken": "#f9a8d4",
+      "order": 8,
+      "prerequisiteStageIds": [
+        "stage_7"
+      ],
+      "isPublished": true
+    },
+    {
+      "id": "stage_9",
+      "number": 9,
+      "title": "Stress, Schwa & Pronunciation",
+      "description": "Word stress and the reduced vowel.",
+      "icon": "🎵",
+      "colorToken": "#cbd5e1",
+      "order": 9,
+      "prerequisiteStageIds": [
+        "stage_8"
+      ],
+      "isPublished": true
+    },
+    {
+      "id": "stage_10",
+      "number": 10,
+      "title": "Vocabulary & Sentences",
+      "description": "Building meaning from words.",
+      "icon": "📚",
+      "colorToken": "#6ee7b7",
+      "order": 10,
+      "prerequisiteStageIds": [
+        "stage_9"
+      ],
+      "isPublished": true
+    },
+    {
+      "id": "stage_11",
+      "number": 11,
+      "title": "Grammar, Reading & Listening",
+      "description": "Understanding language in context.",
+      "icon": "🎧",
+      "colorToken": "#93c5fd",
+      "order": 11,
+      "prerequisiteStageIds": [
+        "stage_10"
+      ],
+      "isPublished": true
+    },
+    {
+      "id": "stage_12",
+      "number": 12,
+      "title": "Flyers",
+      "description": "Cambridge Flyers level mastery.",
+      "icon": "🎓",
+      "colorToken": "#fbbf24",
+      "order": 12,
+      "prerequisiteStageIds": [
+        "stage_11"
+      ],
+      "isPublished": true
+    }
+  ]
+}

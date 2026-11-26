@@ -1,0 +1,136 @@
+{
+  "words": [
+    {
+      "id": "word_cat",
+      "nodeId": "short_a",
+      "spelling": "cat",
+      "ipa": "/kæt/",
+      "meaning_vi": "con mèo",
+      "pattern": "a",
+      "audioUrl": null,
+      "isException": false,
+      "exceptionTip": null
+    },
+    {
+      "id": "word_map",
+      "nodeId": "short_a",
+      "spelling": "map",
+      "ipa": "/mæp/",
+      "meaning_vi": "bản đồ",
+      "pattern": "a",
+      "audioUrl": null,
+      "isException": false,
+      "exceptionTip": null
+    },
+    {
+      "id": "word_bag",
+      "nodeId": "short_a",
+      "spelling": "bag",
+      "ipa": "/bæɡ/",
+      "meaning_vi": "cái túi",
+      "pattern": "a",
+      "audioUrl": null,
+      "isException": false,
+      "exceptionTip": null
+    },
+    {
+      "id": "word_hat",
+      "nodeId": "short_a",
+      "spelling": "hat",
+      "ipa": "/hæt/",
+      "meaning_vi": "cái mũ",
+      "pattern": "a",
+      "audioUrl": null,
+      "isException": false,
+      "exceptionTip": null
+    },
+    {
+      "id": "word_cap",
+      "nodeId": "short_a",
+      "spelling": "cap",
+      "ipa": "/kæp/",
+      "meaning_vi": "mũ lưỡi trai",
+      "pattern": "a",
+      "audioUrl": null,
+      "isException": false,
+      "exceptionTip": null
+    },
+    {
+      "id": "word_tap",
+      "nodeId": "short_a",
+      "spelling": "tap",
+      "ipa": "/tæp/",
+      "meaning_vi": "vòi nước",
+      "pattern": "a",
+      "audioUrl": null,
+      "isException": false,
+      "exceptionTip": null
+    },
+    {
+      "id": "word_bat",
+      "nodeId": "short_a",
+      "spelling": "bat",
+      "ipa": "/bæt/",
+      "meaning_vi": "con dơi / gậy",
+      "pattern": "a",
+      "audioUrl": null,
+      "isException": false,
+      "exceptionTip": null
+    },
+    {
+      "id": "word_jam",
+      "nodeId": "short_a",
+      "spelling": "jam",
+      "ipa": "/dʒæm/",
+      "meaning_vi": "mứt",
+      "pattern": "a",
+      "audioUrl": null,
+      "isException": false,
+      "exceptionTip": null
+    },
+    {
+      "id": "word_bed",
+      "nodeId": "short_e",
+      "spelling": "bed",
+      "ipa": "/bed/",
+      "meaning_vi": "cái giường",
+      "pattern": "e",
+      "audioUrl": null,
+      "isException": false,
+      "exceptionTip": null
+    },
+    {
+      "id": "word_pen",
+      "nodeId": "short_e",
+      "spelling": "pen",
+      "ipa": "/pen/",
+      "meaning_vi": "bút",
+      "pattern": "e",
+      "audioUrl": null,
+      "isException": false,
+      "exceptionTip": null
+    },
+    {
+      "id": "word_sit",
+      "nodeId": "short_i",
+      "spelling": "sit",
+      "ipa": "/sɪt/",
+      "meaning_vi": "ngồi",
+      "pattern": "i",
+      "audioUrl": null,
+      "isException": false,
+      "exceptionTip": null
+    },
+    {
+      "id": "word_pin",
+      "nodeId": "short_i",
+      "spelling": "pin",
+      "ipa": "/pɪn/",
+      "meaning_vi": "cái ghim",
+      "pattern": "i",
+      "audioUrl": null,
+      "isException": false,
+      "exceptionTip": null
+    }
+  ]
+}

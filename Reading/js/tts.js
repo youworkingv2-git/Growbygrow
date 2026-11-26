@@ -163,8 +163,49 @@ function abortSpeaking() {
   settleActiveSpeak(false);
 }
 
+function pumpSpeechSynthesis() {
+  if (!isTtsSupported()) return;
+  try {
+    window.speechSynthesis.resume();
+  } catch {
+    /* ignore */
+  }
+}
+
+/** Chrome đôi khi “đóng băng” synthesis cho đến khi resume / tương tác. */
+export function primeSpeechSynthesis() {
+  pumpSpeechSynthesis();
+}
+
+/**
+ * @param {number} timeoutMs
+ * @returns {Promise<void>}
+ */
+function whenEnglishVoicesReady(timeoutMs = 1500) {
+  return new Promise((resolve) => {
+    if (!isTtsSupported() || getEnglishVoices().length) {
+      resolve();
+      return;
+    }
+    const done = () => {
+      window.speechSynthesis.removeEventListener('voiceschanged', onChange);
+      clearTimeout(timer);
+      resolve();
+    };
+    const onChange = () => {
+      if (getEnglishVoices().length) done();
+    };
+    window.speechSynthesis.addEventListener('voiceschanged', onChange);
+    const timer = setTimeout(done, timeoutMs);
+  });
+}
+
 export function stopSpeaking() {
   abortSpeaking();
+  if (typeof window !== 'undefined') {
+    window.setTimeout(pumpSpeechSynthesis, 0);
+    window.setTimeout(pumpSpeechSynthesis, 48);
+  }
 }
 
 /**
@@ -236,19 +277,17 @@ export function formatTextForTts(text) {
 
 /**
  * @param {string} text
- * @param {{ rate?: number }=} options
+ * @param {{ rate?: number, skipVoice?: boolean }=} options
  * @returns {Promise<boolean>}
  */
-export function speakText(text, options = {}) {
+function speakTextOnce(text, options = {}) {
   return new Promise((resolve) => {
     if (!isTtsSupported() || !text.trim()) {
       resolve(false);
       return;
     }
 
-    abortSpeaking();
-
-    const gen = speakGeneration;
+    const gen = ++speakGeneration;
     activeSpeak = { gen, resolve };
 
     const spokenText = formatTextForTts(text);
@@ -256,22 +295,42 @@ export function speakText(text, options = {}) {
     utterance.lang = 'en-US';
     utterance.rate = resolveSpeechRate(options.rate);
 
-    const voice = resolveVoice(getEnglishVoices());
+    const voices = getEnglishVoices();
+    const voice = options.skipVoice ? undefined : resolveVoice(voices);
     if (voice) {
       utterance.voice = voice;
       utterance.lang = voice.lang;
     }
 
+    const timeoutMs = Math.min(60000, Math.max(8000, spokenText.length * 250));
+    let timeoutId = 0;
+    let finished = false;
+
     const finish = (ok) => {
+      if (finished) return;
+      finished = true;
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+        timeoutId = 0;
+      }
       if (!activeSpeak || activeSpeak.gen !== gen) return;
       settleActiveSpeak(ok);
     };
 
+    utterance.onstart = () => {
+      pumpSpeechSynthesis();
+    };
+
     utterance.onend = () => finish(true);
+
     utterance.onerror = (event) => {
-      const isUserAbort = event && (event.error === 'interrupted' || event.error === 'aborted');
-      if (!isUserAbort && voice) {
-        console.warn(`Voice failed: ${voice.name} (${voice.voiceURI}). Error: ${event?.error}`);
+      const err = event?.error ?? '';
+      if (err === 'interrupted' || err === 'aborted') {
+        finish(true);
+        return;
+      }
+      if (voice && !options.skipVoice) {
+        console.warn(`Voice failed: ${voice.name} (${voice.voiceURI}). Error: ${err}`);
         brokenVoiceUris.add(voice.voiceURI);
         notifyVoiceListeners();
       }
@@ -280,8 +339,44 @@ export function speakText(text, options = {}) {
 
     currentUtterance = utterance;
     speaking = true;
+    timeoutId = window.setTimeout(() => {
+      if (activeSpeak?.gen !== gen) return;
+      try {
+        window.speechSynthesis.cancel();
+      } catch {
+        /* ignore */
+      }
+      finish(false);
+    }, timeoutMs);
     window.speechSynthesis.speak(utterance);
+    pumpSpeechSynthesis();
+    window.requestAnimationFrame(() => pumpSpeechSynthesis());
   });
+}
+
+/**
+ * @param {string} text
+ * @param {{ rate?: number }=} options
+ * @returns {Promise<boolean>}
+ */
+export async function speakText(text, options = {}) {
+  if (!isTtsSupported() || !text.trim()) return false;
+
+  abortSpeaking();
+  const attemptGen = speakGeneration;
+
+  await whenEnglishVoicesReady();
+  if (speakGeneration !== attemptGen) return false;
+  await new Promise((resolve) => setTimeout(resolve, 16));
+  if (speakGeneration !== attemptGen) return false;
+
+  for (const skipVoice of [false, true]) {
+    if (speakGeneration !== attemptGen) return false;
+    const ok = await speakTextOnce(text, { ...options, skipVoice });
+    if (speakGeneration !== attemptGen) return false;
+    if (ok) return true;
+  }
+  return false;
 }
 
 if (isTtsSupported()) {

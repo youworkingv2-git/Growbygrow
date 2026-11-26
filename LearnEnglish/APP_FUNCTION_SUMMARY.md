@@ -117,10 +117,12 @@ Quiz behavior:
 - Uses multiple-choice answers for non-typing modes, with up to four choices depending on the topic size.
 - Compares answers case-insensitively after trimming whitespace.
 - Automatically advances to the next question after a correct answer.
-- Automatically submits typing answers when the typed text matches the correct English word.
+- Automatically submits typing answers when the typed text matches the correct English word, then goes to the next question immediately.
 - Keeps the typing input value and focus when replaying audio in Typing and Dictation.
-- In Typing and Dictation, each Hint tap reveals two more letters of the answer (capped at the full word length).
-- In Typing and Dictation, a lightbulb button next to Hint briefly shows the full answer for 3 seconds, with a 5-second cooldown between uses.
+- In Typing and Dictation, remaining press counts are shown on **Submit answer**, **Hint**, and the lightbulb button, and repeated in a line under the buttons.
+- In Typing and Dictation, Hint can be pressed once per 3 characters in the answer, not counting spaces. Example: `close your book` has 13 characters, so Hint can be pressed 4 times.
+- In Typing and Dictation, the lightbulb can be pressed once per 3 characters in the answer, not counting spaces. Each press shows the answer for 2 seconds.
+- In Typing and Dictation, **Submit answer** unlocks 1 use for every 3 correct answers. Pressing it uses 1 count. If the typed answer is wrong, the correct answer is shown for 10 seconds, the input stays open, the caret stays in place, and the learner can keep typing immediately; if it is correct, the quiz goes to the next question immediately.
 - Hint and lightbulb uses do not reduce quiz score; the result summary shows total Hint and Lightbulb presses for the test.
 - Quiz score and accuracy count each correct answer as one full point in every mode.
 - Automatically plays the word audio or speech fallback when a Listen or Dictation question first appears.

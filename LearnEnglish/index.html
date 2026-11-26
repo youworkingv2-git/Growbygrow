@@ -132,6 +132,8 @@
       .action-btn.peek { color: #fbbf24; border-color: #fbbf24; background: rgba(251, 191, 36, 0.08); }
       .action-btn.peek:hover:not(:disabled) { background: rgba(251, 191, 36, 0.18); }
       .action-btn.peek:disabled { opacity: 0.45; cursor: not-allowed; }
+      .button.peek-count { display: inline-flex; align-items: center; gap: 0.35rem; color: #fbbf24; border-color: #fbbf24; background: rgba(251, 191, 36, 0.08); }
+      .button.peek-count:hover:not(:disabled) { background: rgba(251, 191, 36, 0.18); }
       .action-btn svg { pointer-events: none; }
       input[type="range"] {
         -webkit-appearance: none;
@@ -194,6 +196,11 @@
       const DEFAULT_QUIZ_QUESTION_LIMIT = 20;
       const MIN_QUIZ_QUESTION_LIMIT = 1;
       const MAX_QUIZ_QUESTION_LIMIT = 100;
+      const QUIZ_ANSWER_PEEK_MS = 2000;
+      const QUIZ_ANSWER_PEEK_COOLDOWN_MS = 2000;
+      const QUIZ_SUBMIT_ANSWER_SHOW_MS = 10000;
+      const QUIZ_CORRECT_ANSWERS_PER_SUBMIT = 3;
+      const QUIZ_CHARS_PER_ASSIST = 3;
       const REVIEW_INTERVAL_HOURS = [4, 12, 24, 72, 168, 336, 720];
       const DATA_SOURCES = [
         { name: 'hangout1', label: 'Hang Out 1', file: 'all-topics-hangout1.json' },
@@ -237,6 +244,7 @@
         quizAnswerPeekCooldownUntil: 0,
         quizAnswerPeekVisibleUntil: 0,
         quizAnswerPeekCount: 0,
+        quizSubmitUsed: 0,
         currentQuestionHintPressCount: 0,
         currentQuestionAnswerPeekCount: 0,
         autoLearn: {
@@ -415,6 +423,7 @@
         state.quizAnswerPeekCooldownUntil = 0;
         state.quizAnswerPeekVisibleUntil = 0;
         state.quizAnswerPeekCount = 0;
+        state.quizSubmitUsed = 0;
         state.currentQuestionHintPressCount = 0;
         state.currentQuestionAnswerPeekCount = 0;
         clearQuizAnswerPeekTimers();
@@ -1035,6 +1044,22 @@
         return [...items].sort(() => Math.random() - 0.5);
       }
 
+      function getQuizAnswerCharCount(answer) {
+        return String(answer || '').replace(/\s+/g, '').length;
+      }
+
+      function getQuizAssistLimit(answer = state.currentQuestion?.answer) {
+        return Math.floor(getQuizAnswerCharCount(answer) / QUIZ_CHARS_PER_ASSIST);
+      }
+
+      function getQuizAssistRemaining(kind) {
+        const limit = getQuizAssistLimit();
+        const used = kind === 'hint'
+          ? (state.currentQuestionHintPressCount || 0)
+          : (state.currentQuestionAnswerPeekCount || 0);
+        return Math.max(0, limit - used);
+      }
+
       function getQuizHint(answer, revealCount = 2) {
         if (!answer) return '';
         const trimmed = answer.trim();
@@ -1052,17 +1077,43 @@
         return result.isCorrect ? 1 : 0;
       }
 
+      function getQuizAssistCountsLabel() {
+        return `Submit ${getQuizSubmitCredits()} · Hint ${getQuizAssistRemaining('hint')} · Lightbulb ${getQuizAssistRemaining('peek')}`;
+      }
+
+      function updateQuizAssistCountsHint() {
+        const el = document.getElementById('quizAssistCounts');
+        if (el) el.textContent = getQuizAssistCountsLabel();
+      }
+
+      function renderQuizHintButton() {
+        const left = getQuizAssistRemaining('hint');
+        return `<button class="button" type="button" id="quizHint"${left <= 0 ? ' disabled' : ''}>Hint (${left})</button>`;
+      }
+
+      function updateQuizHintButton() {
+        const button = document.getElementById('quizHint');
+        if (!button) return;
+        const left = getQuizAssistRemaining('hint');
+        button.disabled = left <= 0;
+        button.textContent = `Hint (${left})`;
+        updateQuizAssistCountsHint();
+      }
+
       function renderQuizAnswerPeekButton() {
-        const cooldownMs = Math.max(0, (state.quizAnswerPeekCooldownUntil || 0) - Date.now());
-        const disabled = cooldownMs > 0;
-        const waitSeconds = Math.ceil(cooldownMs / 1000);
-        const title = disabled ? `Wait ${waitSeconds}s` : 'Show answer for 3 seconds';
-        return `<button class="action-btn peek" type="button" id="quizAnswerPeek" aria-label="${escapeHtml(title)}" title="${escapeHtml(title)}"${disabled ? ' disabled' : ''}>
+        const left = getQuizAssistRemaining('peek');
+        const showing = Date.now() < (state.quizAnswerPeekVisibleUntil || 0);
+        const disabled = left <= 0 || showing;
+        const title = showing
+          ? `Showing answer (${left} left)`
+          : (left <= 0 ? 'No shows left for this word' : `Show answer for 2 seconds (${left} left)`);
+        return `<button class="button peek-count" type="button" id="quizAnswerPeek" aria-label="${escapeHtml(title)}" title="${escapeHtml(title)}"${disabled ? ' disabled' : ''}>
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M9 18h6"></path>
             <path d="M10 22h4"></path>
             <path d="M12 2a7 7 0 0 0-4 12.74V17h8v-2.26A7 7 0 0 0 12 2z"></path>
           </svg>
+          <span id="quizAnswerPeekCount">(${left})</span>
         </button>`;
       }
 
@@ -1074,13 +1125,18 @@
       function updateQuizAnswerPeekButton() {
         const button = document.getElementById('quizAnswerPeek');
         if (!button) return;
-        const cooldownMs = Math.max(0, (state.quizAnswerPeekCooldownUntil || 0) - Date.now());
-        const disabled = cooldownMs > 0;
-        const waitSeconds = Math.ceil(cooldownMs / 1000);
-        const title = disabled ? `Wait ${waitSeconds}s` : 'Show answer for 3 seconds';
+        const left = getQuizAssistRemaining('peek');
+        const showing = Date.now() < (state.quizAnswerPeekVisibleUntil || 0);
+        const disabled = left <= 0 || showing;
+        const title = showing
+          ? `Showing answer (${left} left)`
+          : (left <= 0 ? 'No shows left for this word' : `Show answer for 2 seconds (${left} left)`);
         button.disabled = disabled;
         button.setAttribute('aria-label', title);
         button.title = title;
+        const count = document.getElementById('quizAnswerPeekCount');
+        if (count) count.textContent = `(${left})`;
+        updateQuizAssistCountsHint();
       }
 
       function scheduleQuizAnswerPeekButtonRefresh() {
@@ -1094,27 +1150,18 @@
         }, 1000);
       }
 
-      function peekQuizAnswer() {
-        const question = state.currentQuestion;
-        if (state.page !== 'quiz' || !question || state.currentAnswer) return;
-        if (!['typing', 'dictation'].includes(question.mode)) return;
-        const now = Date.now();
-        if (now < (state.quizAnswerPeekCooldownUntil || 0)) return;
-
+      function showQuizAnswerText(answer, durationMs = QUIZ_ANSWER_PEEK_MS, options = {}) {
         clearQuizAnswerPeekTimers();
-        state.quizAnswerPeekCooldownUntil = now + 5000;
-        state.quizAnswerPeekVisibleUntil = now + 3000;
-        state.quizAnswerPeekCount = (state.quizAnswerPeekCount || 0) + 1;
-        state.currentQuestionAnswerPeekCount = (state.currentQuestionAnswerPeekCount || 0) + 1;
-
+        const now = Date.now();
+        state.quizAnswerPeekCooldownUntil = now + durationMs;
+        state.quizAnswerPeekVisibleUntil = now + durationMs;
         const peekText = document.getElementById('answerPeekText');
         if (peekText) {
-          peekText.textContent = `Answer: ${question.answer}`;
+          peekText.textContent = `Answer: ${answer}`;
           peekText.classList.remove('hidden');
         }
         updateQuizAnswerPeekButton();
         scheduleQuizAnswerPeekButtonRefresh();
-
         quizAnswerPeekHideTimeout = setTimeout(() => {
           quizAnswerPeekHideTimeout = null;
           state.quizAnswerPeekVisibleUntil = 0;
@@ -1123,7 +1170,21 @@
             el.textContent = '';
             el.classList.add('hidden');
           }
-        }, 3000);
+          if (options.hideSubmitFeedback) showTypingSubmitFeedback('');
+          updateQuizAnswerPeekButton();
+        }, durationMs);
+      }
+
+      function peekQuizAnswer() {
+        const question = state.currentQuestion;
+        if (state.page !== 'quiz' || !question || state.currentAnswer) return;
+        if (!['typing', 'dictation'].includes(question.mode)) return;
+        if (getQuizAssistRemaining('peek') <= 0) return;
+        const now = Date.now();
+        if (now < (state.quizAnswerPeekVisibleUntil || 0)) return;
+        state.quizAnswerPeekCount = (state.quizAnswerPeekCount || 0) + 1;
+        state.currentQuestionAnswerPeekCount = (state.currentQuestionAnswerPeekCount || 0) + 1;
+        showQuizAnswerText(question.answer);
       }
 
       function diffAnswer(typed, correct) {
@@ -1190,12 +1251,63 @@
         state.quizHintPressCount = 0;
         state.quizTypingDraft = '';
         state.quizAnswerPeekCount = 0;
+        state.quizSubmitUsed = 0;
         state.currentQuestionHintPressCount = 0;
         state.currentQuestionAnswerPeekCount = 0;
         resetQuizAnswerPeekState();
         state.feedback = state.currentQuestion ? '' : 'Load at least 1 word to start a quiz.';
         saveState();
         render();
+      }
+
+      function getQuizSubmitCredits() {
+        const correct = (state.quizResults || []).filter((item) => item.isCorrect).length;
+        return Math.max(0, Math.floor(correct / QUIZ_CORRECT_ANSWERS_PER_SUBMIT) - (state.quizSubmitUsed || 0));
+      }
+
+      function canSubmitTypingAnswer() {
+        if (!state.currentQuestion || state.currentAnswer) return false;
+        if (!['typing', 'dictation'].includes(state.currentQuestion.mode)) return false;
+        return getQuizSubmitCredits() > 0;
+      }
+
+      function renderSubmitAnswerButton() {
+        const credits = getQuizSubmitCredits();
+        const disabled = !canSubmitTypingAnswer();
+        return `<button class="button primary" type="button" id="submitTypingAnswer"${disabled ? ' disabled' : ''}>Submit answer (${credits})</button>`;
+      }
+
+      function updateSubmitAnswerButton() {
+        const button = document.getElementById('submitTypingAnswer');
+        if (!button || state.currentAnswer) return;
+        const credits = getQuizSubmitCredits();
+        button.disabled = !canSubmitTypingAnswer();
+        button.textContent = `Submit answer (${credits})`;
+        updateQuizAssistCountsHint();
+      }
+
+      function submitTypingAnswer() {
+        const input = document.getElementById('typingAnswer');
+        if (!input || !state.currentQuestion || state.currentAnswer) return;
+        if (getQuizSubmitCredits() <= 0) return;
+        const caretStart = input.selectionStart;
+        const caretEnd = input.selectionEnd;
+        state.quizSubmitUsed = (state.quizSubmitUsed || 0) + 1;
+        const value = input.value;
+        state.quizTypingDraft = value;
+        const correct = value.trim().toLowerCase() === state.currentQuestion.answer.trim().toLowerCase();
+        if (correct) {
+          answerQuestion(value);
+          return;
+        }
+        const answer = state.currentQuestion.answer;
+        state.feedback = `<span class="danger-text">Not quite.</span> Answer: <strong>${escapeHtml(answer)}</strong>`;
+        keepQuizTypingInputFocused(input, { caretStart, caretEnd });
+        saveState();
+        updateSubmitAnswerButton();
+        showTypingSubmitFeedback(state.feedback);
+        showQuizAnswerText(answer, QUIZ_SUBMIT_ANSWER_SHOW_MS, { hideSubmitFeedback: true });
+        keepQuizTypingInputFocused(input, { caretStart, caretEnd });
       }
 
       function getIncorrectQuizWordIds() {
@@ -1236,7 +1348,7 @@
         recordWordQuizResult(question.word.id, correct);
         saveState();
         state.currentAnswer = { text: answer, isCorrect: correct };
-        
+
         if (correct) {
           state.feedback = '';
         } else if (['typing', 'dictation'].includes(state.quizMode)) {
@@ -1254,7 +1366,11 @@
         } else {
           state.feedback = '';
         }
-        
+
+        if (correct && ['typing', 'dictation'].includes(question.mode)) {
+          nextQuestion();
+          return;
+        }
         render();
         if (correct) {
           setTimeout(() => {
@@ -1330,9 +1446,34 @@
         if (!input || input.disabled) return;
         const draft = state.quizTypingDraft || '';
         if (input.value !== draft) input.value = draft;
-        input.focus();
-        const end = input.value.length;
-        input.setSelectionRange(end, end);
+        keepQuizTypingInputFocused(input, { moveToEnd: true });
+      }
+
+      function keepQuizTypingInputFocused(input = document.getElementById('typingAnswer'), options = {}) {
+        if (!input || input.disabled) return;
+        const caretStart = options.caretStart ?? input.selectionStart;
+        const caretEnd = options.caretEnd ?? input.selectionEnd;
+        input.focus({ preventScroll: true });
+        try {
+          if (options.moveToEnd) {
+            const last = input.value.length;
+            input.setSelectionRange(last, last);
+          } else if (typeof caretStart === 'number' && typeof caretEnd === 'number') {
+            input.setSelectionRange(caretStart, caretEnd);
+          }
+        } catch (error) { /* ignore */ }
+      }
+
+      function showTypingSubmitFeedback(html) {
+        const el = document.getElementById('typingSubmitFeedback');
+        if (!el) return;
+        if (!html) {
+          el.innerHTML = '';
+          el.classList.add('hidden');
+          return;
+        }
+        el.innerHTML = html;
+        el.classList.remove('hidden');
       }
 
       function render() {
@@ -1649,10 +1790,12 @@
               ${renderQuizPlayButton('Play word')}
               <input class="search" id="typingAnswer" type="text" autocomplete="off" placeholder="Type what you hear" value="${escapeHtml(state.quizTypingDraft || '')}" autofocus>
               <div class="row">
-                <button class="button primary" type="submit">Submit answer</button>
-                <button class="button" type="button" id="quizHint">Hint</button>
+                ${renderSubmitAnswerButton()}
+                ${renderQuizHintButton()}
                 ${renderQuizAnswerPeekButton()}
               </div>
+              <p class="muted small" id="quizAssistCounts">${getQuizAssistCountsLabel()}</p>
+              <p id="typingSubmitFeedback" class="feedback hidden"></p>
               <p id="hintText" class="muted small${state.quizHintRevealCount > 0 ? '' : ' hidden'}" style="margin-top: 0.5rem;">${state.quizHintRevealCount > 0 ? escapeHtml(getQuizHint(question.answer, state.quizHintRevealCount)) : ''}</p>
               ${renderQuizAnswerPeekText(question.answer)}
             </form>
@@ -1679,10 +1822,12 @@
               <h3>${escapeHtml(question.prompt)}</h3>
               <input class="search" id="typingAnswer" type="text" autocomplete="off" placeholder="Your answer" value="${escapeHtml(state.quizTypingDraft || '')}" autofocus>
               <div class="row">
-                <button class="button primary" type="submit">Submit answer</button>
-                <button class="button" type="button" id="quizHint">Hint</button>
+                ${renderSubmitAnswerButton()}
+                ${renderQuizHintButton()}
                 ${renderQuizAnswerPeekButton()}
               </div>
+              <p class="muted small" id="quizAssistCounts">${getQuizAssistCountsLabel()}</p>
+              <p id="typingSubmitFeedback" class="feedback hidden"></p>
               <p id="hintText" class="muted small${state.quizHintRevealCount > 0 ? '' : ' hidden'}" style="margin-top: 0.5rem;">${state.quizHintRevealCount > 0 ? escapeHtml(getQuizHint(question.answer, state.quizHintRevealCount)) : ''}</p>
               ${renderQuizAnswerPeekText(question.answer)}
             </form>
@@ -1945,6 +2090,14 @@
         return `<div class="stat"><span class="muted">${label}</span><strong>${value}</strong></div>`;
       }
 
+      document.addEventListener('pointerdown', (event) => {
+        const button = event.target.closest('#submitTypingAnswer, #quizHint, #quizAnswerPeek');
+        if (!button || button.disabled) return;
+        const input = document.getElementById('typingAnswer');
+        if (!input || input.disabled) return;
+        event.preventDefault();
+      }, { passive: false });
+
       document.addEventListener('click', (event) => {
         const target = event.target.closest('button');
         if (!target || target.disabled) return;
@@ -2002,12 +2155,16 @@
         if (target.id === 'startQuiz') startQuiz(state.quizMode);
         if (target.id === 'retryIncorrectQuiz') retryIncorrectQuiz();
         if (target.id === 'resetQuiz') resetQuizState();
+        if (target.id === 'submitTypingAnswer') {
+          submitTypingAnswer();
+          return;
+        }
         if (target.id === 'nextQuestion') {
           nextQuestion();
           return;
         }
         if (target.id === 'quizHint') {
-          if (state.currentQuestion) {
+          if (state.currentQuestion && getQuizAssistRemaining('hint') > 0) {
             const answerLength = state.currentQuestion.answer.trim().length;
             state.quizHintPressCount = (state.quizHintPressCount || 0) + 1;
             state.currentQuestionHintPressCount = (state.currentQuestionHintPressCount || 0) + 1;
@@ -2017,15 +2174,16 @@
               hintText.textContent = getQuizHint(state.currentQuestion.answer, state.quizHintRevealCount);
               hintText.classList.remove('hidden');
             }
+            updateQuizHintButton();
           }
           const input = document.getElementById('typingAnswer');
-          if (input) input.focus();
+          if (input) keepQuizTypingInputFocused(input);
           return;
         }
         if (target.id === 'quizAnswerPeek') {
           peekQuizAnswer();
           const input = document.getElementById('typingAnswer');
-          if (input) input.focus();
+          if (input) keepQuizTypingInputFocused(input);
           return;
         }
         if (target.id === 'deleteSelectedWords') {
@@ -2097,6 +2255,13 @@
         }
       });
 
+      document.addEventListener('keydown', (event) => {
+        if (event.key !== 'Enter' || event.target.id !== 'typingAnswer' || event.repeat) return;
+        if (state.currentAnswer || !['typing', 'dictation'].includes(state.currentQuestion?.mode)) return;
+        event.preventDefault();
+        submitTypingAnswer();
+      });
+
       document.addEventListener('input', (event) => {
         if (event.target.id === 'autoLearnSlider') {
           seekAutoLearn(parseInt(event.target.value, 10));
@@ -2107,6 +2272,9 @@
         state.quizTypingDraft = typedAnswer;
         if (typedAnswer.trim().toLowerCase() === state.currentQuestion.answer.trim().toLowerCase()) {
           answerQuestion(typedAnswer);
+        } else {
+          showTypingSubmitFeedback('');
+          updateSubmitAnswerButton();
         }
       });
 
@@ -2116,7 +2284,7 @@
         if (state.currentAnswer) {
           nextQuestion();
         } else {
-          answerQuestion(document.getElementById('typingAnswer').value);
+          submitTypingAnswer();
         }
       });
 

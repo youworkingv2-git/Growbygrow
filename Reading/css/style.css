@@ -93,8 +93,9 @@ label {
 }
 
 .filter-row select {
-  flex: 1;
-  min-width: 140px;
+  flex: 1 1 160px;
+  min-width: 160px;
+  max-width: 100%;
 }
 
 .filter-row label {
@@ -119,9 +120,10 @@ select {
   align-items: center;
 }
 
-.filter-row select {
-  flex: 1;
-  min-width: 120px;
+.lesson-row select {
+  flex: 1 1 200px;
+  min-width: 200px;
+  max-width: 100%;
 }
 
 .filter-row .icon-btn {
@@ -596,6 +598,20 @@ button:disabled {
 .live-transcript strong {
   color: var(--text);
   font-weight: 500;
+}
+
+.idle-lesson-message {
+  margin: 1.25rem 0 0;
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  text-align: center;
+  max-width: 36rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.idle-lesson-title {
+  color: var(--text-muted);
 }
 
 .reading-panel {

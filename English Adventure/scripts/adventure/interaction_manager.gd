@@ -11,6 +11,11 @@ var _candidates: Array[Area2D] = []
 var _current_target: Area2D = null
 var _player_node: Node2D = null
 var _locked: bool = false
+var _ui_blocked: bool = false
+
+
+func set_ui_blocked(blocked: bool) -> void:
+	_ui_blocked = blocked
 
 
 func bind_detector(player: Node2D, detector_area: Area2D) -> void:
@@ -22,7 +27,7 @@ func bind_detector(player: Node2D, detector_area: Area2D) -> void:
 
 
 func _process(_delta: float) -> void:
-	if _locked or _player_node == null:
+	if _locked or _ui_blocked or UIManager.is_modal_open() or _player_node == null:
 		return
 	_refresh_closest_target()
 	if Input.is_action_just_pressed("interact"):
@@ -30,14 +35,14 @@ func _process(_delta: float) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if _locked:
+	if _locked or _ui_blocked or UIManager.is_modal_open():
 		return
 	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_E and not event.is_action("interact"):
 		trigger_current_interaction()
 
 
 func trigger_current_interaction() -> void:
-	if _locked or _current_target == null or not is_instance_valid(_current_target):
+	if _locked or _ui_blocked or UIManager.is_modal_open() or _current_target == null or not is_instance_valid(_current_target):
 		return
 	if _player_node is PlayerController:
 		(_player_node as PlayerController).trigger_interact_anim()
@@ -76,10 +81,13 @@ func _handle_object_interaction(obj: InteractableObject) -> void:
 	if data.has("set_flag") and not str(data["set_flag"]).is_empty():
 		GameStateManager.set_flag(str(data["set_flag"]), true)
 
+	# Emit message first so DialogueBox opens synchronously before any quest-completed popup triggers
+	if not msg.is_empty():
+		object_message_requested.emit(title, msg, data)
+
 	QuestManager.report_object_interacted(obj.object_id, tag)
 	obj._refresh_visuals()
 	GameStateManager.save_now("interact_" + obj.object_id)
-	object_message_requested.emit(title, msg, data)
 
 
 func _on_area_entered(area: Area2D) -> void:

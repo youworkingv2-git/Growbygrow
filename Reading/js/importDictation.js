@@ -9,6 +9,7 @@ import { normalizeTranscript } from './matcher.js';
 export function createImportDictation(options) {
   const {
     getSpeechRecognitionCtor,
+    isMicOriginAllowed,
     requestMicrophonePermission,
     getTextarea,
     onFeedback,
@@ -21,6 +22,7 @@ export function createImportDictation(options) {
   let listening = false;
   let starting = false;
   let sessionGen = 0;
+  let restartTimer = 0;
   /** @type {SpeechRecognition | null} */
   let recognition = null;
   let draftEn = '';
@@ -88,7 +90,24 @@ export function createImportDictation(options) {
     }
   }
 
+  function clearRestartTimer() {
+    if (!restartTimer) return;
+    window.clearTimeout(restartTimer);
+    restartTimer = 0;
+  }
+
+  function scheduleListeningRestart(delay = 180) {
+    clearRestartTimer();
+    if (phase === 'idle') return;
+    restartTimer = window.setTimeout(() => {
+      restartTimer = 0;
+      if (phase === 'idle' || listening || starting) return;
+      void startListening();
+    }, delay);
+  }
+
   function stopListening() {
+    clearRestartTimer();
     sessionGen += 1;
     if (recognition) {
       try {
@@ -115,6 +134,14 @@ export function createImportDictation(options) {
     const Ctor = getSpeechRecognitionCtor?.();
     if (!Ctor) {
       onFeedback?.('Trình duyệt không hỗ trợ nhận dạng giọng nói. Dùng Chrome hoặc Edge.', true);
+      return;
+    }
+
+    if (isMicOriginAllowed && !isMicOriginAllowed()) {
+      onFeedback?.(
+        'Không mở trực tiếp file index.html. Chạy python -m http.server 8080 trong thư mục Reading rồi vào http://127.0.0.1:8080.',
+        true,
+      );
       return;
     }
 
@@ -150,11 +177,13 @@ export function createImportDictation(options) {
 
     rec.onend = () => {
       if (gen !== sessionGen) return;
+      const shouldRestart = Boolean(rec._wantRestart) && phase !== 'idle';
       listening = false;
       starting = false;
       recognition = null;
       onListeningChange?.(false);
       refreshUi();
+      if (shouldRestart) scheduleListeningRestart();
     };
 
     rec.onerror = (event) => {
@@ -186,6 +215,8 @@ export function createImportDictation(options) {
       interim = nextInterim;
       refreshUi();
     };
+
+    rec._wantRestart = true;
 
     try {
       rec.start();

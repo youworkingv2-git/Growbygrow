@@ -1,0 +1,393 @@
+:root {
+  --ink: #1c2418;
+  --muted: #5d6b55;
+  --paper: #f4efe4;
+  --card: #fffaf1;
+  --line: #ddd4c4;
+  --green: #2f5d3a;
+  --green-deep: #1d3d27;
+  --gold: #b45309;
+  --danger: #9f2d2d;
+  --mic: #b42318;
+  --shadow: 0 18px 40px rgba(40, 32, 18, 0.08);
+  --radius: 18px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+  background:
+    radial-gradient(1200px 400px at 10% -10%, #e7f0dc 0%, transparent 50%),
+    linear-gradient(180deg, #efe8d8 0%, var(--paper) 40%);
+  color: var(--ink);
+  font-family: "Be Vietnam Pro", sans-serif;
+}
+
+.page {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 28px 20px 48px;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.eyebrow {
+  margin: 0 0 4px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+h1 {
+  margin: 0;
+  font-family: Fraunces, Georgia, serif;
+  font-size: clamp(32px, 5vw, 48px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.topbar-stats {
+  display: flex;
+  gap: 10px;
+}
+
+.topbar-stats div {
+  min-width: 150px;
+  padding: 12px 16px;
+  background: var(--green-deep);
+  color: #f6f3ea;
+  border-radius: 14px;
+}
+
+.topbar-stats span {
+  display: block;
+  font-size: 12px;
+  opacity: 0.75;
+}
+
+.topbar-stats strong {
+  font-size: 18px;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(320px, 420px) 1fr;
+  gap: 18px;
+  align-items: start;
+}
+
+.panel {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.form-panel,
+.list-panel {
+  padding: 18px;
+}
+
+.panel-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.mode-switch {
+  display: flex;
+  padding: 4px;
+  background: #efe7d6;
+  border-radius: 999px;
+}
+
+.mode-btn {
+  border: 0;
+  background: transparent;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font: inherit;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.mode-btn.is-active {
+  background: var(--green);
+  color: white;
+}
+
+.voice-box {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  padding: 14px;
+  margin-bottom: 16px;
+  border: 1px dashed #d8c9a8;
+  border-radius: 16px;
+  background: #fbf6ea;
+}
+
+.mic-btn {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  flex: 0 0 64px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--green-deep);
+  color: white;
+  cursor: pointer;
+}
+
+.mic-btn.is-listening {
+  background: var(--mic);
+}
+
+.mic-btn.is-listening .mic-rings {
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 2px solid rgba(180, 35, 24, 0.4);
+  animation: pulse 1.2s ease-out infinite;
+}
+
+.voice-status {
+  margin: 0 0 6px;
+  font-weight: 600;
+}
+
+.voice-hint,
+.transcript,
+.calc-note,
+.empty {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.transcript:not(:empty) {
+  margin-top: 8px;
+  color: var(--ink);
+  font-style: italic;
+}
+
+.voice-file-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.file-status {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.field-wide {
+  grid-column: 1 / -1;
+}
+
+.field input,
+.field select,
+.list-tools input {
+  width: 100%;
+  border: 1px solid var(--line);
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font: inherit;
+  color: var(--ink);
+}
+
+.field input:focus,
+.field select:focus,
+.list-tools input:focus {
+  outline: 2px solid #9cbf8a;
+  border-color: var(--green);
+}
+
+.field input[readonly] {
+  background: #f3eee3;
+  font-variant-numeric: tabular-nums;
+}
+
+.split {
+  display: grid;
+  grid-template-columns: 1fr 72px;
+  gap: 8px;
+}
+
+#thanhTien {
+  font-weight: 700;
+  color: var(--gold);
+}
+
+.form-actions,
+.list-tools {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.form-actions {
+  margin-top: 16px;
+}
+
+.btn {
+  border: 0;
+  border-radius: 12px;
+  padding: 11px 16px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn.primary {
+  background: var(--green);
+  color: white;
+}
+
+.btn.ghost {
+  background: #efe7d6;
+  color: var(--ink);
+}
+
+.btn.sm {
+  padding: 8px 12px;
+  font-size: 13px;
+}
+
+.btn.icon {
+  padding: 6px 8px;
+  background: transparent;
+  color: var(--muted);
+}
+
+.btn.danger {
+  color: var(--danger);
+}
+
+.table-wrap {
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 980px;
+  font-size: 13px;
+}
+
+th, td {
+  padding: 10px 8px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: middle;
+}
+
+th {
+  background: #f3eee3;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.empty {
+  padding: 28px 16px;
+  text-align: center;
+}
+
+.empty.is-hidden,
+[hidden] {
+  display: none !important;
+}
+
+.list-foot {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+  font-size: 14px;
+}
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--green-deep);
+  color: white;
+  padding: 10px 16px;
+  border-radius: 999px;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.25s ease;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+@keyframes pulse {
+  from { transform: scale(0.9); opacity: 0.9; }
+  to { transform: scale(1.2); opacity: 0; }
+}
+
+@media (max-width: 980px) {
+  .layout,
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .topbar,
+  .topbar-stats {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .field-wide {
+    grid-column: auto;
+  }
+}

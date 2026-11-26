@@ -1,0 +1,224 @@
+{
+  "questions": [
+    {
+      "id": "q_pa_01",
+      "nodeId": "pre_phonics_intro",
+      "type": "listen_choose",
+      "difficulty": 1,
+      "prompt": "How many sounds does the word 'cat' have?",
+      "audioId": null,
+      "imageId": null,
+      "options": [
+        "2",
+        "3",
+        "4",
+        "1"
+      ],
+      "correctAnswer": "3",
+      "explanation": "cat = /k/ /æ/ /t/ — 3 phonemes.",
+      "errorTag": "err_phoneme_count",
+      "points": 10,
+      "isPublished": true
+    },
+    {
+      "id": "q_pa_02",
+      "nodeId": "pre_phonics_intro",
+      "type": "listen_choose",
+      "difficulty": 1,
+      "prompt": "Which word starts with the /s/ sound?",
+      "audioId": null,
+      "imageId": null,
+      "options": [
+        "dog",
+        "sun",
+        "map",
+        "hat"
+      ],
+      "correctAnswer": "sun",
+      "explanation": "'sun' begins with the /s/ sound.",
+      "errorTag": "err_initial_sound",
+      "points": 10,
+      "isPublished": true
+    },
+    {
+      "id": "q_la_01",
+      "nodeId": "letter_a",
+      "type": "letter_to_sound",
+      "difficulty": 1,
+      "prompt": "What sound does the letter 'a' make in 'cat'?",
+      "audioId": null,
+      "imageId": null,
+      "options": [
+        "/eɪ/",
+        "/æ/",
+        "/ɑː/",
+        "/ʌ/"
+      ],
+      "correctAnswer": "/æ/",
+      "explanation": "In CVC words, 'a' makes the short /æ/ sound.",
+      "errorTag": "err_vowel_sound",
+      "points": 10,
+      "isPublished": true
+    },
+    {
+      "id": "q_sa_01",
+      "nodeId": "short_a",
+      "type": "listen_choose",
+      "difficulty": 2,
+      "prompt": "Which word has the short /æ/ sound?",
+      "audioId": null,
+      "imageId": null,
+      "options": [
+        "cake",
+        "cat",
+        "car",
+        "cave"
+      ],
+      "correctAnswer": "cat",
+      "explanation": "'cat' has the short /æ/ sound. 'cake' and 'cave' have long /eɪ/.",
+      "errorTag": "err_vowel_confusion",
+      "points": 10,
+      "isPublished": true
+    },
+    {
+      "id": "q_sa_02",
+      "nodeId": "short_a",
+      "type": "word_sort",
+      "difficulty": 2,
+      "prompt": "Sort these words: cat, cake, map, name. Which have short /æ/?",
+      "audioId": null,
+      "imageId": null,
+      "options": [
+        "cat, map",
+        "cake, name",
+        "cat, cake",
+        "map, name"
+      ],
+      "correctAnswer": "cat, map",
+      "explanation": "cat /kæt/ and map /mæp/ both have short /æ/.",
+      "errorTag": "err_vowel_confusion",
+      "points": 15,
+      "isPublished": true
+    },
+    {
+      "id": "q_cvc_01",
+      "nodeId": "cvc_intro",
+      "type": "build_word",
+      "difficulty": 2,
+      "prompt": "Build a CVC word using: /h/ /æ/ /t/",
+      "audioId": null,
+      "imageId": null,
+      "options": [
+        "hat",
+        "heat",
+        "hit",
+        "hot"
+      ],
+      "correctAnswer": "hat",
+      "explanation": "/h/ + /æ/ + /t/ = hat",
+      "errorTag": "err_blending",
+      "points": 10,
+      "isPublished": true
+    },
+    {
+      "id": "q_cvc_02",
+      "nodeId": "cvc_intro",
+      "type": "odd_one_out",
+      "difficulty": 2,
+      "prompt": "Which word does NOT follow the CVC pattern?",
+      "audioId": null,
+      "imageId": null,
+      "options": [
+        "cat",
+        "map",
+        "cake",
+        "bat"
+      ],
+      "correctAnswer": "cake",
+      "explanation": "'cake' has 4 letters and a silent 'e'. It is not CVC.",
+      "errorTag": "err_pattern_recognition",
+      "points": 10,
+      "isPublished": true
+    },
+    {
+      "id": "q_bl_01",
+      "nodeId": "blending_basic",
+      "type": "listen_choose",
+      "difficulty": 3,
+      "prompt": "Blend these sounds: /s/ /æ/ /t/ — what word do you hear?",
+      "audioId": null,
+      "imageId": null,
+      "options": [
+        "sat",
+        "set",
+        "sit",
+        "sot"
+      ],
+      "correctAnswer": "sat",
+      "explanation": "/s/ + /æ/ + /t/ blended = 'sat'",
+      "errorTag": "err_blending",
+      "points": 10,
+      "isPublished": true
+    },
+    {
+      "id": "q_se_01",
+      "nodeId": "short_e",
+      "type": "letter_to_sound",
+      "difficulty": 2,
+      "prompt": "What sound does 'e' make in 'bed'?",
+      "audioId": null,
+      "imageId": null,
+      "options": [
+        "/iː/",
+        "/eɪ/",
+        "/e/",
+        "/ɜː/"
+      ],
+      "correctAnswer": "/e/",
+      "explanation": "In 'bed', 'e' makes the short /e/ sound.",
+      "errorTag": "err_vowel_confusion",
+      "points": 10,
+      "isPublished": true
+    },
+    {
+      "id": "q_si_01",
+      "nodeId": "short_i",
+      "type": "listen_choose",
+      "difficulty": 2,
+      "prompt": "Which word has the short /ɪ/ sound?",
+      "audioId": null,
+      "imageId": null,
+      "options": [
+        "bike",
+        "bake",
+        "big",
+        "boo"
+      ],
+      "correctAnswer": "big",
+      "explanation": "'big' has the short /ɪ/ sound.",
+      "errorTag": "err_vowel_confusion",
+      "points": 10,
+      "isPublished": true
+    },
+    {
+      "id": "q_si_02",
+      "nodeId": "short_i",
+      "type": "match",
+      "difficulty": 2,
+      "prompt": "Match the word to its IPA: 'sit'",
+      "audioId": null,
+      "imageId": null,
+      "options": [
+        "/seɪt/",
+        "/sɪt/",
+        "/siːt/",
+        "/sʌt/"
+      ],
+      "correctAnswer": "/sɪt/",
+      "explanation": "'sit' is pronounced /sɪt/ with a short /ɪ/ vowel.",
+      "errorTag": "err_ipa_reading",
+      "points": 10,
+      "isPublished": true
+    }
+  ]
+}

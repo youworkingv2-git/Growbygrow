@@ -8,15 +8,18 @@ signal jump_pressed()
 signal buddy_help_pressed()
 signal joystick_changed(vec: Vector2)
 signal quest_accepted(quest_id: String)
+signal overlay_blocking_changed(blocked: bool)
 
 const QUEST_CARD_SCENE := preload("res://scenes/ui/common/quest_card.tscn")
 
 var _pending_intro_quest_id: String = ""
+var _queued_intro_quest_id: String = ""
 var _pending_unlocked_area_id: String = ""
 var _pending_completed_quest: Dictionary = {}
 var _has_focused_target: bool = false
 var _touch_input_seen: bool = false
 var _reward_claim_locked: bool = false
+var _dialogue_active: bool = false
 
 @onready var top_bar: PanelContainer = $TopBar
 @onready var avatar_icon: TextureRect = $TopBar/Margin/Row/ProfileBox/Avatar
@@ -132,10 +135,14 @@ func _ready() -> void:
 		UIAnimator.animate_popup_close(area_locked_popup, func() -> void: _sync_overlay_visibility())
 	)
 	au_stay_btn.pressed.connect(func() -> void:
-		UIAnimator.animate_popup_close(area_unlocked_popup, func() -> void: _sync_overlay_visibility())
+		UIAnimator.animate_popup_close(area_unlocked_popup, func() -> void:
+			_sync_overlay_visibility()
+			_flush_queued_quest_intro()
+		)
 	)
 	au_travel_btn.pressed.connect(func() -> void:
 		area_unlocked_popup.visible = false
+		_queued_intro_quest_id = ""
 		_sync_overlay_visibility()
 		if not _pending_unlocked_area_id.is_empty():
 			SceneRouter.enter_area(_pending_unlocked_area_id)
@@ -163,7 +170,11 @@ func _ready() -> void:
 	EventBus.quest_completed.connect(_on_quest_completed)
 	EventBus.area_locked_attempted.connect(_on_area_locked_attempted)
 	EventBus.area_unlocked.connect(_on_area_unlocked)
-	EventBus.dialogue_started.connect(func(_id: String) -> void: _sync_overlay_visibility())
+	EventBus.dialogue_started.connect(func(_id: String) -> void:
+		_dialogue_active = true
+		_sync_overlay_visibility()
+		call_deferred("_sync_overlay_visibility")
+	)
 	EventBus.dialogue_ended.connect(_on_dialogue_ended)
 	EventBus.viewport_breakpoint_changed.connect(func(_b: String, _s: Vector2) -> void: _apply_responsive())
 	EventBus.settings_changed.connect(_apply_responsive)
@@ -176,6 +187,14 @@ func _ready() -> void:
 
 
 func _apply_design_system() -> void:
+	var solid_modal := UIDesignSystem.make_panel_style(Color(0.08, 0.13, 0.24, 1.0), UIDesignSystem.BORDER_DEFAULT, 14, 2, 0, 0)
+	var hud_panel := UIDesignSystem.make_panel_style(Color(0.07, 0.12, 0.22, 0.96), UIDesignSystem.BORDER_DEFAULT, 12, 2, 0, 0)
+	for p: PanelContainer in [top_bar, quest_tracker_panel, bottom_dock]:
+		p.add_theme_stylebox_override("panel", hud_panel)
+	for m: PanelContainer in [dialogue_box, quest_intro_popup, quest_done_popup, area_locked_popup, area_unlocked_popup, quest_log_modal, bag_modal]:
+		m.add_theme_stylebox_override("panel", solid_modal)
+	dialogue_box.add_theme_stylebox_override("panel", UIDesignSystem.make_panel_style(Color(0.07, 0.12, 0.23, 1.0), UIDesignSystem.PRIMARY, 16, 2, 0, 0))
+
 	UIDesignSystem.apply_button_variant(map_btn, "primary")
 	UIDesignSystem.apply_button_variant(quests_btn, "secondary")
 	UIDesignSystem.apply_button_variant(bag_btn, "secondary")
@@ -194,9 +213,23 @@ func _apply_design_system() -> void:
 	UIDesignSystem.apply_button_variant(bag_close_btn, "close")
 
 
+func is_blocking_overlay_above_dialogue() -> bool:
+	return (
+		quest_intro_popup.visible
+		or quest_done_popup.visible
+		or area_locked_popup.visible
+		or area_unlocked_popup.visible
+		or quest_log_modal.visible
+		or bag_modal.visible
+		or pause_menu.visible
+		or UIManager.is_modal_open()
+	)
+
+
 func _is_any_modal_or_dialogue_open() -> bool:
 	return (
-		dialogue_box.visible
+		_dialogue_active
+		or dialogue_box.visible
 		or quest_intro_popup.visible
 		or quest_done_popup.visible
 		or area_locked_popup.visible
@@ -204,17 +237,20 @@ func _is_any_modal_or_dialogue_open() -> bool:
 		or quest_log_modal.visible
 		or bag_modal.visible
 		or pause_menu.visible
+		or UIManager.is_modal_open()
 	)
 
 
 func _sync_overlay_visibility() -> void:
 	var blocked := _is_any_modal_or_dialogue_open()
+	var dlg_open := _dialogue_active or dialogue_box.visible
 	interact_banner.visible = (not blocked) and _has_focused_target
 	bottom_dock.visible = not blocked
-	quest_tracker_panel.visible = not dialogue_box.visible
+	quest_tracker_panel.visible = not dlg_open
 	var use_touch := SceneRouter.is_mobile_or_compact() or _touch_input_seen
 	mobile_controls.visible = use_touch and (not blocked)
 	desktop_buddy_btn.visible = (not blocked) and (not use_touch)
+	overlay_blocking_changed.emit(blocked)
 
 
 func _input(event: InputEvent) -> void:
@@ -242,12 +278,17 @@ func _toggle_pause_menu() -> void:
 
 
 func _on_dialogue_ended(_dialogue_id: String) -> void:
+	_dialogue_active = false
 	dialogue_box.visible = false
 	if not _pending_completed_quest.is_empty():
 		var qid: String = str(_pending_completed_quest.get("quest_id", ""))
 		var rw: Dictionary = _pending_completed_quest.get("rewards", {})
 		_pending_completed_quest.clear()
 		_show_quest_completed_modal(qid, rw)
+	elif not quest_done_popup.visible and not GameStateManager.pending_area_unlocked_popup.is_empty():
+		_show_next_pending_unlock()
+	else:
+		_flush_queued_quest_intro()
 	_sync_overlay_visibility()
 
 
@@ -282,6 +323,9 @@ func set_focused_target(meta: Dictionary) -> void:
 
 
 func show_quest_intro(quest_id: String) -> void:
+	if quest_done_popup.visible or area_unlocked_popup.visible or _dialogue_active or dialogue_box.visible or not _pending_completed_quest.is_empty():
+		_queued_intro_quest_id = quest_id
+		return
 	var q: Dictionary = DataRepository.quests_by_id.get(quest_id, {})
 	if q.is_empty():
 		return
@@ -292,6 +336,16 @@ func show_quest_intro(quest_id: String) -> void:
 	qi_reward.text = "Phần thưởng: +%d EXP | +%d Gold" % [int(rw.get("exp", 0)), int(rw.get("gold", 0))]
 	UIAnimator.animate_popup_open(quest_intro_popup)
 	_sync_overlay_visibility()
+
+
+func _flush_queued_quest_intro() -> void:
+	if _queued_intro_quest_id.is_empty():
+		return
+	if quest_done_popup.visible or area_unlocked_popup.visible or _dialogue_active or dialogue_box.visible or not _pending_completed_quest.is_empty():
+		return
+	var qid := _queued_intro_quest_id
+	_queued_intro_quest_id = ""
+	show_quest_intro(qid)
 
 
 func show_toast(msg: String) -> void:
@@ -310,7 +364,7 @@ func _on_accept_quest_pressed() -> void:
 func _on_quest_completed(quest_id: String, rewards: Dictionary) -> void:
 	_refresh_quest_tracker()
 	_refresh_header()
-	if dialogue_box.visible:
+	if _dialogue_active or dialogue_box.visible:
 		_pending_completed_quest = { "quest_id": quest_id, "rewards": rewards }
 		return
 	_show_quest_completed_modal(quest_id, rewards)
@@ -334,7 +388,8 @@ func _on_quest_done_continue() -> void:
 	qd_continue_btn.disabled = true
 	UIAnimator.animate_popup_close(quest_done_popup, func() -> void:
 		_sync_overlay_visibility()
-		_show_next_pending_unlock()
+		if not _show_next_pending_unlock():
+			_flush_queued_quest_intro()
 	)
 
 
@@ -345,15 +400,16 @@ func _on_area_locked_attempted(_area_id: String, reason_vi: String) -> void:
 
 
 func _on_area_unlocked(area_id: String) -> void:
-	if not quest_done_popup.visible and not dialogue_box.visible and _pending_completed_quest.is_empty():
+	if not quest_done_popup.visible and not dialogue_box.visible and not _dialogue_active and _pending_completed_quest.is_empty():
 		_show_area_unlocked_modal(area_id)
 
 
-func _show_next_pending_unlock() -> void:
+func _show_next_pending_unlock() -> bool:
 	if GameStateManager.pending_area_unlocked_popup.is_empty():
-		return
+		return false
 	var aid: String = GameStateManager.pending_area_unlocked_popup.pop_front()
 	_show_area_unlocked_modal(aid)
+	return true
 
 
 func _show_area_unlocked_modal(area_id: String) -> void:

@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "LearnEnglish"
+		},
+		{
+			"path": "IPA"
+		}
+	],
+	"settings": {
+		"liveServer.settings.port": 5502,
+		"liveServer.settings.multiRootWorkspaceName": "LearnEnglish"
+	}
+}

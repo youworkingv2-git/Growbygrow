@@ -1,0 +1,334 @@
+{
+  "nodes": [
+    {
+      "id": "pre_phonics_intro",
+      "type": "concept",
+      "stageId": "stage_0",
+      "title": "Introduction to Phonics",
+      "shortTitle": "Pre-Phonics",
+      "description": "Learn what phonics is and why sounds matter in English.",
+      "objective": "Understand that spoken words are made of individual sounds.",
+      "category": "awareness",
+      "order": 1,
+      "icon": "🌱",
+      "parentId": null,
+      "prerequisiteNodeIds": [],
+      "nextNodeIds": [
+        "letter_a"
+      ],
+      "rule": "Every English word is made of sounds called phonemes.",
+      "notes": "Start here. No prerequisites.",
+      "examples": [
+        "cat = /k/ /æ/ /t/",
+        "sun = /s/ /ʌ/ /n/"
+      ],
+      "exceptionNotes": null,
+      "audioIds": [],
+      "imageIds": [],
+      "questionSetIds": [
+        "qs_pre_phonics"
+      ],
+      "errorTagIds": [],
+      "difficulty": 1,
+      "masteryThreshold": 80,
+      "isPublished": true
+    },
+    {
+      "id": "letter_a",
+      "type": "sound",
+      "stageId": "stage_1",
+      "title": "Letter A",
+      "shortTitle": "Letter A",
+      "description": "The letter A and its basic sound.",
+      "objective": "Recognise and produce the letter A and its primary sound.",
+      "category": "letter",
+      "order": 2,
+      "icon": "🅰️",
+      "parentId": "pre_phonics_intro",
+      "prerequisiteNodeIds": [
+        "pre_phonics_intro"
+      ],
+      "nextNodeIds": [
+        "short_a",
+        "letter_e"
+      ],
+      "rule": "The letter A represents the short sound /æ/ in words like 'cat'.",
+      "notes": null,
+      "examples": [
+        "apple",
+        "ant",
+        "axe"
+      ],
+      "exceptionNotes": "A can also make other sounds in different contexts.",
+      "audioIds": [],
+      "imageIds": [],
+      "questionSetIds": [
+        "qs_letter_a"
+      ],
+      "errorTagIds": [],
+      "difficulty": 1,
+      "masteryThreshold": 80,
+      "isPublished": true
+    },
+    {
+      "id": "short_a",
+      "type": "sound",
+      "stageId": "stage_2",
+      "title": "Short A /æ/",
+      "shortTitle": "Short A",
+      "description": "The short vowel sound /æ/ as in 'cat'.",
+      "objective": "Read and produce the short /æ/ sound in CVC words.",
+      "category": "vowel",
+      "order": 3,
+      "icon": "🐱",
+      "parentId": "letter_a",
+      "prerequisiteNodeIds": [
+        "letter_a"
+      ],
+      "nextNodeIds": [
+        "cvc_intro"
+      ],
+      "rule": "When 'a' is between two consonants in a short word, it usually makes the /æ/ sound.",
+      "notes": null,
+      "examples": [
+        "cat /kæt/",
+        "map /mæp/",
+        "bag /bæɡ/",
+        "hat /hæt/"
+      ],
+      "exceptionNotes": "Words like 'all', 'ball' use a different sound.",
+      "audioIds": [],
+      "imageIds": [],
+      "questionSetIds": [
+        "qs_short_a"
+      ],
+      "errorTagIds": [
+        "err_vowel_confusion"
+      ],
+      "difficulty": 2,
+      "masteryThreshold": 80,
+      "isPublished": true
+    },
+    {
+      "id": "cvc_intro",
+      "type": "word_pattern",
+      "stageId": "stage_2",
+      "title": "CVC Words",
+      "shortTitle": "CVC",
+      "description": "Consonant-Vowel-Consonant word pattern.",
+      "objective": "Blend three phonemes to read and spell CVC words.",
+      "category": "pattern",
+      "order": 4,
+      "icon": "🔤",
+      "parentId": "short_a",
+      "prerequisiteNodeIds": [
+        "short_a"
+      ],
+      "nextNodeIds": [
+        "blending_basic"
+      ],
+      "rule": "CVC words have one vowel between two consonants. The vowel is short.",
+      "notes": null,
+      "examples": [
+        "cat",
+        "map",
+        "sit",
+        "hot",
+        "cup"
+      ],
+      "exceptionNotes": null,
+      "audioIds": [],
+      "imageIds": [],
+      "questionSetIds": [
+        "qs_cvc"
+      ],
+      "errorTagIds": [
+        "err_blending"
+      ],
+      "difficulty": 2,
+      "masteryThreshold": 80,
+      "isPublished": true
+    },
+    {
+      "id": "blending_basic",
+      "type": "concept",
+      "stageId": "stage_3",
+      "title": "Blending",
+      "shortTitle": "Blending",
+      "description": "Joining phonemes smoothly to read a word.",
+      "objective": "Blend 3-phoneme words without pausing between sounds.",
+      "category": "skill",
+      "order": 5,
+      "icon": "🔗",
+      "parentId": "cvc_intro",
+      "prerequisiteNodeIds": [
+        "cvc_intro"
+      ],
+      "nextNodeIds": [],
+      "rule": "Say each sound, then push them together without stopping.",
+      "notes": null,
+      "examples": [
+        "/s/ /æ/ /t/ → sat",
+        "/m/ /æ/ /p/ → map"
+      ],
+      "exceptionNotes": null,
+      "audioIds": [],
+      "imageIds": [],
+      "questionSetIds": [
+        "qs_blending"
+      ],
+      "errorTagIds": [
+        "err_blending"
+      ],
+      "difficulty": 3,
+      "masteryThreshold": 80,
+      "isPublished": true
+    },
+    {
+      "id": "letter_e",
+      "type": "sound",
+      "stageId": "stage_1",
+      "title": "Letter E",
+      "shortTitle": "Letter E",
+      "description": "The letter E and its basic sound.",
+      "objective": "Recognise and produce the letter E and its primary sound.",
+      "category": "letter",
+      "order": 6,
+      "icon": "🅴",
+      "parentId": "pre_phonics_intro",
+      "prerequisiteNodeIds": [
+        "pre_phonics_intro"
+      ],
+      "nextNodeIds": [
+        "short_e"
+      ],
+      "rule": "The letter E represents the short sound /e/ in words like 'bed'.",
+      "notes": null,
+      "examples": [
+        "egg",
+        "end",
+        "elf"
+      ],
+      "exceptionNotes": null,
+      "audioIds": [],
+      "imageIds": [],
+      "questionSetIds": [
+        "qs_letter_e"
+      ],
+      "errorTagIds": [],
+      "difficulty": 1,
+      "masteryThreshold": 80,
+      "isPublished": true
+    },
+    {
+      "id": "short_e",
+      "type": "sound",
+      "stageId": "stage_2",
+      "title": "Short E /e/",
+      "shortTitle": "Short E",
+      "description": "The short vowel sound /e/ as in 'bed'.",
+      "objective": "Read and produce the short /e/ sound in CVC words.",
+      "category": "vowel",
+      "order": 7,
+      "icon": "🛏️",
+      "parentId": "letter_e",
+      "prerequisiteNodeIds": [
+        "letter_e"
+      ],
+      "nextNodeIds": [],
+      "rule": "When 'e' is between two consonants, it usually makes the /e/ sound.",
+      "notes": null,
+      "examples": [
+        "bed /bed/",
+        "pen /pen/",
+        "red /red/",
+        "ten /ten/"
+      ],
+      "exceptionNotes": null,
+      "audioIds": [],
+      "imageIds": [],
+      "questionSetIds": [
+        "qs_short_e"
+      ],
+      "errorTagIds": [
+        "err_vowel_confusion"
+      ],
+      "difficulty": 2,
+      "masteryThreshold": 80,
+      "isPublished": true
+    },
+    {
+      "id": "letter_i",
+      "type": "sound",
+      "stageId": "stage_1",
+      "title": "Letter I",
+      "shortTitle": "Letter I",
+      "description": "The letter I and its basic sound.",
+      "objective": "Recognise and produce the letter I and its primary sound.",
+      "category": "letter",
+      "order": 8,
+      "icon": "ℹ️",
+      "parentId": "pre_phonics_intro",
+      "prerequisiteNodeIds": [
+        "pre_phonics_intro"
+      ],
+      "nextNodeIds": [
+        "short_i"
+      ],
+      "rule": "The letter I represents the short sound /ɪ/ in words like 'sit'.",
+      "notes": null,
+      "examples": [
+        "ink",
+        "itch",
+        "ill"
+      ],
+      "exceptionNotes": null,
+      "audioIds": [],
+      "imageIds": [],
+      "questionSetIds": [
+        "qs_letter_i"
+      ],
+      "errorTagIds": [],
+      "difficulty": 1,
+      "masteryThreshold": 80,
+      "isPublished": true
+    },
+    {
+      "id": "short_i",
+      "type": "sound",
+      "stageId": "stage_2",
+      "title": "Short I /ɪ/",
+      "shortTitle": "Short I",
+      "description": "The short vowel sound /ɪ/ as in 'sit'.",
+      "objective": "Read and produce the short /ɪ/ sound in CVC words.",
+      "category": "vowel",
+      "order": 9,
+      "icon": "💡",
+      "parentId": "letter_i",
+      "prerequisiteNodeIds": [
+        "letter_i"
+      ],
+      "nextNodeIds": [],
+      "rule": "When 'i' is between two consonants, it usually makes the /ɪ/ sound.",
+      "notes": null,
+      "examples": [
+        "sit /sɪt/",
+        "pin /pɪn/",
+        "big /bɪɡ/",
+        "lip /lɪp/"
+      ],
+      "exceptionNotes": null,
+      "audioIds": [],
+      "imageIds": [],
+      "questionSetIds": [
+        "qs_short_i"
+      ],
+      "errorTagIds": [
+        "err_vowel_confusion"
+      ],
+      "difficulty": 2,
+      "masteryThreshold": 80,
+      "isPublished": true
+    }
+  ]
+}

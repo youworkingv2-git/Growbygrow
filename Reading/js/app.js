@@ -12,10 +12,8 @@ import {
   getTopicLabel,
   getLevelLabel,
   getLessonById,
-  preloadForFilters,
-  preloadDefaultTopic,
   loadTopicLessons,
-  topicsToPreload,
+  refreshMeta,
 } from './lessons.js';
 import {
   loadCustomLessons,
@@ -44,7 +42,8 @@ import {
   setCachedIpa,
   hasCachedIpaAttempt,
   needsPronunciationHelp,
-} from './ipa.js';
+  IPA_MODULE_BUILD,
+} from './ipa.js?v=20261020-no-network';
 import {
   loadHardWords,
   saveHardWords,
@@ -63,6 +62,7 @@ import {
 } from './pronunciationAccuracy.js';
 import {
   speakText,
+  primeSpeechSynthesis,
   stopSpeaking,
   isSpeaking,
   getEnglishVoices,
@@ -77,7 +77,7 @@ import {
 } from './tts.js';
 import { ICONS, iconFragment } from './icons.js';
 import { createImportDictation } from './importDictation.js';
-import { getLessonTranslations, preloadTranslationTopics, loadTranslationChunk } from './lessonTranslations.js';
+import { getLessonTranslations, loadTranslationChunk } from './lessonTranslations.js';
 import { getLessonChunks, chunkSpeakText } from './lessonChunks.js';
 
 const STORAGE_KEY = 'reading-aloud-progress';
@@ -246,12 +246,36 @@ let micUserEnabled = false;
 let micStarting = false;
 let samplePlaying = false;
 let samplePlayGeneration = 0;
+/** @type {'sample' | 'remaining' | 'auto' | ''} */
+let samplePlaybackKind = '';
 let micSessionGeneration = 0;
 let micRestartTimer = 0;
+/** Mic cần bật lại sau khi TTS/đọc mẫu xong (Chrome hay tự ngắt recognition). */
+let pendingMicRestart = false;
+/** Chỉ bật nhận dạng / báo lỗi mạng sau khi người dùng chủ động bật mic. */
+let micListenUserIntent = false;
+/** Đọc mẫu tự động lúc mở trang bị Chrome chặn → thử lại sau click đầu tiên. */
+let pendingAutoReadAfterGesture = false;
 
 /** @type {typeof LESSON_INDEX[0] | null} */
 let lesson = null;
 let lastChunksLessonId = '';
+let historySyncTimer = 0;
+let saveProgressDebounceTimer = 0;
+let lastRenderScrollIndex = -1;
+let micStartWatchdogTimer = 0;
+let sessionHealthTimer = 0;
+let micPermissionCached = false;
+let micStartAttemptAt = 0;
+let recognitionSessionStartedAt = 0;
+let micRestartStreak = 0;
+let recognitionRecycling = false;
+let interimMatchTimer = 0;
+let pendingInterimForMatch = '';
+let lastInterimMatchedText = '';
+const MIC_RESULTS_SOFT_CAP = 25;
+const MIC_SESSION_MAX_MS = 42000;
+const INTERIM_MATCH_MS = 140;
 
 /** @type {LessonState} */
 let sentenceStates = [];
@@ -316,8 +340,6 @@ let lastFinalResultIndex = -1;
 /** Last interim text for display only */
 let lastInterimText = '';
 
-/** Skip auto-read when restoring saved lesson on first paint */
-let suppressAutoReadOnce = false;
 
 /** @type {import('./lessons.js').Lesson[]} */
 let customLessons = [];
@@ -507,15 +529,37 @@ function syncHardWordToBank(sentenceIndex, tokenIndex, misreadCount) {
  * @param {number} sentenceIndex
  * @param {number} tokenIndex
  */
+function refreshTokenIpaDisplay(sentenceIndex, tokenIndex) {
+  const st = sentenceStates[sentenceIndex];
+  if (!st || !shouldShowInlineIpa(sentenceIndex, tokenIndex, st)) return;
+  const p = els.sentencesRoot?.querySelector(`.sentence[data-index="${sentenceIndex}"]`);
+  if (!p) return;
+  const wrap = p.querySelectorAll('.word-block')[tokenIndex];
+  if (!wrap) return;
+  const key = tokenKey(sentenceIndex, tokenIndex);
+  const ipa = ipaHints.get(key) ?? getCachedIpa(st.tokens[tokenIndex].normalized);
+  let ipaEl = wrap.querySelector('.word-ipa');
+  if (!ipaEl) {
+    ipaEl = document.createElement('span');
+    ipaEl.className = 'word-ipa';
+    wrap.appendChild(ipaEl);
+  }
+  ipaEl.textContent = ipa || '…';
+  ipaEl.setAttribute('aria-label', ipa ? `Phát âm ${ipa}` : 'Chưa có IPA');
+}
+
 async function ensureIpaHint(sentenceIndex, tokenIndex) {
   const st = sentenceStates[sentenceIndex];
   const tok = st?.tokens[tokenIndex];
   if (!tok) return;
   const key = tokenKey(sentenceIndex, tokenIndex);
-  if (ipaHints.has(key)) return;
+  if (ipaHints.has(key)) {
+    refreshTokenIpaDisplay(sentenceIndex, tokenIndex);
+    return;
+  }
   const ipa = await lookupIpa(tok.normalized);
   if (ipa) ipaHints.set(key, ipa);
-  render();
+  refreshTokenIpaDisplay(sentenceIndex, tokenIndex);
 }
 
 /**
@@ -620,18 +664,6 @@ function findLessonMetaById(id) {
 }
 
 /**
- * @param {string} topicFilter
- * @param {string} levelFilter
- */
-async function preloadLessonData(topicFilter, levelFilter) {
-  const topics = topicsToPreload(topicFilter, levelFilter);
-  if (topics) {
-    await preloadForFilters(topicFilter, levelFilter);
-    await preloadTranslationTopics(topics);
-  }
-}
-
-/**
  * @param {string} lessonId
  * @returns {Promise<import('./lessons.js').Lesson | undefined>}
  */
@@ -650,39 +682,121 @@ function setLessonLoading(loading) {
   }
 }
 
-export const appReady = init();
+/**
+ * @param {string} [message]
+ */
+function showIdleReadingPanel(
+  message = 'Chọn bài trong danh sách hoặc cây Chủ đề (Danh sách Chủ đề).',
+) {
+  if (lessonPhase === 'wordbank') exitWordBankPractice();
+  pauseMicForContextChange();
+  invalidateSamplePlayback();
+  stopSpeaking();
+  lesson = null;
+  lessonComplete = false;
+  sentenceStates = [];
+  currentSentenceIndex = 0;
+  resetLessonPracticeState();
+  hideError();
 
-async function init() {
-  customLessons = loadCustomLessons();
-  lessonPlacements = loadLessonPlacements();
-  migratePlacementsFromCustomLessons();
-  if (customLessons.some((lesson) => lesson.translations?.length)) {
-    saveCustomLessons(customLessons);
-  }
-  studyHistory = loadStudyHistory();
-  hardWords = loadHardWords();
-  hardWords.forEach((word) => {
-    if (word.ipaManual && word.ipa) setCachedIpa(word.normalized, word.ipa, { manual: true });
-  });
-  loadSettings();
-  populateFilters();
-  populateImportForm();
-  setLessonLoading(true);
-  try {
-    await preloadDefaultTopic();
-    await loadTranslationChunk('daily');
-    populateLessonSelect();
-    renderCustomLessonsList();
+  els.lessonTitle.replaceChildren();
+  const hint = document.createElement('span');
+  hint.className = 'title-text idle-lesson-title';
+  hint.textContent = 'Chọn bài để luyện';
+  els.lessonTitle.appendChild(hint);
+
+  els.sentencesRoot.classList.remove('hidden', 'is-loading');
+  els.sentencesRoot.innerHTML = '';
+  const p = document.createElement('p');
+  p.className = 'idle-lesson-message';
+  p.textContent = message;
+  els.sentencesRoot.appendChild(p);
+
+  els.progressText.textContent = '—';
+  els.completionBanner.classList.add('hidden');
+  els.btnPrevSentence.disabled = true;
+  els.btnNextSentence.disabled = true;
+  els.btnReadSample.disabled = true;
+  if (els.btnReadRemaining) els.btnReadRemaining.disabled = true;
+  els.btnResetSentence.disabled = true;
+  els.btnDeleteCustom.classList.add('hidden');
+  els.btnEditLesson?.classList.add('hidden');
+  els.btnMoveLesson?.classList.add('hidden');
+  renderLessonChunksPanel(true);
+  renderRemediationPanel();
+  updateMicToggleUi();
+}
+
+function deferNonCriticalInit() {
+  const run = () => {
     renderStudyHistory();
     renderHardWordsPanel();
     updateHardWordsToggleUi();
-    bindEvents();
-    onVoicesReady(populateVoiceSelect);
-    await loadSavedLesson();
-  } finally {
-    setLessonLoading(false);
+  };
+  if (typeof requestIdleCallback === 'function') {
+    requestIdleCallback(run, { timeout: 2500 });
+  } else {
+    setTimeout(run, 0);
   }
-  updateMicToggleUi();
+}
+
+export const appReady = init();
+
+async function init() {
+  try {
+    console.info(`Reading Aloud — IPA ${IPA_MODULE_BUILD} (không gọi dictionary API)`);
+    customLessons = loadCustomLessons();
+    lessonPlacements = loadLessonPlacements();
+    migratePlacementsFromCustomLessons();
+    if (customLessons.some((lesson) => lesson.translations?.length)) {
+      saveCustomLessons(customLessons);
+    }
+    studyHistory = loadStudyHistory();
+    hardWords = loadHardWords();
+    hardWords.forEach((word) => {
+      if (word.ipaManual && word.ipa) setCachedIpa(word.normalized, word.ipa, { manual: true });
+    });
+    loadSettings();
+    populateFilters();
+    populateImportForm();
+    populateLessonSelect();
+    renderCustomLessonsList();
+  bindEvents();
+  startSessionHealthMonitor();
+  onVoicesReady(populateVoiceSelect);
+  window.addEventListener('beforeunload', () => {
+    flushHistorySessionSync();
+    if (saveProgressDebounceTimer) {
+      clearTimeout(saveProgressDebounceTimer);
+      saveProgressDebounceTimer = 0;
+      saveProgress();
+    }
+  });
+    deferNonCriticalInit();
+    const resumed = await resumeSavedLessonFromStorage();
+    if (!resumed) {
+      showIdleReadingPanel();
+    }
+    updateMicToggleUi();
+    if (!isTrustedMicOrigin()) {
+      showError(
+        'Không mở trực tiếp file index.html. Trong thư mục Reading chạy: python -m http.server 8080 — rồi mở http://127.0.0.1:8080 (Chrome/Edge, có internet).',
+      );
+    } else {
+      hideError();
+    }
+  } catch (err) {
+    console.error('Reading Aloud init failed:', err);
+    try {
+      populateFilters();
+      populateLessonSelect();
+    } catch {
+      /* ignore secondary failure */
+    }
+    showError(
+      `Không khởi động được ứng dụng (${err instanceof Error ? err.message : String(err)}). Thử Ctrl+F5 hoặc xóa cache trình duyệt.`,
+    );
+  }
 }
 
 function loadStudyHistory() {
@@ -724,25 +838,27 @@ function getHistoryPercent() {
   return Math.round((countMatchedWords() / total) * 100);
 }
 
-function buildHistorySentencesSnapshot() {
+/**
+ * @param {boolean} [fullDetail]
+ */
+function buildHistorySentencesSnapshot(fullDetail = false) {
   return sentenceStates.map((st, index) => {
     const complete = isSentenceComplete(st.matched, st.tokens.length);
+    const base = {
+      index,
+      text: lesson?.sentences[index] ?? '',
+      completed: complete,
+      matchedWordCount: complete ? st.tokens.length : st.matched.size,
+      totalWordCount: st.tokens.length,
+    };
+    if (!fullDetail) return base;
     const matchedWords = st.tokens
       .filter((_, tokenIndex) => complete || st.matched.has(tokenIndex))
       .map((tok) => tok.display);
     const missingWords = st.tokens
       .filter((_, tokenIndex) => !complete && !st.matched.has(tokenIndex))
       .map((tok) => tok.display);
-
-    return {
-      index,
-      text: lesson?.sentences[index] ?? '',
-      completed: complete,
-      matchedWordCount: complete ? st.tokens.length : st.matched.size,
-      totalWordCount: st.tokens.length,
-      matchedWords,
-      missingWords,
-    };
+    return { ...base, matchedWords, missingWords };
   });
 }
 
@@ -796,7 +912,8 @@ function updateCurrentHistorySession() {
   session.totalSentenceCount = sentenceStates.length;
   session.matchedWordCount = countMatchedWords();
   session.totalWordCount = countLessonWords();
-  session.sentences = buildHistorySentencesSnapshot();
+  const historyPanelOpen = els.historyPanel && !els.historyPanel.classList.contains('hidden');
+  session.sentences = buildHistorySentencesSnapshot(historyPanelOpen);
 
   if (lessonComplete && lessonPhase === 'done') {
     session.completedAt = session.completedAt || now;
@@ -810,7 +927,30 @@ function updateCurrentHistorySession() {
     ...studyHistory.filter((item) => item.sessionId !== session.sessionId),
   ].slice(0, HISTORY_LIMIT);
   saveStudyHistory();
-  renderStudyHistory();
+  if (!els.historyPanel.classList.contains('hidden')) {
+    renderStudyHistory();
+  }
+}
+
+function flushHistorySessionSync() {
+  if (historySyncTimer) {
+    clearTimeout(historySyncTimer);
+    historySyncTimer = 0;
+  }
+  updateCurrentHistorySession();
+}
+
+function scheduleHistorySessionSync() {
+  if (historySyncTimer) clearTimeout(historySyncTimer);
+  historySyncTimer = window.setTimeout(() => {
+    historySyncTimer = 0;
+    const run = () => updateCurrentHistorySession();
+    if (typeof requestIdleCallback === 'function') {
+      requestIdleCallback(run, { timeout: 2500 });
+    } else {
+      run();
+    }
+  }, 900);
 }
 
 function recordManualSkip(sentenceIndex) {
@@ -927,17 +1067,30 @@ function tryAutoStartMic() {
 
 function armMicByDefault() {
   if (lessonComplete) return;
+  micListenUserIntent = true;
   micUserEnabled = true;
   micAwaitingGesture = false;
-  startMic();
   attachMicGestureListener();
+  startMic();
+}
+
+function isEditableEventTarget(target) {
+  const el = target instanceof Element ? target : null;
+  if (!el) return false;
+  return Boolean(el.closest('input, textarea, select, [contenteditable="true"]'));
 }
 
 function attachMicGestureListener() {
   if (gestureMicListenerAttached) return;
   gestureMicListenerAttached = true;
 
-  const tryStartFromGesture = () => {
+  const tryStartFromGesture = (event) => {
+    if (isEditableEventTarget(event?.target)) return;
+    primeSpeechSynthesis();
+    if (pendingAutoReadAfterGesture && lesson && !lessonComplete && !samplePlaying && !isSpeaking()) {
+      pendingAutoReadAfterGesture = false;
+      void readCurrentSample({ deferMicResume: true, suppressTtsError: true });
+    }
     if (!micUserEnabled || listening || lessonComplete || isSpeaking() || samplePlaying) return;
     micAwaitingGesture = false;
     startMic();
@@ -972,14 +1125,35 @@ function getAvailableLevels(topicId = topicFilter) {
   return LEVELS.filter((level) => levelIds.has(level.id));
 }
 
-function populateLevelFilter() {
-  const topicId = els.topicSelect.value || topicFilter;
-  const available = getAvailableLevels(topicId);
-  const availableIds = new Set(available.map((level) => level.id));
-  if (levelFilter !== 'all' && !availableIds.has(levelFilter)) {
-    levelFilter = 'all';
-  }
+/**
+ * @param {string} topicId
+ * @returns {string}
+ */
+function normalizeTopicFilter(topicId) {
+  const value = String(topicId ?? '').trim();
+  if (!value || value === 'all') return 'all';
+  return TOPICS.some((topic) => topic.id === value) ? value : 'all';
+}
 
+/**
+ * @param {string} levelId
+ * @param {string} [topicId]
+ * @returns {string}
+ */
+function normalizeLevelFilter(levelId, topicId = topicFilter) {
+  const value = String(levelId ?? '').trim();
+  if (!value || value === 'all') return 'all';
+  const available = getAvailableLevels(topicId);
+  return available.some((level) => level.id === value) ? value : 'all';
+}
+
+function populateLevelFilter() {
+  if (!els.levelFilter) return;
+  const topicId = normalizeTopicFilter(els.topicSelect?.value || topicFilter);
+  topicFilter = topicId;
+  levelFilter = normalizeLevelFilter(levelFilter, topicId);
+
+  const available = getAvailableLevels(topicId);
   els.levelFilter.innerHTML =
     '<option value="all">Tất cả cấp độ</option>' +
     available.map((level) => `<option value="${level.id}">${level.label}</option>`).join('');
@@ -987,13 +1161,28 @@ function populateLevelFilter() {
 }
 
 function populateFilters() {
+  refreshMeta();
+  topicFilter = normalizeTopicFilter(topicFilter);
+
+  if (!els.topicSelect) return;
+  const topicOptions = TOPICS.filter((topic) => topic?.id);
   els.topicSelect.innerHTML =
     '<option value="all">Tất cả chủ đề</option>' +
-    TOPICS.map((t) => `<option value="${t.id}">${t.label}</option>`).join('');
+    topicOptions.map((t) => `<option value="${t.id}">${t.label}</option>`).join('');
 
   els.topicSelect.value = topicFilter;
+  if (els.topicSelect.value !== topicFilter) {
+    topicFilter = 'all';
+    els.topicSelect.value = topicFilter;
+  }
   populateLevelFilter();
   refreshTopicTreeIfOpen();
+}
+
+/** Đồng bộ dropdown chủ đề / cấp / danh sách bài sau khi đổi bộ lọc. */
+function syncFilterDropdowns() {
+  populateFilters();
+  populateLessonSelect();
 }
 
 function topicTreeKey(kind, topicId, levelId = '') {
@@ -1010,7 +1199,7 @@ function ensureCurrentTreeBranchExpanded() {
 
 function getTopicTreeData() {
   const lessons = getAllLessons();
-  return TOPICS.map((topic) => {
+  return TOPICS.filter((topic) => topic?.id).map((topic) => {
     const topicLessons = lessons.filter((lesson) => lesson.topic === topic.id);
     const levels = LEVELS.map((level) => ({
       ...level,
@@ -1034,27 +1223,33 @@ function treeIcon(kind) {
 }
 
 function createTreeRow({ kind, label, count, active, empty, onSelect }) {
-  const btn = document.createElement('button');
-  btn.type = 'button';
-  btn.className = `topic-tree-row is-${kind}`;
-  if (active) btn.classList.add('is-active');
-  if (empty) btn.classList.add('is-empty');
-  btn.innerHTML = `${treeIcon(kind)}<span class="topic-tree-name"></span>`;
-  btn.querySelector('.topic-tree-name').textContent = label;
+  const row = document.createElement('div');
+  row.className = `topic-tree-row is-${kind}`;
+  row.setAttribute('role', 'button');
+  row.tabIndex = empty ? -1 : 0;
+  if (active) row.classList.add('is-active');
+  if (empty) row.classList.add('is-empty');
+  row.innerHTML = `${treeIcon(kind)}<span class="topic-tree-name"></span>`;
+  row.querySelector('.topic-tree-name').textContent = label;
   if (typeof count === 'number') {
     const badge = document.createElement('span');
     badge.className = 'topic-tree-count';
     badge.textContent = empty ? 'Chưa có bài' : `${count} bài`;
-    btn.appendChild(badge);
+    row.appendChild(badge);
   }
   if (onSelect && !empty) {
-    btn.addEventListener('click', (event) => {
+    const runSelect = (event) => {
       event.preventDefault();
       event.stopPropagation();
       onSelect();
+    };
+    row.addEventListener('click', runSelect);
+    row.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      runSelect(event);
     });
   }
-  return btn;
+  return row;
 }
 
 function createTreeDetails(key, summaryEl, childrenEl) {
@@ -1172,9 +1367,8 @@ function renderTopicTree() {
 }
 
 function refreshTopicTreeIfOpen() {
-  if (els.topicTreePanel && !els.topicTreePanel.classList.contains('hidden')) {
-    renderTopicTree();
-  }
+  if (!els.btnTopicTreeToggle?.classList.contains('is-on')) return;
+  renderTopicTree();
 }
 
 function toggleTopicTreePanel(forceOpen) {
@@ -1204,20 +1398,20 @@ function toggleTopicTreePanel(forceOpen) {
  * @param {string} [lessonId]
  */
 async function applyFiltersFromTree(nextTopic, nextLevel, lessonId) {
-  els.topicSelect.value = nextTopic;
-  topicFilter = nextTopic;
-  levelFilter = nextLevel;
-  populateLevelFilter();
-  els.levelFilter.value = levelFilter;
-  await onFiltersChanged({ autoEnableMic: true });
+  topicFilter = normalizeTopicFilter(nextTopic);
+  levelFilter = normalizeLevelFilter(nextLevel, topicFilter);
+  syncFilterDropdowns();
+  saveSettings();
+  refreshTopicTreeIfOpen();
   if (lessonId) {
     const visible = [...els.lessonSelect.options].some((option) => option.value === lessonId);
     if (visible) {
       els.lessonSelect.value = lessonId;
       await switchLesson(lessonId, { autoEnableMic: true });
+      return;
     }
   }
-  refreshTopicTreeIfOpen();
+  showIdleReadingPanel();
 }
 
 function loadSettings() {
@@ -1345,6 +1539,25 @@ function setSampleControlsBusy(busy) {
     els.btnReadRemaining.classList.toggle('is-busy', busy);
   }
   els.btnAutoRead.disabled = busy;
+  if (!busy) flushPendingMicRestart();
+}
+
+function queueMicRestartAfterSample() {
+  if (!micUserEnabled || micAwaitingGesture || lessonComplete) return;
+  pendingMicRestart = true;
+}
+
+function flushPendingMicRestart() {
+  if (!micListenUserIntent || !pendingMicRestart || !micUserEnabled || micAwaitingGesture || lessonComplete) {
+    return;
+  }
+  if (isSpeaking() || samplePlaying || importDictation?.isListening()) return;
+  if (listening || recognition || micStarting) {
+    pendingMicRestart = false;
+    return;
+  }
+  pendingMicRestart = false;
+  void startMic();
 }
 
 function pauseMicForSample() {
@@ -1358,33 +1571,117 @@ function clearMicRestartTimer() {
   micRestartTimer = 0;
 }
 
+function clearMicStartWatchdog() {
+  if (!micStartWatchdogTimer) return;
+  window.clearTimeout(micStartWatchdogTimer);
+  micStartWatchdogTimer = 0;
+}
+
+function runSessionHealthCheck() {
+  if (samplePlaying && !isSpeaking()) {
+    samplePlaybackKind = '';
+    pendingMicRestart = false;
+    setSampleControlsBusy(false);
+    updateMicToggleUi();
+  }
+  if (micStarting && !listening && micStartAttemptAt) {
+    if (Date.now() - micStartAttemptAt > 15000) {
+      micStarting = false;
+      clearMicStartWatchdog();
+      updateMicToggleUi();
+    }
+    return;
+  }
+  if (listening && recognitionSessionStartedAt) {
+    const age = Date.now() - recognitionSessionStartedAt;
+    if (age > MIC_SESSION_MAX_MS) {
+      softRecycleRecognition('session-max-age');
+    }
+  }
+}
+
+function startSessionHealthMonitor() {
+  if (sessionHealthTimer || typeof window.setInterval !== 'function') return;
+  sessionHealthTimer = window.setInterval(runSessionHealthCheck, 5000);
+}
+
+/** Chrome giữ results[] rất lớn — recycle trước khi trang bị đơ. */
+function softRecycleRecognition(_reason) {
+  if (recognitionRecycling || !listening || !recognition) return;
+  recognitionRecycling = true;
+  const rec = recognition;
+  rec._wantRestart = true;
+  try {
+    rec.stop();
+  } catch {
+    recognitionRecycling = false;
+  }
+}
+
 function invalidateMicSession() {
   micSessionGeneration += 1;
   lastFinalResultIndex = -1;
   lastInterimText = '';
+  clearInterimMatchTimer();
+  lastInterimMatchedText = '';
+}
+
+function clearInterimMatchTimer() {
+  if (!interimMatchTimer) return;
+  window.clearTimeout(interimMatchTimer);
+  interimMatchTimer = 0;
+  pendingInterimForMatch = '';
+}
+
+function scheduleInterimMatch(transcript) {
+  pendingInterimForMatch = transcript;
+  if (interimMatchTimer) return;
+  interimMatchTimer = window.setTimeout(() => {
+    interimMatchTimer = 0;
+    const text = pendingInterimForMatch;
+    pendingInterimForMatch = '';
+    if (!text || text === lastInterimMatchedText) return;
+    if (isSpeaking() || samplePlaying) return;
+    lastInterimMatchedText = text;
+    processTranscript(text, { countMisreads: false });
+  }, INTERIM_MATCH_MS);
 }
 
 function scheduleMicRestart(delay = 120) {
   clearMicRestartTimer();
-  if (!micUserEnabled || micAwaitingGesture || lessonComplete || isSpeaking() || samplePlaying) {
+  if (!micUserEnabled || micAwaitingGesture || lessonComplete) {
+    updateMicToggleUi();
+    return;
+  }
+  if (isSpeaking() || samplePlaying) {
+    queueMicRestartAfterSample();
     updateMicToggleUi();
     return;
   }
 
+  micRestartStreak = Math.min(micRestartStreak + 1, 24);
+  const backoff = Math.min(28000, delay + micRestartStreak * 600);
+
   micRestartTimer = window.setTimeout(() => {
     micRestartTimer = 0;
     if (micUserEnabled && !micAwaitingGesture && !lessonComplete && !isSpeaking() && !samplePlaying) {
-      startMic();
+      void startMic();
+    } else if (isSpeaking() || samplePlaying) {
+      queueMicRestartAfterSample();
     } else {
       updateMicToggleUi();
     }
-  }, delay);
+  }, backoff);
   updateMicToggleUi();
 }
 
 /** Dừng recognition hiện tại và bật lại nếu mic vẫn đang bật (không tắt hẳn). */
 function restartMic() {
-  if (!micUserEnabled || lessonComplete || isSpeaking() || samplePlaying) return;
+  if (!micUserEnabled || lessonComplete) return;
+  if (isSpeaking() || samplePlaying) {
+    queueMicRestartAfterSample();
+    return;
+  }
 
   if (listening || recognition) {
     stopMic({ keepEnabled: true });
@@ -1402,8 +1699,10 @@ function restartMic() {
  */
 function pauseMicForContextChange(options = {}) {
   if (options.autoEnableMic) {
+    micListenUserIntent = true;
     micUserEnabled = true;
     micAwaitingGesture = false;
+    attachMicGestureListener();
   }
 
   if (!micUserEnabled || micAwaitingGesture) {
@@ -1433,33 +1732,48 @@ function resumeMicAfterContextChange(shouldResume) {
  * @param {{ autoEnableMic?: boolean }=} options
  */
 async function switchLesson(lessonId, options = {}) {
+  if (!lessonId) {
+    showIdleReadingPanel();
+    return;
+  }
   if (lessonPhase === 'wordbank') exitWordBankPractice();
   const shouldResumeMic = pauseMicForContextChange(options);
   await loadLesson(lessonId);
+  await autoReadSampleForCurrentSentence();
   resumeMicAfterContextChange(shouldResumeMic);
 }
 
-async function readCurrentSample() {
-  if (samplePlaying) return;
+/** Đọc mẫu câu hiện tại khi bật “đọc mẫu tự động” (mở bài / đổi câu). */
+async function autoReadSampleForCurrentSentence() {
+  if (!autoReadSample || lessonComplete || !lesson || samplePlaying || isSpeaking()) return;
+  primeSpeechSynthesis();
+  await readCurrentSample({ deferMicResume: true, suppressTtsError: true });
+}
+
+/**
+ * @param {{ deferMicResume?: boolean, suppressTtsError?: boolean, turnMicOff?: boolean }=} options
+ *   deferMicResume — caller sẽ gọi resumeMicAfterContextChange sau khi đọc xong.
+ *   turnMicOff — tắt hẳn mic (nút Đọc mẫu / Đọc từ còn lại), không tự bật lại sau TTS.
+ */
+async function readCurrentSample(options = {}) {
+  const deferMicResume = Boolean(options.deferMicResume);
+  const suppressTtsError = Boolean(options.suppressTtsError);
+  const turnMicOff = Boolean(options.turnMicOff);
+  if (samplePlaying || isSpeaking()) {
+    if (deferMicResume) return;
+    stopSamplePlayback();
+    return;
+  }
   if (lessonPhase === 'wordbank') {
     const item = wordBankQueue[wordBankIndex];
     if (!item) return;
     const playGen = ++samplePlayGeneration;
-    const micShouldResume = micUserEnabled && !micAwaitingGesture;
-    setSampleControlsBusy(true);
-    pauseMicForSample();
-    updateMicToggleUi();
-    let ok = false;
-    try {
-      ok = await speakText(item.display);
-    } catch {
-      ok = false;
-    }
-    if (playGen !== samplePlayGeneration) return;
-    setSampleControlsBusy(false);
-    if (!ok) showError('Trình duyệt không hỗ trợ đọc mẫu (Text-to-Speech).');
-    if (micShouldResume && micUserEnabled && !lessonComplete && !listening) startMic();
-    updateMicToggleUi();
+    await playSampleAudio(item.display, playGen, {
+      deferMicResume,
+      suppressTtsError,
+      turnMicOff,
+      kind: 'auto',
+    });
     return;
   }
   if (!lesson || lessonComplete) return;
@@ -1467,31 +1781,47 @@ async function readCurrentSample() {
     const item = remediationQueue[remediationIndex];
     if (!item) return;
     const playGen = ++samplePlayGeneration;
-    const micShouldResume = micUserEnabled && !micAwaitingGesture;
-    setSampleControlsBusy(true);
-    pauseMicForSample();
-    updateMicToggleUi();
-    let ok = false;
-    try {
-      ok = await speakText(item.display);
-    } catch {
-      ok = false;
-    }
-    if (playGen !== samplePlayGeneration) return;
-    setSampleControlsBusy(false);
-    if (!ok) showError('Trình duyệt không hỗ trợ đọc mẫu (Text-to-Speech).');
-    if (micShouldResume && micUserEnabled && !lessonComplete && !listening) startMic();
-    updateMicToggleUi();
+    await playSampleAudio(item.display, playGen, {
+      deferMicResume,
+      suppressTtsError,
+      turnMicOff,
+      kind: 'auto',
+    });
     return;
   }
   const text = lesson.sentences[currentSentenceIndex];
   if (!text) return;
 
   const playGen = ++samplePlayGeneration;
-  const micShouldResume = micUserEnabled && !micAwaitingGesture;
+  await playSampleAudio(text, playGen, {
+    deferMicResume,
+    suppressTtsError,
+    turnMicOff,
+    kind: turnMicOff ? 'sample' : 'auto',
+  });
+}
 
+/**
+ * @param {string} text
+ * @param {number} playGen
+ * @param {{ deferMicResume?: boolean, suppressTtsError?: boolean, turnMicOff?: boolean, kind?: 'sample' | 'remaining' | 'auto' }=} opts
+ */
+async function playSampleAudio(text, playGen, opts = {}) {
+  const deferMicResume = Boolean(opts.deferMicResume);
+  const suppressTtsError = Boolean(opts.suppressTtsError);
+  const turnMicOff = Boolean(opts.turnMicOff);
+  const kind = opts.kind === 'remaining' || opts.kind === 'auto' ? opts.kind : 'sample';
+  const micShouldResume =
+    !deferMicResume && !turnMicOff && micUserEnabled && !micAwaitingGesture;
+
+  samplePlaybackKind = kind;
   setSampleControlsBusy(true);
-  pauseMicForSample();
+  if (turnMicOff) {
+    pendingMicRestart = false;
+    stopMic();
+  } else {
+    pauseMicForSample();
+  }
   updateMicToggleUi();
 
   let ok = false;
@@ -1499,58 +1829,68 @@ async function readCurrentSample() {
     ok = await speakText(text);
   } catch {
     ok = false;
+  } finally {
+    if (playGen !== samplePlayGeneration) {
+      updateMicToggleUi();
+      return;
+    }
+    samplePlaybackKind = '';
+    setSampleControlsBusy(false);
+    if (!ok) reportSampleReadFailure(suppressTtsError);
+    if (micShouldResume && micUserEnabled && !lessonComplete && !listening) {
+      startMic();
+    }
+    updateMicToggleUi();
   }
+}
 
-  if (playGen !== samplePlayGeneration) return;
-
+function stopSamplePlayback() {
+  samplePlayGeneration += 1;
+  samplePlaybackKind = '';
+  pendingMicRestart = false;
+  stopSpeaking();
   setSampleControlsBusy(false);
-
-  if (!ok) {
-    showError('Trình duyệt không hỗ trợ đọc mẫu (Text-to-Speech).');
-  }
-
-  if (micShouldResume && micUserEnabled && !lessonComplete && !listening) {
-    startMic();
-  }
   updateMicToggleUi();
 }
 
+function interruptSamplePlaybackForManualRead() {
+  stopSamplePlayback();
+}
+
+function reportSampleReadFailure(suppressTtsError) {
+  if (suppressTtsError) {
+    pendingAutoReadAfterGesture = true;
+    attachMicGestureListener();
+    return;
+  }
+  if (!isTtsSupported()) {
+    showError('Trình duyệt không hỗ trợ đọc mẫu (Text-to-Speech).');
+    return;
+  }
+  showError(
+    'Không phát được đọc mẫu. Bấm nút loa “Đọc mẫu” hoặc click một lần vào trang (Chrome cần tương tác lần đầu).',
+  );
+}
+
 async function readRemainingWords() {
-  if (!lesson || lessonComplete || samplePlaying) return;
+  if (!lesson || lessonComplete) return;
   const st = sentenceStates[currentSentenceIndex];
   if (!st) return;
 
   const unmatchedTokens = st.tokens.filter((_, idx) => !st.matched.has(idx));
   if (!unmatchedTokens.length) return;
 
+  if (samplePlaying || isSpeaking()) {
+    if (samplePlaybackKind === 'remaining') {
+      stopSamplePlayback();
+      return;
+    }
+    stopSamplePlayback();
+  }
+
   const text = unmatchedTokens.map((tok) => tok.display).join(' ');
-
   const playGen = ++samplePlayGeneration;
-  const micShouldResume = micUserEnabled && !micAwaitingGesture;
-
-  setSampleControlsBusy(true);
-  pauseMicForSample();
-  updateMicToggleUi();
-
-  let ok = false;
-  try {
-    ok = await speakText(text);
-  } catch {
-    ok = false;
-  }
-
-  if (playGen !== samplePlayGeneration) return;
-
-  setSampleControlsBusy(false);
-
-  if (!ok) {
-    showError('Trình duyệt không hỗ trợ đọc (Text-to-Speech).');
-  }
-
-  if (micShouldResume && micUserEnabled && !lessonComplete && !listening) {
-    startMic();
-  }
-  updateMicToggleUi();
+  await playSampleAudio(text, playGen, { turnMicOff: true, kind: 'remaining' });
 }
 
 function maybeAutoReadSample({ force = false } = {}) {
@@ -1566,17 +1906,20 @@ function toggleMic() {
     return;
   }
 
+  micListenUserIntent = true;
   micUserEnabled = true;
   micAwaitingGesture = false;
+  attachMicGestureListener();
   if (!isSpeaking() && !samplePlaying) startMic();
   else updateMicToggleUi();
 }
 
 function invalidateSamplePlayback() {
-  samplePlayGeneration += 1;
-  if (samplePlaying) {
-    stopSpeaking();
-    setSampleControlsBusy(false);
+  if (samplePlaying || isSpeaking()) {
+    stopSamplePlayback();
+  } else {
+    samplePlayGeneration += 1;
+    samplePlaybackKind = '';
   }
 }
 
@@ -1591,8 +1934,20 @@ function toggleImportPanel(forceOpen) {
     toggleHardWordsPanel(false);
     toggleTopicTreePanel(false);
     toggleLessonChunksPanel(false);
+    if (listening || micStarting || recognition || micRestartTimer) {
+      stopMic({ keepEnabled: true });
+    }
   } else {
     importDictation?.shutdown();
+    if (
+      micUserEnabled &&
+      !micAwaitingGesture &&
+      !lessonComplete &&
+      !isSpeaking() &&
+      !samplePlaying
+    ) {
+      restartMic();
+    }
   }
   els.importPanel.classList.toggle('hidden', !open);
   els.btnImportToggle.classList.toggle('is-on', open);
@@ -1614,7 +1969,10 @@ function toggleHistoryPanel(forceOpen) {
   els.historyPanel.classList.toggle('hidden', !open);
   els.btnHistoryToggle.classList.toggle('is-on', open);
   els.btnHistoryToggle.setAttribute('aria-expanded', String(open));
-  if (open) renderStudyHistory();
+  if (open) {
+    flushHistorySessionSync();
+    renderStudyHistory();
+  }
 }
 
 function toggleHardWordsPanel(forceOpen) {
@@ -2329,12 +2687,15 @@ function populateLessonSelect() {
   const previousId = els.lessonSelect.value;
   els.lessonSelect.innerHTML = '';
 
+  const placeholder = document.createElement('option');
+  placeholder.value = '';
+  placeholder.textContent = '— Chọn bài —';
+  els.lessonSelect.appendChild(placeholder);
+
   if (!filtered.length) {
-    const opt = document.createElement('option');
-    opt.value = '';
-    opt.textContent = 'Không có bài phù hợp';
-    opt.disabled = true;
-    els.lessonSelect.appendChild(opt);
+    placeholder.textContent = 'Không có bài phù hợp';
+    placeholder.disabled = true;
+    els.lessonSelect.value = '';
     return;
   }
 
@@ -2399,8 +2760,8 @@ function populateLessonSelect() {
   const stillVisible = filtered.some((l) => l.id === resolveLessonId(previousId));
   if (stillVisible && previousId) {
     els.lessonSelect.value = resolveLessonId(previousId);
-  } else if (filtered.length) {
-    els.lessonSelect.value = filtered[0].id;
+  } else {
+    els.lessonSelect.value = '';
   }
 }
 
@@ -2408,25 +2769,30 @@ function populateLessonSelect() {
  * @param {{ autoEnableMic?: boolean }=} options
  */
 async function onFiltersChanged(options = {}) {
-  topicFilter = els.topicSelect.value;
-  levelFilter = els.levelFilter.value;
+  topicFilter = normalizeTopicFilter(els.topicSelect.value);
+  levelFilter = normalizeLevelFilter(els.levelFilter.value, topicFilter);
+  els.topicSelect.value = topicFilter;
+  populateLevelFilter();
   saveSettings();
-  setLessonLoading(true);
-  try {
-    await preloadLessonData(topicFilter, levelFilter);
-    populateLessonSelect();
-    if (els.lessonSelect.value) {
-      await switchLesson(els.lessonSelect.value, options);
-    }
-    refreshTopicTreeIfOpen();
-  } finally {
-    setLessonLoading(false);
+  populateLessonSelect();
+  refreshTopicTreeIfOpen();
+  if (options.lessonId) {
+    els.lessonSelect.value = options.lessonId;
+    await switchLesson(options.lessonId, options);
+    return;
   }
+  showIdleReadingPanel();
 }
 
 function bindEvents() {
   els.lessonSelect.addEventListener('change', () => {
-    void switchLesson(els.lessonSelect.value).then(() => refreshTopicTreeIfOpen());
+    const id = els.lessonSelect.value;
+    if (!id) {
+      showIdleReadingPanel();
+      refreshTopicTreeIfOpen();
+      return;
+    }
+    void switchLesson(id).then(() => refreshTopicTreeIfOpen());
   });
 
   els.voiceSelect.addEventListener('change', () => {
@@ -2448,7 +2814,9 @@ function bindEvents() {
   });
 
   els.topicSelect.addEventListener('change', () => {
+    topicFilter = normalizeTopicFilter(els.topicSelect.value);
     levelFilter = 'all';
+    els.topicSelect.value = topicFilter;
     populateLevelFilter();
     void onFiltersChanged({ autoEnableMic: true });
   });
@@ -2476,7 +2844,13 @@ function bindEvents() {
   });
 
   els.btnMicToggle.addEventListener('click', toggleMic);
-  els.btnReadSample.addEventListener('click', readCurrentSample);
+  els.btnReadSample.addEventListener('click', () => {
+    if (samplePlaying || isSpeaking()) {
+      stopSamplePlayback();
+      return;
+    }
+    void readCurrentSample({ turnMicOff: true });
+  });
   els.btnReadRemaining.addEventListener('click', readRemainingWords);
   els.btnPrevSentence.addEventListener('click', goPrevSentence);
   els.btnNextSentence.addEventListener('click', goNextSentence);
@@ -2485,8 +2859,10 @@ function bindEvents() {
   els.btnRestart.addEventListener('click', () => {
     resetLesson();
     if (!micUserEnabled) {
+      micListenUserIntent = true;
       micUserEnabled = true;
       micAwaitingGesture = false;
+      attachMicGestureListener();
       startMic();
     }
   });
@@ -2607,6 +2983,7 @@ function bindEvents() {
 
   importDictation = createImportDictation({
     getSpeechRecognitionCtor,
+    isMicOriginAllowed: isTrustedMicOrigin,
     requestMicrophonePermission,
     getTextarea: () => els.importContent,
     onFeedback: showImportFeedback,
@@ -3108,9 +3485,9 @@ function performCustomLessonDelete(lessonId) {
   refreshTopicTreeIfOpen();
 
   if (lesson?.id === lessonId) {
-    if (els.lessonSelect.value) {
-      void switchLesson(els.lessonSelect.value);
-    }
+    const next = els.lessonSelect.value;
+    if (next) void switchLesson(next);
+    else showIdleReadingPanel();
   }
 
   showImportFeedback(`Đã xóa bài "${target.title}".`);
@@ -3473,7 +3850,6 @@ async function handleMoveSave() {
   populateLevelFilter();
   els.levelFilter.value = levelFilter;
   saveSettings();
-  await preloadLessonData(topicFilter, levelFilter);
   renderCustomLessonsList();
   populateLessonSelect();
   refreshTopicTreeIfOpen();
@@ -3621,7 +3997,6 @@ async function handleEditSave() {
   topicTreeExpanded.add(topicTreeKey('level', topic, level));
 
   saveSettings();
-  await preloadLessonData(topicFilter, levelFilter);
   renderCustomLessonsList();
   populateLessonSelect();
   refreshTopicTreeIfOpen();
@@ -3636,7 +4011,11 @@ async function handleEditSave() {
   }, 1000);
 }
 
-async function loadSavedLesson() {
+/**
+ * Sau F5 / mở lại trang: khôi phục bài + tiến độ đã lưu (localStorage).
+ * @returns {Promise<boolean>} true nếu đã mở lại bài
+ */
+async function resumeSavedLessonFromStorage() {
   let savedId = '';
 
   try {
@@ -3651,29 +4030,57 @@ async function loadSavedLesson() {
     /* ignore */
   }
 
-  const savedLesson = savedId ? findLessonMetaById(savedId) : null;
-  if (savedLesson) {
-    const visible = filterLessons(
-      { topic: topicFilter, level: levelFilter },
-      getAllLessons(),
-    ).some((l) => l.id === savedLesson.id);
-    if (!visible) {
-      topicFilter = 'all';
-      levelFilter = 'all';
-      els.topicSelect.value = topicFilter;
-      populateLevelFilter();
-      await preloadLessonData(topicFilter, levelFilter);
-      populateLessonSelect();
-    }
-    els.lessonSelect.value = savedLesson.id;
+  pendingAutoStartMic = false;
+
+  if (!savedId) return false;
+
+  const savedLesson = findLessonMetaById(savedId);
+  if (!savedLesson) {
+    showIdleReadingPanel(
+      'Không thấy bài đã lưu trong danh sách. Bài tùy chỉnh có thể cần import lại từ JSON (Import bài của tôi).',
+    );
+    return false;
   }
 
-  suppressAutoReadOnce = true;
-  pendingAutoStartMic = false;
-  if (els.lessonSelect.value) {
-    await loadLesson(els.lessonSelect.value);
+  const visible = filterLessons(
+    { topic: topicFilter, level: levelFilter },
+    getAllLessons(),
+  ).some((l) => l.id === savedLesson.id);
+  if (!visible) {
+    topicFilter = 'all';
+    levelFilter = 'all';
+    els.topicSelect.value = topicFilter;
+    populateLevelFilter();
+    populateLessonSelect();
   }
-  tryAutoStartMic();
+
+  if (![...els.lessonSelect.options].some((opt) => opt.value === savedLesson.id)) {
+    showIdleReadingPanel(
+      `Bài “${savedLesson.title}” chưa có trong danh sách lọc. Chọn “Tất cả chủ đề” hoặc import lại bài.`,
+    );
+    return false;
+  }
+
+  els.lessonSelect.value = savedLesson.id;
+  try {
+    await Promise.race([
+      loadLesson(savedLesson.id),
+      new Promise((_, reject) => {
+        window.setTimeout(() => reject(new Error('load-timeout')), 45000);
+      }),
+    ]);
+  } catch (err) {
+    console.warn('resumeSavedLessonFromStorage:', err);
+    setLessonLoading(false);
+    showIdleReadingPanel(
+      'Không tải kịp bài đã lưu (quá lâu hoặc lỗi mạng). Chọn lại bài trong danh sách.',
+    );
+    return false;
+  }
+  window.requestAnimationFrame(() => {
+    void autoReadSampleForCurrentSentence();
+  });
+  return true;
 }
 
 /**
@@ -3703,6 +4110,7 @@ async function loadLesson(lessonId) {
     if (!found || !found.sentences?.length) return;
 
     lesson = await enrichLesson(found);
+  lastRenderScrollIndex = -1;
   resetLessonPracticeState();
   sentenceStates = lesson.sentences.map((s) => ({
     tokens: tokenizeSentence(s),
@@ -3740,11 +4148,6 @@ async function loadLesson(lessonId) {
   startHistorySession();
   render();
   saveProgress();
-
-  if (!suppressAutoReadOnce) {
-    maybeAutoReadSample();
-  }
-  suppressAutoReadOnce = false;
   } finally {
     setLessonLoading(false);
   }
@@ -3792,8 +4195,10 @@ function resetLesson() {
   lastInterimText = '';
   render();
   saveProgress();
-  resumeMicAfterContextChange(shouldResumeMic);
-  maybeAutoReadSample();
+  void (async () => {
+    await autoReadSampleForCurrentSentence();
+    resumeMicAfterContextChange(shouldResumeMic);
+  })();
 }
 
 function loadNextLessonOfSameLevel() {
@@ -3863,8 +4268,10 @@ function goToSentence(index) {
   lastInterimText = '';
   render();
   saveProgress();
-  resumeMicAfterContextChange(shouldResumeMic);
-  maybeAutoReadSample();
+  void (async () => {
+    await autoReadSampleForCurrentSentence();
+    resumeMicAfterContextChange(shouldResumeMic);
+  })();
 }
 
 function renderRemediationPanel() {
@@ -3919,17 +4326,129 @@ function renderRemediationPanel() {
             saveHardWords(hardWords);
           }
         }
-        render();
+        if (els.remediationIpa) {
+          els.remediationIpa.textContent = value || '…';
+        }
       });
     }
   }
+}
+
+function scheduleSaveProgress() {
+  if (saveProgressDebounceTimer) return;
+  saveProgressDebounceTimer = window.setTimeout(() => {
+    saveProgressDebounceTimer = 0;
+    saveProgress();
+  }, 500);
+}
+
+/**
+ * @param {number} sentenceIndex
+ * @param {'done' | 'active' | 'pending'} state
+ * @returns {boolean}
+ */
+function setSentenceVisualState(sentenceIndex, state) {
+  const p = els.sentencesRoot?.querySelector(`.sentence[data-index="${sentenceIndex}"]`);
+  if (!p) return false;
+  p.classList.remove('done', 'active', 'pending');
+  p.classList.add(state);
+  return true;
+}
+
+function updateProgressAndControls() {
+  if (!lesson) return;
+
+  const total = sentenceStates.length;
+  const doneCount = sentenceStates.filter((st) =>
+    isSentenceComplete(st.matched, st.tokens.length),
+  ).length;
+
+  if (lessonPhase === 'wordbank') {
+    els.progressText.textContent = `Luyện từ khó · ${wordBankIndex + 1} / ${wordBankQueue.length}`;
+  } else if (lessonPhase === 'remediation') {
+    els.progressText.textContent = `Ôn từ khó · ${remediationIndex + 1} / ${remediationQueue.length}`;
+  } else {
+    els.progressText.textContent = lessonComplete
+      ? `Hoàn thành ${total} / ${total} câu`
+      : `Câu ${currentSentenceIndex + 1} / ${total} · Đã xong ${doneCount} câu`;
+  }
+
+  const showCompletion = lessonComplete && lessonPhase === 'done';
+  els.completionBanner.classList.toggle('hidden', !showCompletion);
+  const inWordBank = lessonPhase === 'wordbank';
+  const hideSentences = showCompletion || lessonPhase === 'remediation' || inWordBank;
+  els.sentencesRoot.classList.toggle('hidden', hideSentences);
+
+  const inRemediation = lessonPhase === 'remediation';
+  const inPractice = inRemediation || inWordBank;
+  els.btnPrevSentence.disabled = lessonComplete || inPractice || currentSentenceIndex <= 0;
+  els.btnNextSentence.disabled =
+    lessonComplete || inPractice || currentSentenceIndex >= sentenceStates.length - 1;
+  const sampleBusy = samplePlaying || isSpeaking();
+  els.btnReadSample.disabled = (lessonComplete && !inWordBank) || sampleBusy;
+  if (els.btnReadRemaining) {
+    els.btnReadRemaining.disabled = lessonComplete || inPractice || sampleBusy;
+  }
+  els.btnResetSentence.disabled = lessonComplete || inPractice;
+  els.btnDeleteCustom.classList.toggle('hidden', !lesson.custom);
+  els.btnEditLesson?.classList.toggle('hidden', !lesson);
+  els.btnMoveLesson?.classList.toggle('hidden', !lesson);
+}
+
+/**
+ * Cập nhật từ đang đọc — không dựng lại cả bài (bài dài).
+ * @param {number[]=} newlyMatched token indices vừa khớp (chỉ sửa DOM cần thiết).
+ */
+function updateActiveSentenceUi(newlyMatched) {
+  if (!lesson) return;
+
+  const i = currentSentenceIndex;
+  const st = sentenceStates[i];
+  if (!st) return;
+
+  const p = els.sentencesRoot?.querySelector(`.sentence[data-index="${i}"]`);
+  if (!p) {
+    render();
+    return;
+  }
+
+  const complete = isSentenceComplete(st.matched, st.tokens.length);
+  const wordEls = p.querySelectorAll('.word');
+  const indices =
+    newlyMatched?.length && !complete
+      ? [...new Set(newlyMatched)]
+      : st.tokens.map((_, ti) => ti);
+
+  for (const ti of indices) {
+    const span = wordEls[ti];
+    if (span) {
+      span.classList.toggle('matched', st.matched.has(ti) || complete);
+    }
+  }
+
+  if (complete) {
+    p.classList.add('done');
+    p.classList.remove('active', 'pending');
+  }
+
+  const focusIdx = firstUnmatchedTokenIndex(st.tokens, st.matched);
+  if (focusIdx >= 0 && shouldShowInlineIpa(i, focusIdx, st)) {
+    refreshTokenIpaDisplay(i, focusIdx);
+  }
+
+  updateProgressAndControls();
+  updateMicToggleUi();
 }
 
 function render() {
   if (!lesson) return;
 
   renderRemediationPanel();
-  renderLessonChunksPanel();
+  if (els.lessonChunksPanel && !els.lessonChunksPanel.classList.contains('hidden')) {
+    renderLessonChunksPanel();
+  } else {
+    updateLessonChunksButtonUi();
+  }
 
   els.lessonTitle.replaceChildren();
 
@@ -4010,45 +4529,15 @@ function render() {
     els.sentencesRoot.appendChild(block);
   });
 
-  const total = sentenceStates.length;
-  const doneCount = sentenceStates.filter((st) =>
-    isSentenceComplete(st.matched, st.tokens.length),
-  ).length;
-
-  if (lessonPhase === 'wordbank') {
-    els.progressText.textContent = `Luyện từ khó · ${wordBankIndex + 1} / ${wordBankQueue.length}`;
-  } else if (lessonPhase === 'remediation') {
-    els.progressText.textContent = `Ôn từ khó · ${remediationIndex + 1} / ${remediationQueue.length}`;
-  } else {
-    els.progressText.textContent = lessonComplete
-      ? `Hoàn thành ${total} / ${total} câu`
-      : `Câu ${currentSentenceIndex + 1} / ${total} · Đã xong ${doneCount} câu`;
-  }
-
-  const showCompletion = lessonComplete && lessonPhase === 'done';
-  els.completionBanner.classList.toggle('hidden', !showCompletion);
-  const inWordBank = lessonPhase === 'wordbank';
-  const hideSentences = showCompletion || lessonPhase === 'remediation' || inWordBank;
-  els.sentencesRoot.classList.toggle('hidden', hideSentences);
-
-  const inRemediation = lessonPhase === 'remediation';
-  const inPractice = inRemediation || inWordBank;
-  els.btnPrevSentence.disabled = lessonComplete || inPractice || currentSentenceIndex <= 0;
-  els.btnNextSentence.disabled =
-    lessonComplete || inPractice || currentSentenceIndex >= sentenceStates.length - 1;
-  els.btnReadSample.disabled = lessonComplete && !inWordBank;
-  if (els.btnReadRemaining) {
-    els.btnReadRemaining.disabled = lessonComplete || inPractice;
-  }
-  els.btnResetSentence.disabled = lessonComplete || inPractice;
-  els.btnDeleteCustom.classList.toggle('hidden', !lesson.custom);
-  els.btnEditLesson?.classList.toggle('hidden', !lesson);
-  els.btnMoveLesson?.classList.toggle('hidden', !lesson);
+  updateProgressAndControls();
   updateMicToggleUi();
 
   const activeEl = els.sentencesRoot.querySelector('.sentence.active');
-  if (activeEl) {
-    activeEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  if (activeEl && lastRenderScrollIndex !== currentSentenceIndex) {
+    lastRenderScrollIndex = currentSentenceIndex;
+    const st = sentenceStates[currentSentenceIndex];
+    const scrollBehavior = st && st.tokens.length > 36 ? 'auto' : 'smooth';
+    activeEl.scrollIntoView({ behavior: scrollBehavior, block: 'center' });
   }
 }
 
@@ -4064,7 +4553,7 @@ function saveProgress() {
   } catch {
     /* ignore quota */
   }
-  updateCurrentHistorySession();
+  scheduleHistorySessionSync();
 }
 
 /**
@@ -4074,6 +4563,7 @@ function saveProgress() {
 function processTranscript(transcript, options = {}) {
   if (isSpeaking()) return;
   if (lessonComplete && lessonPhase !== 'wordbank') return;
+  micRestartStreak = 0;
 
   if (lessonPhase === 'wordbank') {
     processWordBankTranscript(transcript, options);
@@ -4110,8 +4600,8 @@ function processTranscript(transcript, options = {}) {
   }
 
   if (newlyMatched.length || (options.countMisreads && misreadFocus)) {
-    render();
-    saveProgress();
+    updateActiveSentenceUi(newlyMatched.length ? newlyMatched : undefined);
+    scheduleSaveProgress();
   }
 
   if (isSentenceComplete(st.matched, st.tokens.length)) {
@@ -4144,17 +4634,37 @@ function processWordBankTranscript(transcript, options = {}) {
 }
 
 function advanceSentence() {
+  flushHistorySessionSync();
   if (currentSentenceIndex >= sentenceStates.length - 1) {
     currentSentenceIndex = sentenceStates.length;
     startRemediationPhase();
     return;
   }
 
+  const prevIndex = currentSentenceIndex;
   currentSentenceIndex += 1;
   lastFinalResultIndex = -1;
   lastInterimText = '';
-  render();
-  saveProgress();
+  lastInterimMatchedText = '';
+  clearInterimMatchTimer();
+  const partialOk =
+    setSentenceVisualState(prevIndex, 'done') &&
+    setSentenceVisualState(currentSentenceIndex, 'active');
+  if (partialOk) {
+    updateActiveSentenceUi();
+    lastRenderScrollIndex = -1;
+    const activeEl = els.sentencesRoot.querySelector('.sentence.active');
+    if (activeEl) {
+      lastRenderScrollIndex = currentSentenceIndex;
+      const nextSt = sentenceStates[currentSentenceIndex];
+      const scrollBehavior =
+        nextSt && nextSt.tokens.length > 36 ? 'auto' : 'smooth';
+      activeEl.scrollIntoView({ behavior: scrollBehavior, block: 'center' });
+    }
+  } else {
+    render();
+  }
+  scheduleSaveProgress();
   maybeAutoReadSample({ force: true });
 }
 
@@ -4163,9 +4673,11 @@ function getSpeechRecognitionCtor() {
 }
 
 function isTrustedMicOrigin() {
-  const host = window.location?.hostname;
-  if (!host) return true;
-  return window.isSecureContext || host === 'localhost' || host === '127.0.0.1' || host === '[::1]';
+  const protocol = window.location?.protocol ?? '';
+  if (protocol === 'file:') return false;
+  const host = window.location?.hostname ?? '';
+  if (window.isSecureContext) return true;
+  return host === 'localhost' || host === '127.0.0.1' || host === '[::1]';
 }
 
 function explainMicError(error) {
@@ -4183,17 +4695,26 @@ function explainMicError(error) {
 }
 
 async function requestMicrophonePermission() {
+  if (micPermissionCached) return true;
   if (!isTrustedMicOrigin()) {
-    showError('Microphone cần HTTPS hoặc localhost. Hãy mở app qua http://127.0.0.1:8080.');
+    showError(
+      window.location?.protocol === 'file:'
+        ? 'Không mở trực tiếp file index.html. Dùng http://127.0.0.1:8080 (xem README).'
+        : 'Microphone cần HTTPS hoặc localhost. Hãy mở app qua http://127.0.0.1:8080.',
+    );
     return false;
   }
 
   const getUserMedia = window.navigator?.mediaDevices?.getUserMedia;
-  if (!getUserMedia) return true;
+  if (!getUserMedia) {
+    micPermissionCached = true;
+    return true;
+  }
 
   try {
     const stream = await getUserMedia.call(window.navigator.mediaDevices, { audio: true });
     stream.getTracks().forEach((track) => track.stop());
+    micPermissionCached = true;
     return true;
   } catch (error) {
     showError(explainMicError(error));
@@ -4203,10 +4724,15 @@ async function requestMicrophonePermission() {
 
 async function startMic() {
   if (importDictation?.isListening()) return;
+  if (!micListenUserIntent || !micUserEnabled) return;
   if (lessonComplete || isSpeaking() || samplePlaying || micStarting) return;
   clearMicRestartTimer();
 
-  if (!micUserEnabled) micUserEnabled = true;
+  if (!isTrustedMicOrigin()) {
+    micAwaitingGesture = true;
+    updateMicToggleUi();
+    return;
+  }
 
   const Ctor = getSpeechRecognitionCtor();
   if (!Ctor) {
@@ -4219,6 +4745,7 @@ async function startMic() {
   if (listening || recognition) return;
 
   micStarting = true;
+  micStartAttemptAt = Date.now();
   updateMicToggleUi();
 
   const hasMicPermission = await requestMicrophonePermission();
@@ -4246,18 +4773,44 @@ async function startMic() {
   lastFinalResultIndex = -1;
   lastInterimText = '';
 
+  clearMicStartWatchdog();
+  micStartWatchdogTimer = window.setTimeout(() => {
+    if (sessionGeneration !== micSessionGeneration) return;
+    if (!micStarting || listening) return;
+    micStarting = false;
+    try {
+      currentRecognition.stop();
+    } catch {
+      /* ignore */
+    }
+    recognition = null;
+    scheduleMicRestart(250);
+    updateMicToggleUi();
+  }, 12000);
+
   currentRecognition.onstart = () => {
     if (sessionGeneration !== micSessionGeneration) return;
+    clearMicStartWatchdog();
     micStarting = false;
+    micStartAttemptAt = 0;
     listening = true;
+    recognitionRecycling = false;
+    recognitionSessionStartedAt = Date.now();
+    lastFinalResultIndex = -1;
+    lastInterimText = '';
+    pendingMicRestart = false;
     updateMicToggleUi();
     hideError();
   };
 
   currentRecognition.onend = () => {
     if (sessionGeneration !== micSessionGeneration) return;
+    clearMicStartWatchdog();
     listening = false;
     micStarting = false;
+    micStartAttemptAt = 0;
+    recognitionSessionStartedAt = 0;
+    recognitionRecycling = false;
     const shouldRestart =
       currentRecognition._wantRestart &&
       micUserEnabled &&
@@ -4286,7 +4839,14 @@ async function startMic() {
       return;
     }
     if (event.error === 'network' || event.error === 'service-not-allowed') {
-      showError('Dịch vụ nhận dạng giọng nói của trình duyệt chưa hoạt động. Hãy dùng Chrome/Edge và kiểm tra kết nối internet.');
+      if (micListenUserIntent) {
+        showError(
+          'Dịch vụ nhận dạng giọng nói của trình duyệt chưa phản hồi. Dùng Chrome/Edge, mở http://127.0.0.1:8080 (không mở file trực tiếp) và kiểm tra internet.',
+        );
+      }
+      if (currentRecognition._wantRestart && micUserEnabled && !lessonComplete) {
+        scheduleMicRestart(900);
+      }
       return;
     }
     if (event.error === 'no-speech') {
@@ -4300,7 +4860,12 @@ async function startMic() {
 
   currentRecognition.onresult = (event) => {
     if (sessionGeneration !== micSessionGeneration || isSpeaking() || samplePlaying) return;
+    if (event.results.length > MIC_RESULTS_SOFT_CAP) {
+      softRecycleRecognition('results-cap');
+      return;
+    }
 
+    micRestartStreak = 0;
     let interim = '';
 
     for (let i = event.resultIndex; i < event.results.length; i++) {
@@ -4309,6 +4874,8 @@ async function startMic() {
 
       if (result.isFinal) {
         if (i > lastFinalResultIndex) {
+          clearInterimMatchTimer();
+          lastInterimMatchedText = '';
           processTranscript(text, { countMisreads: true });
           lastFinalResultIndex = i;
         }
@@ -4321,7 +4888,7 @@ async function startMic() {
     if (interim) {
       lastInterimText = normalizeTranscript(interim.trim());
       els.liveTranscript.textContent = lastInterimText || '—';
-      processTranscript(interim, { countMisreads: false });
+      scheduleInterimMatch(interim);
     } else if (event.results[event.results.length - 1]?.isFinal) {
       const finalText = normalizeTranscript(
         event.results[event.results.length - 1][0].transcript.trim(),
@@ -4335,6 +4902,7 @@ async function startMic() {
   try {
     currentRecognition.start();
   } catch {
+    clearMicStartWatchdog();
     if (sessionGeneration === micSessionGeneration) {
       invalidateMicSession();
     }
@@ -4350,10 +4918,13 @@ async function startMic() {
 
 function stopMic({ keepEnabled = false } = {}) {
   clearMicRestartTimer();
+  clearMicStartWatchdog();
 
   if (!keepEnabled) {
     micUserEnabled = false;
     micAwaitingGesture = false;
+    micListenUserIntent = false;
+    pendingMicRestart = false;
   }
 
   invalidateMicSession();

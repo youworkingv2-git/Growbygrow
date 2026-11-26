@@ -145,8 +145,14 @@ static func build_global_theme() -> Theme:
 	var t := Theme.new()
 	t.default_font_size = FONT_BODY
 
-	# PanelContainer
-	t.set_stylebox("panel", "PanelContainer", make_panel_style(Color(0.09, 0.14, 0.25, 0.95), BORDER_DEFAULT, 14, 2, 0, 0))
+	# PanelContainer (opaque so background HUD/screens never bleed through in WebGL2)
+	var opaque_panel := make_panel_style(Color(0.08, 0.13, 0.24, 1.0), BORDER_DEFAULT, 14, 2, 0, 0)
+	t.set_stylebox("panel", "PanelContainer", opaque_panel)
+	t.set_stylebox("panel", "PopupPanel", make_panel_style(Color(0.08, 0.13, 0.24, 1.0), BORDER_DEFAULT, 10, 2, 6, 6))
+	t.set_stylebox("panel", "PopupMenu", make_panel_style(Color(0.08, 0.13, 0.24, 1.0), BORDER_DEFAULT, 10, 2, 8, 8))
+	t.set_stylebox("hover", "PopupMenu", make_panel_style(Color(0.18, 0.36, 0.62, 1.0), PRIMARY_LIGHT, 8, 1, 8, 6))
+	t.set_color("font_color", "PopupMenu", TEXT_LIGHT)
+	t.set_color("font_hover_color", "PopupMenu", TEXT_LIGHT)
 
 	# Buttons (default style = secondary adventure slate; primary CTAs use apply_button_variant)
 	t.set_stylebox("normal", "Button", make_button_style(Color("#243A5E"), Color("#456799")))

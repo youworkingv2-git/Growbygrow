@@ -32,48 +32,29 @@ func _build_global_overlay() -> void:
 	_overlay_layer.layer = 90
 	add_child(_overlay_layer)
 
-	# Non-blocking notification stack (top-center)
-	var notif_anchor := MarginContainer.new()
-	notif_anchor.set_anchors_preset(Control.PRESET_TOP_WIDE)
-	notif_anchor.offset_top = 74.0
-	notif_anchor.offset_bottom = 260.0
-	notif_anchor.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_overlay_layer.add_child(notif_anchor)
-
-	var center_box := CenterContainer.new()
-	center_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	notif_anchor.add_child(center_box)
-
-	_notif_stack = VBoxContainer.new()
-	_notif_stack.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_notif_stack.add_theme_constant_override("separation", 6)
-	center_box.add_child(_notif_stack)
-
-	# Shared Tooltip
+	# Shared Tooltip (top layers)
 	_tooltip_panel = PanelContainer.new()
 	_tooltip_panel.visible = false
 	_tooltip_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_tooltip_panel.add_theme_stylebox_override(
 		"panel",
-		UIDesignSystem.make_panel_style(Color(0.06, 0.1, 0.19, 0.96), UIDesignSystem.SECONDARY, 8, 1, 10, 6)
+		UIDesignSystem.make_panel_style(Color(0.06, 0.1, 0.19, 1.0), UIDesignSystem.SECONDARY, 8, 1, 10, 6)
 	)
 	_tooltip_label = Label.new()
 	_tooltip_label.add_theme_font_size_override("font_size", 13)
 	_tooltip_panel.add_child(_tooltip_label)
-	_overlay_layer.add_child(_tooltip_panel)
 
-	# Shared Loading Indicator (non-blocking badge bottom-left/top-right)
+	# Shared Loading Indicator (non-blocking badge)
 	_loading_panel = PanelContainer.new()
 	_loading_panel.visible = false
 	_loading_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_loading_panel.set_anchors_preset(Control.PRESET_CENTER)
 	_loading_panel.add_theme_stylebox_override(
 		"panel",
-		UIDesignSystem.make_panel_style(Color(0.08, 0.13, 0.24, 0.95), UIDesignSystem.PRIMARY, 12, 2, 16, 12)
+		UIDesignSystem.make_panel_style(Color(0.08, 0.13, 0.24, 1.0), UIDesignSystem.PRIMARY, 12, 2, 16, 12)
 	)
 	_loading_widget = LOADING_SCENE.instantiate() as LoadingIndicatorWidget
 	_loading_panel.add_child(_loading_widget)
-	_overlay_layer.add_child(_loading_panel)
 
 	# Shared Settings Modal
 	_settings_modal = SETTINGS_SCENE.instantiate() as SettingsModalUI
@@ -99,6 +80,26 @@ func _build_global_overlay() -> void:
 			cb.call()
 	)
 	_overlay_layer.add_child(_confirm_dialog)
+
+	# Non-blocking notification stack (top-center, rendered ABOVE modals)
+	var notif_anchor := MarginContainer.new()
+	notif_anchor.set_anchors_preset(Control.PRESET_TOP_WIDE)
+	notif_anchor.offset_top = 14.0
+	notif_anchor.offset_bottom = 200.0
+	notif_anchor.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_overlay_layer.add_child(notif_anchor)
+
+	var center_box := CenterContainer.new()
+	center_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	notif_anchor.add_child(center_box)
+
+	_notif_stack = VBoxContainer.new()
+	_notif_stack.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_notif_stack.add_theme_constant_override("separation", 6)
+	center_box.add_child(_notif_stack)
+
+	_overlay_layer.add_child(_loading_panel)
+	_overlay_layer.add_child(_tooltip_panel)
 
 
 func _connect_events() -> void:
@@ -158,7 +159,7 @@ func show_notification(message: String, kind: String = "info", duration: float =
 	banner.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	banner.add_theme_stylebox_override(
 		"panel",
-		UIDesignSystem.make_panel_style(Color(0.07, 0.11, 0.21, 0.94), border_col, 10, 2, 16, 8)
+		UIDesignSystem.make_panel_style(Color(0.07, 0.12, 0.23, 1.0), border_col, 10, 2, 16, 8)
 	)
 	var lbl := Label.new()
 	lbl.text = message
