@@ -146,7 +146,9 @@ func show_notification(message: String, kind: String = "info", duration: float =
 	if _notif_stack == null or message.is_empty():
 		return
 	while _notif_stack.get_child_count() >= 3:
-		_notif_stack.get_child(0).queue_free()
+		var oldest := _notif_stack.get_child(0)
+		_notif_stack.remove_child(oldest)
+		oldest.queue_free()
 
 	var border_col := UIDesignSystem.PRIMARY
 	var text_col := UIDesignSystem.TEXT_LIGHT
