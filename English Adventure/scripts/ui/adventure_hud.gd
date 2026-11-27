@@ -585,11 +585,13 @@ func _refresh_quest_tracker() -> void:
 
 
 func _refresh_localized_labels() -> void:
+	var vp := get_viewport().get_visible_rect().size
+	var short_dock := vp.x < 700.0
 	map_btn.text = LocalizationManager.tr_key("btn_map", "Bản đồ")
 	quests_btn.text = LocalizationManager.tr_key("btn_quests", "Nhiệm vụ")
 	bag_btn.text = LocalizationManager.tr_key("btn_bag", "Túi đồ")
-	learn_btn.text = "%s [L]" % LocalizationManager.tr_key("btn_learn", "Học tập")
-	minigames_btn.text = "%s [G]" % LocalizationManager.tr_key("btn_minigames", "Trò chơi")
+	learn_btn.text = LocalizationManager.tr_key("btn_learn", "Học tập") if short_dock else ("%s [L]" % LocalizationManager.tr_key("btn_learn", "Học tập"))
+	minigames_btn.text = LocalizationManager.tr_key("btn_minigames", "Trò chơi") if short_dock else ("%s [G]" % LocalizationManager.tr_key("btn_minigames", "Trò chơi"))
 	save_btn.text = LocalizationManager.tr_key("btn_save", "Lưu")
 	settings_btn.text = LocalizationManager.tr_key("btn_settings", "Cài đặt")
 	pause_btn.text = LocalizationManager.tr_key("btn_pause", "Menu")
@@ -871,8 +873,8 @@ func _apply_responsive() -> void:
 	top_bar.offset_bottom = 66.0 + float(top_pad)
 
 	var compact := vp.x < 780.0
-	area_title_label.visible = vp.x >= 680.0
-	settings_btn.visible = vp.x >= 620.0
+	area_title_label.visible = vp.x >= 720.0
+	settings_btn.visible = vp.x >= 680.0
 	quest_tracker_panel.offset_left = 10.0 + float(left_pad)
 	quest_tracker_panel.offset_right = minf(330.0, vp.x - 20.0 - float(right_pad))
 	quest_tracker_panel.offset_top = 72.0 + float(top_pad)
@@ -901,6 +903,9 @@ func _apply_responsive() -> void:
 		save_btn.visible = false
 	else:
 		save_btn.visible = true
+	var short_dock := vp.x < 700.0
+	learn_btn.text = LocalizationManager.tr_key("btn_learn", "Học tập") if short_dock else ("%s [L]" % LocalizationManager.tr_key("btn_learn", "Học tập"))
+	minigames_btn.text = LocalizationManager.tr_key("btn_minigames", "Trò chơi") if short_dock else ("%s [G]" % LocalizationManager.tr_key("btn_minigames", "Trò chơi"))
 
 	var modal_half_w := minf(330.0, (vp.x - 28.0) * 0.5)
 	quest_log_modal.offset_left = -modal_half_w

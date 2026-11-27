@@ -116,5 +116,6 @@ func _on_quit_pressed() -> void:
 func _apply_responsive() -> void:
 	ResponsiveHelper.apply_safe_margin_to_container(safe_margin, get_viewport(), 14)
 	var vp := get_viewport().get_visible_rect().size
-	layout_box.vertical = vp.x < 700.0
-	hero_stage.custom_minimum_size = Vector2(240, 150) if (vp.y < 520.0 or vp.x < 440.0) else Vector2(280, 210)
+	var is_portrait := vp.y > vp.x or SceneRouter.current_breakpoint == SceneRouter.Breakpoint.MOBILE_PORTRAIT
+	layout_box.vertical = vp.x < 700.0 or is_portrait
+	hero_stage.custom_minimum_size = Vector2(240, 150) if (vp.y < 520.0 or vp.x < 440.0) else (Vector2(300, 210) if is_portrait else Vector2(280, 210))

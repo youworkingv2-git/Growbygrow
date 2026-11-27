@@ -12,6 +12,7 @@ const SCENE_EXPLORATION := "res://scenes/world/alphabet_island/area_exploration.
 
 var current_breakpoint: Breakpoint = Breakpoint.DESKTOP
 var _is_transitioning: bool = false
+var _updating_breakpoint: bool = false
 var _transition_layer: CanvasLayer = null
 var _fade_rect: ColorRect = null
 
@@ -34,12 +35,21 @@ func _build_transition_overlay() -> void:
 
 
 func _update_breakpoint() -> void:
-	var vp_size := get_viewport().get_visible_rect().size
+	if _updating_breakpoint:
+		return
+	_updating_breakpoint = true
 	var win_size := Vector2(DisplayServer.window_get_size())
+	var root_win := get_tree().root
+	if root_win != null and win_size.x > 0.0 and win_size.y > 0.0:
+		var target_scale := 2.0 if win_size.y > win_size.x else 1.0
+		if absf(root_win.content_scale_factor - target_scale) > 0.05:
+			root_win.content_scale_factor = target_scale
+
+	var vp_size := get_viewport().get_visible_rect().size
 	var ref_w := minf(vp_size.x, win_size.x) if win_size.x > 0.0 else vp_size.x
 	var ref_h := minf(vp_size.y, win_size.y) if win_size.y > 0.0 else vp_size.y
 	var next_bp: Breakpoint = Breakpoint.DESKTOP
-	if vp_size.y > vp_size.x or (ref_w < 768.0 and ref_h > ref_w):
+	if win_size.y > win_size.x or vp_size.y > vp_size.x or (ref_w < 768.0 and ref_h > ref_w):
 		next_bp = Breakpoint.MOBILE_PORTRAIT
 	elif ref_h < 540.0 and ref_w >= ref_h:
 		next_bp = Breakpoint.MOBILE_LANDSCAPE
@@ -50,6 +60,7 @@ func _update_breakpoint() -> void:
 
 	if next_bp != current_breakpoint:
 		current_breakpoint = next_bp
+	_updating_breakpoint = false
 	EventBus.viewport_breakpoint_changed.emit(get_breakpoint_name(), vp_size)
 
 
