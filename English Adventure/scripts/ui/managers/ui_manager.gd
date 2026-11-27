@@ -183,18 +183,21 @@ func show_notification(message: String, kind: String = "info", duration: float =
 		var tw_in := banner.create_tween()
 		tw_in.tween_property(banner, "modulate:a", 1.0, 0.18)
 
+	var banner_ref := weakref(banner)
 	var timer := get_tree().create_timer(duration)
 	timer.timeout.connect(func() -> void:
-		if not is_instance_valid(banner):
+		var b := banner_ref.get_ref() as Control
+		if b == null or not is_instance_valid(b):
 			return
 		if UIAnimator.is_reduced():
-			banner.queue_free()
+			b.queue_free()
 		else:
-			var tw_out := banner.create_tween()
-			tw_out.tween_property(banner, "modulate:a", 0.0, 0.22)
+			var tw_out := b.create_tween()
+			tw_out.tween_property(b, "modulate:a", 0.0, 0.22)
 			tw_out.finished.connect(func() -> void:
-				if is_instance_valid(banner):
-					banner.queue_free()
+				var b2 := banner_ref.get_ref() as Control
+				if b2 != null and is_instance_valid(b2):
+					b2.queue_free()
 			)
 	)
 
