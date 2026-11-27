@@ -117,30 +117,92 @@ func offer_contextual_help() -> void:
 	GameStateManager.mark_npc_met("buddy", "buddy_help")
 	QuestManager.report_npc_talk("buddy")
 
+	for q_done in DataRepository.quests_ordered:
+		var qid_done := str(q_done.get("id", ""))
+		if QuestManager.get_detailed_quest_status(qid_done) == "completed":
+			var turn_in_id := str(q_done.get("turn_in_npc_id", ""))
+			var turn_in_cfg: Dictionary = DataRepository.npcs_by_id.get(turn_in_id, {})
+			var turn_in_name := LocalizationManager.pick_text(turn_in_cfg, "name")
+			if turn_in_name.is_empty():
+				turn_in_name = "NPC"
+			speak_tip(
+				"Xong mục tiêu rồi! Gặp %s và bấm [E], hoặc bấm Nhiệm vụ [Tab] -> Nhận thưởng!" % turn_in_name,
+				"celebrating",
+				6.5
+			)
+			return
+
 	var q: Dictionary = QuestManager.get_next_suggested_quest()
 	if not q.is_empty():
 		var qid := str(q.get("id", ""))
 		var status := QuestManager.get_quest_status(qid)
+		var q_area_id := str(q.get("area_id", ""))
+		var q_area_cfg := DataRepository.get_area(q_area_id)
+		var q_area_name := LocalizationManager.pick_text(q_area_cfg, "name")
 		if status == "active":
 			var step := QuestManager.get_current_step(qid)
+			var step_type := str(step.get("type", ""))
 			var step_title := LocalizationManager.pick_text(step, "title")
 			var prog := QuestManager.get_objective_progress(qid, str(step.get("id", "")))
 			var tgt := int(prog.get("target", 1))
 			var suffix := " (%d/%d)" % [int(prog.get("current", 0)), tgt] if tgt > 1 else ""
-			speak_tip("Buddy gợi ý: Hãy " + step_title + suffix + " nhé!", "thinking", 6.0)
+			var msg := _build_actionable_step_hint(step, step_type, step_title, suffix, q_area_id, q_area_name)
+			speak_tip(msg, "thinking", 7.0)
 			return
 		elif status == "available":
 			var npc_id := str(q.get("giver_npc_id", ""))
 			var npc_cfg: Dictionary = DataRepository.npcs_by_id.get(npc_id, {})
 			var npc_name := LocalizationManager.pick_text(npc_cfg, "name")
-			speak_tip("Hãy tìm gặp " + npc_name + " để nhận nhiệm vụ mới!", "happy", 6.0)
+			var npc_area_id := str(npc_cfg.get("area_id", q_area_id))
+			var npc_area_name := LocalizationManager.pick_text(DataRepository.get_area(npc_area_id), "name")
+			if not npc_area_id.is_empty() and npc_area_id != GameStateManager.current_area_id:
+				speak_tip("Mở Bản đồ [M] tới %s, tìm %s và nhấn [E] để nhận nhiệm vụ!" % [npc_area_name, npc_name], "happy", 6.5)
+			else:
+				speak_tip("Đi lại gần %s và nhấn [E] (hoặc nút Tương tác) để nhận nhiệm vụ!" % npc_name, "happy", 6.0)
 			return
 	var area_greetings: Dictionary = DataRepository.buddy_config.get("area_greetings", {})
 	var greeting: Variant = area_greetings.get(GameStateManager.current_area_id, {})
 	if typeof(greeting) == TYPE_DICTIONARY and not greeting.is_empty():
 		speak_tip(LocalizationManager.pick_text(greeting, "text"), str(greeting.get("state", "happy")), 6.0)
 	else:
-		speak_tip("Cậu đang làm rất tốt! Hãy thử mở Bản đồ hoặc Trò chơi [G] để khám phá thêm nhé!", "happy", 5.0)
+		speak_tip("Cậu đang làm rất tốt! Hãy thử mở Bản đồ [M] hoặc Trò chơi [G] để khám phá thêm nhé!", "happy", 5.0)
+
+
+func _build_actionable_step_hint(
+	step: Dictionary,
+	step_type: String,
+	step_title: String,
+	suffix: String,
+	q_area_id: String,
+	q_area_name: String
+) -> String:
+	var target_id := str(step.get("target_id", ""))
+	if step_type == "visit_area":
+		var dest_name := LocalizationManager.pick_text(DataRepository.get_area(target_id), "name")
+		if dest_name.is_empty():
+			dest_name = q_area_name
+		return "Mở Bản đồ [M] chọn '%s' hoặc đi qua Cổng Dịch Chuyển (vòng sáng xanh) để tới đó!" % dest_name
+
+	if not q_area_id.is_empty() and q_area_id != GameStateManager.current_area_id and step_type in ["collect_tag", "interact_object", "talk_to_npc", "return_to_npc"]:
+		return "Mở Bản đồ [M] tới '%s' trước, sau đó %s%s!" % [q_area_name, step_title, suffix]
+
+	match step_type:
+		"collect_tag":
+			return "Tìm các bục đá có huy hiệu vàng phát sáng trên mặt đất ở %s, lại gần rồi nhấn [E] (hoặc Tương tác) để nhặt!%s" % [q_area_name, suffix]
+		"interact_object":
+			return "Tìm vật thể phát sáng/rương báu ở %s (%s%s), đi lại gần rồi nhấn [E] (hoặc Tương tác)!" % [q_area_name, step_title, suffix]
+		"complete_minigame":
+			return "Bấm nút Trò chơi [G] ở thanh dưới (hoặc mở Nhiệm vụ [Tab]) để chơi mini-game: %s%s!" % [step_title, suffix]
+		"learn_vocabulary":
+			return "Bấm Học tập [L] hoặc Trò chơi [G] ở thanh dưới để hoàn thành: %s%s!" % [step_title, suffix]
+		"talk_to_npc", "return_to_npc":
+			var npc_cfg: Dictionary = DataRepository.npcs_by_id.get(target_id, {})
+			var npc_name := LocalizationManager.pick_text(npc_cfg, "name")
+			if npc_name.is_empty():
+				return "Hãy %s%s bằng cách lại gần NPC và nhấn [E]!" % [step_title, suffix]
+			return "Đi lại gần %s và nhấn [E] (hoặc nút Tương tác)!%s" % [npc_name, suffix]
+		_:
+			return "Buddy gợi ý: Hãy %s%s nhé!" % [step_title, suffix]
 
 
 func _process(delta: float) -> void:
