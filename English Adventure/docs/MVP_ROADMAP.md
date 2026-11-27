@@ -161,3 +161,13 @@ gantt
   - 0 lỗi Crash/Blocker (P0), 0 lỗi mất tiến trình.
   - Đạt đủ 6 tiêu chí nghiệm thu tại mục 13 của `docs/PRD.md`.
 - **Potential Risks:** Phát hiện nội dung quá khó với trẻ mất gốc hoàn toàn trong buổi playtest. (*Giảm thiểu:* Dành trọn tuần 13 để tinh chỉnh tốc độ hướng dẫn của Buddy và độ khó 5 Quest đầu ngay từ dữ liệu JSON).
+
+---
+
+## CẬP NHẬT TRẠNG THÁI THỰC TẾ TẠI PROMPT 08 (27/11/2026)
+
+- **Đã hoàn thành kiểm thử kỹ thuật P8 trên WebGL2 & bộ kiểm thử tự động:** `0` lỗi P0, `0` lỗi P1 trong luồng gameplay chính; đã sửa 12 lỗi (`BUG-01`..`BUG-12`), tối ưu cache Material/Mesh 3D, Responsive Mobile Portrait (`390x844`) và backup save `.bak.json`.
+- **Cần hoàn thành trước khi phát hành chính thức:**
+  1. Cài đặt Godot 4.3+ Editor/Export Templates để export & kiểm thử trên **Windows `.exe`**, **Android APK** và **iOS IPA** thật.
+  2. Cấu hình Supabase Cloud + `AZURE_SPEECH_KEY` để kiểm thử đồng bộ đám mây RLS và AI chấm phát âm thật.
+  3. Tổ chức Playtest giáo dục với 5–10 trẻ ~10 tuổi và bổ sung giọng thu âm `.ogg` cho toàn bộ từ vựng/NPC nếu có ngân sách sản xuất.

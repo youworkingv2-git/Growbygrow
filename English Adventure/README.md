@@ -15,9 +15,9 @@
 
 ---
 
-## 2. Trạng thái dự án hiện tại (Prompt 01–03 + Addendum 3D Visual Direction)
+## 2. Trạng thái dự án hiện tại (Prompt 01–08)
 
-Dự án đã hoàn thành **Prompt 01 (Kiến trúc & Database)**, **Prompt 02 (Thế giới Game & Hệ thống Nhân vật)**, **Prompt 03 (Hệ thống UI/UX thống nhất)** và **Addendum – 3D Visual Direction**:
+Dự án đã hoàn thành toàn bộ hệ thống nền tảng **Prompt 01–07** và trải qua đợt **kiểm thử tổng thể, sửa lỗi và tối ưu hóa Prompt 08** (phiên bản WebGL2 đã chạy kiểm thử thực tế trên Chrome + bộ validator tự động):
 
 - **Stylized 3D World & Characters:** Chuyển đổi toàn bộ gameplay sang **3D thực thụ** (`CharacterBody3D`, camera góc nhìn thứ ba `SpringArm3D` tránh xuyên vật thể, mô hình placeholder 3D có khớp cho cả 7 nhân vật `Boy`, `Girl`, `Buddy`, `Professor Owl`, `Lily`, `Rocky`, `Crystal Guardian`, cùng 5 khu vực 3D với **Welcome Village** làm khu vực 3D trọng điểm, World Map 3D isometric, Diorama 3D trên Main Menu & Character Selection, và thiết lập chất lượng đồ họa `Low` / `Medium` / `High`). Xem [`docs/VISUAL_3D_ARCHITECTURE.md`](docs/VISUAL_3D_ARCHITECTURE.md) và [`docs/ASSET_3D_PIPELINE.md`](docs/ASSET_3D_PIPELINE.md).
 - **Core & Persistence:** Đã triển khai 12 Autoloads (`AppLogger`, `EventBus`, `LocalizationManager`, `DataRepository`, `SaveLoadManager`, `GameStateManager`, `QuestManager`, `LearningEngine`, `SettingsManager`, `AudioManager`, `UIManager`, `SceneRouter`).
@@ -72,6 +72,16 @@ Dự án đã hoàn thành **Prompt 01 (Kiến trúc & Database)**, **Prompt 02 
 | [`docs/SPACED_REPETITION.md`](docs/SPACED_REPETITION.md) | Cơ chế ôn tập lặp lại có khoảng cách theo cấu hình |
 | [`docs/LEARNING_DATABASE.md`](docs/LEARNING_DATABASE.md) | Migration `0003_learning_engine_extensions.sql` & RLS |
 | [`docs/LEARNING_TEST_REPORT.md`](docs/LEARNING_TEST_REPORT.md) | Báo cáo kiểm thử tự động & thực tế Prompt 04 |
+| [`docs/QA_TEST_PLAN.md`](docs/QA_TEST_PLAN.md) | Kế hoạch kiểm thử tổng thể P8 |
+| [`docs/QA_TEST_CASES.md`](docs/QA_TEST_CASES.md) | Danh sách kịch bản kiểm thử đầu cuối `TC01–TC10` & hồi quy |
+| [`docs/BUG_REPORT.md`](docs/BUG_REPORT.md) | Danh sách 12 lỗi đã phát hiện và sửa trong P8 |
+| [`docs/REGRESSION_TEST_REPORT.md`](docs/REGRESSION_TEST_REPORT.md) | Kết quả kiểm thử hồi quy sau sửa lỗi P8 |
+| [`docs/PERFORMANCE_REPORT.md`](docs/PERFORMANCE_REPORT.md) | Số liệu đo hiệu suất WebGL2 thực tế (FPS, Heap, tài nguyên) |
+| [`docs/3D_OPTIMIZATION_REPORT.md`](docs/3D_OPTIMIZATION_REPORT.md) | Báo cáo tối ưu hóa Model/Material/Particle 3D & Quality Presets |
+| [`docs/CROSS_PLATFORM_TEST_REPORT.md`](docs/CROSS_PLATFORM_TEST_REPORT.md) | Báo cáo kiểm thử đa nền tảng (Web, Windows, Android, iOS) |
+| [`docs/SECURITY_REVIEW.md`](docs/SECURITY_REVIEW.md) | Rà soát bảo mật, RLS & an toàn trẻ em |
+| [`docs/FINAL_QA_REPORT.md`](docs/FINAL_QA_REPORT.md) | Tổng kết chất lượng dự án tại thời điểm P8 |
+| [`docs/KNOWN_ISSUES.md`](docs/KNOWN_ISSUES.md) | Các giới hạn và vấn đề còn tồn tại sau P8 |
 | [`docs/IMPLEMENTATION_CHECKLIST.md`](docs/IMPLEMENTATION_CHECKLIST.md) | Checklist kiểm tra & danh sách công việc cho các Prompt tiếp theo |
 
 ---
@@ -123,4 +133,8 @@ English Adventure/
    - `0004_minigame_system_extensions.sql`
    - `0005_quest_reward_inventory_integration.sql`
    - `0006_audio_voice_pronunciation.sql`
-4. Xem `docs/IMPLEMENTATION_CHECKLIST.md`, `docs/MINIGAME_SYSTEM.md`, `docs/GAMEPLAY_LOOP.md`, và `docs/AUDIO_SYSTEM.md` để vận hành đầy đủ từ Prompt 01 → Prompt 07.
+4. Chạy bộ kiểm thử tự động:
+   - Python validators (`validate_prompt_02.py`..`validate_prompt_08.py`, `validate_3d_visual_direction.py`).
+   - GDScript Unit/Regression Suite trong Godot Editor: `tests/unit/test_p8_regression_suite.gd` (chạy dưới scene runner hoặc `godot --headless --script tests/unit/test_p8_regression_suite.gd`).
+   - Live WebGL2 E2E QA (Chrome CDP): `python tests/integration/run_webgl2_e2e_qa.py`.
+5. Xem `docs/IMPLEMENTATION_CHECKLIST.md`, `docs/FINAL_QA_REPORT.md`, `docs/MINIGAME_SYSTEM.md`, `docs/GAMEPLAY_LOOP.md`, và `docs/AUDIO_SYSTEM.md` để vận hành đầy đủ từ Prompt 01 → Prompt 08.

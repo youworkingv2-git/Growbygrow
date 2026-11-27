@@ -104,3 +104,15 @@ Tài liệu này tổng hợp kết quả kiểm tra tính nhất quán của **
 - [x] `SpeakingPracticePanel` tích hợp vào `GameSpeakingHero` & `LearningHubModal` (nghe mẫu/chậm, xin quyền mic, ghi âm đa nền tảng, phát lại, hủy bản ghi, gửi đánh giá có xác nhận).
 - [x] Migration `0006_audio_voice_pronunciation.sql` + Supabase Edge Functions (`pronunciation-assess` cho Azure AI Speech, `speech-recognize` cho STT).
 - [ ] Gắn `AZURE_SPEECH_KEY` & `AZURE_SPEECH_RESOURCE` trên Supabase Cloud và thu âm `.ogg` giọng lồng tiếng chuyên nghiệp cho từ vựng/NPC (khi có ngân sách/tài khoản sản xuất).
+
+---
+
+## 6. TRẠNG THÁI TRIỂN KHAI PROMPT 08 – COMPLETE TESTING, BUG FIXING & 3D OPTIMIZATION
+- [x] **Sửa 12 lỗi P1/P2 (`BUG-01`..`BUG-12`)** phát hiện từ kiểm tra tích hợp & chạy thực tế WebGL2 (xem `docs/BUG_REPORT.md` & `docs/REGRESSION_TEST_REPORT.md`).
+- [x] **Tối ưu hiệu suất 3D & UI:** Material/Mesh caching trong `AreaEnvironment3D` & `PropFactory3D`, điều khiển mật độ particle theo mức chất lượng `Low`/`Medium`/`High` trong `WorldEnvironment3DController`, tối ưu `_process()` trong `WorldMapUI`, scale Mobile Portrait (`content_scale_factor = 2.0`) trong `SceneRouter` (xem `docs/3D_OPTIMIZATION_REPORT.md`).
+- [x] **Kiểm thử tự động & WebGL2 E2E thật:**
+  - `tests/content_validation/validate_prompt_08.py` + 7 bộ validator Prompt 02–07 (tất cả exit code `0`).
+  - `tests/unit/test_p8_regression_suite.gd` (bộ Unit/Integration/Regression GDScript cho Godot 4.x).
+  - `tests/integration/run_webgl2_e2e_qa.py` chạy qua `TC01–TC10` trên Chrome Headless WebGL2 (`0` lỗi console, `0` lỗi reload, ghi nhận TTS thực tế, đo FPS/Heap/tải tài nguyên).
+- [x] **Hoàn thiện 10 tài liệu QA P8:** `QA_TEST_PLAN.md`, `QA_TEST_CASES.md`, `BUG_REPORT.md`, `REGRESSION_TEST_REPORT.md`, `PERFORMANCE_REPORT.md`, `3D_OPTIMIZATION_REPORT.md`, `CROSS_PLATFORM_TEST_REPORT.md`, `SECURITY_REVIEW.md`, `FINAL_QA_REPORT.md`, `KNOWN_ISSUES.md`.
+- [ ] Export & kiểm thử thực tế trên thiết bị Android, iOS, Windows `.exe` và Supabase Cloud + Azure Speech live (chưa khả dụng trong môi trường QA hiện tại).

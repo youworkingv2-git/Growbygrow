@@ -292,3 +292,11 @@ Các thành phần đã triển khai thành GDScript & Scene thực thi trong `p
 - **Kiến trúc `AudioVoiceSystem` (`scripts/audio/`):** Gồm `AudioManager` (Autoload), `AudioAssetManager`, `AudioSettingsManager`, `MusicManager`, `SoundEffectManager`, `VoiceProfileManager`, `TextToSpeechManager`, `AudioPlaybackManager`, `VoiceManager`, `SpeechRecorder`, `SpeechRecognitionManager`, `PronunciationAssessmentManager`, `PronunciationFeedbackManager`, `AudioEventHandler`.
 - **Tài nguyên & TTS:** 11 file `.wav` UI/SFX/BGM gốc sạch bản quyền tại `assets/audio/` (`data/audio/audio_manifest.json`) cùng `DisplayServer.tts_*` + Web SpeechSynthesis fallback hỗ trợ `en-US` & `en-GB`.
 - **Ghi âm & AI Adapter:** `SpeechRecorder` đa nền tảng (`AudioEffectRecord` trên Windows/Mobile + `MediaRecorder` có xin quyền trên Web), `SpeakingPracticePanel` dùng chung cho `GameSpeakingHero` & `LearningHubModal`, Supabase Edge Functions (`pronunciation-assess`, `speech-recognize`) và migration `0006_audio_voice_pronunciation.sql`. Chi tiết xem [`docs/AUDIO_SYSTEM.md`](AUDIO_SYSTEM.md) và [`docs/AI_PROVIDER_COMPARISON.md`](AI_PROVIDER_COMPARISON.md).
+
+---
+
+## 13. CẬP NHẬT KIẾN TRÚC TẠI PROMPT 08 (ỔN ĐỊNH & TỐI ƯU HÓA)
+
+- **`SaveLoadManager`:** Bổ sung thuộc tính `is_online` + `set_online_status()` / `refresh_online_status()`, cơ chế sao lưu xoay vòng `active_profile.bak.json` kèm tự động phục hồi khi file chính hỏng, và kiểm tra chặt kiểu dữ liệu trong `_validate_save_schema()`.
+- **`SceneRouter` & Responsive Scaling:** Tự động điều chỉnh `content_scale_factor = 2.0` trên màn hình dọc (`MOBILE_PORTRAIT`) và dọn dẹp `stop_all_speech()` + `clear_recording(false)` khi chuyển cảnh.
+- **Tối ưu 3D & Input Locking:** Cache `StandardMaterial3D` / `Mesh` tĩnh trong `AreaEnvironment3D` & `PropFactory3D`, điều khiển `quality_particles` theo cấu hình `low`/`medium`/`high` trong `WorldEnvironment3DController`, đồng bộ mục tiêu nhặt trước trong `QuestManager`, và khóa input mini-game (`set_input_locked()`) khi panel phản hồi đang mở.
