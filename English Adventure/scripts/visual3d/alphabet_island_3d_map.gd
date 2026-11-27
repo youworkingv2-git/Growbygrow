@@ -53,9 +53,9 @@ func _build_environment() -> void:
 	_camera = Camera3D.new()
 	_camera.fov = 42.0
 	_camera.position = _cam_base_offset
-	_camera.look_at(Vector3.ZERO, Vector3.UP)
 	_camera.current = true
 	add_child(_camera)
+	_camera.look_at(Vector3.ZERO, Vector3.UP)
 
 
 func _mat(albedo: Color, rough: float = 0.7, emission: Color = Color.BLACK, e_energy: float = 0.0) -> StandardMaterial3D:
@@ -233,7 +233,7 @@ func get_area_screen_position(area_id: String) -> Vector2:
 
 func _process(delta: float) -> void:
 	_time += delta
-	if _camera != null:
+	if _camera != null and _camera.is_inside_tree():
 		var desired := _focus_target + _cam_base_offset + Vector3(sin(_time * 0.35) * 0.4, 0.0, cos(_time * 0.3) * 0.3)
 		_camera.position = _camera.position.lerp(desired, minf(1.0, delta * 3.5))
 		_camera.look_at(_focus_target, Vector3.UP)
