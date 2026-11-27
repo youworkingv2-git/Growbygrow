@@ -704,32 +704,56 @@ func _render_runner_question(feedback_override: Dictionary = {}) -> void:
 	# Prompt Card
 	var pcard := _make_card(Color(0.11, 0.18, 0.33, 0.98), UIDesignSystem.PRIMARY)
 	var pv := VBoxContainer.new()
-	pv.add_theme_constant_override("separation", 8)
-	pv.add_child(_make_label(str(q.get("prompt_vi", "")), 18, UIDesignSystem.TEXT_LIGHT))
+	pv.add_theme_constant_override("separation", 6 if skill == "speaking" else 8)
+	pv.add_child(_make_label(str(q.get("prompt_vi", "")), 16 if skill == "speaking" else 18, UIDesignSystem.TEXT_LIGHT))
 
 	var img_path := str(q.get("image_path", ""))
-	if not img_path.is_empty() and ResourceLoader.exists(img_path) and not atype.contains("choose_image"):
-		var pic := TextureRect.new()
-		pic.custom_minimum_size = Vector2(96, 96)
-		pic.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-		pic.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-		pic.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		pic.texture = load(img_path)
-		pv.add_child(pic)
+	if skill == "speaking":
+		var sp_row := HBoxContainer.new()
+		sp_row.add_theme_constant_override("separation", 14)
+		if not img_path.is_empty() and ResourceLoader.exists(img_path):
+			var pic := TextureRect.new()
+			pic.custom_minimum_size = Vector2(72, 72)
+			pic.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+			pic.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+			pic.texture = load(img_path)
+			sp_row.add_child(pic)
+		var sp_txt := VBoxContainer.new()
+		sp_txt.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		sp_txt.alignment = BoxContainer.ALIGNMENT_CENTER
+		sp_txt.add_theme_constant_override("separation", 3)
+		if q.has("target_text_en") and not str(q.get("target_text_en", "")).is_empty():
+			sp_txt.add_child(_make_label(str(q.get("target_text_en", "")), 22, UIDesignSystem.TEXT_GOLD))
+		if q.has("ipa") and not str(q.get("ipa", "")).is_empty():
+			sp_txt.add_child(_make_label("Phát âm IPA: " + str(q.get("ipa", "")), 14, Color(0.60, 0.88, 1.0, 1.0)))
+		var mouth_hint := str(q.get("mouth_hint_vi", ""))
+		if not mouth_hint.is_empty():
+			sp_txt.add_child(_make_label("Khẩu hình: " + mouth_hint, 13, Color(0.65, 0.94, 0.72, 1.0)))
+		sp_row.add_child(sp_txt)
+		pv.add_child(sp_row)
+	else:
+		if not img_path.is_empty() and ResourceLoader.exists(img_path) and not atype.contains("choose_image"):
+			var pic := TextureRect.new()
+			pic.custom_minimum_size = Vector2(96, 96)
+			pic.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+			pic.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+			pic.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+			pic.texture = load(img_path)
+			pv.add_child(pic)
 
-	if q.has("text_en") and not str(q.get("text_en", "")).is_empty():
-		pv.add_child(_make_label(str(q.get("text_en", "")), 22, UIDesignSystem.TEXT_GOLD))
-	if q.has("pattern") and not str(q.get("pattern", "")).is_empty():
-		pv.add_child(_make_label(str(q.get("pattern", "")), 24, UIDesignSystem.TEXT_GOLD))
-	if q.has("sentence_template") and not str(q.get("sentence_template", "")).is_empty():
-		pv.add_child(_make_label(str(q.get("sentence_template", "")), 20, UIDesignSystem.TEXT_GOLD))
-	if q.has("target_text_en") and not str(q.get("target_text_en", "")).is_empty():
-		pv.add_child(_make_label(str(q.get("target_text_en", "")), 22, UIDesignSystem.TEXT_GOLD))
-	if q.has("ipa") and not str(q.get("ipa", "")).is_empty():
-		pv.add_child(_make_label("Phát âm IPA: " + str(q.get("ipa", "")), 14, Color(0.60, 0.88, 1.0, 1.0)))
+		if q.has("text_en") and not str(q.get("text_en", "")).is_empty():
+			pv.add_child(_make_label(str(q.get("text_en", "")), 22, UIDesignSystem.TEXT_GOLD))
+		if q.has("pattern") and not str(q.get("pattern", "")).is_empty():
+			pv.add_child(_make_label(str(q.get("pattern", "")), 24, UIDesignSystem.TEXT_GOLD))
+		if q.has("sentence_template") and not str(q.get("sentence_template", "")).is_empty():
+			pv.add_child(_make_label(str(q.get("sentence_template", "")), 20, UIDesignSystem.TEXT_GOLD))
+		if q.has("target_text_en") and not str(q.get("target_text_en", "")).is_empty():
+			pv.add_child(_make_label(str(q.get("target_text_en", "")), 22, UIDesignSystem.TEXT_GOLD))
+		if q.has("ipa") and not str(q.get("ipa", "")).is_empty():
+			pv.add_child(_make_label("Phát âm IPA: " + str(q.get("ipa", "")), 14, Color(0.60, 0.88, 1.0, 1.0)))
 
-	# Audio Playback Row for Listening / Speaking / Vocabulary
-	if skill == "listening" or skill == "speaking":
+	# Audio Playback Row for Listening (Speaking already provides Model + Slow buttons inside SpeakingPracticePanel)
+	if skill == "listening":
 		var audio_bar := HBoxContainer.new()
 		audio_bar.add_theme_constant_override("separation", 8)
 		var play_btn := Button.new()
@@ -808,8 +832,7 @@ func _build_activity_input_ui(q: Dictionary, skill: String, atype: String) -> vo
 		var cap := LearningEngine.speaking_manager.get_capability_report()
 		var scard := _make_card(Color(0.95, 0.97, 1.0, 0.98), UIDesignSystem.BORDER_DEFAULT)
 		var sv := VBoxContainer.new()
-		sv.add_theme_constant_override("separation", 8)
-		sv.add_child(_make_label("Hướng dẫn khẩu hình: " + str(q.get("mouth_hint_vi", "")), 14, Color(0.14, 0.46, 0.24, 1.0)))
+		sv.add_theme_constant_override("separation", 5)
 		sv.add_child(_make_label(str(cap.get("status_vi", "")), 12, Color(0.55, 0.34, 0.08, 1.0)))
 		var sp_panel := SpeakingPracticePanel.new()
 		sp_panel.setup_item(q, true)

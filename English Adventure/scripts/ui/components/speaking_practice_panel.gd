@@ -46,7 +46,7 @@ var _feedback_lbl: RichTextLabel
 
 
 func _ready() -> void:
-	add_theme_constant_override("separation", 8)
+	add_theme_constant_override("separation", 5)
 	_build_ui()
 	_connect_audio_signals()
 	_refresh_controls()
@@ -89,15 +89,15 @@ func _build_ui() -> void:
 	model_row.add_theme_constant_override("separation", 10)
 	add_child(model_row)
 
-	_listen_btn = _make_btn("1. Nghe mẫu", Color(0.16, 0.52, 0.86, 1), Vector2(146, 44))
+	_listen_btn = _make_btn("1. Nghe mẫu", Color(0.16, 0.52, 0.86, 1), Vector2(140, 38))
 	_listen_btn.pressed.connect(func() -> void: _play_model(false))
 	model_row.add_child(_listen_btn)
 
-	_slow_btn = _make_btn("Nghe chậm", Color(0.24, 0.44, 0.74, 1), Vector2(126, 44))
+	_slow_btn = _make_btn("Nghe chậm", Color(0.24, 0.44, 0.74, 1), Vector2(120, 38))
 	_slow_btn.pressed.connect(func() -> void: _play_model(true))
 	model_row.add_child(_slow_btn)
 
-	_perm_btn = _make_btn("Bật Micro", Color(0.45, 0.42, 0.70, 1), Vector2(120, 44))
+	_perm_btn = _make_btn("Bật Micro", Color(0.45, 0.42, 0.70, 1), Vector2(116, 38))
 	_perm_btn.pressed.connect(_on_request_permission)
 	model_row.add_child(_perm_btn)
 
@@ -106,27 +106,27 @@ func _build_ui() -> void:
 	rec_row.add_theme_constant_override("separation", 8)
 	add_child(rec_row)
 
-	_rec_btn = _make_btn("2. Ghi âm", Color(0.80, 0.28, 0.24, 1), Vector2(138, 46))
+	_rec_btn = _make_btn("2. Ghi âm", Color(0.80, 0.28, 0.24, 1), Vector2(130, 38))
 	_rec_btn.pressed.connect(_on_start_rec)
 	rec_row.add_child(_rec_btn)
 
-	_pause_btn = _make_btn("Tạm dừng", Color(0.68, 0.48, 0.16, 1), Vector2(110, 46))
+	_pause_btn = _make_btn("Tạm dừng", Color(0.68, 0.48, 0.16, 1), Vector2(106, 38))
 	_pause_btn.pressed.connect(_on_pause_resume_rec)
 	rec_row.add_child(_pause_btn)
 
-	_stop_btn = _make_btn("Dừng", Color(0.55, 0.22, 0.22, 1), Vector2(96, 46))
+	_stop_btn = _make_btn("Dừng", Color(0.55, 0.22, 0.22, 1), Vector2(92, 38))
 	_stop_btn.pressed.connect(_on_stop_rec)
 	rec_row.add_child(_stop_btn)
 
-	_replay_btn = _make_btn("3. Nghe lại", Color(0.42, 0.36, 0.74, 1), Vector2(130, 46))
+	_replay_btn = _make_btn("3. Nghe lại", Color(0.42, 0.36, 0.74, 1), Vector2(124, 38))
 	_replay_btn.pressed.connect(_on_replay_rec)
 	rec_row.add_child(_replay_btn)
 
-	_rerecord_btn = _make_btn("Ghi lại", Color(0.32, 0.46, 0.62, 1), Vector2(102, 46))
+	_rerecord_btn = _make_btn("Ghi lại", Color(0.32, 0.46, 0.62, 1), Vector2(96, 38))
 	_rerecord_btn.pressed.connect(_on_rerecord)
 	rec_row.add_child(_rerecord_btn)
 
-	_cancel_btn = _make_btn("Hủy bản ghi", Color(0.38, 0.38, 0.44, 1), Vector2(114, 46))
+	_cancel_btn = _make_btn("Hủy bản ghi", Color(0.38, 0.38, 0.44, 1), Vector2(110, 38))
 	_cancel_btn.pressed.connect(_on_cancel_rec)
 	rec_row.add_child(_cancel_btn)
 
@@ -162,15 +162,15 @@ func _build_ui() -> void:
 	action_row.add_theme_constant_override("separation", 10)
 	add_child(action_row)
 
-	_submit_ai_btn = _make_btn("4. Gửi đánh giá phát âm", Color(0.18, 0.48, 0.72, 1), Vector2(210, 44))
+	_submit_ai_btn = _make_btn("4. Gửi đánh giá phát âm", Color(0.18, 0.48, 0.72, 1), Vector2(204, 38))
 	_submit_ai_btn.pressed.connect(_on_submit_for_assessment)
 	action_row.add_child(_submit_ai_btn)
 
-	_done_ok_btn = _make_btn("Mình đã nói to, rõ rồi!", Color(0.16, 0.64, 0.34, 1), Vector2(210, 44))
+	_done_ok_btn = _make_btn("Mình đã nói to, rõ rồi!", Color(0.16, 0.64, 0.34, 1), Vector2(204, 38))
 	_done_ok_btn.pressed.connect(func() -> void: _emit_complete("confident"))
 	action_row.add_child(_done_ok_btn)
 
-	_done_retry_btn = _make_btn("Cần luyện thêm câu này", Color(0.80, 0.52, 0.16, 1), Vector2(196, 44))
+	_done_retry_btn = _make_btn("Cần luyện thêm câu này", Color(0.80, 0.52, 0.16, 1), Vector2(190, 38))
 	_done_retry_btn.pressed.connect(func() -> void: _emit_complete("need_more_practice"))
 	action_row.add_child(_done_retry_btn)
 
@@ -402,7 +402,7 @@ func _make_btn(label_txt: String, bg_col: Color, min_sz: Vector2) -> Button:
 	var sb := StyleBoxFlat.new()
 	sb.bg_color = bg_col
 	sb.set_corner_radius_all(12)
-	sb.set_content_margin_all(8)
+	sb.set_content_margin_all(5)
 	b.add_theme_stylebox_override("normal", sb)
 	var sb_hover := sb.duplicate() as StyleBoxFlat
 	sb_hover.bg_color = bg_col.lightened(0.12)
@@ -410,7 +410,7 @@ func _make_btn(label_txt: String, bg_col: Color, min_sz: Vector2) -> Button:
 	var sb_dis := sb.duplicate() as StyleBoxFlat
 	sb_dis.bg_color = Color(0.55, 0.58, 0.64, 0.65)
 	b.add_theme_stylebox_override("disabled", sb_dis)
-	b.add_theme_font_size_override("font_size", 15)
+	b.add_theme_font_size_override("font_size", 14)
 	b.add_theme_color_override("font_color", Color.WHITE)
 	b.add_theme_color_override("font_disabled_color", Color(0.9, 0.92, 0.95, 0.8))
 	return b
