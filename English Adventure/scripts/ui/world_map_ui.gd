@@ -13,6 +13,8 @@ const AREA_ART := {
 
 var _selected_area_id: String = ""
 var _node_buttons: Dictionary = {}
+var _last_canvas_size: Vector2 = Vector2.ZERO
+var _last_node_positions: Dictionary = {}
 
 @onready var main_margin: MarginContainer = $MainMargin
 @onready var map_canvas: Control = $MainMargin/MainVBox/BodySplit/MapCanvasContainer/MapCanvas
@@ -122,6 +124,7 @@ func _layout_map_nodes() -> void:
 	if sz.x < 50.0 or sz.y < 50.0:
 		return
 
+	var size_changed := sz.distance_squared_to(_last_canvas_size) > 0.25
 	var compact := sz.x < 520.0
 	var btn_sz := Vector2(106, 48) if compact else Vector2(144, 58)
 	var vp_sz := Vector2(map_3d_viewport.size)
@@ -130,9 +133,10 @@ func _layout_map_nodes() -> void:
 		var aid := str(area.get("id", ""))
 		var btn: Button = _node_buttons.get(aid, null)
 		if btn != null:
-			btn.custom_minimum_size = btn_sz
-			btn.size = btn_sz
-			btn.add_theme_font_size_override("font_size", 11 if compact else 12)
+			if size_changed:
+				btn.custom_minimum_size = btn_sz
+				btn.size = btn_sz
+				btn.add_theme_font_size_override("font_size", 11 if compact else 12)
 			var center := _normalized_to_canvas(area.get("map_pos", {}), sz)
 			if map_3d_scene != null and vp_sz.x > 10.0 and vp_sz.y > 10.0:
 				var p3d := map_3d_scene.get_area_screen_position(aid)
@@ -141,7 +145,12 @@ func _layout_map_nodes() -> void:
 						clampf((p3d.x / vp_sz.x) * sz.x, btn_sz.x * 0.55, sz.x - btn_sz.x * 0.55),
 						clampf((p3d.y / vp_sz.y) * sz.y, btn_sz.y * 0.55, sz.y - btn_sz.y * 0.55)
 					)
-			btn.position = center - btn.size * 0.5
+			var target_pos := center - btn.size * 0.5
+			var prev_pos: Vector2 = _last_node_positions.get(aid, Vector2(-9999.0, -9999.0))
+			if size_changed or target_pos.distance_squared_to(prev_pos) > 0.25:
+				btn.position = target_pos
+				_last_node_positions[aid] = target_pos
+	_last_canvas_size = sz
 
 
 func _process(_delta: float) -> void:

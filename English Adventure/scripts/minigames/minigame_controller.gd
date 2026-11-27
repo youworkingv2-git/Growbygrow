@@ -10,6 +10,7 @@ signal status_hint_changed(hint_text: String)
 
 var session: MiniGameSession = null
 var audio: MiniGameAudioManager = null
+var _input_locked: bool = false
 
 
 func bind_session(active_session: MiniGameSession, audio_mgr: MiniGameAudioManager) -> void:
@@ -17,9 +18,18 @@ func bind_session(active_session: MiniGameSession, audio_mgr: MiniGameAudioManag
 	audio = audio_mgr
 
 
+func set_input_locked(locked: bool) -> void:
+	_input_locked = locked
+
+
+func is_input_locked() -> bool:
+	return _input_locked
+
+
 func start_current_round() -> void:
 	if session == null:
 		return
+	_input_locked = false
 	var item := session.get_current_item()
 	render_item(item, session.current_index, session.items.size())
 

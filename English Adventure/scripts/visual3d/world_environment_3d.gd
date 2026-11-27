@@ -144,3 +144,21 @@ func _apply_quality() -> void:
 			if vp != null:
 				vp.msaa_3d = Viewport.MSAA_DISABLED if OS.has_feature("web") else Viewport.MSAA_2X
 				vp.scaling_3d_scale = 1.0
+
+	var tree := get_tree()
+	if tree != null:
+		for p_node in tree.get_nodes_in_group("quality_particles"):
+			if p_node is CPUParticles3D:
+				var cp := p_node as CPUParticles3D
+				var base_amt := int(cp.get_meta("base_amount", 18))
+				if q == "low":
+					cp.emitting = false
+					cp.visible = false
+				elif q == "high":
+					cp.visible = true
+					cp.amount = base_amt
+					cp.emitting = true
+				else:
+					cp.visible = true
+					cp.amount = maxi(6, base_amt / 2)
+					cp.emitting = true

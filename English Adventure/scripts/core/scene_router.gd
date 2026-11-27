@@ -119,6 +119,11 @@ func enter_area(area_id: String, custom_spawn: Vector2 = Vector2(-1, -1)) -> boo
 
 func _transition_to(scene_path: String) -> void:
 	_is_transitioning = true
+	if AudioManager != null:
+		if AudioManager.playback_manager != null:
+			AudioManager.playback_manager.stop_all_speech()
+		if AudioManager.speech_recorder != null:
+			AudioManager.speech_recorder.clear_recording(false)
 	_fade_rect.mouse_filter = Control.MOUSE_FILTER_STOP
 	var tw := create_tween()
 	tw.tween_property(_fade_rect, "color:a", 1.0, 0.2)

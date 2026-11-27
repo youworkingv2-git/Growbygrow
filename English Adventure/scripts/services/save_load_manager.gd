@@ -5,30 +5,59 @@ extends Node
 
 const SAVE_DIR := "user://profiles"
 const SAVE_PATH := "user://profiles/active_profile.json"
+const BACKUP_PATH := "user://profiles/active_profile.bak.json"
 const TEMP_SAVE_PATH := "user://profiles/active_profile.json.tmp"
 const OUTBOX_PATH := "user://profiles/sync_outbox.json"
 const SAVE_SCHEMA_VERSION := 2
 
 var _outbox: Array[Dictionary] = []
 var _is_online_simulated: bool = true
+var is_online: bool = true
 
 
 func _ready() -> void:
 	DirAccess.make_dir_recursive_absolute(SAVE_DIR)
 	_load_outbox()
+	refresh_online_status()
+
+
+func refresh_online_status() -> bool:
+	if OS.has_feature("web"):
+		var web_online: Variant = JavaScriptBridge.eval("typeof navigator !== 'undefined' ? Boolean(navigator.onLine) : true")
+		is_online = bool(web_online)
+		_is_online_simulated = is_online
+	return is_online
+
+
+func set_online_status(online: bool) -> void:
+	is_online = online
+	_is_online_simulated = online
+	EventBus.sync_status_changed.emit(is_online, _outbox.size())
 
 
 func has_saved_profile() -> bool:
-	return FileAccess.file_exists(SAVE_PATH)
+	return FileAccess.file_exists(SAVE_PATH) or FileAccess.file_exists(BACKUP_PATH)
 
 
 func save_state(state_data: Dictionary) -> bool:
 	DirAccess.make_dir_recursive_absolute(SAVE_DIR)
-	var payload := state_data.duplicate(true)
+	var payload := _sanitize_save_data(state_data)
 	payload["schema_version"] = SAVE_SCHEMA_VERSION
 	payload["saved_at_utc"] = Time.get_datetime_string_from_system(true)
-	if int(payload.get("last_saved_unix", 0)) <= 0:
-		payload["last_saved_unix"] = int(Time.get_unix_time_from_system())
+	payload["last_saved_unix"] = int(Time.get_unix_time_from_system())
+
+	# Preserve previous valid save as rolling backup before overwriting
+	if FileAccess.file_exists(SAVE_PATH):
+		var prev_f := FileAccess.open(SAVE_PATH, FileAccess.READ)
+		if prev_f != null:
+			var prev_raw := prev_f.get_as_text()
+			prev_f.close()
+			var prev_parsed: Variant = JSON.parse_string(prev_raw)
+			if typeof(prev_parsed) == TYPE_DICTIONARY and _validate_save_schema(prev_parsed as Dictionary):
+				var bak_f := FileAccess.open(BACKUP_PATH, FileAccess.WRITE)
+				if bak_f != null:
+					bak_f.store_string(prev_raw)
+					bak_f.close()
 
 	var json_str := JSON.stringify(payload, "\t")
 	var f := FileAccess.open(TEMP_SAVE_PATH, FileAccess.WRITE)
@@ -67,24 +96,34 @@ func save_state(state_data: Dictionary) -> bool:
 
 
 func load_state() -> Dictionary:
-	if not FileAccess.file_exists(SAVE_PATH):
+	var primary := _try_read_valid_save(SAVE_PATH)
+	if not primary.is_empty():
+		return primary
+	if FileAccess.file_exists(SAVE_PATH):
+		AppLogger.error("SaveLoadManager", "Corrupted primary save file; backing up and attempting recovery")
+		_backup_corrupted_save()
+	var recovered := _try_read_valid_save(BACKUP_PATH)
+	if not recovered.is_empty():
+		AppLogger.warn("SaveLoadManager", "Recovered profile state from rolling backup")
+		return recovered
+	return {}
+
+
+func _try_read_valid_save(path: String) -> Dictionary:
+	if not FileAccess.file_exists(path):
 		return {}
-	var f := FileAccess.open(SAVE_PATH, FileAccess.READ)
+	var f := FileAccess.open(path, FileAccess.READ)
 	if f == null:
-		AppLogger.error("SaveLoadManager", "Cannot open save file")
 		return {}
 	var raw := f.get_as_text()
 	f.close()
 	var parsed: Variant = JSON.parse_string(raw)
 	if typeof(parsed) != TYPE_DICTIONARY:
-		AppLogger.error("SaveLoadManager", "Corrupted save file; backing up and returning empty state")
-		_backup_corrupted_save()
 		return {}
 	var data: Dictionary = parsed
 	if not _validate_save_schema(data):
-		AppLogger.warn("SaveLoadManager", "Invalid save schema; sanitizing state")
-		return _sanitize_save_data(data)
-	return data
+		AppLogger.warn("SaveLoadManager", "Invalid save schema at %s; sanitizing state" % path)
+	return _sanitize_save_data(data)
 
 
 ## Conflict-safe merge: never overwrites a newer local save with older remote data.
@@ -112,6 +151,8 @@ func resolve_conflict_prefer_newer(local_state: Dictionary, remote_state: Dictio
 func delete_save() -> void:
 	if FileAccess.file_exists(SAVE_PATH):
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(SAVE_PATH))
+	if FileAccess.file_exists(BACKUP_PATH):
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(BACKUP_PATH))
 	_outbox.clear()
 	_save_outbox()
 
@@ -180,7 +221,19 @@ func _save_outbox() -> void:
 
 
 func _validate_save_schema(data: Dictionary) -> bool:
-	return data.has("selected_character") and data.has("current_area_id") and data.has("unlocked_areas")
+	if typeof(data.get("selected_character")) != TYPE_STRING:
+		return false
+	if typeof(data.get("current_area_id")) != TYPE_STRING:
+		return false
+	if typeof(data.get("unlocked_areas")) != TYPE_ARRAY:
+		return false
+	if data.has("active_quests") and typeof(data.get("active_quests")) != TYPE_DICTIONARY:
+		return false
+	if data.has("inventory") and typeof(data.get("inventory")) != TYPE_DICTIONARY:
+		return false
+	if data.has("flags") and typeof(data.get("flags")) != TYPE_DICTIONARY:
+		return false
+	return true
 
 
 func _sanitize_save_data(data: Dictionary) -> Dictionary:

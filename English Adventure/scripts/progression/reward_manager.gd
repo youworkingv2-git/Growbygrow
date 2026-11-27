@@ -104,5 +104,4 @@ func evaluate_achievements() -> void:
 		var rw: Dictionary = ach.get("rewards", {})
 		grant_reward("achievement:" + aid, "achievement", aid, rw, false)
 		EventBus.achievement_unlocked.emit(aid, title)
-		EventBus.toast_requested.emit("Thành tựu mới: %s!" % title, "achievement")
 	_evaluating_achievements = false

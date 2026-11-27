@@ -75,9 +75,18 @@ func open_hub(initial_lesson_id: String = "") -> void:
 
 func close_modal() -> void:
 	_in_runner = false
+	_stop_active_learning_audio()
 	UIAnimator.animate_popup_close(self, func() -> void:
 		closed.emit()
 	)
+
+
+func _stop_active_learning_audio() -> void:
+	if AudioManager != null:
+		if AudioManager.playback_manager != null:
+			AudioManager.playback_manager.stop_all_speech()
+		if AudioManager.speech_recorder != null:
+			AudioManager.speech_recorder.clear_recording(false)
 
 
 func _toggle_accent() -> void:
@@ -92,6 +101,7 @@ func _refresh_accent_button() -> void:
 
 
 func _switch_tab(tab_name: String) -> void:
+	_stop_active_learning_audio()
 	_in_runner = false
 	_current_tab = tab_name
 	_update_tab_styles()

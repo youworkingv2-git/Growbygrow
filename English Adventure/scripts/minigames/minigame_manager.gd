@@ -117,6 +117,11 @@ func close_active_session(reopen_arcade: bool = false) -> void:
 	var finished_id := active_session.minigame_id
 	active_session = null
 	audio.duck_bgm_for_speech(false)
+	if AudioManager != null:
+		if AudioManager.playback_manager != null:
+			AudioManager.playback_manager.stop_all_speech()
+		if AudioManager.speech_recorder != null:
+			AudioManager.speech_recorder.clear_recording(false)
 	if reopen_arcade:
 		_restore_player_position()
 		close_modal_requested.emit()

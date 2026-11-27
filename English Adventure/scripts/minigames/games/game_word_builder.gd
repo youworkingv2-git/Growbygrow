@@ -226,7 +226,7 @@ func on_hint_requested() -> void:
 
 
 func _submit_word() -> void:
-	if _resolved or session == null:
+	if _resolved or _input_locked or session == null:
 		return
 	var built := ""
 	for idx in _selected_indices:
@@ -264,7 +264,7 @@ func _play_word_audio() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if not visible or _resolved:
+	if not visible or _resolved or _input_locked:
 		return
 	if event is InputEventKey and event.pressed and not event.echo:
 		var ev := event as InputEventKey

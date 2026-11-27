@@ -52,36 +52,56 @@ static func _mesh_part(parent: Node3D, node_name: String, mesh: Mesh, mat: Mater
 	return mi
 
 
+static var _mesh_cache: Dictionary = {}
+
+
 static func _box(sz: Vector3) -> BoxMesh:
+	var key := "box|%.2f|%.2f|%.2f" % [sz.x, sz.y, sz.z]
+	if _mesh_cache.has(key):
+		return _mesh_cache[key] as BoxMesh
 	var b := BoxMesh.new()
 	b.size = sz
+	_mesh_cache[key] = b
 	return b
 
 
 static func _cyl(rt: float, rb: float, h: float, seg: int = 16) -> CylinderMesh:
+	var key := "cyl|%.2f|%.2f|%.2f|%d" % [rt, rb, h, seg]
+	if _mesh_cache.has(key):
+		return _mesh_cache[key] as CylinderMesh
 	var c := CylinderMesh.new()
 	c.top_radius = rt
 	c.bottom_radius = rb
 	c.height = h
 	c.radial_segments = seg
+	_mesh_cache[key] = c
 	return c
 
 
 static func _sph(r: float, h: float = -1.0) -> SphereMesh:
+	var hh := r * 2.0 if h < 0.0 else h
+	var key := "sph|%.2f|%.2f" % [r, hh]
+	if _mesh_cache.has(key):
+		return _mesh_cache[key] as SphereMesh
 	var s := SphereMesh.new()
 	s.radius = r
-	s.height = r * 2.0 if h < 0.0 else h
+	s.height = hh
 	s.rings = 10
 	s.radial_segments = 16
+	_mesh_cache[key] = s
 	return s
 
 
 static func _torus(ir: float, orad: float) -> TorusMesh:
+	var key := "tor|%.2f|%.2f" % [ir, orad]
+	if _mesh_cache.has(key):
+		return _mesh_cache[key] as TorusMesh
 	var t := TorusMesh.new()
 	t.inner_radius = ir
 	t.outer_radius = orad
 	t.rings = 18
 	t.ring_segments = 12
+	_mesh_cache[key] = t
 	return t
 
 
@@ -165,8 +185,13 @@ static func _build_portal(root: Node3D) -> void:
 
 	var particles := CPUParticles3D.new()
 	particles.name = "PortalParticles"
+	particles.add_to_group("quality_particles")
+	particles.set_meta("base_amount", 18)
 	particles.position = Vector3(0, 1.1, 0)
-	particles.amount = 18
+	var gq := SettingsManager.graphics_quality
+	particles.amount = 18 if gq == "high" else 9
+	particles.visible = gq != "low"
+	particles.emitting = gq != "low"
 	particles.lifetime = 1.6
 	particles.emission_shape = CPUParticles3D.EMISSION_SHAPE_SPHERE
 	particles.emission_sphere_radius = 0.85

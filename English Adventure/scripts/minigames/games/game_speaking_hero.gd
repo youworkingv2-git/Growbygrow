@@ -122,6 +122,9 @@ func _complete_self_practice(confidence_choice: String, extra_session_data: Dict
 	_resolved = true
 
 	var target := str(_current_item.get("target_text_en", ""))
+	var spoken := str(_current_item.get("spoken_text_en", target))
+	if spoken.is_empty():
+		spoken = target
 	var fb := session.record_answer(
 		confidence_choice,
 		is_ok,
@@ -130,6 +133,6 @@ func _complete_self_practice(confidence_choice: String, extra_session_data: Dict
 		str(eval.get("explanation_vi", "")),
 		"%s (%s)" % [target, str(_current_item.get("ipa", ""))],
 		str(_current_item.get("audio_path", "")),
-		target
+		spoken
 	)
 	round_feedback_ready.emit(fb)

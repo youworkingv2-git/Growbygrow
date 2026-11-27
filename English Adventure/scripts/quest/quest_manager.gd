@@ -7,6 +7,7 @@ var repository: QuestRepository
 var registry: QuestRegistry
 var state_manager: QuestStateManager
 var event_handler: QuestEventHandler
+var _syncing_precompleted: bool = false
 
 
 func _ready() -> void:
@@ -112,6 +113,7 @@ func start_quest(quest_id: String) -> bool:
 	if not giver.is_empty() and GameStateManager.met_npcs.has(giver):
 		report_npc_talk(giver)
 	report_area_visited(GameStateManager.current_area_id)
+	_sync_precompleted_world_objectives(quest_id)
 	return true
 
 
@@ -230,12 +232,65 @@ func _process_step_event(event_type: String, payload: Dictionary) -> void:
 		else:
 			EventBus.quest_step_updated.emit(qid, int(res.get("step_index", 0)))
 			GameStateManager.save_now("quest_step_" + qid)
-			var steps: Array = q.get("steps", [])
-			var next_idx := int(res.get("step_index", 0))
-			if next_idx < steps.size() and typeof(steps[next_idx]) == TYPE_DICTIONARY:
-				var nxt: Dictionary = steps[next_idx]
-				if str(nxt.get("type", "")) == "visit_area" and str(nxt.get("target_id", "")) == GameStateManager.current_area_id:
-					report_area_visited(GameStateManager.current_area_id)
+			_sync_precompleted_world_objectives(qid)
+
+
+func _sync_precompleted_world_objectives(quest_id: String) -> void:
+	if _syncing_precompleted or not GameStateManager.active_quests.has(quest_id):
+		return
+	var q := repository.get_quest(quest_id)
+	if q.is_empty():
+		return
+	_syncing_precompleted = true
+	var steps: Array = q.get("steps", [])
+	for _pass_idx in range(steps.size() + 1):
+		if not GameStateManager.active_quests.has(quest_id):
+			break
+		var prog: Dictionary = GameStateManager.active_quests.get(quest_id, {})
+		var obj_map: Dictionary = prog.get("objectives", {})
+		var did_update := false
+		for idx in QuestObjectiveManager.get_eligible_indices(steps, obj_map):
+			var st: Dictionary = steps[idx]
+			var st_type := str(st.get("type", ""))
+			var target_id := str(st.get("target_id", ""))
+			match st_type:
+				"visit_area":
+					if target_id == GameStateManager.current_area_id:
+						var r := QuestObjectiveManager.process_event_on_quest(q, prog, "visit_area", { "target_id": target_id })
+						if bool(r.get("updated", false)):
+							did_update = true
+				"interact_object":
+					if GameStateManager.is_object_collected(target_id):
+						var r := QuestObjectiveManager.process_event_on_quest(q, prog, "interact_object", { "target_id": target_id })
+						if bool(r.get("updated", false)):
+							did_update = true
+				"collect_tag":
+					var req_tag := str(st.get("target_tag", ""))
+					for oid in GameStateManager.collected_objects:
+						var odef: Dictionary = DataRepository.objects_by_id.get(str(oid), {})
+						if str(odef.get("tag", "")) == req_tag:
+							var r := QuestObjectiveManager.process_event_on_quest(q, prog, "collect_tag", { "target_id": str(oid), "tag": req_tag })
+							if bool(r.get("updated", false)):
+								did_update = true
+				"collect_item":
+					if int((GameStateManager.inventory.get(target_id, {}) as Dictionary).get("quantity", 0)) > 0:
+						var r := QuestObjectiveManager.process_event_on_quest(q, prog, "collect_item", { "target_id": target_id })
+						if bool(r.get("updated", false)):
+							did_update = true
+				"open_new_area":
+					if GameStateManager.is_area_unlocked(target_id):
+						var r := QuestObjectiveManager.process_event_on_quest(q, prog, "open_new_area", { "target_id": target_id })
+						if bool(r.get("updated", false)):
+							did_update = true
+		if not did_update:
+			break
+		GameStateManager.active_quests[quest_id] = prog
+		if QuestObjectiveManager.are_all_required_completed(steps, prog.get("objectives", {})):
+			_complete_quest(quest_id)
+			break
+		EventBus.quest_step_updated.emit(quest_id, int(prog.get("step_index", 0)))
+		GameStateManager.save_now("quest_sync_" + quest_id)
+	_syncing_precompleted = false
 
 
 func _complete_quest(quest_id: String) -> void:

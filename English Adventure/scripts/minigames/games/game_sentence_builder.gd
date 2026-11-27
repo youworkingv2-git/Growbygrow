@@ -193,7 +193,7 @@ func on_hint_requested() -> void:
 
 
 func _submit_sentence() -> void:
-	if _resolved or session == null:
+	if _resolved or _input_locked or session == null:
 		return
 	if _used_token_indices.size() < _tokens_scrambled.size():
 		status_hint_changed.emit("Bé hãy xếp đủ tất cả các từ trước khi kiểm tra nhé!")

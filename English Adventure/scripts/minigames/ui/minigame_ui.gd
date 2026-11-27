@@ -279,6 +279,8 @@ func _build_ui() -> void:
 	_fb_retry_btn = _styled_btn("Thử lại", Color(0.84, 0.54, 0.16, 1), Vector2(110, 44))
 	_fb_retry_btn.pressed.connect(func() -> void:
 		_feedback_panel.visible = false
+		if _active_controller != null:
+			_active_controller.set_input_locked(false)
 	)
 	fb_btns.add_child(_fb_retry_btn)
 
@@ -533,6 +535,8 @@ func _refresh_progress_header() -> void:
 
 
 func _on_round_feedback(fb: Dictionary) -> void:
+	if _active_controller != null:
+		_active_controller.set_input_locked(true)
 	_feedback_panel.visible = true
 	var is_ok := bool(fb.get("is_correct", false))
 	var sb := StyleBoxFlat.new()

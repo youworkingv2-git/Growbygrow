@@ -160,7 +160,7 @@ func on_hint_requested() -> void:
 
 
 func _on_choice_selected(ch: Dictionary, btn: Button) -> void:
-	if _resolved or session == null:
+	if _resolved or _input_locked or session == null:
 		return
 	var is_correct := bool(ch.get("is_correct", false))
 	var chosen_word := str(ch.get("word", ""))
@@ -200,10 +200,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		if k == KEY_SPACE:
 			_play_target_audio()
 			get_viewport().set_input_as_handled()
-		elif k == KEY_H:
+		elif k == KEY_H and not _input_locked:
 			request_hint()
 			get_viewport().set_input_as_handled()
-		elif k >= KEY_1 and k <= KEY_5:
+		elif not _input_locked and k >= KEY_1 and k <= KEY_5:
 			var idx := int(k - KEY_1)
 			if idx < _choice_buttons.size():
 				_choice_buttons[idx].pressed.emit()

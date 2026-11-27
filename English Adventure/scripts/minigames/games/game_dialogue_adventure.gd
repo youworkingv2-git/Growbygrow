@@ -163,7 +163,7 @@ func _play_npc_line() -> void:
 
 
 func _on_option_chosen(opt: Dictionary, btn: Button) -> void:
-	if _resolved or session == null:
+	if _resolved or _input_locked or session == null:
 		return
 	var is_correct := bool(opt.get("is_correct", false))
 	var chosen_en := str(opt.get("text_en", ""))

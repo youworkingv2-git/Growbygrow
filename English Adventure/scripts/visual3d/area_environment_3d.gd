@@ -6,6 +6,9 @@ class_name AreaEnvironment3D
 
 @export_enum("welcome_village", "alphabet_meadow", "letter_cave", "crystal_lake", "shadow_gate") var area_id: String = "welcome_village"
 
+static var _mat_cache: Dictionary = {}
+static var _mesh_cache: Dictionary = {}
+
 
 func _ready() -> void:
 	match area_id:
@@ -22,6 +25,9 @@ func _ready() -> void:
 
 
 func _mat(albedo: Color, roughness: float = 0.72, metallic: float = 0.0, emission: Color = Color.BLACK, emission_energy: float = 0.0) -> StandardMaterial3D:
+	var key := "%s|%.2f|%.2f|%s|%.2f" % [albedo.to_html(true), roughness, metallic, emission.to_html(true), emission_energy]
+	if _mat_cache.has(key):
+		return _mat_cache[key] as StandardMaterial3D
 	var m := StandardMaterial3D.new()
 	m.albedo_color = albedo
 	m.roughness = roughness
@@ -30,7 +36,44 @@ func _mat(albedo: Color, roughness: float = 0.72, metallic: float = 0.0, emissio
 		m.emission_enabled = true
 		m.emission = emission
 		m.emission_energy_multiplier = emission_energy
+	_mat_cache[key] = m
 	return m
+
+
+func _cached_sphere(radius: float, height: float, rings: int = 8, segs: int = 12) -> SphereMesh:
+	var key := "sph|%.2f|%.2f|%d|%d" % [radius, height, rings, segs]
+	if _mesh_cache.has(key):
+		return _mesh_cache[key] as SphereMesh
+	var sm := SphereMesh.new()
+	sm.radius = radius
+	sm.height = height
+	sm.rings = rings
+	sm.radial_segments = segs
+	_mesh_cache[key] = sm
+	return sm
+
+
+func _cached_cylinder(rt: float, rb: float, h: float, segs: int = 12) -> CylinderMesh:
+	var key := "cyl|%.2f|%.2f|%.2f|%d" % [rt, rb, h, segs]
+	if _mesh_cache.has(key):
+		return _mesh_cache[key] as CylinderMesh
+	var cm := CylinderMesh.new()
+	cm.top_radius = rt
+	cm.bottom_radius = rb
+	cm.height = h
+	cm.radial_segments = segs
+	_mesh_cache[key] = cm
+	return cm
+
+
+func _cached_box(sz: Vector3) -> BoxMesh:
+	var key := "box|%.2f|%.2f|%.2f" % [sz.x, sz.y, sz.z]
+	if _mesh_cache.has(key):
+		return _mesh_cache[key] as BoxMesh
+	var bm := BoxMesh.new()
+	bm.size = sz
+	_mesh_cache[key] = bm
+	return bm
 
 
 func _mesh(parent: Node3D, node_name: String, mesh: Mesh, mat: Material, pos: Vector3, rot_deg: Vector3 = Vector3.ZERO, shadows: bool = true, lod_end: float = 0.0) -> MeshInstance3D:
@@ -81,12 +124,15 @@ func _add_trail_segment(parent: Node3D, from_p: Vector3, to_p: Vector3, width: f
 
 
 func _add_fireflies(color: Color, count: int = 24, spread: Vector3 = Vector3(16.0, 2.2, 9.0)) -> void:
-	if SettingsManager.graphics_quality == "low":
-		return
 	var p := CPUParticles3D.new()
 	p.name = "AmbientParticles"
+	p.add_to_group("quality_particles")
+	p.set_meta("base_amount", count)
 	p.position = Vector3(0, 1.5, 0)
-	p.amount = count if SettingsManager.graphics_quality == "high" else maxi(8, count / 2)
+	var q := SettingsManager.graphics_quality
+	p.amount = count if q == "high" else maxi(8, count / 2)
+	p.visible = q != "low"
+	p.emitting = q != "low"
 	p.lifetime = 3.2
 	p.emission_shape = CPUParticles3D.EMISSION_SHAPE_BOX
 	p.emission_box_extents = spread
@@ -95,10 +141,8 @@ func _add_fireflies(color: Color, count: int = 24, spread: Vector3 = Vector3(16.
 	p.initial_velocity_max = 0.45
 	p.scale_amount_min = 0.04
 	p.scale_amount_max = 0.10
-	var sm := SphereMesh.new()
-	sm.radius = 0.5
-	sm.height = 1.0
-	sm.material = _mat(color, 0.1, 0.0, color, 2.0)
+	var sm := _cached_sphere(0.5, 1.0, 6, 8)
+	p.material_override = _mat(color, 0.1, 0.0, color, 2.0)
 	p.mesh = sm
 	add_child(p)
 
@@ -106,44 +150,32 @@ func _add_fireflies(color: Color, count: int = 24, spread: Vector3 = Vector3(16.
 func _add_flower_cluster(parent: Node3D, pos: Vector3, petal_color: Color) -> void:
 	var leaf_m := _mat(Color(0.24, 0.68, 0.32), 0.7)
 	var pet_m := _mat(petal_color, 0.45, 0.0, petal_color, 0.15)
-	var bush := SphereMesh.new()
-	bush.radius = 0.35
-	bush.height = 0.4
+	var bush := _cached_sphere(0.35, 0.4, 8, 10)
 	_mesh(parent, "Bush", bush, leaf_m, pos + Vector3(0, 0.14, 0), Vector3.ZERO, false, 34.0)
+	var fl := _cached_sphere(0.09, 0.14, 6, 8)
 	for i in range(3):
-		var fl := SphereMesh.new()
-		fl.radius = 0.09
-		fl.height = 0.14
 		var ang := float(i) * 2.1
 		_mesh(parent, "Flower%d" % i, fl, pet_m, pos + Vector3(cos(ang) * 0.22, 0.32, sin(ang) * 0.22), Vector3.ZERO, false, 28.0)
 
 
 func _add_fence_row(parent: Node3D, start_p: Vector3, end_p: Vector3, posts: int) -> void:
 	var wood := _mat(Color(0.62, 0.40, 0.22), 0.72)
+	var post_m := _cached_cylinder(0.07, 0.09, 0.75, 10)
 	for i in range(posts):
 		var t := float(i) / maxf(1.0, float(posts - 1))
 		var p := start_p.lerp(end_p, t)
-		var post_m := CylinderMesh.new()
-		post_m.top_radius = 0.07
-		post_m.bottom_radius = 0.09
-		post_m.height = 0.75
 		_mesh(parent, "Post_%d" % i, post_m, wood, p + Vector3(0, 0.37, 0), Vector3.ZERO, true, 36.0)
 	var diff := end_p - start_p
 	var len_f := Vector2(diff.x, diff.z).length()
 	var mid := (start_p + end_p) * 0.5
 	var yaw := rad_to_deg(atan2(diff.x, diff.z))
-	var rail := BoxMesh.new()
-	rail.size = Vector3(0.06, 0.08, len_f)
+	var rail := _cached_box(Vector3(0.06, 0.08, len_f))
 	_mesh(parent, "RailTop", rail, wood, Vector3(mid.x, 0.56, mid.z), Vector3(0, yaw, 0), false, 36.0)
 	_mesh(parent, "RailLow", rail, wood, Vector3(mid.x, 0.28, mid.z), Vector3(0, yaw, 0), false, 36.0)
 
 
 func _add_rock(pos: Vector3, radius: float, color: Color = Color(0.46, 0.49, 0.55), has_collider: bool = true) -> void:
-	var rm := SphereMesh.new()
-	rm.radius = radius
-	rm.height = radius * 1.45
-	rm.rings = 6
-	rm.radial_segments = 8
+	var rm := _cached_sphere(radius, radius * 1.45, 6, 8)
 	_mesh(self, "Rock3D", rm, _mat(color, 0.88), pos + Vector3(0, radius * 0.45, 0), Vector3(8, 22, -6))
 	if has_collider:
 		var body := StaticBody3D.new()

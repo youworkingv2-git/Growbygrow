@@ -3,9 +3,9 @@ extends RefCounted
 ## Emits non-blocking HUD notifications for quest availability, objective milestones, and completion.
 
 
-static func notify_started(quest_def: Dictionary) -> void:
-	var title := LocalizationManager.pick_text(quest_def, "title")
-	EventBus.toast_requested.emit("Nhiệm vụ mới: %s" % title, "quest")
+static func notify_started(_quest_def: Dictionary) -> void:
+	# UIManager already displays quest_started notifications via EventBus.quest_started.
+	pass
 
 
 static func notify_objective_updated(quest_def: Dictionary, step_def: Dictionary, obj_res: Dictionary) -> void:
@@ -18,6 +18,6 @@ static func notify_objective_updated(quest_def: Dictionary, step_def: Dictionary
 		EventBus.toast_requested.emit("Hoàn thành bước: %s" % step_title, "info")
 
 
-static func notify_completed(quest_def: Dictionary) -> void:
-	var title := LocalizationManager.pick_text(quest_def, "title")
-	EventBus.toast_requested.emit("Hoàn thành nhiệm vụ: %s!" % title, "quest")
+static func notify_completed(_quest_def: Dictionary) -> void:
+	# UIManager already displays quest_completed notifications via EventBus.quest_completed.
+	pass
