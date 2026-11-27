@@ -312,7 +312,7 @@ func _sync_from_settings() -> void:
 
 
 func _refresh_texts() -> void:
-	var is_en := LocalizationManager.get_locale() == "en"
+	var is_en: bool = str(LocalizationManager.get_locale()) == "en"
 	title_label.text = LocalizationManager.tr_key("settings_title", "CÀI ĐẶT TRÒ CHƠI")
 	close_btn.text = LocalizationManager.tr_key("btn_close", "Đóng")
 	_master_label.text = LocalizationManager.tr_key("settings_master", "Âm lượng Tổng (Master)")
