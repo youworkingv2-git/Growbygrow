@@ -14,6 +14,7 @@ var _title_lbl: Label
 var _progress_lbl: Label
 var _progress_bar: ProgressBar
 var _diff_pill: Label
+var _arcade_back_btn: Button
 var _bgm_toggle_btn: Button
 var _close_btn: Button
 
@@ -44,6 +45,7 @@ var _sum_stars_lbl: Label
 var _sum_stats_lbl: Label
 var _sum_rewards_lbl: Label
 var _sum_replay_btn: Button
+var _sum_arcade_btn: Button
 var _sum_return_btn: Button
 
 
@@ -115,6 +117,11 @@ func _build_ui() -> void:
 	_progress_lbl.add_theme_font_size_override("font_size", 16)
 	_progress_lbl.add_theme_color_override("font_color", Color(0.2, 0.38, 0.58, 1))
 	header.add_child(_progress_lbl)
+
+	_arcade_back_btn = _styled_btn("<- Trung tâm", Color(0.76, 0.48, 0.14, 1), Vector2(138, 40))
+	_arcade_back_btn.visible = false
+	_arcade_back_btn.pressed.connect(_return_to_arcade)
+	header.add_child(_arcade_back_btn)
 
 	_bgm_toggle_btn = _styled_btn("Nhạc nền: Bật", Color(0.32, 0.46, 0.68, 1), Vector2(130, 40))
 	_bgm_toggle_btn.pressed.connect(_toggle_bgm_mute)
@@ -311,11 +318,15 @@ func _build_ui() -> void:
 	sum_btns.add_theme_constant_override("separation", 16)
 	_summary_panel.add_child(sum_btns)
 
-	_sum_replay_btn = _styled_btn("Chơi lại", Color(0.2, 0.52, 0.86, 1), Vector2(160, 50))
+	_sum_replay_btn = _styled_btn("Chơi lại", Color(0.2, 0.52, 0.86, 1), Vector2(150, 50))
 	_sum_replay_btn.pressed.connect(_replay_current_minigame)
 	sum_btns.add_child(_sum_replay_btn)
 
-	_sum_return_btn = _styled_btn("Quay lại phiêu lưu", Color(0.16, 0.64, 0.34, 1), Vector2(220, 50))
+	_sum_arcade_btn = _styled_btn("Về Trung Tâm Trò chơi", Color(0.76, 0.48, 0.14, 1), Vector2(230, 50))
+	_sum_arcade_btn.pressed.connect(_return_to_arcade)
+	sum_btns.add_child(_sum_arcade_btn)
+
+	_sum_return_btn = _styled_btn("Quay lại phiêu lưu", Color(0.16, 0.64, 0.34, 1), Vector2(210, 50))
 	_sum_return_btn.pressed.connect(_return_to_world)
 	sum_btns.add_child(_sum_return_btn)
 
@@ -359,6 +370,7 @@ func open_arcade() -> void:
 	_diff_pill.text = "Dữ liệu đồng bộ Learning Engine"
 	_progress_lbl.text = ""
 	_progress_bar.visible = false
+	_arcade_back_btn.visible = false
 	_bgm_toggle_btn.visible = false
 	_close_btn.text = "Đóng (Esc)"
 
@@ -432,7 +444,10 @@ func _populate_arcade_cards() -> void:
 func _on_launch_session(sess: MiniGameSession) -> void:
 	_arcade_mode = false
 	_session = sess
+	var from_arcade := str(sess.launch_context.get("source_type", "")) == "arcade"
 	_backdrop.visible = true
+	_arcade_back_btn.visible = from_arcade
+	_sum_arcade_btn.visible = from_arcade
 	_bgm_toggle_btn.visible = true
 	_progress_bar.visible = true
 	_close_btn.text = "Thoát (Esc)"
@@ -613,9 +628,14 @@ func _replay_current_minigame() -> void:
 	MiniGameManager.start_minigame(mg_id, ctx, _selected_diff_override)
 
 
+func _return_to_arcade() -> void:
+	_clear_controller()
+	MiniGameManager.close_active_session(true)
+
+
 func _return_to_world() -> void:
 	_clear_controller()
-	MiniGameManager.close_active_session()
+	MiniGameManager.close_active_session(false)
 
 
 func _on_exit_pressed() -> void:

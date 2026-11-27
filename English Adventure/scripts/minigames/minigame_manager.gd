@@ -110,13 +110,19 @@ func complete_active_session() -> MiniGameResult:
 	return result
 
 
-func close_active_session() -> void:
+func close_active_session(reopen_arcade: bool = false) -> void:
 	if active_session == null:
 		return
 	active_session.current_stage = MiniGameSession.Stage.RETURNED
 	var finished_id := active_session.minigame_id
 	active_session = null
 	audio.duck_bgm_for_speech(false)
+	if reopen_arcade:
+		_restore_player_position()
+		close_modal_requested.emit()
+		open_arcade_launcher()
+		AppLogger.info("MiniGameManager", "Returned to Arcade Launcher from mini-game: " + finished_id)
+		return
 	EventBus.pause_toggled.emit(false)
 	_restore_player_position()
 	close_modal_requested.emit()
