@@ -88,7 +88,7 @@
       "activity_type": "fill_blank_sentence",
       "prompt_vi": "Chọn từ thích hợp để điền vào chỗ trống:",
       "text_en": "I have a ____.",
-      "word_id": "word_apple",
+      "word_id": "word_book",
       "options": [
         {
           "id": "a",
