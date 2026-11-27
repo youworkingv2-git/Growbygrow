@@ -9,8 +9,13 @@ const RESOLUTION_PRESETS: Array[Vector2i] = [
 	Vector2i(1920, 1080)
 ]
 
-var music_volume: float = 0.75
+var master_volume: float = 0.90
+var music_volume: float = 0.65
 var sfx_volume: float = 0.85
+var voice_volume: float = 0.95
+var learning_audio_volume: float = 1.0
+var speech_rate: float = 0.85 # 0.65 .. 1.15 (kid-friendly default)
+var mic_consent_acknowledged: bool = false
 var language: String = "vi"
 var fullscreen: bool = false
 var resolution_index: int = 0
@@ -46,8 +51,14 @@ func load_settings() -> void:
 	if typeof(parsed) != TYPE_DICTIONARY:
 		return
 	var d: Dictionary = parsed
-	music_volume = clampf(float(d.get("music_volume", 0.75)), 0.0, 1.0)
+	master_volume = clampf(float(d.get("master_volume", 0.90)), 0.0, 1.0)
+	music_volume = clampf(float(d.get("music_volume", 0.65)), 0.0, 1.0)
 	sfx_volume = clampf(float(d.get("sfx_volume", 0.85)), 0.0, 1.0)
+	voice_volume = clampf(float(d.get("voice_volume", 0.95)), 0.0, 1.0)
+	# Never silently mute learning pronunciation audio on load unless explicitly lowered via slider (floor 0.15)
+	learning_audio_volume = clampf(float(d.get("learning_audio_volume", 1.0)), 0.15, 1.0)
+	speech_rate = clampf(float(d.get("speech_rate", 0.85)), 0.65, 1.15)
+	mic_consent_acknowledged = bool(d.get("mic_consent_acknowledged", false))
 	var lang := str(d.get("language", "vi"))
 	language = lang if lang in ["vi", "en"] else "vi"
 	fullscreen = bool(d.get("fullscreen", false))
@@ -64,8 +75,13 @@ func load_settings() -> void:
 
 func save_settings() -> bool:
 	var payload := {
+		"master_volume": master_volume,
 		"music_volume": music_volume,
 		"sfx_volume": sfx_volume,
+		"voice_volume": voice_volume,
+		"learning_audio_volume": learning_audio_volume,
+		"speech_rate": speech_rate,
+		"mic_consent_acknowledged": mic_consent_acknowledged,
 		"language": language,
 		"fullscreen": fullscreen,
 		"resolution_index": resolution_index,
@@ -108,3 +124,14 @@ func supports_fullscreen_toggle() -> bool:
 
 func supports_resolution_change() -> bool:
 	return (not OS.has_feature("web")) and (not OS.has_feature("mobile"))
+
+
+func reset_audio_defaults() -> void:
+	master_volume = 0.90
+	music_volume = 0.65
+	sfx_volume = 0.85
+	voice_volume = 0.95
+	learning_audio_volume = 1.0
+	speech_rate = 0.85
+	preferred_accent = "en-US"
+	save_settings()

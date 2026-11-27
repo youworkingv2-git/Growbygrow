@@ -103,6 +103,50 @@ func get_audio_path_for_accent(word_dict: Dictionary, accent: String = "") -> St
 	return str(word_dict.get("audio_us_path", ""))
 
 
+func get_slow_audio_path_for_accent(word_dict: Dictionary, accent: String = "") -> String:
+	var acc := accent if not accent.is_empty() else SettingsManager.preferred_accent
+	if acc == "en-GB":
+		var uk := str(word_dict.get("audio_slow_uk_path", ""))
+		if not uk.is_empty():
+			return uk
+	return str(word_dict.get("audio_slow_us_path", ""))
+
+
+func get_example_audio_path_for_accent(word_dict: Dictionary, accent: String = "") -> String:
+	var acc := accent if not accent.is_empty() else SettingsManager.preferred_accent
+	if acc == "en-GB":
+		var uk := str(word_dict.get("example_audio_uk_path", ""))
+		if not uk.is_empty():
+			return uk
+	return str(word_dict.get("example_audio_us_path", ""))
+
+
+func get_syllables(word_dict: Dictionary) -> Array[String]:
+	var out: Array[String] = []
+	for s in word_dict.get("syllables", []):
+		out.append(str(s))
+	return out
+
+
+func get_phonemes(word_dict: Dictionary) -> Array[String]:
+	var out: Array[String] = []
+	for p in word_dict.get("phonemes", []):
+		out.append(str(p))
+	return out
+
+
+func play_word(word_dict: Dictionary, slow: bool = false, accent: String = "") -> Dictionary:
+	if AudioManager != null and AudioManager.voice_manager != null:
+		return AudioManager.voice_manager.speak_vocab_word(word_dict, slow, accent)
+	return { "played": false, "source": "unavailable" }
+
+
+func play_example(word_dict: Dictionary, accent: String = "") -> Dictionary:
+	if AudioManager != null and AudioManager.voice_manager != null:
+		return AudioManager.voice_manager.speak_vocab_example(word_dict, accent)
+	return { "played": false, "source": "unavailable" }
+
+
 func enrich_with_status(word_dict: Dictionary) -> Dictionary:
 	var copy := word_dict.duplicate(true)
 	var wid := str(copy.get("id", ""))

@@ -46,3 +46,10 @@
 
 - `MiniGameDataProvider` truy xuất trực tiếp `content_repo`, `vocabulary_manager`, `phonics_manager`, `grammar_manager`, `speaking_manager` mà không sao chép dữ liệu từ vựng riêng.
 - Mỗi lượt trả lời trong mini-game gọi `MiniGameSession.record_answer(...)` → gửi về `AssessmentEngine`, `LearningProgressManager`, `ReviewEngine` và `EventBus.minigame_answered`. Chi tiết xem [`docs/MINIGAME_ARCHITECTURE.md`](MINIGAME_ARCHITECTURE.md).
+
+---
+
+## 4. TÍCH HỢP VỚI AUDIO, VOICE & PRONUNCIATION SYSTEM (PROMPT 07)
+
+- **Vocabulary & Phonics Audio:** `VocabularyManager` bổ sung thông tin `syllables`, `phonemes`, `play_word(slow=true/false)` và `play_example()`, hoạt động qua `AudioManager.voice_manager` (hỗ trợ cả Native `DisplayServer.tts_*` và Web TTS, sẵn sàng cho file `.ogg`).
+- **Speaking Practice & Progress:** `SpeakingManager` kết nối `SpeechRecorder`, `SpeechRecognitionManager` và `PronunciationAssessmentManager` để ghi nhận `speaking_practice_session` vào `SaveLoadManager` outbox mà không bao giờ giả lập điểm AI. Chi tiết xem [`docs/AUDIO_SYSTEM.md`](AUDIO_SYSTEM.md).

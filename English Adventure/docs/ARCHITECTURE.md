@@ -284,3 +284,11 @@ Các thành phần đã triển khai thành GDScript & Scene thực thi trong `p
 - **Autoload mới:** `RewardManager` (`scripts/progression/reward_manager.gd`) kết hợp cùng `InventoryManager` (`inventory_manager.gd`) và `AchievementManager` (`achievement_manager.gd`).
 - **Tái cấu trúc `QuestManager` (`scripts/quest/`):** Gồm 10 module (`QuestRepository`, `QuestRegistry`, `QuestInstance`, `QuestStateManager`, `QuestObjectiveManager`, `QuestConditionEvaluator`, `QuestProgressTracker`, `QuestRewardManager`, `QuestNotificationManager`, `QuestEventHandler`) quản lý 6 trạng thái (`locked` -> `available` -> `accepted` -> `in_progress` -> `completed` -> `claimed`) và 12 loại mục tiêu.
 - **Nội dung tích hợp:** `chapters.json` (5 Chapters), `world_01_items.json` (15 vật phẩm có `usage_conditions`), `achievements.json` (7 thành tích), 5 Main Quests (`quest_01`..`quest_05`), 3 Side Quests, hội thoại tương tác có lựa chọn và điều kiện sử dụng vật phẩm. Xem [`docs/GAMEPLAY_LOOP.md`](GAMEPLAY_LOOP.md).
+
+---
+
+## 12. TRẠNG THÁI TRIỂN KHAI PROMPT 07 – AUDIO, VOICE & AI PRONUNCIATION SYSTEM
+
+- **Kiến trúc `AudioVoiceSystem` (`scripts/audio/`):** Gồm `AudioManager` (Autoload), `AudioAssetManager`, `AudioSettingsManager`, `MusicManager`, `SoundEffectManager`, `VoiceProfileManager`, `TextToSpeechManager`, `AudioPlaybackManager`, `VoiceManager`, `SpeechRecorder`, `SpeechRecognitionManager`, `PronunciationAssessmentManager`, `PronunciationFeedbackManager`, `AudioEventHandler`.
+- **Tài nguyên & TTS:** 11 file `.wav` UI/SFX/BGM gốc sạch bản quyền tại `assets/audio/` (`data/audio/audio_manifest.json`) cùng `DisplayServer.tts_*` + Web SpeechSynthesis fallback hỗ trợ `en-US` & `en-GB`.
+- **Ghi âm & AI Adapter:** `SpeechRecorder` đa nền tảng (`AudioEffectRecord` trên Windows/Mobile + `MediaRecorder` có xin quyền trên Web), `SpeakingPracticePanel` dùng chung cho `GameSpeakingHero` & `LearningHubModal`, Supabase Edge Functions (`pronunciation-assess`, `speech-recognize`) và migration `0006_audio_voice_pronunciation.sql`. Chi tiết xem [`docs/AUDIO_SYSTEM.md`](AUDIO_SYSTEM.md) và [`docs/AI_PROVIDER_COMPARISON.md`](AI_PROVIDER_COMPARISON.md).

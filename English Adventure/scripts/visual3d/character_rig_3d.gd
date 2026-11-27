@@ -28,6 +28,8 @@ var aura_mesh: MeshInstance3D
 
 var _current_mood: String = "neutral"
 var _materials_cache: Dictionary = {}
+var _is_speaking: bool = false
+var _speak_phase: float = 0.0
 
 
 static func build_character(char_id: String) -> CharacterRig3D:
@@ -492,3 +494,21 @@ func set_expression(mood: String) -> void:
 			mouth_mesh.scale = Vector3(0.85, 2.2, 1.2)
 		_:
 			pass
+
+
+## Basic procedural mouth open/close speaking animation (placeholder rig; NOT phoneme viseme lip-sync).
+func set_speaking(active: bool, delta_sec: float = 0.0) -> void:
+	_is_speaking = active
+	if mouth_mesh == null:
+		return
+	if not active:
+		_speak_phase = 0.0
+		set_expression(_current_mood)
+		if head_pivot != null:
+			head_pivot.rotation.x = 0.0
+		return
+	_speak_phase += maxf(0.016, delta_sec) * 14.0
+	var open_amt := 0.85 + absf(sin(_speak_phase)) * 1.45
+	mouth_mesh.scale = Vector3(1.15, open_amt, 1.05)
+	if head_pivot != null:
+		head_pivot.rotation.x = sin(_speak_phase * 0.5) * 0.05

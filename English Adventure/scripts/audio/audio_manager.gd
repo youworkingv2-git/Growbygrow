@@ -1,120 +1,146 @@
 extends Node
-## Shared Audio Manager for UI SFX, BGM, and Quest/Reward sound events.
-## Dynamically configures AudioServer buses without referencing missing audio files.
+## Autoload Facade for the AudioVoiceSystem (Prompt 07).
+## Preserves backwards compatibility with Prompt 01-06 callers while providing
+## modular access to Asset, Music, SFX, Voice, TTS, Playback, Recorder, STT,
+## Pronunciation Assessment, Feedback, Profiles, Settings, and Event Handler.
 
 const BUS_MUSIC := "Music"
 const BUS_SFX := "SFX"
 const BUS_VOICE := "Voice"
+const BUS_LEARNING := "Learning"
 
 var has_bundled_audio_assets: bool = false
-var missing_audio_notice: String = "Chưa có file âm thanh trong assets/audio/ (AudioManager đã cấu hình AudioServer buses sẵn sàng)."
+var missing_audio_notice: String = "Âm thanh UI/SFX/Nhạc nền đã sẵn sàng; phát âm từ vựng & NPC sử dụng giọng đọc TTS hệ thống khi chưa có file .ogg thu sẵn."
 
-var _music_bus_idx: int = -1
-var _sfx_bus_idx: int = -1
-var _voice_bus_idx: int = -1
-var _players_by_key: Dictionary = {}
-var _voice_player: AudioStreamPlayer = null
+var asset_manager: AudioAssetManager
+var voice_profiles: VoiceProfileManager
+var settings_manager: AudioSettingsManager
+var music_manager: MusicManager
+var sfx_manager: SoundEffectManager
+var tts_manager: TextToSpeechManager
+var playback_manager: AudioPlaybackManager
+var voice_manager: VoiceManager
+var speech_recorder: SpeechRecorder
+var speech_recognition: SpeechRecognitionManager
+var pronunciation_assessment: PronunciationAssessmentManager
+var pronunciation_feedback: PronunciationFeedbackManager
+var event_handler: AudioEventHandler
 
 
 func _ready() -> void:
-	_ensure_audio_buses()
-	_voice_player = AudioStreamPlayer.new()
-	_voice_player.bus = BUS_SFX
-	add_child(_voice_player)
-	_apply_volumes_from_settings()
+	process_mode = Node.PROCESS_MODE_ALWAYS
+
+	settings_manager = AudioSettingsManager.new()
+	settings_manager.ensure_buses()
+	settings_manager.apply_from_settings()
+
+	asset_manager = AudioAssetManager.new()
+	voice_profiles = VoiceProfileManager.new()
+
+	music_manager = MusicManager.new()
+	music_manager.name = "MusicManager"
+	add_child(music_manager)
+	music_manager.setup(asset_manager, settings_manager)
+
+	sfx_manager = SoundEffectManager.new()
+	sfx_manager.name = "SoundEffectManager"
+	add_child(sfx_manager)
+	sfx_manager.setup(asset_manager)
+
+	tts_manager = TextToSpeechManager.new()
+	tts_manager.name = "TextToSpeechManager"
+	add_child(tts_manager)
+
+	playback_manager = AudioPlaybackManager.new()
+	playback_manager.name = "AudioPlaybackManager"
+	add_child(playback_manager)
+	playback_manager.setup(asset_manager, music_manager, tts_manager, settings_manager)
+
+	voice_manager = VoiceManager.new(voice_profiles, playback_manager)
+
+	speech_recorder = SpeechRecorder.new()
+	speech_recorder.name = "SpeechRecorder"
+	add_child(speech_recorder)
+	speech_recorder.setup(playback_manager, sfx_manager)
+
+	speech_recognition = SpeechRecognitionManager.new()
+	speech_recognition.name = "SpeechRecognitionManager"
+	add_child(speech_recognition)
+
+	pronunciation_assessment = PronunciationAssessmentManager.new()
+	pronunciation_assessment.name = "PronunciationAssessmentManager"
+	add_child(pronunciation_assessment)
+
+	pronunciation_feedback = PronunciationFeedbackManager.new()
+
+	event_handler = AudioEventHandler.new(music_manager, sfx_manager, playback_manager)
+	event_handler.connect_events()
+
+	var audit := asset_manager.get_audit_summary()
+	has_bundled_audio_assets = int(audit.get("bundled_verified", 0)) > 0
+
 	EventBus.settings_changed.connect(_apply_volumes_from_settings)
-	EventBus.quest_completed.connect(func(_qid: String, _rw: Dictionary) -> void: play_sfx("quest_complete"))
-	EventBus.area_unlocked.connect(func(_aid: String) -> void: play_sfx("area_unlocked"))
-	EventBus.item_collected.connect(func(_iid: String, _qty: int) -> void: play_sfx("reward_received"))
-
-
-func _ensure_audio_buses() -> void:
-	_music_bus_idx = AudioServer.get_bus_index(BUS_MUSIC)
-	if _music_bus_idx == -1:
-		AudioServer.add_bus()
-		_music_bus_idx = AudioServer.get_bus_count() - 1
-		AudioServer.set_bus_name(_music_bus_idx, BUS_MUSIC)
-
-	_sfx_bus_idx = AudioServer.get_bus_index(BUS_SFX)
-	if _sfx_bus_idx == -1:
-		AudioServer.add_bus()
-		_sfx_bus_idx = AudioServer.get_bus_count() - 1
-		AudioServer.set_bus_name(_sfx_bus_idx, BUS_SFX)
-
-	_voice_bus_idx = AudioServer.get_bus_index(BUS_VOICE)
-	if _voice_bus_idx == -1:
-		AudioServer.add_bus()
-		_voice_bus_idx = AudioServer.get_bus_count() - 1
-		AudioServer.set_bus_name(_voice_bus_idx, BUS_VOICE)
+	AppLogger.info(
+		"AudioManager",
+		"AudioVoiceSystem initialized: %d bundled WAV assets, TTS=%s" % [
+			int(audit.get("bundled_verified", 0)),
+			str(tts_manager.is_available())
+		]
+	)
 
 
 func _apply_volumes_from_settings() -> void:
-	set_bus_linear_volume(_music_bus_idx, SettingsManager.music_volume)
-	set_bus_linear_volume(_sfx_bus_idx, SettingsManager.sfx_volume)
-	set_bus_linear_volume(_voice_bus_idx, 1.0)
+	if settings_manager != null:
+		settings_manager.apply_from_settings()
+	if music_manager != null:
+		music_manager.pop_duck("_refresh_noop")
 
 
 func set_bus_linear_volume(bus_idx: int, linear: float) -> void:
-	if bus_idx < 0:
-		return
-	var clamped := clampf(linear, 0.0, 1.0)
-	AudioServer.set_bus_mute(bus_idx, clamped <= 0.001)
-	if clamped > 0.001:
-		AudioServer.set_bus_volume_db(bus_idx, linear_to_db(clamped))
+	if settings_manager != null:
+		settings_manager.set_bus_linear_volume(bus_idx, linear)
 
 
 func register_sfx_stream(event_key: String, stream: AudioStream) -> void:
-	if stream == null:
-		return
-	var player := AudioStreamPlayer.new()
-	player.bus = BUS_SFX
-	player.stream = stream
-	add_child(player)
-	_players_by_key[event_key] = player
-	has_bundled_audio_assets = true
+	if sfx_manager != null:
+		sfx_manager.register_stream(event_key, stream)
+		has_bundled_audio_assets = true
 
 
 func play_sfx(event_key: String) -> void:
-	if SettingsManager.sfx_volume <= 0.001:
-		return
-	if _players_by_key.has(event_key):
-		var p: AudioStreamPlayer = _players_by_key[event_key]
-		if p != null:
-			p.play()
-	else:
-		# No bundled audio asset yet — cleanly log at debug level only for major gameplay cues
-		if event_key in ["quest_complete", "reward_received", "area_unlocked"]:
-			AppLogger.debug("AudioManager", "SFX hook triggered (asset pending): " + event_key)
+	if sfx_manager != null:
+		sfx_manager.play_sfx(event_key)
 
 
-func play_learning_audio(audio_path: String, _accent: String = "") -> Dictionary:
-	if not audio_path.is_empty() and ResourceLoader.exists(audio_path):
-		var stream := load(audio_path) as AudioStream
-		if stream != null and _voice_player != null:
-			_voice_player.stream = stream
-			_voice_player.play()
-			return { "played_bundled": true, "status": "ok", "message_vi": "Đang phát âm thanh mẫu." }
+func play_learning_audio(audio_path: String, accent: String = "") -> Dictionary:
+	var acc := accent if not accent.is_empty() else SettingsManager.preferred_accent
+	if not audio_path.is_empty() and asset_manager != null:
+		var stream := asset_manager.load_stream_by_path(audio_path, true)
+		if stream != null:
+			var pb := playback_manager.play_speech_or_asset({
+				"audio_path": audio_path,
+				"accent": acc,
+				"channel": "learning",
+				"allow_tts_fallback": false
+			})
+			pb["played_bundled"] = bool(pb.get("played", false))
+			return pb
 	return {
 		"played_bundled": false,
 		"status": "missing_asset",
-		"message_vi": "Chưa có file âm thanh thu sẵn (asset âm thanh đang chờ bổ sung)."
+		"message_vi": "Chưa có file âm thanh thu sẵn (dùng giọng đọc TTS hệ thống nếu thiết bị hỗ trợ)."
 	}
 
 
 func can_use_browser_tts() -> bool:
+	# Kept for backwards compatibility with Prompt 04-06 callers; true whenever OS TTS or Web TTS works!
+	if tts_manager != null:
+		return tts_manager.is_available()
 	return OS.has_feature("web")
 
 
 func speak_browser_tts_fallback(text: String, accent: String = "en-US", rate: float = 0.86) -> bool:
-	if not OS.has_feature("web") or text.strip_edges().is_empty():
-		return false
-	var lang := "en-GB" if accent == "en-GB" else "en-US"
-	var clean_text := text.strip_edges()
-	if clean_text == "Z" and lang == "en-GB":
-		clean_text = "Zed"
-	var safe_text := JSON.stringify(clean_text)
-	var r := clampf(rate, 0.55, 1.2)
-	var lang_lc := lang.to_lower()
-	var js := "(function(){ if ('speechSynthesis' in window) { window.speechSynthesis.cancel(); var u = new SpeechSynthesisUtterance(" + safe_text + "); u.lang = '" + lang + "'; u.rate = " + str(r) + "; var voices = window.speechSynthesis.getVoices() || []; var v = voices.find(function(x){ return x.lang && x.lang.toLowerCase().replace('_', '-') === '" + lang_lc + "'; }) || voices.find(function(x){ return x.lang && x.lang.toLowerCase().startsWith('en'); }); if (v) u.voice = v; window.speechSynthesis.speak(u); return true; } return false; })();"
-	var ok: Variant = JavaScriptBridge.eval(js)
-	return bool(ok)
+	if voice_manager != null:
+		var res := voice_manager.speak_learning_text(text, "", accent, rate < 0.76)
+		return bool(res.get("played", false))
+	return false

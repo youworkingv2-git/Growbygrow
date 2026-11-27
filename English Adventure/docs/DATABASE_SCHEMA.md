@@ -508,6 +508,7 @@
   - `0003_learning_engine_extensions.sql` *(Prompt 04)*: Bổ sung an toàn 7 bảng (`learning_paths`, `learning_levels`, `topics`, `learning_activities`, `phonics_examples`, `grammar_examples`, `player_skill_progress`) cùng RLS isolation đầy đủ. Xem chi tiết tại [`docs/LEARNING_DATABASE.md`](LEARNING_DATABASE.md).
   - `0004_minigame_system_extensions.sql` *(Prompt 05)*: Bổ sung an toàn 4 bảng (`minigames`, `minigame_sessions`, `minigame_question_logs`, `minigame_rewards`) cùng RLS isolation đầy đủ để lưu phiên chơi, nhật ký từng câu hỏi mini-game và sổ cái chống nhận thưởng trùng.
   - `0005_quest_reward_inventory_integration.sql` *(Prompt 06)*: Bổ sung an toàn 5 bảng (`reward_ledger`, `quest_objective_states`, `player_inventory`, `player_achievements`, `npc_encounters`) cùng RLS isolation để đồng bộ sổ cái thưởng, tiến độ mục tiêu chi tiết, túi đồ và thành tựu.
+  - `0006_audio_voice_pronunciation.sql` *(Prompt 07)*: Bổ sung an toàn 4 bảng (`voice_profiles`, `speaking_practice_sessions`, `pronunciation_assessments`, `audio_settings_sync`) với cột điểm AI có thể để `NULL` (không điền điểm giả), cờ `is_mock`, RLS theo `is_profile_owner(profile_id)`, và **tuyệt đối không lưu file audio giọng nói trẻ em**.
 - **Backup Strategy:**
   - Supabase Daily Automated Backups + Point-in-Time Recovery (PITR) khi lên Production.
   - Dữ liệu Content (`vocabulary`, `quests`, `phonics_content`) được version hóa dưới dạng JSON trong Git (`data/`) nên có thể khôi phục/re-seed bất kỳ lúc nào.

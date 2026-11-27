@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0",
+  "default_accent": "en-US",
+  "supported_accents": ["en-US", "en-GB"],
+  "profiles": [
+    {
+      "id": "professor_owl",
+      "display_name_vi": "Giáo sư Cú Mèo",
+      "display_name_en": "Professor Owl",
+      "priority": "mvp_primary",
+      "personality_vi": "Ấm áp, kiên nhẫn, rõ ràng khi hướng dẫn và giao nhiệm vụ.",
+      "pitch_scale": 0.90,
+      "rate_scale": 0.84,
+      "volume_scale": 1.0,
+      "preferred_gender": "male",
+      "lip_sync_mode": "basic_mouth_animation",
+      "audio_source_mode": "bundled_or_tts"
+    },
+    {
+      "id": "buddy",
+      "display_name_vi": "Buddy (Rồng Nhỏ)",
+      "display_name_en": "Buddy",
+      "priority": "mvp_primary",
+      "personality_vi": "Vui vẻ, sinh động, câu ngắn khuyến khích trẻ.",
+      "pitch_scale": 1.18,
+      "rate_scale": 0.95,
+      "volume_scale": 1.0,
+      "preferred_gender": "neutral_child",
+      "lip_sync_mode": "basic_mouth_animation",
+      "audio_source_mode": "bundled_or_tts"
+    },
+    {
+      "id": "lily",
+      "display_name_vi": "Lily",
+      "display_name_en": "Lily",
+      "priority": "secondary",
+      "personality_vi": "Thân thiện, dịu dàng trong hội thoại đời thường.",
+      "pitch_scale": 1.12,
+      "rate_scale": 0.88,
+      "volume_scale": 0.96,
+      "preferred_gender": "female",
+      "lip_sync_mode": "basic_mouth_animation",
+      "audio_source_mode": "bundled_or_tts"
+    },
+    {
+      "id": "rocky",
+      "display_name_vi": "Rocky",
+      "display_name_en": "Rocky",
+      "priority": "secondary",
+      "personality_vi": "Năng động, khỏe khoắn, hỗ trợ thử thách hành động.",
+      "pitch_scale": 0.84,
+      "rate_scale": 0.90,
+      "volume_scale": 0.98,
+      "preferred_gender": "male",
+      "lip_sync_mode": "basic_mouth_animation",
+      "audio_source_mode": "bundled_or_tts"
+    },
+    {
+      "id": "crystal_guardian",
+      "display_name_vi": "Người Gác Pha Lê",
+      "display_name_en": "Crystal Guardian",
+      "priority": "secondary",
+      "personality_vi": "Điềm tĩnh, huyền bí cho các thử thách đặc biệt.",
+      "pitch_scale": 0.94,
+      "rate_scale": 0.78,
+      "volume_scale": 1.0,
+      "preferred_gender": "neutral",
+      "lip_sync_mode": "basic_mouth_animation",
+      "audio_source_mode": "bundled_or_tts"
+    },
+    {
+      "id": "learning_narrator",
+      "display_name_vi": "Giọng đọc Bài học",
+      "display_name_en": "Learning Narrator",
+      "priority": "mvp_primary",
+      "personality_vi": "Phát âm chuẩn mực, rõ từng âm tiết cho từ vựng và phonics.",
+      "pitch_scale": 1.0,
+      "rate_scale": 0.85,
+      "volume_scale": 1.0,
+      "preferred_gender": "neutral",
+      "lip_sync_mode": "none",
+      "audio_source_mode": "bundled_or_tts"
+    }
+  ]
+}

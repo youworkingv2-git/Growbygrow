@@ -158,7 +158,8 @@ func _on_scenario_switched(idx: int) -> void:
 func _play_npc_line() -> void:
 	if audio == null or _current_item.is_empty():
 		return
-	audio.play_word_or_sentence("", str(_current_item.get("npc_line_en", "")))
+	var sp_id := str(_current_item.get("npc_id", _current_item.get("speaker_id", "professor_owl")))
+	audio.play_word_or_sentence(str(_current_item.get("audio_path", "")), str(_current_item.get("npc_line_en", "")), "", false, sp_id)
 
 
 func _on_option_chosen(opt: Dictionary, btn: Button) -> void:

@@ -122,4 +122,5 @@ English Adventure/
    - `0003_learning_engine_extensions.sql`
    - `0004_minigame_system_extensions.sql`
    - `0005_quest_reward_inventory_integration.sql`
-4. Xem `docs/IMPLEMENTATION_CHECKLIST.md`, `docs/MINIGAME_SYSTEM.md`, và `docs/GAMEPLAY_LOOP.md` để vận hành đầy đủ từ Prompt 01 → Prompt 06.
+   - `0006_audio_voice_pronunciation.sql`
+4. Xem `docs/IMPLEMENTATION_CHECKLIST.md`, `docs/MINIGAME_SYSTEM.md`, `docs/GAMEPLAY_LOOP.md`, và `docs/AUDIO_SYSTEM.md` để vận hành đầy đủ từ Prompt 01 → Prompt 07.

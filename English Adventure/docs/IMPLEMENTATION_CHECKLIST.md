@@ -94,3 +94,13 @@ Tài liệu này tổng hợp kết quả kiểm tra tính nhất quán của **
 - [x] Hội thoại song ngữ tương tác (`choices` + `quest_action` + bật/tắt tiếng Việt + nghe thoại) và máy trạng thái 3D cho NPC.
 - [x] Migration `0005_quest_reward_inventory_integration.sql` và save schema v2 chống xung đột timestamp/revision.
 - [ ] Chạy `0001`–`0005` trên Supabase server thật và tích hợp audio thu âm + AI Pronunciation Scoring (Prompt 07+).
+
+---
+
+## 5. TRẠNG THÁI TRIỂN KHAI PROMPT 07 – AUDIO, VOICE & AI PRONUNCIATION SYSTEM
+- [x] Kiến trúc 14 file `AudioVoiceSystem` trong `scripts/audio/` (`AudioManager`, `AudioAssetManager`, `AudioSettingsManager`, `MusicManager`, `SoundEffectManager`, `VoiceProfileManager`, `TextToSpeechManager`, `AudioPlaybackManager`, `VoiceManager`, `SpeechRecorder`, `SpeechRecognitionManager`, `PronunciationAssessmentManager`, `PronunciationFeedbackManager`, `AudioEventHandler`).
+- [x] 11 file `.wav` UI/SFX/BGM gốc sạch bản quyền tại `assets/audio/` + `data/audio/audio_manifest.json` + `data/audio/voice_profiles.json`.
+- [x] Nâng cấp `SettingsModalUI` (5 nhóm âm lượng + tốc độ đọc + phương ngữ `en-US`/`en-GB` + khôi phục mặc định) và `DialogueBoxUI` (giọng NPC + tạm dừng + animation miệng 3D).
+- [x] `SpeakingPracticePanel` tích hợp vào `GameSpeakingHero` & `LearningHubModal` (nghe mẫu/chậm, xin quyền mic, ghi âm đa nền tảng, phát lại, hủy bản ghi, gửi đánh giá có xác nhận).
+- [x] Migration `0006_audio_voice_pronunciation.sql` + Supabase Edge Functions (`pronunciation-assess` cho Azure AI Speech, `speech-recognize` cho STT).
+- [ ] Gắn `AZURE_SPEECH_KEY` & `AZURE_SPEECH_RESOURCE` trên Supabase Cloud và thu âm `.ogg` giọng lồng tiếng chuyên nghiệp cho từ vựng/NPC (khi có ngân sách/tài khoản sản xuất).

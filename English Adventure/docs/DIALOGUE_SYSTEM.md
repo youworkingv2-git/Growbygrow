@@ -42,3 +42,5 @@ Hệ thống hội thoại gồm hai thành phần tách biệt giữa dữ li�
 Hỗ trợ bổ sung hội thoại mới hoặc dịch sang nhiều ngôn ngữ mà không cần sửa GDScript.
 
 *(Cập nhật Prompt 06)*: Hỗ trợ thêm `choices` tương tác (`quest_action`: `accept_quest`, `claim_quest`, `start_minigame`, `open_learning_hub`), nút bật/tắt bản dịch tiếng Việt, nút nghe thoại tiếng Anh và lưu `seen_dialogues`. Xem `docs/DIALOGUE_INTEGRATION.md`.
+
+*(Cập nhật Prompt 07)*: `DialogueBoxUI` tự động phát giọng đọc NPC qua `AudioManager.voice_manager.speak_npc_line`, bổ sung nút `Tạm dừng / Tiếp tục nghe`, hỗ trợ đồng bộ phụ đề theo `subtitle_segments` khi có timestamp chuẩn (hiển thị trọn câu khi dùng TTS không có timestamp, không giả lập nhịp). Xem [`docs/NPC_VOICE_DESIGN.md`](NPC_VOICE_DESIGN.md).

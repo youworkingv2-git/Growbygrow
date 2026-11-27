@@ -210,3 +210,10 @@ Các hệ thống và màn hình UI/UX 3D đã được triển khai thực tế
   - **Arcade Launcher:** Mở từ nút **Trò chơi [G]** trên `BottomDock` hoặc từ `LearningHubModal`, hiển thị 8 mini-game khả dụng + 8 template mở rộng.
   - **Quy trình 8 bước thống nhất:** Intro → Learning Objective → Instructions → Gameplay (8 controller riêng biệt) → Immediate Feedback (kèm đáp án, nghĩa tiếng Việt, giải thích, ví dụ, nút Nghe lại & Thử lại) → Result Summary (Sao + Learning Score vs Game Score) → Reward → Return to Adventure (trả lại đúng vị trí 3D trước khi vào mini-game).
 
+---
+
+## 5. CẬP NHẬT TRIỂN KHAI THỰC TẾ (PROMPT 07 – AUDIO SETTINGS & SPEAKING PRACTICE UI)
+
+- **Settings Modal (`SettingsModalUI`):** Bổ sung thanh trượt `Master Volume`, `Giọng nói NPC`, `Âm thanh Học tập` (giữ mức sàn an toàn `15%`), `Tốc độ đọc tiếng Anh` (`0.65x–1.15x`), lựa chọn phương ngữ (`English – US` / `English – UK`), và nút `Mặc định âm thanh`.
+- **Speaking Practice UI (`SpeakingPracticePanel`):** Giao diện 3D Fantasy Cartoon dùng chung cho `GameSpeakingHero` và `LearningHubModal`, gồm `Nghe mẫu`, `Nghe chậm`, `Bật Micro`, `Ghi âm / Tạm dừng / Dừng`, thanh thời lượng + mức tín hiệu, `Nghe lại`, `Ghi lại`, `Hủy bản ghi`, `Gửi đánh giá phát âm` (chỉ gửi khi bấm xác nhận) và hoàn thành tự luyện không chặn tiến trình.
+

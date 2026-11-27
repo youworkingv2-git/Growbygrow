@@ -8,3 +8,4 @@
 2. **8-Stage Session Flow:** Mọi phiên chơi đều đi qua 8 bước: Introduction → Learning Objective → Instructions → Gameplay → Immediate Feedback → Result Summary → Reward → Return to Adventure.
 3. **Zero-Penalty Beginner Design:** Trẻ trả lời sai không bị trừ tiến trình hay phạt thời gian; luôn nhận phản hồi đúng kèm đáp án, nghĩa tiếng Việt, giải thích đơn giản và phát âm mẫu.
 4. **3D World Integration:** Mở được từ NPC, Quest, Vật thể 3D, BottomDock (`[G]`), và `LearningHubModal`; tạm dừng thế giới 3D sạch sẽ và trả nhân vật về đúng vị trí `global_position` ban đầu khi kết thúc.
+5. **Audio & Speaking Integration (Prompt 07):** `MiniGameAudioManager` sử dụng `AudioManager.voice_manager` và `MusicManager.push_duck()`; `GameSpeakingHero` tích hợp `SpeakingPracticePanel` (nghe mẫu/chậm, xin quyền mic, ghi âm/tạm dừng/dừng/nghe lại/hủy, gửi đánh giá khi có AI); `GameDialogueAdventure` phát giọng đọc riêng cho từng NPC theo `voice_profiles.json`.

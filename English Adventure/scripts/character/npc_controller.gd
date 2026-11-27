@@ -20,6 +20,7 @@ var current_state: NpcState = NpcState.IDLE
 var _rig: CharacterRig3D = null
 var _idle_t: float = 0.0
 var _is_talking: bool = false
+var _is_speaking_audio: bool = false
 var _celebrate_timer: float = 0.0
 
 @onready var visual_slot: Asset3DSlot = $VisualSlot
@@ -47,7 +48,22 @@ func _ready() -> void:
 	)
 	EventBus.dialogue_ended.connect(func(_did: String) -> void:
 		_is_talking = false
+		_is_speaking_audio = false
+		if _rig != null and is_instance_valid(_rig):
+			_rig.set_speaking(false)
 		_refresh_badge()
+	)
+	EventBus.voice_playback_started.connect(func(speaker_id: String, _txt: String, _meta: Dictionary) -> void:
+		if speaker_id == npc_id:
+			_is_talking = true
+			_is_speaking_audio = true
+			_refresh_badge()
+	)
+	EventBus.voice_playback_finished.connect(func(speaker_id: String, _meta: Dictionary) -> void:
+		if speaker_id == npc_id or _is_speaking_audio:
+			_is_speaking_audio = false
+			if _rig != null and is_instance_valid(_rig):
+				_rig.set_speaking(false)
 	)
 	EventBus.ui_locale_changed.connect(func(_l: String) -> void: _refresh_visuals())
 	if not npc_data.is_empty():
@@ -68,6 +84,8 @@ func _process(delta: float) -> void:
 			_rig.body_pivot.position.y = sin(_idle_t * bob_speed) * bob_amp
 		if _rig.head_pivot != null:
 			_rig.head_pivot.rotation.y = sin(_idle_t * 1.1) * 0.12
+		if _is_speaking_audio:
+			_rig.set_speaking(true, delta)
 		if _rig.aura_mesh != null:
 			_rig.aura_mesh.rotation.y += delta * 1.2
 	if quest_badge.visible:

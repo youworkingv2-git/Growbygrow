@@ -29,7 +29,22 @@
         "writing_missing_letter",
         "speaking_repeat_word",
         "review_flashcard"
-      ]
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "ap",
+        "ple"
+      ],
+      "phonemes": [
+        "æ",
+        "p",
+        "ə",
+        "l"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": ""
     },
     {
       "id": "word_banana",
@@ -59,7 +74,25 @@
         "writing_missing_letter",
         "speaking_repeat_word",
         "review_flashcard"
-      ]
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "ba",
+        "na",
+        "na"
+      ],
+      "phonemes": [
+        "b",
+        "ə",
+        "n",
+        "æ",
+        "n",
+        "ə"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": ""
     },
     {
       "id": "word_orange",
@@ -89,7 +122,23 @@
         "writing_missing_letter",
         "speaking_repeat_word",
         "review_flashcard"
-      ]
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "or",
+        "ange"
+      ],
+      "phonemes": [
+        "ɔː",
+        "r",
+        "ɪ",
+        "n",
+        "dʒ"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": ""
     },
     {
       "id": "word_milk",
@@ -119,7 +168,21 @@
         "writing_missing_letter",
         "speaking_repeat_word",
         "review_flashcard"
-      ]
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "milk"
+      ],
+      "phonemes": [
+        "m",
+        "ɪ",
+        "l",
+        "k"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": ""
     },
     {
       "id": "word_cake",
@@ -149,7 +212,20 @@
         "writing_missing_letter",
         "speaking_repeat_word",
         "review_flashcard"
-      ]
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "cake"
+      ],
+      "phonemes": [
+        "k",
+        "eɪ",
+        "k"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": ""
     },
     {
       "id": "word_water",
@@ -178,7 +254,23 @@
         "writing_missing_letter",
         "speaking_repeat_word",
         "review_flashcard"
-      ]
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "wa",
+        "ter"
+      ],
+      "phonemes": [
+        "w",
+        "ɔː",
+        "t",
+        "ə",
+        "r"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": ""
     },
     {
       "id": "word_cat",
@@ -208,7 +300,20 @@
         "writing_missing_letter",
         "speaking_repeat_word",
         "review_flashcard"
-      ]
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "cat"
+      ],
+      "phonemes": [
+        "k",
+        "æ",
+        "t"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": ""
     },
     {
       "id": "word_dog",
@@ -238,7 +343,20 @@
         "writing_missing_letter",
         "speaking_repeat_word",
         "review_flashcard"
-      ]
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "dog"
+      ],
+      "phonemes": [
+        "d",
+        "ɔː",
+        "ɡ"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": ""
     },
     {
       "id": "word_bird",
@@ -268,7 +386,21 @@
         "writing_missing_letter",
         "speaking_repeat_word",
         "review_flashcard"
-      ]
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "bird"
+      ],
+      "phonemes": [
+        "b",
+        "ɜː",
+        "r",
+        "d"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": ""
     },
     {
       "id": "word_fish",
@@ -298,7 +430,20 @@
         "writing_missing_letter",
         "speaking_repeat_word",
         "review_flashcard"
-      ]
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "fish"
+      ],
+      "phonemes": [
+        "f",
+        "ɪ",
+        "ʃ"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": ""
     },
     {
       "id": "word_duck",
@@ -328,7 +473,20 @@
         "writing_missing_letter",
         "speaking_repeat_word",
         "review_flashcard"
-      ]
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "duck"
+      ],
+      "phonemes": [
+        "d",
+        "ʌ",
+        "k"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": ""
     },
     {
       "id": "word_elephant",
@@ -358,7 +516,26 @@
         "writing_missing_letter",
         "speaking_repeat_word",
         "review_flashcard"
-      ]
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "el",
+        "e",
+        "phant"
+      ],
+      "phonemes": [
+        "e",
+        "l",
+        "ə",
+        "f",
+        "ə",
+        "n",
+        "t"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": ""
     },
     {
       "id": "word_red",
@@ -388,7 +565,20 @@
         "writing_missing_letter",
         "speaking_repeat_word",
         "review_flashcard"
-      ]
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "red"
+      ],
+      "phonemes": [
+        "r",
+        "e",
+        "d"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": ""
     },
     {
       "id": "word_blue",
@@ -418,7 +608,20 @@
         "writing_missing_letter",
         "speaking_repeat_word",
         "review_flashcard"
-      ]
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "blue"
+      ],
+      "phonemes": [
+        "b",
+        "l",
+        "uː"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": ""
     },
     {
       "id": "word_green",
@@ -448,7 +651,21 @@
         "writing_missing_letter",
         "speaking_repeat_word",
         "review_flashcard"
-      ]
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "green"
+      ],
+      "phonemes": [
+        "ɡ",
+        "r",
+        "iː",
+        "n"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": ""
     },
     {
       "id": "word_yellow",
@@ -478,7 +695,22 @@
         "writing_missing_letter",
         "speaking_repeat_word",
         "review_flashcard"
-      ]
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "yel",
+        "low"
+      ],
+      "phonemes": [
+        "j",
+        "e",
+        "l",
+        "oʊ"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": ""
     },
     {
       "id": "word_pink",
@@ -508,7 +740,21 @@
         "writing_missing_letter",
         "speaking_repeat_word",
         "review_flashcard"
-      ]
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "pink"
+      ],
+      "phonemes": [
+        "p",
+        "ɪ",
+        "ŋ",
+        "k"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": ""
     },
     {
       "id": "word_one",
@@ -538,7 +784,20 @@
         "writing_missing_letter",
         "speaking_repeat_word",
         "review_flashcard"
-      ]
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "one"
+      ],
+      "phonemes": [
+        "w",
+        "ʌ",
+        "n"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": ""
     },
     {
       "id": "word_two",
@@ -568,7 +827,19 @@
         "writing_missing_letter",
         "speaking_repeat_word",
         "review_flashcard"
-      ]
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "two"
+      ],
+      "phonemes": [
+        "t",
+        "uː"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": ""
     },
     {
       "id": "word_three",
@@ -598,7 +869,20 @@
         "writing_missing_letter",
         "speaking_repeat_word",
         "review_flashcard"
-      ]
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "three"
+      ],
+      "phonemes": [
+        "θ",
+        "r",
+        "iː"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": ""
     },
     {
       "id": "word_four",
@@ -628,7 +912,20 @@
         "writing_missing_letter",
         "speaking_repeat_word",
         "review_flashcard"
-      ]
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "four"
+      ],
+      "phonemes": [
+        "f",
+        "ɔː",
+        "r"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": ""
     },
     {
       "id": "word_five",
@@ -658,7 +955,20 @@
         "writing_missing_letter",
         "speaking_repeat_word",
         "review_flashcard"
-      ]
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "five"
+      ],
+      "phonemes": [
+        "f",
+        "aɪ",
+        "v"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": ""
     },
     {
       "id": "word_mom",
@@ -688,7 +998,20 @@
         "writing_missing_letter",
         "speaking_repeat_word",
         "review_flashcard"
-      ]
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "mom"
+      ],
+      "phonemes": [
+        "m",
+        "ɑː",
+        "m"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": ""
     },
     {
       "id": "word_dad",
@@ -718,7 +1041,20 @@
         "writing_missing_letter",
         "speaking_repeat_word",
         "review_flashcard"
-      ]
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "dad"
+      ],
+      "phonemes": [
+        "d",
+        "æ",
+        "d"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": ""
     },
     {
       "id": "word_sister",
@@ -748,7 +1084,24 @@
         "writing_missing_letter",
         "speaking_repeat_word",
         "review_flashcard"
-      ]
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "sis",
+        "ter"
+      ],
+      "phonemes": [
+        "s",
+        "ɪ",
+        "s",
+        "t",
+        "ə",
+        "r"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": ""
     },
     {
       "id": "word_brother",
@@ -778,7 +1131,24 @@
         "writing_missing_letter",
         "speaking_repeat_word",
         "review_flashcard"
-      ]
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "broth",
+        "er"
+      ],
+      "phonemes": [
+        "b",
+        "r",
+        "ʌ",
+        "ð",
+        "ə",
+        "r"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": ""
     },
     {
       "id": "word_ball",
@@ -808,7 +1178,20 @@
         "writing_missing_letter",
         "speaking_repeat_word",
         "review_flashcard"
-      ]
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "ball"
+      ],
+      "phonemes": [
+        "b",
+        "ɔː",
+        "l"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": ""
     },
     {
       "id": "word_book",
@@ -838,7 +1221,20 @@
         "writing_missing_letter",
         "speaking_repeat_word",
         "review_flashcard"
-      ]
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "book"
+      ],
+      "phonemes": [
+        "b",
+        "ʊ",
+        "k"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": ""
     },
     {
       "id": "word_pen",
@@ -868,7 +1264,20 @@
         "writing_missing_letter",
         "speaking_repeat_word",
         "review_flashcard"
-      ]
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "pen"
+      ],
+      "phonemes": [
+        "p",
+        "e",
+        "n"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": ""
     },
     {
       "id": "word_bag",
@@ -898,7 +1307,20 @@
         "writing_missing_letter",
         "speaking_repeat_word",
         "review_flashcard"
-      ]
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "bag"
+      ],
+      "phonemes": [
+        "b",
+        "æ",
+        "ɡ"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": ""
     },
     {
       "id": "word_chair",
@@ -928,7 +1350,20 @@
         "writing_missing_letter",
         "speaking_repeat_word",
         "review_flashcard"
-      ]
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "chair"
+      ],
+      "phonemes": [
+        "tʃ",
+        "e",
+        "r"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": ""
     },
     {
       "id": "word_ship",
@@ -958,7 +1393,20 @@
         "writing_missing_letter",
         "speaking_repeat_word",
         "review_flashcard"
-      ]
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "ship"
+      ],
+      "phonemes": [
+        "ʃ",
+        "ɪ",
+        "p"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": ""
     },
     {
       "id": "word_hat",
@@ -988,7 +1436,20 @@
         "writing_missing_letter",
         "speaking_repeat_word",
         "review_flashcard"
-      ]
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "hat"
+      ],
+      "phonemes": [
+        "h",
+        "æ",
+        "t"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": ""
     },
     {
       "id": "word_jam",
@@ -1018,7 +1479,20 @@
         "writing_missing_letter",
         "speaking_repeat_word",
         "review_flashcard"
-      ]
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "jam"
+      ],
+      "phonemes": [
+        "dʒ",
+        "æ",
+        "m"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": ""
     },
     {
       "id": "word_queen",
@@ -1048,7 +1522,21 @@
         "writing_missing_letter",
         "speaking_repeat_word",
         "review_flashcard"
-      ]
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "queen"
+      ],
+      "phonemes": [
+        "k",
+        "w",
+        "iː",
+        "n"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": ""
     },
     {
       "id": "word_van",
@@ -1078,7 +1566,20 @@
         "writing_missing_letter",
         "speaking_repeat_word",
         "review_flashcard"
-      ]
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "van"
+      ],
+      "phonemes": [
+        "v",
+        "æ",
+        "n"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": ""
     },
     {
       "id": "word_box",
@@ -1108,7 +1609,21 @@
         "writing_missing_letter",
         "speaking_repeat_word",
         "review_flashcard"
-      ]
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "box"
+      ],
+      "phonemes": [
+        "b",
+        "ɑː",
+        "k",
+        "s"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": ""
     },
     {
       "id": "word_zoo",
@@ -1138,7 +1653,19 @@
         "writing_missing_letter",
         "speaking_repeat_word",
         "review_flashcard"
-      ]
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "zoo"
+      ],
+      "phonemes": [
+        "z",
+        "uː"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": ""
     }
   ]
 }

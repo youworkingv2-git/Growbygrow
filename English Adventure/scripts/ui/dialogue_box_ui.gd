@@ -1,7 +1,8 @@
 extends PanelContainer
 ## Shared Dialogue UI supporting speaker portrait, typewriter text reveal,
-## bilingual EN + VI toggleable display, English voice playback,
-## interactive Dialogue Choices (with Quest/MiniGame actions), Continue and Skip buttons.
+## bilingual EN + VI toggleable display, NPC Voice playback (Play/Replay/Pause/Resume),
+## verified subtitle-segment sync (without faking per-word timing when timestamps are absent),
+## interactive Dialogue Choices, Continue and Skip buttons.
 
 signal next_requested()
 signal close_requested()
@@ -9,6 +10,9 @@ signal choice_selected(choice_index: int)
 
 var _full_vi_text: String = ""
 var _current_en_text: String = ""
+var _current_speaker_id: String = ""
+var _current_audio_path: String = ""
+var _subtitle_segments: Array = []
 var _char_timer: float = 0.0
 var _revealed_chars: int = 0
 var _is_typing: bool = false
@@ -18,6 +22,7 @@ var _has_choices: bool = false
 var _choices_flow: HFlowContainer = null
 var _vi_toggle_btn: Button = null
 var _voice_btn: Button = null
+var _pause_voice_btn: Button = null
 
 @onready var portrait: TextureRect = $Margin/HBox/Portrait
 @onready var speaker_label: Label = $Margin/HBox/TextCol/SpeakerName
@@ -34,8 +39,14 @@ func _ready() -> void:
 	UIAnimator.attach_button_feedback(next_btn)
 	UIAnimator.attach_button_feedback(close_btn)
 	next_btn.pressed.connect(_on_next_pressed)
-	close_btn.pressed.connect(func() -> void: close_requested.emit())
+	close_btn.pressed.connect(func() -> void:
+		if AudioManager.voice_manager != null:
+			AudioManager.voice_manager.stop()
+		close_requested.emit()
+	)
 	_build_dynamic_controls()
+	EventBus.voice_playback_started.connect(func(_sp: String, _txt: String, _m: Dictionary) -> void: _refresh_voice_controls())
+	EventBus.voice_playback_finished.connect(func(_sp: String, _m: Dictionary) -> void: _refresh_voice_controls())
 
 
 func _build_dynamic_controls() -> void:
@@ -51,13 +62,23 @@ func _build_dynamic_controls() -> void:
 	btns_row.add_child(_voice_btn)
 	btns_row.move_child(_voice_btn, 0)
 
+	_pause_voice_btn = Button.new()
+	_pause_voice_btn.custom_minimum_size = Vector2(96, 36)
+	_pause_voice_btn.focus_mode = Control.FOCUS_NONE
+	_pause_voice_btn.text = "Tạm dừng"
+	_pause_voice_btn.visible = false
+	UIDesignSystem.apply_button_variant(_pause_voice_btn, "secondary")
+	_pause_voice_btn.pressed.connect(_on_toggle_pause_voice)
+	btns_row.add_child(_pause_voice_btn)
+	btns_row.move_child(_pause_voice_btn, 1)
+
 	_vi_toggle_btn = Button.new()
 	_vi_toggle_btn.custom_minimum_size = Vector2(126, 36)
 	_vi_toggle_btn.focus_mode = Control.FOCUS_NONE
 	UIDesignSystem.apply_button_variant(_vi_toggle_btn, "secondary")
 	_vi_toggle_btn.pressed.connect(_on_toggle_vi)
 	btns_row.add_child(_vi_toggle_btn)
-	btns_row.move_child(_vi_toggle_btn, 1)
+	btns_row.move_child(_vi_toggle_btn, 2)
 	_refresh_vi_toggle_label()
 
 	_choices_flow = HFlowContainer.new()
@@ -71,11 +92,18 @@ func _build_dynamic_controls() -> void:
 
 func show_line(line_data: Dictionary, index: int, total: int, allow_close: bool = true) -> void:
 	visible = true
+	if AudioManager.voice_manager != null:
+		AudioManager.voice_manager.stop()
+
 	var seen_before := bool(line_data.get("_seen_before", false))
 	close_btn.visible = allow_close or seen_before
 	close_btn.text = LocalizationManager.tr_key("btn_skip", "Bỏ qua")
 
 	var speaker_id := str(line_data.get("speaker_id", line_data.get("speaker", "")))
+	_current_speaker_id = speaker_id
+	_current_audio_path = str(line_data.get("audio_path", ""))
+	_subtitle_segments = line_data.get("subtitle_segments", [])
+
 	var tex_path := str(line_data.get("portrait", ""))
 	if not tex_path.is_empty() and ResourceLoader.exists(tex_path):
 		portrait.texture = load(tex_path)
@@ -106,6 +134,12 @@ func show_line(line_data: Dictionary, index: int, total: int, allow_close: bool 
 	next_btn.visible = not _has_choices
 	next_btn.text = LocalizationManager.tr_key("btn_finish", "Hoàn tất") if index >= total - 1 else LocalizationManager.tr_key("btn_continue", "Tiếp tục >")
 
+	# Auto-play NPC English voice line cleanly when dialogue line opens
+	if not _current_en_text.is_empty() and SettingsManager.voice_volume > 0.05:
+		_on_play_voice()
+	else:
+		_refresh_voice_controls()
+
 
 func _populate_choices(choices: Array) -> void:
 	if _choices_flow == null:
@@ -128,6 +162,8 @@ func _populate_choices(choices: Array) -> void:
 		UIAnimator.attach_button_feedback(btn)
 		var idx := i
 		btn.pressed.connect(func() -> void:
+			if AudioManager.voice_manager != null:
+				AudioManager.voice_manager.stop()
 			choice_selected.emit(idx)
 		)
 		_choices_flow.add_child(btn)
@@ -151,8 +187,30 @@ func _refresh_vi_toggle_label() -> void:
 func _on_play_voice() -> void:
 	if _current_en_text.is_empty():
 		return
-	if MiniGameManager != null and MiniGameManager.audio != null:
-		MiniGameManager.audio.play_word_or_sentence("", _current_en_text)
+	if AudioManager.voice_manager != null:
+		AudioManager.voice_manager.speak_npc_line(_current_speaker_id, _current_en_text, _current_audio_path)
+	elif MiniGameManager != null and MiniGameManager.audio != null:
+		MiniGameManager.audio.play_word_or_sentence(_current_audio_path, _current_en_text, "", false, _current_speaker_id)
+	_refresh_voice_controls()
+
+
+func _on_toggle_pause_voice() -> void:
+	if AudioManager.playback_manager == null:
+		return
+	if AudioManager.playback_manager.is_paused():
+		AudioManager.playback_manager.resume_speech()
+	else:
+		AudioManager.playback_manager.pause_speech()
+	_refresh_voice_controls()
+
+
+func _refresh_voice_controls() -> void:
+	if _pause_voice_btn == null or AudioManager.playback_manager == null:
+		return
+	var playing := AudioManager.playback_manager.is_playing()
+	var paused := AudioManager.playback_manager.is_paused()
+	_pause_voice_btn.visible = playing or paused
+	_pause_voice_btn.text = "Tiếp tục nghe" if paused else "Tạm dừng"
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -169,17 +227,37 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _process(delta: float) -> void:
-	if not visible or not _is_typing:
+	if not visible:
 		return
-	_char_timer += delta
-	var target_chars := int(_char_timer * 55.0)
-	if target_chars >= _full_vi_text.length():
-		_revealed_chars = _full_vi_text.length()
-		text_vi_label.text = _full_vi_text
-		_is_typing = false
-	elif target_chars > _revealed_chars:
-		_revealed_chars = target_chars
-		text_vi_label.text = _full_vi_text.substr(0, _revealed_chars)
+	if _is_typing:
+		_char_timer += delta
+		var target_chars := int(_char_timer * 55.0)
+		if target_chars >= _full_vi_text.length():
+			_revealed_chars = _full_vi_text.length()
+			text_vi_label.text = _full_vi_text
+			_is_typing = false
+		elif target_chars > _revealed_chars:
+			_revealed_chars = target_chars
+			text_vi_label.text = _full_vi_text.substr(0, _revealed_chars)
+
+	# Only highlight subtitle segments when real verified audio timestamps exist (never fake TTS timing!)
+	if not _subtitle_segments.is_empty() and AudioManager.playback_manager != null and AudioManager.playback_manager.is_playing():
+		var pos_sec := AudioManager.playback_manager.get_playback_position_sec()
+		if pos_sec > 0.0:
+			var parts := PackedStringArray()
+			for seg_var in _subtitle_segments:
+				if typeof(seg_var) != TYPE_DICTIONARY:
+					continue
+				var seg: Dictionary = seg_var
+				var st := float(seg.get("start_sec", -1.0))
+				var en := float(seg.get("end_sec", -1.0))
+				var txt := str(seg.get("text", ""))
+				if st >= 0.0 and en > st and pos_sec >= st and pos_sec <= en:
+					parts.append("[" + txt + "]")
+				else:
+					parts.append(txt)
+			if not parts.is_empty():
+				text_en_label.text = " ".join(parts)
 
 
 func _on_next_pressed() -> void:
@@ -187,4 +265,6 @@ func _on_next_pressed() -> void:
 		_is_typing = false
 		text_vi_label.text = _full_vi_text
 	elif not _has_choices:
+		if AudioManager.voice_manager != null:
+			AudioManager.voice_manager.stop()
 		next_requested.emit()

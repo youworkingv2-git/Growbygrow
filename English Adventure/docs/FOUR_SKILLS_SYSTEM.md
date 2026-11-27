@@ -11,12 +11,12 @@ Hỗ trợ đầy đủ 6 dạng hoạt động:
 - `listen_arrange_sentence` (Nghe và sắp xếp từ thành câu)
 - `listen_identify_detail` (Nghe và xác định thông tin chi tiết)
 
-**Trạng thái âm thanh trung thực:** Khi chưa có file `.ogg` thu sẵn (`audio_status: "missing_asset"`), UI hiển thị rõ trạng thái chờ asset; trên trình duyệt WebGL2 hỗ trợ thêm nút đọc thử qua Web Speech API TTS (`AudioManager.speak_browser_tts_fallback`).
+**Trạng thái âm thanh trung thực:** Khi chưa có file `.ogg` thu sẵn (`audio_status: "missing_asset"`), UI hiển thị rõ trạng thái chờ asset; trên trình duyệt WebGL2 và Native Windows/Android/iOS hỗ trợ nghe qua `AudioManager.voice_manager` (`TextToSpeechManager`, bao gồm chế độ nghe thường & nghe chậm).
 
 ## 2. Speaking (`SpeakingManager` + `world_01_speaking.json` — 6 bài)
 
-- Hỗ trợ hiển thị chữ, IPA, hướng dẫn khẩu hình tiếng Việt (`mouth_hint_vi`) và tự luyện theo mẫu.
-- **Minh bạch tính năng AI:** `SpeakingManager.get_capability_report()` trả rõ `ai_pronunciation_scoring_available = false` (`ai_scoring_status = "not_integrated_experimental"`). Hệ thống **không** tạo điểm AI giả lập; giao diện ghi chú rõ chức năng AI chấm phát âm là bản thử nghiệm chờ tích hợp dịch vụ ASR ở giai đoạn sau.
+- Hỗ trợ hiển thị chữ, IPA, âm tiết (`syllables`), hướng dẫn khẩu hình tiếng Việt (`mouth_hint_vi`), ghi âm bằng `SpeechRecorder`, nghe lại bản ghi của chính mình và `SpeakingPracticePanel`.
+- **Minh bạch tính năng AI (Prompt 07):** Kiến trúc `PronunciationAssessmentManager` + Supabase Edge Function (`Azure AI Speech`) đã sẵn sàng, mặc định ở trạng thái `provider_unavailable` khi chưa gắn API key server. Hệ thống **không** tạo điểm AI giả lập và luôn cho phép bé hoàn thành tự luyện ngay cả khi offline hoặc từ chối quyền Micro.
 
 ## 3. Reading (`ReadingManager` + `world_01_reading.json` — 12 bài)
 

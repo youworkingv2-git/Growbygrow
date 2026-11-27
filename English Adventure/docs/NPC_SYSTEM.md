@@ -38,3 +38,5 @@ Mỗi bản ghi NPC gồm:
 - `...` (xanh dương, Prompt 06): NPC là mục tiêu đang thực hiện của nhiệm vụ hiện tại.
 - Không hiện badge: Đang rảnh hoặc đã nhận thưởng xong (`claimed`).
 - Xem thêm chi tiết máy trạng thái & `dialogue_rules` tại `docs/NPC_INTERACTION.md`.
+
+*(Cập nhật Prompt 07)*: Mỗi NPC (`professor_owl`, `buddy`, `lily`, `rocky`, `crystal_guardian`) có hồ sơ giọng đọc riêng trong `data/audio/voice_profiles.json` (`VoiceProfileManager`), tự động chạy animation mở/đóng miệng cơ bản (`CharacterRig3D.set_speaking`) khi `EventBus.voice_playback_started` phát ra và dừng khi kết thúc. Xem [`docs/NPC_VOICE_DESIGN.md`](NPC_VOICE_DESIGN.md).

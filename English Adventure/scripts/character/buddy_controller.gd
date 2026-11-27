@@ -12,6 +12,7 @@ var current_mood: BuddyMood = BuddyMood.IDLE
 var target_node: Node3D = null
 var _hover_time: float = 0.0
 var _rig: CharacterRig3D = null
+var _is_speaking_audio: bool = false
 
 @onready var visual_slot: Asset3DSlot = $VisualSlot
 @onready var speech_layer: CanvasLayer = $SpeechLayer
@@ -39,6 +40,17 @@ func _ready() -> void:
 	EventBus.quest_reward_claimed.connect(_on_quest_claimed)
 	EventBus.area_unlocked.connect(_on_area_unlocked)
 	EventBus.buddy_state_changed.connect(_on_buddy_state_changed)
+	EventBus.voice_playback_started.connect(func(speaker_id: String, _txt: String, _meta: Dictionary) -> void:
+		if speaker_id == "buddy":
+			_is_speaking_audio = true
+			set_mood(BuddyMood.TALKING)
+	)
+	EventBus.voice_playback_finished.connect(func(_speaker_id: String, _meta: Dictionary) -> void:
+		if _is_speaking_audio:
+			_is_speaking_audio = false
+			if _rig != null and is_instance_valid(_rig):
+				_rig.set_speaking(false)
+	)
 	EventBus.minigame_answered.connect(func(_mg: String, att: Dictionary) -> void:
 		if bool(att.get("is_correct", false)):
 			set_mood(BuddyMood.HAPPY)
@@ -151,6 +163,8 @@ func _process(delta: float) -> void:
 			_rig.right_wing_pivot.rotation.z = -sin(_hover_time * flap_speed) * flap_amp
 		if _rig.tail_pivot != null:
 			_rig.tail_pivot.rotation.y = sin(_hover_time * 5.2) * 0.28
+		if _is_speaking_audio:
+			_rig.set_speaking(true, delta)
 		if current_mood == BuddyMood.CELEBRATING:
 			visual_slot.rotation.z = sin(_hover_time * 10.0) * 0.14
 		else:
