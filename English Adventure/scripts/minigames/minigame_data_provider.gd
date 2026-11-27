@@ -460,6 +460,7 @@ static func _build_speaking_hero(diff_cfg: Dictionary, _context: Dictionary) -> 
 			"speaking_mode": str(item.get("speaking_mode", "repeat_word")),
 			"prompt_vi": str(item.get("prompt_vi", "")),
 			"target_text_en": str(item.get("target_text_en", "")),
+			"spoken_text_en": str(item.get("spoken_text_en", item.get("target_text_en", ""))),
 			"ipa": str(item.get("ipa", "")),
 			"mouth_hint_vi": str(item.get("mouth_hint_vi", "")),
 			"meaning_vi": str(word_rec.get("meaning_vi", "")),

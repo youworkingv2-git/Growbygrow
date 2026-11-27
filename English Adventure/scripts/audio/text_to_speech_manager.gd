@@ -170,6 +170,15 @@ func _finish_current() -> void:
 
 func _normalize_spoken_text(text: String, accent: String) -> String:
 	var clean := text.strip_edges()
+	# Strip inline IPA/phonetic slash blocks like " - /æ/ - " or "/æ/" so TTS never reads "slash"
+	if clean.contains("/"):
+		var re := RegEx.new()
+		if re.compile("(?:\\s*-\\s*)?/[^/\\s]+/(?:\\s*-\\s*)?") == OK:
+			clean = re.sub(clean, ", ", true).strip_edges()
+			while clean.begins_with(",") or clean.begins_with("-"):
+				clean = clean.substr(1).strip_edges()
+			while clean.ends_with(",") or clean.ends_with("-"):
+				clean = clean.substr(0, clean.length() - 1).strip_edges()
 	if clean == "Z" and accent == "en-GB":
 		return "Zed"
 	return clean

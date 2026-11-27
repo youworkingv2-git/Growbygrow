@@ -11,6 +11,7 @@ extends VBoxContainer
 signal practice_completed(confidence_choice: String, extra_session_data: Dictionary)
 
 var _target_text: String = ""
+var _spoken_text: String = ""
 var _ipa_text: String = ""
 var _audio_path: String = ""
 var _learning_content_id: String = ""
@@ -59,6 +60,9 @@ func _exit_tree() -> void:
 func setup_item(item: Dictionary, allow_completion_buttons: bool = true) -> void:
 	_allow_completion_buttons = allow_completion_buttons
 	_target_text = str(item.get("target_text_en", item.get("word", "")))
+	_spoken_text = str(item.get("spoken_text_en", _target_text))
+	if _spoken_text.is_empty():
+		_spoken_text = _target_text
 	_ipa_text = str(item.get("ipa", item.get("ipa_us", "")))
 	_audio_path = str(item.get("audio_path", item.get("audio_us_path", "")))
 	_learning_content_id = str(item.get("id", item.get("word_id", "")))
@@ -207,10 +211,11 @@ func _connect_audio_signals() -> void:
 
 
 func _play_model(slow: bool) -> void:
-	if _target_text.is_empty() or AudioManager.voice_manager == null:
+	var txt := _spoken_text if not _spoken_text.is_empty() else _target_text
+	if txt.is_empty() or AudioManager.voice_manager == null:
 		return
 	_listened_model = true
-	var res := AudioManager.voice_manager.speak_learning_text(_target_text, _audio_path, SettingsManager.preferred_accent, slow)
+	var res := AudioManager.voice_manager.speak_learning_text(txt, _audio_path, SettingsManager.preferred_accent, slow)
 	if bool(res.get("played", false)):
 		_status_lbl.text = "Đang phát giọng mẫu (%s)..." % ("chậm" if slow else SettingsManager.preferred_accent)
 	else:
@@ -231,7 +236,8 @@ func _on_start_rec() -> void:
 	_attempt_count += 1
 	var res := AudioManager.speech_recorder.start_recording()
 	if bool(res.get("started", false)):
-		_status_lbl.text = "Đang ghi âm... Hãy nói to và rõ: \"%s\"" % _target_text
+		var speak_prompt := _spoken_text if not _spoken_text.is_empty() else _target_text
+		_status_lbl.text = "Đang ghi âm... Hãy nói to và rõ: \"%s\"" % speak_prompt
 	else:
 		_status_lbl.text = str(res.get("message_vi", "Chưa thể ghi âm."))
 	_refresh_controls()
@@ -308,10 +314,11 @@ func _on_submit_for_assessment() -> void:
 		return
 	var payload := AudioManager.speech_recorder.get_recorded_audio_base64()
 	var acc := SettingsManager.preferred_accent
+	var expected := _spoken_text if not _spoken_text.is_empty() else _target_text
 	if AudioManager.speech_recognition != null:
-		AudioManager.speech_recognition.recognize_audio(payload, _target_text, acc, _learning_content_id)
+		AudioManager.speech_recognition.recognize_audio(payload, expected, acc, _learning_content_id)
 	if AudioManager.pronunciation_assessment != null:
-		AudioManager.pronunciation_assessment.assess_pronunciation(payload, _target_text, _learning_content_id, acc)
+		AudioManager.pronunciation_assessment.assess_pronunciation(payload, expected, _learning_content_id, acc)
 
 
 func _on_stt_completed(res: Dictionary) -> void:

@@ -107,7 +107,10 @@ func render_item(item: Dictionary, index: int, total: int) -> void:
 func _play_model() -> void:
 	if audio == null or _current_item.is_empty():
 		return
-	audio.play_word_or_sentence(str(_current_item.get("audio_path", "")), str(_current_item.get("target_text_en", "")))
+	var spoken := str(_current_item.get("spoken_text_en", _current_item.get("target_text_en", "")))
+	if spoken.is_empty():
+		spoken = str(_current_item.get("target_text_en", ""))
+	audio.play_word_or_sentence(str(_current_item.get("audio_path", "")), spoken)
 
 
 func _complete_self_practice(confidence_choice: String, extra_session_data: Dictionary = {}) -> void:

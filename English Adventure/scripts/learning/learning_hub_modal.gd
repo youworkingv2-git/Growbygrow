@@ -738,7 +738,7 @@ func _render_runner_question(feedback_override: Dictionary = {}) -> void:
 		play_btn.focus_mode = Control.FOCUS_NONE
 		UIDesignSystem.apply_button_variant(play_btn, "primary")
 		play_btn.pressed.connect(func() -> void:
-			var tts_txt := str(q.get("transcript_en", q.get("target_text_en", "")))
+			var tts_txt := str(q.get("transcript_en", q.get("spoken_text_en", q.get("target_text_en", ""))))
 			if AudioManager.voice_manager != null:
 				AudioManager.voice_manager.speak_learning_text(tts_txt, str(q.get("audio_path", "")), SettingsManager.preferred_accent, false)
 		)
@@ -750,7 +750,7 @@ func _render_runner_question(feedback_override: Dictionary = {}) -> void:
 		slow_btn.focus_mode = Control.FOCUS_NONE
 		UIDesignSystem.apply_button_variant(slow_btn, "secondary")
 		slow_btn.pressed.connect(func() -> void:
-			var tts_txt := str(q.get("transcript_en", q.get("target_text_en", "")))
+			var tts_txt := str(q.get("transcript_en", q.get("spoken_text_en", q.get("target_text_en", ""))))
 			if AudioManager.voice_manager != null:
 				AudioManager.voice_manager.speak_learning_text(tts_txt, str(q.get("audio_path", "")), SettingsManager.preferred_accent, true)
 		)

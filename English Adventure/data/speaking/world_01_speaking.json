@@ -6,6 +6,7 @@
       "speaking_mode": "letter_sound",
       "prompt_vi": "Nghe/xem âm /æ/ của chữ A và luyện phát âm theo nhé!",
       "target_text_en": "A - /æ/ - Apple",
+      "spoken_text_en": "A, Apple",
       "ipa": "/ˈæp.əl/",
       "word_id": "word_apple",
       "mouth_hint_vi": "Mở miệng hơi rộng và đọc ngắn âm /æ/, sau đó đọc rõ 'apple'.",
