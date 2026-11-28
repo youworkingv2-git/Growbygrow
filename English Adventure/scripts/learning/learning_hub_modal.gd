@@ -608,8 +608,7 @@ func _render_vocab_tab() -> void:
 		col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		var syls := LearningEngine.vocabulary_manager.get_syllables(w)
 		var syl_txt := ("  [" + " · ".join(PackedStringArray(syls)) + "]") if syls.size() > 1 else ""
-		col.add_child(_make_label("[%s] %s (%s)%s — %s  [%s]" % [
-			str(w.get("cefr_level", "Pre-A1")),
+		col.add_child(_make_label("%s (%s)%s — %s  [%s]" % [
 			word_en.capitalize(),
 			LearningEngine.vocabulary_manager.get_ipa_for_accent(w),
 			syl_txt,
