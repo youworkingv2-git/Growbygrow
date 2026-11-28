@@ -373,9 +373,9 @@ static func build_stylized_tree(
 	cam_occ_body.add_child(trunk_occ)
 	var canopy_col := CollisionShape3D.new()
 	var canopy_sph := SphereShape3D.new()
-	canopy_sph.radius = 0.90 if is_small else 1.50
+	canopy_sph.radius = 1.05 if is_small else 1.78
 	canopy_col.shape = canopy_sph
-	canopy_col.position = Vector3(0, 1.75 if is_small else 2.85, 0)
+	canopy_col.position = Vector3(0, 1.75 if is_small else 2.90, 0)
 	cam_occ_body.add_child(canopy_col)
 	tree.add_child(cam_occ_body)
 
@@ -684,7 +684,7 @@ static func build_fountain() -> Node3D:
 	f.mist_particles = mist
 
 	var body := StaticBody3D.new()
-	body.collision_layer = 32 | 64
+	body.collision_layer = 32
 	body.collision_mask = 0
 	var col := CollisionShape3D.new()
 	var cyl := CylinderShape3D.new()
@@ -759,6 +759,16 @@ static func build_wooden_bench() -> Node3D:
 	_mesh_part(b, "LegR", _box(Vector3(0.10, 0.45, 0.54)), iron, Vector3(0.62, 0.22, 0))
 	_mesh_part(b, "Seat", _box(Vector3(1.56, 0.08, 0.52)), wood, Vector3(0, 0.46, 0.02))
 	_mesh_part(b, "BackRest", _box(Vector3(1.56, 0.36, 0.08)), wood, Vector3(0, 0.78, -0.22), Vector3(-12, 0, 0))
+	var b_col_body := StaticBody3D.new()
+	b_col_body.collision_layer = 32
+	b_col_body.collision_mask = 0
+	var b_col := CollisionShape3D.new()
+	var b_box := BoxShape3D.new()
+	b_box.size = Vector3(1.58, 0.95, 0.58)
+	b_col.shape = b_box
+	b_col.position = Vector3(0, 0.48, 0)
+	b_col_body.add_child(b_col)
+	b.add_child(b_col_body)
 	return b
 
 
@@ -816,7 +826,7 @@ static func build_gateway_arch() -> Node3D:
 	_mesh_part(arch, "HangingLanternR", _sph(0.14), glow, Vector3(1.55, 3.35, 0.16), Vector3.ZERO, Vector3.ONE, 0.0, false)
 
 	var body := StaticBody3D.new()
-	body.collision_layer = 32 | 64
+	body.collision_layer = 32
 	body.collision_mask = 0
 	for sx in [-2.15, 2.15]:
 		var col := CollisionShape3D.new()

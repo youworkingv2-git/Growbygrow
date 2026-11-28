@@ -7,8 +7,22 @@ uniform float wind_speed = 1.85;
 uniform float wind_strength = 0.085;
 uniform float cluster_height = 1.4;
 uniform float roughness_val = 0.66;
+uniform float fade_alpha : hint_range(0.0, 1.0) = 1.0;
 
 varying float v_height_t;
+
+float _bayer4x4(vec2 frag_xy) {
+	int x = int(mod(frag_xy.x, 4.0));
+	int y = int(mod(frag_xy.y, 4.0));
+	int idx = x + y * 4;
+	float m[16] = float[16](
+		0.0625, 0.5625, 0.1875, 0.6875,
+		0.8125, 0.3125, 0.9375, 0.4375,
+		0.2500, 0.7500, 0.1250, 0.6250,
+		1.0000, 0.5000, 0.8750, 0.3750
+	);
+	return m[idx];
+}
 
 void vertex() {
 	vec3 world_origin = MODEL_MATRIX[3].xyz;
@@ -26,6 +40,11 @@ void vertex() {
 }
 
 void fragment() {
+	if (fade_alpha < 0.985) {
+		if (_bayer4x4(FRAGCOORD.xy) > fade_alpha) {
+			discard;
+		}
+	}
 	vec3 col = mix(base_color.rgb, tip_color.rgb, smoothstep(0.10, 0.92, v_height_t));
 	ALBEDO = col;
 	ROUGHNESS = roughness_val;

@@ -14,8 +14,8 @@ extends CharacterBody3D
 @export var world_half_extent_z: float = 11.5
 
 @export_group("Third-person Camera Manager")
-@export_range(3.8, 10.5, 0.2) var camera_distance: float = 6.2
-@export_range(1.1, 2.4, 0.05) var camera_height: float = 1.55
+@export_range(3.8, 10.5, 0.2) var camera_distance: float = 6.0
+@export_range(1.1, 2.4, 0.05) var camera_height: float = 1.65
 @export_range(0.4, 2.0, 0.1) var camera_sensitivity: float = 1.0
 @export_range(3.0, 16.0, 0.5) var camera_smoothing: float = 9.0
 @export_range(0.8, 3.5, 0.1) var camera_rotation_speed: float = 1.9
@@ -23,8 +23,8 @@ extends CharacterBody3D
 
 const MIN_CAM_DIST: float = 3.8
 const MAX_CAM_DIST: float = 10.5
-const DEFAULT_CAM_DIST: float = 6.2
-const DEFAULT_CAM_PITCH: float = -0.30
+const DEFAULT_CAM_DIST: float = 6.0
+const DEFAULT_CAM_PITCH: float = -0.36
 
 var virtual_move_vector: Vector2 = Vector2.ZERO
 var movement_locked: bool = false
@@ -273,9 +273,19 @@ func _update_camera_occluders(delta: float) -> void:
 		return
 
 	var cam_pos := camera.global_position
+	var cam_right := camera.global_transform.basis.x
+	cam_right.y = 0.0
+	if cam_right.length_squared() > 0.001:
+		cam_right = cam_right.normalized()
+	else:
+		cam_right = Vector3.RIGHT
+
 	var ray_targets: Array[Vector3] = [
 		global_position + Vector3(0.0, 1.35, 0.0),
-		global_position + Vector3(0.0, 0.45, 0.0)
+		global_position + Vector3(0.0, 0.60, 0.0),
+		global_position + Vector3(0.0, 1.85, 0.0),
+		global_position + Vector3(0.0, 1.15, 0.0) + cam_right * 0.55,
+		global_position + Vector3(0.0, 1.15, 0.0) - cam_right * 0.55
 	]
 	var hit_roots := {}
 
@@ -301,12 +311,14 @@ func _update_camera_occluders(delta: float) -> void:
 					var key := root_node.get_instance_id()
 					hit_roots[key] = root_node
 					if not _faded_occluders.has(key):
-						var mats: Array[StandardMaterial3D] = []
-						_collect_standard_materials(root_node, mats)
+						var std_mats: Array[StandardMaterial3D] = []
+						var sh_mats: Array[ShaderMaterial] = []
+						_collect_occluder_materials(root_node, std_mats, sh_mats)
 						_faded_occluders[key] = {
 							"node": root_node,
 							"alpha": 1.0,
-							"mats": mats
+							"mats": std_mats,
+							"shader_mats": sh_mats
 						}
 
 	var to_remove: Array[int] = []
@@ -317,7 +329,7 @@ func _update_camera_occluders(delta: float) -> void:
 			to_remove.append(key)
 			continue
 		var is_blocking := hit_roots.has(key)
-		var target_alpha := 0.26 if is_blocking else 1.0
+		var target_alpha := 0.24 if is_blocking else 1.0
 		var cur_alpha := lerpf(float(entry.get("alpha", 1.0)), target_alpha, minf(1.0, delta * 12.0))
 		entry["alpha"] = cur_alpha
 		var mats: Array = entry.get("mats", [])
@@ -334,6 +346,10 @@ func _update_camera_occluders(delta: float) -> void:
 					c.a = 1.0
 					m.albedo_color = c
 					m.transparency = BaseMaterial3D.TRANSPARENCY_DISABLED
+		var sh_mats: Array = entry.get("shader_mats", [])
+		for sm_var in sh_mats:
+			if sm_var is ShaderMaterial:
+				(sm_var as ShaderMaterial).set_shader_parameter("fade_alpha", 1.0 if cur_alpha >= 0.985 else cur_alpha)
 		if (not is_blocking) and cur_alpha >= 0.985:
 			to_remove.append(key)
 
@@ -341,15 +357,31 @@ func _update_camera_occluders(delta: float) -> void:
 		_faded_occluders.erase(key)
 
 
-func _collect_standard_materials(node: Node, out_mats: Array[StandardMaterial3D]) -> void:
+func _collect_occluder_materials(
+	node: Node,
+	out_std: Array[StandardMaterial3D],
+	out_shader: Array[ShaderMaterial]
+) -> void:
 	if node is MeshInstance3D:
 		var mi := node as MeshInstance3D
 		if mi.material_override is StandardMaterial3D:
 			var sm := mi.material_override as StandardMaterial3D
-			if not out_mats.has(sm):
-				out_mats.append(sm)
+			if not sm.has_meta("unique_occ"):
+				sm = sm.duplicate() as StandardMaterial3D
+				sm.set_meta("unique_occ", true)
+				mi.material_override = sm
+			if not out_std.has(sm):
+				out_std.append(sm)
+		elif mi.material_override is ShaderMaterial:
+			var shm := mi.material_override as ShaderMaterial
+			if not shm.has_meta("unique_occ"):
+				shm = shm.duplicate() as ShaderMaterial
+				shm.set_meta("unique_occ", true)
+				mi.material_override = shm
+			if not out_shader.has(shm):
+				out_shader.append(shm)
 	for child in node.get_children():
-		_collect_standard_materials(child, out_mats)
+		_collect_occluder_materials(child, out_std, out_shader)
 
 
 func _read_keyboard_vector() -> Vector2:

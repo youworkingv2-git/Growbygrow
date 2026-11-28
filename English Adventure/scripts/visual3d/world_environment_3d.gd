@@ -42,8 +42,8 @@ func _apply_area_palette() -> void:
 	env.tonemap_exposure = 0.88
 	env.tonemap_white = 5.5
 	env.ambient_light_source = Environment.AMBIENT_SOURCE_SKY
-	env.ambient_light_sky_contribution = 0.48
-	env.ambient_light_color = Color("#8BB6E0")
+	env.ambient_light_sky_contribution = 0.54
+	env.ambient_light_color = Color("#94C0EB")
 
 	_sun.shadow_bias = 0.04
 	_sun.shadow_normal_bias = 1.2
@@ -58,8 +58,8 @@ func _apply_area_palette() -> void:
 			sky_mat.ground_horizon_color = Color("#4D7E45")
 			_sun.light_color = Color("#FFE2B2")
 			_sun.light_energy = 1.04
-			_sun.rotation_degrees = Vector3(-38.0, -36.0, 0.0)
-			env.ambient_light_energy = 0.34
+			_sun.rotation_degrees = Vector3(-46.0, -32.0, 0.0)
+			env.ambient_light_energy = 0.44
 			env.fog_enabled = true
 			env.fog_light_color = Color("#9ED2EE")
 			env.fog_density = 0.0062

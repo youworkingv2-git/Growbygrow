@@ -319,7 +319,7 @@ func _add_rock(pos: Vector3, radius: float, color: Color = Color("#58616E"), has
 	_mesh(self, "RockAccent", moss, _mat(color.lightened(0.12), 0.85), pos + Vector3(radius * 0.38, radius * 0.25, radius * 0.22), Vector3(0, 15, 12), false)
 	if has_collider:
 		var body := StaticBody3D.new()
-		body.collision_layer = 32 | 64
+		body.collision_layer = 32
 		body.collision_mask = 0
 		var col := CollisionShape3D.new()
 		var sp := SphereShape3D.new()
@@ -507,20 +507,21 @@ func _build_welcome_village() -> void:
 	add_child(gateway)
 
 	# 6. Varied Big Trees (3 styles) + Small Trees / Saplings (3 styles) with Wind-Animated Foliage
+	# Placed outside the sunlit central plaza & south camera sweep corridor so canopies never cover the player
 	var tree_specs := [
-		{ "pos": Vector3(-15.5, 0, -7.2), "scale": 1.08, "color": Color("#265B33"), "style": "oak", "rot": 18.0 },
-		{ "pos": Vector3(-15.2, 0, 5.8),  "scale": 1.04, "color": Color("#1E4D2D"), "style": "pine", "rot": 40.0 },
-		{ "pos": Vector3(-8.2, 0, 8.4),   "scale": 0.98, "color": Color("#2F6D39"), "style": "oak", "rot": -35.0 },
-		{ "pos": Vector3(7.4, 0, -8.6),   "scale": 1.12, "color": Color("#215330"), "style": "pine", "rot": 12.0 },
-		{ "pos": Vector3(15.2, 0, -7.6),  "scale": 1.05, "color": Color("#2A6436"), "style": "oak", "rot": 65.0 },
-		{ "pos": Vector3(14.5, 0, 7.4),   "scale": 0.98, "color": Color("#DF6B88"), "style": "blossom", "rot": -20.0 },
-		{ "pos": Vector3(-4.4, 0, -9.4),  "scale": 1.06, "color": Color("#1F4F2E"), "style": "pine", "rot": 80.0 },
-		{ "pos": Vector3(4.6, 0, -9.4),   "scale": 1.02, "color": Color("#2B6637"), "style": "oak", "rot": -55.0 },
+		{ "pos": Vector3(-15.8, 0, -7.8), "scale": 1.08, "color": Color("#265B33"), "style": "oak", "rot": 18.0 },
+		{ "pos": Vector3(-15.6, 0, 5.8),  "scale": 1.04, "color": Color("#1E4D2D"), "style": "pine", "rot": 40.0 },
+		{ "pos": Vector3(-14.2, 0, 9.8),  "scale": 0.98, "color": Color("#2F6D39"), "style": "oak", "rot": -35.0 },
+		{ "pos": Vector3(7.8, 0, -9.2),   "scale": 1.12, "color": Color("#215330"), "style": "pine", "rot": 12.0 },
+		{ "pos": Vector3(15.4, 0, -7.8),  "scale": 1.05, "color": Color("#2A6436"), "style": "oak", "rot": 65.0 },
+		{ "pos": Vector3(14.8, 0, 7.6),   "scale": 0.98, "color": Color("#DF6B88"), "style": "blossom", "rot": -20.0 },
+		{ "pos": Vector3(-5.8, 0, -10.2), "scale": 1.06, "color": Color("#1F4F2E"), "style": "pine", "rot": 80.0 },
+		{ "pos": Vector3(5.8, 0, -10.2),  "scale": 1.02, "color": Color("#2B6637"), "style": "oak", "rot": -55.0 },
 		# Small Trees / Saplings (3 distinct small variants)
-		{ "pos": Vector3(-6.2, 0, 7.6),   "scale": 0.92, "color": Color("#387B3E"), "style": "sapling_oak", "rot": 25.0 },
-		{ "pos": Vector3(7.6, 0, 7.4),    "scale": 0.95, "color": Color("#2E6D37"), "style": "berry_tree", "rot": -15.0 },
-		{ "pos": Vector3(5.2, 0, -3.6),   "scale": 0.88, "color": Color("#235D34"), "style": "cypress_small", "rot": 0.0 },
-		{ "pos": Vector3(-13.6, 0, -1.8), "scale": 0.90, "color": Color("#35743B"), "style": "berry_tree", "rot": 48.0 },
+		{ "pos": Vector3(-10.8, 0, 9.6),  "scale": 0.92, "color": Color("#387B3E"), "style": "sapling_oak", "rot": 25.0 },
+		{ "pos": Vector3(10.6, 0, 9.4),   "scale": 0.95, "color": Color("#2E6D37"), "style": "berry_tree", "rot": -15.0 },
+		{ "pos": Vector3(7.4, 0, -4.8),   "scale": 0.88, "color": Color("#235D34"), "style": "cypress_small", "rot": 0.0 },
+		{ "pos": Vector3(-14.8, 0, -1.4), "scale": 0.90, "color": Color("#35743B"), "style": "berry_tree", "rot": 48.0 },
 	]
 	for ts in tree_specs:
 		var tree := PropFactory3D.build_stylized_tree(float(ts["scale"]), ts["color"], str(ts["style"]))
