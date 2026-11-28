@@ -166,27 +166,131 @@ func _add_fireflies(color: Color, count: int = 20, spread: Vector3 = Vector3(15.
 
 
 func _add_flower_cluster(parent: Node3D, pos: Vector3, petal_color: Color) -> void:
-	var leaf_m := _mat(Color("#2D6B37"), 0.76)
-	var pet_m := _mat(petal_color, 0.50, 0.0, petal_color, 0.12)
-	var center_m := _mat(Color("#F6C945"), 0.45)
-	var bush := _cached_sphere(0.38, 0.42, 7, 10)
-	_mesh(parent, "Bush", bush, leaf_m, pos + Vector3(0, 0.15, 0), Vector3.ZERO, false)
-	var bush_side := _cached_sphere(0.24, 0.28, 6, 8)
-	_mesh(parent, "BushSide", bush_side, _mat(Color("#397D42"), 0.74), pos + Vector3(0.26, 0.11, 0.12), Vector3.ZERO, false)
+	var leaf_m := PropFactory3D.create_foliage_wind_material(Color("#24592B"), Color("#438C3F"), 0.045, 0.5)
+	var pet_m := PropFactory3D.create_foliage_wind_material(petal_color.darkened(0.12), petal_color.lightened(0.22), 0.055, 0.55)
+	var center_m := _mat(Color("#F6C945"), 0.42, 0.0, Color("#F6C945"), 0.14)
+	var bush := StylizedMeshKit.build_leaf_clump_mesh(pos.x + pos.z, 0.34, 0.24, 5, 8, 0.18)
+	_mesh(parent, "Bush", bush, leaf_m, pos + Vector3(0, 0.14, 0), Vector3.ZERO, false)
+	var bush_side := StylizedMeshKit.build_leaf_clump_mesh(pos.x * 1.7, 0.22, 0.17, 5, 7, 0.18)
+	_mesh(parent, "BushSide", bush_side, leaf_m, pos + Vector3(0.24, 0.11, 0.12), Vector3.ZERO, false)
 	var fl := _cached_sphere(0.085, 0.12, 6, 8)
-	for i in range(4):
-		var ang := float(i) * 1.57 + 0.3
-		var fpos := pos + Vector3(cos(ang) * 0.24, 0.34, sin(ang) * 0.24)
+	for i in range(5):
+		var ang := float(i) * (TAU / 5.0) + 0.3
+		var fpos := pos + Vector3(cos(ang) * 0.23, 0.32 + float(i % 2) * 0.05, sin(ang) * 0.23)
 		_mesh(parent, "Flower%d" % i, fl, pet_m if i % 2 == 0 else center_m, fpos, Vector3.ZERO, false)
 
 
-func _add_shrub(parent: Node3D, pos: Vector3, scale_s: float = 1.0, color: Color = Color("#2A6334")) -> void:
-	var m_main := _mat(color, 0.78)
-	var m_hi := _mat(color.lightened(0.14), 0.72)
-	var s1 := _cached_sphere(0.42, 0.56, 7, 9)
-	var s2 := _cached_sphere(0.30, 0.42, 6, 8)
-	_mesh(parent, "ShrubCore", s1, m_main, pos + Vector3(0, 0.22 * scale_s, 0), Vector3.ZERO, false).scale = Vector3.ONE * scale_s
-	_mesh(parent, "ShrubTop", s2, m_hi, pos + Vector3(0.22 * scale_s, 0.30 * scale_s, -0.10 * scale_s), Vector3.ZERO, false).scale = Vector3.ONE * scale_s
+func _add_shrub(parent: Node3D, pos: Vector3, scale_s: float = 1.0, color: Color = Color("#2A6334"), variant: int = 0) -> void:
+	var sh := PropFactory3D.build_shrub_variant(variant, scale_s, color)
+	sh.position = pos
+	parent.add_child(sh)
+
+
+func _add_mushroom_patch(parent: Node3D, pos: Vector3) -> void:
+	var stem_m := _mat(Color("#F2E8D5"), 0.72)
+	var cap_m := _mat(Color("#D94A4A"), 0.52)
+	var dot_m := _mat(Color("#FFF7E8"), 0.50)
+	var stem := _cached_cylinder(0.032, 0.045, 0.14, 6)
+	var cap := _cached_sphere(0.11, 0.10, 5, 8)
+	var dot := _cached_sphere(0.025, 0.035, 4, 6)
+	for i in range(3):
+		var sc := 1.0 - float(i) * 0.22
+		var off := Vector3(float(i - 1) * 0.14, 0.0, float(i % 2) * 0.10)
+		_mesh(parent, "MushStem_%d" % i, stem, stem_m, pos + off + Vector3(0, 0.07 * sc, 0), Vector3.ZERO, false).scale = Vector3.ONE * sc
+		_mesh(parent, "MushCap_%d" % i, cap, cap_m, pos + off + Vector3(0, 0.15 * sc, 0), Vector3.ZERO, false).scale = Vector3.ONE * sc
+		_mesh(parent, "MushDot_%d" % i, dot, dot_m, pos + off + Vector3(0.03 * sc, 0.19 * sc, 0.03 * sc), Vector3.ZERO, false).scale = Vector3.ONE * sc
+
+
+func _add_stump_and_leaves(parent: Node3D, pos: Vector3, leaf_col: Color) -> void:
+	var bark := _mat(Color("#694426"), 0.85)
+	var cut := _mat(Color("#C9A576"), 0.76)
+	var fallen_m := _mat(leaf_col, 0.76)
+	_mesh(parent, "Stump", _cached_cylinder(0.28, 0.38, 0.36, 8), bark, pos + Vector3(0, 0.18, 0), Vector3.ZERO, true)
+	_mesh(parent, "StumpTop", _cached_cylinder(0.26, 0.26, 0.03, 8), cut, pos + Vector3(0, 0.36, 0), Vector3.ZERO, false)
+	var leaf_disc := _cached_cylinder(0.08, 0.09, 0.014, 5)
+	for i in range(5):
+		var a := float(i) * 1.25
+		_mesh(parent, "FallenLeaf_%d" % i, leaf_disc, fallen_m, pos + Vector3(cos(a) * 0.55, 0.02, sin(a) * 0.55), Vector3(0, float(i * 42), 0), false)
+
+
+func _add_pebble_cluster(parent: Node3D, pos: Vector3) -> void:
+	var st1 := _mat(Color("#6A7382"), 0.88)
+	var st2 := _mat(Color("#88909E"), 0.84)
+	var p_mesh := _cached_sphere(0.14, 0.10, 5, 7)
+	for i in range(4):
+		var off := Vector3(cos(float(i) * 1.6) * 0.22, 0.035, sin(float(i) * 1.6) * 0.22)
+		var p := _mesh(parent, "Pebble_%d" % i, p_mesh, st1 if i % 2 == 0 else st2, pos + off, Vector3(0, float(i * 35), 0), false)
+		p.scale = Vector3(1.1 - float(i) * 0.15, 0.65, 0.9)
+
+
+func _add_grass_field(
+	parent: Node3D,
+	avoid_circles: Array[Dictionary],
+	avoid_rects: Array[Rect2],
+	bounds: Rect2,
+	seed_val: int = 202611
+) -> void:
+	var max_count := 1150
+	var mm := MultiMesh.new()
+	mm.transform_format = MultiMesh.TRANSFORM_3D
+	mm.use_custom_data = true
+	mm.mesh = StylizedMeshKit.build_grass_tuft_mesh()
+	mm.instance_count = max_count
+
+	var rng := RandomNumberGenerator.new()
+	rng.seed = seed_val
+	var placed := 0
+	var attempts := 0
+
+	while placed < max_count and attempts < max_count * 6:
+		attempts += 1
+		var gx := rng.randf_range(bounds.position.x, bounds.position.x + bounds.size.x)
+		var gz := rng.randf_range(bounds.position.y, bounds.position.y + bounds.size.y)
+		var pt2 := Vector2(gx, gz)
+
+		var skip := false
+		for ac in avoid_circles:
+			var center_v: Vector2 = ac["center"]
+			var rad: float = float(ac["radius"])
+			if pt2.distance_squared_to(center_v) < rad * rad:
+				skip = true
+				break
+		if skip:
+			continue
+		for ar in avoid_rects:
+			if ar.has_point(pt2):
+				skip = true
+				break
+		if skip:
+			continue
+
+		var sc_xz := rng.randf_range(0.75, 1.35)
+		var sc_y := rng.randf_range(0.68, 1.38)
+		var rot_y := rng.randf_range(0.0, TAU)
+		var basis := Basis(Vector3.UP, rot_y).scaled(Vector3(sc_xz, sc_y, sc_xz))
+		mm.set_instance_transform(placed, Transform3D(basis, Vector3(gx, 0.075, gz)))
+		mm.set_instance_custom_data(placed, Color(rng.randf(), sc_y, rng.randf(), 1.0))
+		placed += 1
+
+	mm.instance_count = placed
+	var mmi := MultiMeshInstance3D.new()
+	mmi.name = "MeadowGrassField"
+	mmi.multimesh = mm
+	mmi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	var gmat := ShaderMaterial.new()
+	gmat.shader = load("res://shaders/stylized_grass_wind.gdshader") as Shader
+	mmi.material_override = gmat
+	parent.add_child(mmi)
+
+	var apply_density := func() -> void:
+		if not is_instance_valid(mmi) or mmi.multimesh == null:
+			return
+		var q := SettingsManager.graphics_quality
+		var target := placed if q == "high" else (mini(placed, 640) if q == "medium" else mini(placed, 260))
+		mmi.multimesh.visible_instance_count = target
+	apply_density.call()
+	if not EventBus.settings_changed.is_connected(apply_density):
+		EventBus.settings_changed.connect(apply_density)
 
 
 func _add_fence_row(parent: Node3D, start_p: Vector3, end_p: Vector3, posts: int) -> void:
@@ -347,8 +451,8 @@ func _build_welcome_village() -> void:
 	_add_trail_segment(trails_root, Vector3(4.2, 0, 1.6), Vector3(16.5, 0, 1.25), 2.2, path_mat, stone_mat)  # To Meadow Arch & Portal
 	_add_trail_segment(trails_root, Vector3(6.2, 0, 2.2), Vector3(10.0, 0, 3.3), 1.75, path_mat, stone_mat)  # To Lily
 
-	# 1. Professor Owl's Academy Cottage (North center)
-	var owl_house := PropFactory3D.build_village_cottage(Color("#2D4F8A"), Color("#EFE5D2"), true)
+	# 1. Professor Owl's Academy Cottage (North center — Scholar Tower + Balcony)
+	var owl_house := PropFactory3D.build_village_cottage(Color("#2D4F8A"), Color("#EFE5D2"), true, "academy")
 	owl_house.position = Vector3(0, 0, -7.8)
 	add_child(owl_house)
 
@@ -357,14 +461,14 @@ func _build_welcome_village() -> void:
 	lectern.rotation_degrees.y = 22.0
 	add_child(lectern)
 
-	# 2. Lily's Garden Cottage (Northeast)
-	var lily_house := PropFactory3D.build_village_cottage(Color("#C94B43"), Color("#EFE4CE"), false)
+	# 2. Lily's Garden Cottage (Northeast — Pergola Trellis + Mailbox + Vines)
+	var lily_house := PropFactory3D.build_village_cottage(Color("#C94B43"), Color("#EFE4CE"), false, "garden_cottage")
 	lily_house.position = Vector3(11.6, 0, -4.6)
 	lily_house.rotation_degrees.y = -24.0
 	add_child(lily_house)
 
-	# 3. Explorer's Supply Cottage (Northwest) + Chest Camp Crates
-	var west_house := PropFactory3D.build_village_cottage(Color("#CF862E"), Color("#EDE2CC"), false)
+	# 3. Explorer's Supply Cottage (Northwest — Timber Canopy + Chest Camp Crates)
+	var west_house := PropFactory3D.build_village_cottage(Color("#CF862E"), Color("#EDE2CC"), false, "supply_post")
 	west_house.position = Vector3(-11.8, 0, -4.8)
 	west_house.rotation_degrees.y = 26.0
 	add_child(west_house)
@@ -374,10 +478,10 @@ func _build_welcome_village() -> void:
 	crates.rotation_degrees.y = 18.0
 	add_child(crates)
 
-	# 4. Fountain Square + Wooden Bench
+	# 4. Real Water Fountain Square + Wooden Benches
 	var fountain := PropFactory3D.build_fountain()
 	fountain.position = Vector3(-5.0, 0, -1.0)
-	fountain.scale = Vector3.ONE * 0.74
+	fountain.scale = Vector3.ONE * 0.78
 	add_child(fountain)
 
 	var bench1 := PropFactory3D.build_wooden_bench()
@@ -396,20 +500,26 @@ func _build_welcome_village() -> void:
 	gateway.rotation_degrees.y = 90.0
 	add_child(gateway)
 
-	# 6. Varied Trees (Oak, Pine, Blossom) with Forest Green & Natural Moss tones
+	# 6. Varied Big Trees (3 styles) + Small Trees / Saplings (3 styles) with Wind-Animated Foliage
 	var tree_specs := [
-		{ "pos": Vector3(-15.5, 0, -7.2), "scale": 1.08, "color": Color("#265B33"), "style": "oak" },
-		{ "pos": Vector3(-15.2, 0, 5.8),  "scale": 1.02, "color": Color("#1E4D2D"), "style": "pine" },
-		{ "pos": Vector3(-8.2, 0, 8.4),   "scale": 0.96, "color": Color("#2F6D39"), "style": "oak" },
-		{ "pos": Vector3(7.4, 0, -8.6),   "scale": 1.10, "color": Color("#215330"), "style": "pine" },
-		{ "pos": Vector3(15.2, 0, -7.6),  "scale": 1.05, "color": Color("#2A6436"), "style": "oak" },
-		{ "pos": Vector3(14.5, 0, 7.4),   "scale": 0.96, "color": Color("#DF6B88"), "style": "blossom" },
-		{ "pos": Vector3(-4.4, 0, -9.4),  "scale": 1.06, "color": Color("#1F4F2E"), "style": "pine" },
-		{ "pos": Vector3(4.6, 0, -9.4),   "scale": 1.02, "color": Color("#2B6637"), "style": "oak" },
+		{ "pos": Vector3(-15.5, 0, -7.2), "scale": 1.08, "color": Color("#265B33"), "style": "oak", "rot": 18.0 },
+		{ "pos": Vector3(-15.2, 0, 5.8),  "scale": 1.04, "color": Color("#1E4D2D"), "style": "pine", "rot": 40.0 },
+		{ "pos": Vector3(-8.2, 0, 8.4),   "scale": 0.98, "color": Color("#2F6D39"), "style": "oak", "rot": -35.0 },
+		{ "pos": Vector3(7.4, 0, -8.6),   "scale": 1.12, "color": Color("#215330"), "style": "pine", "rot": 12.0 },
+		{ "pos": Vector3(15.2, 0, -7.6),  "scale": 1.05, "color": Color("#2A6436"), "style": "oak", "rot": 65.0 },
+		{ "pos": Vector3(14.5, 0, 7.4),   "scale": 0.98, "color": Color("#DF6B88"), "style": "blossom", "rot": -20.0 },
+		{ "pos": Vector3(-4.4, 0, -9.4),  "scale": 1.06, "color": Color("#1F4F2E"), "style": "pine", "rot": 80.0 },
+		{ "pos": Vector3(4.6, 0, -9.4),   "scale": 1.02, "color": Color("#2B6637"), "style": "oak", "rot": -55.0 },
+		# Small Trees / Saplings (3 distinct small variants)
+		{ "pos": Vector3(-6.2, 0, 7.6),   "scale": 0.92, "color": Color("#387B3E"), "style": "sapling_oak", "rot": 25.0 },
+		{ "pos": Vector3(7.6, 0, 7.4),    "scale": 0.95, "color": Color("#2E6D37"), "style": "berry_tree", "rot": -15.0 },
+		{ "pos": Vector3(5.2, 0, -3.6),   "scale": 0.88, "color": Color("#235D34"), "style": "cypress_small", "rot": 0.0 },
+		{ "pos": Vector3(-13.6, 0, -1.8), "scale": 0.90, "color": Color("#35743B"), "style": "berry_tree", "rot": 48.0 },
 	]
 	for ts in tree_specs:
 		var tree := PropFactory3D.build_stylized_tree(float(ts["scale"]), ts["color"], str(ts["style"]))
 		tree.position = ts["pos"]
+		tree.rotation_degrees.y = float(ts["rot"])
 		add_child(tree)
 
 	# 7. Warm Glowing Lampposts
@@ -424,23 +534,64 @@ func _build_welcome_village() -> void:
 		lamp.position = lp
 		add_child(lamp)
 
-	# 8. Wooden Fences, Shrubs, Rocks & Flowerbeds
+	# 8. Wooden Fences, 3 Shrub Variants, Flowerbeds, Mushrooms, Pebbles & Stump
 	var decor := Node3D.new()
 	decor.name = "VillageDecor"
 	add_child(decor)
 	_add_fence_row(decor, Vector3(-14.5, 0, 8.8), Vector3(-5.8, 0, 8.8), 6)
 	_add_fence_row(decor, Vector3(5.8, 0, 8.8), Vector3(14.5, 0, 8.8), 6)
-	_add_flower_cluster(decor, Vector3(9.4, 0, -1.6), Color("#E85878"))
-	_add_flower_cluster(decor, Vector3(11.8, 0, 5.2), Color("#F0B836"))
-	_add_flower_cluster(decor, Vector3(-3.0, 0, 5.8), Color("#589BE8"))
-	_add_flower_cluster(decor, Vector3(3.2, 0, 5.8), Color("#EB6884"))
-	_add_shrub(decor, Vector3(-7.6, 0, -4.8), 1.15, Color("#275E32"))
-	_add_shrub(decor, Vector3(6.8, 0, -4.4), 1.05, Color("#2D6B37"))
-	_add_shrub(decor, Vector3(13.2, 0, 4.4), 0.95, Color("#2A6234"))
+
+	var flower_spots: Array[Vector3] = [
+		Vector3(9.4, 0, -1.6),
+		Vector3(11.8, 0, 5.2),
+		Vector3(-3.0, 0, 5.8),
+		Vector3(3.2, 0, 5.8),
+		Vector3(-7.4, 0, -0.4),
+	]
+	var flower_cols := [Color("#E85878"), Color("#F0B836"), Color("#589BE8"), Color("#EB6884"), Color("#B974F0")]
+	for fi in range(flower_spots.size()):
+		_add_flower_cluster(decor, flower_spots[fi], flower_cols[fi])
+
+	_add_shrub(decor, Vector3(-7.6, 0, -4.8), 1.15, Color("#275E32"), 0)
+	_add_shrub(decor, Vector3(6.8, 0, -4.4), 1.05, Color("#2D6B37"), 1)
+	_add_shrub(decor, Vector3(13.2, 0, 4.4), 0.95, Color("#2A6234"), 2)
+	_add_shrub(decor, Vector3(-1.8, 0, 7.4), 0.92, Color("#32723B"), 1)
+	_add_shrub(decor, Vector3(4.8, 0, 7.5), 1.00, Color("#2A6334"), 2)
+	_add_shrub(decor, Vector3(-9.8, 0, 5.2), 1.05, Color("#285F32"), 0)
+
+	_add_mushroom_patch(decor, Vector3(-13.8, 0, 5.2))
+	_add_mushroom_patch(decor, Vector3(13.8, 0, -6.8))
+	_add_stump_and_leaves(decor, Vector3(-9.4, 0, 7.2), Color("#427E38"))
+	_add_pebble_cluster(decor, Vector3(4.5, 0, 3.0))
+	_add_pebble_cluster(decor, Vector3(-5.8, 0, 2.2))
+	_add_pebble_cluster(decor, Vector3(8.5, 0, 2.6))
 	_add_rock(Vector3(-13.8, 0, 3.8), 0.65, Color("#5A6270"), false)
 	_add_rock(Vector3(12.8, 0, -0.8), 0.58, Color("#5C6573"), false)
 
-	_add_fireflies(Color("#FFE478"), 22)
+	# 9. Real MultiMesh Wind-Animated Grass System across meadow (avoiding plaza, trails, houses, fountain)
+	var avoid_circles: Array[Dictionary] = [
+		{ "center": Vector2(0.0, 1.5), "radius": 6.55 },     # Central Cobblestone Plaza
+		{ "center": Vector2(-5.0, -1.0), "radius": 2.45 },   # Fountain footprint
+		{ "center": Vector2(-10.0, 0.6), "radius": 1.65 },   # Chest camp
+		{ "center": Vector2(16.5, 1.25), "radius": 2.0 },    # Meadow portal
+	]
+	var avoid_rects: Array[Rect2] = [
+		Rect2(Vector2(-3.6, -10.8), Vector2(7.2, 6.2)),      # Owl Academy + front porch
+		Rect2(Vector2(8.0, -7.8), Vector2(7.2, 6.4)),        # Lily Cottage
+		Rect2(Vector2(-15.2, -8.0), Vector2(7.0, 6.4)),      # Supply Cottage
+		Rect2(Vector2(-1.4, -5.8), Vector2(2.8, 7.5)),       # Path Plaza <-> Owl Academy
+		Rect2(Vector2(-10.5, -0.5), Vector2(7.5, 2.5)),      # Path Plaza <-> Chest
+		Rect2(Vector2(4.0, 0.2), Vector2(13.0, 2.6)),        # Path Plaza <-> Gateway Portal
+	]
+	_add_grass_field(decor, avoid_circles, avoid_rects, Rect2(Vector2(-17.2, -10.2), Vector2(34.4, 20.2)), 202611)
+
+	# 10. Dynamic Ambient Life (Butterflies + Soaring Birds) & Sunlit Pollen Particles
+	var life := AmbientLife3D.new()
+	life.name = "AmbientLife3D"
+	add_child(life)
+	life.setup_village_life(flower_spots, Vector3(0, 0, 0))
+
+	_add_fireflies(Color("#FFE478"), 24)
 
 
 func _build_alphabet_meadow() -> void:

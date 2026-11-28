@@ -215,22 +215,45 @@ func _process(delta: float) -> void:
 			var yaw := atan2(look_dir.x, look_dir.y)
 			visual_slot.rotation.y = lerp_angle(visual_slot.rotation.y, yaw, minf(1.0, delta * 6.0))
 
-	visual_slot.position.y = sin(_hover_time * 3.8) * 0.16
+	visual_slot.position.y = sin(_hover_time * 3.8) * 0.14
 	if _rig != null and is_instance_valid(_rig):
-		var flap_speed := 15.0 if current_mood == BuddyMood.CELEBRATING else 8.5
-		var flap_amp := 0.55 if current_mood == BuddyMood.CELEBRATING else 0.32
+		_rig.update_blink_and_breath(delta, _hover_time)
+		var flap_speed := 15.0 if current_mood == BuddyMood.CELEBRATING else (11.0 if current_mood == BuddyMood.HAPPY else 8.2)
+		var flap_amp := 0.56 if current_mood == BuddyMood.CELEBRATING else 0.34
 		if _rig.left_wing_pivot != null:
 			_rig.left_wing_pivot.rotation.z = sin(_hover_time * flap_speed) * flap_amp
 		if _rig.right_wing_pivot != null:
 			_rig.right_wing_pivot.rotation.z = -sin(_hover_time * flap_speed) * flap_amp
 		if _rig.tail_pivot != null:
-			_rig.tail_pivot.rotation.y = sin(_hover_time * 5.2) * 0.28
+			var tail_spd := 8.5 if current_mood in [BuddyMood.HAPPY, BuddyMood.CELEBRATING] else 5.0
+			_rig.tail_pivot.rotation.y = sin(_hover_time * tail_spd) * 0.32
+		if _rig.head_pivot != null:
+			if current_mood == BuddyMood.THINKING:
+				_rig.head_pivot.rotation.z = lerpf(_rig.head_pivot.rotation.z, 0.22, minf(1.0, delta * 6.0))
+				_rig.head_pivot.rotation.x = lerpf(_rig.head_pivot.rotation.x, -0.10, minf(1.0, delta * 6.0))
+			elif current_mood == BuddyMood.HAPPY or current_mood == BuddyMood.CELEBRATING:
+				_rig.head_pivot.rotation.z = lerpf(_rig.head_pivot.rotation.z, sin(_hover_time * 4.2) * 0.10, minf(1.0, delta * 6.0))
+				_rig.head_pivot.rotation.x = lerpf(_rig.head_pivot.rotation.x, 0.0, minf(1.0, delta * 6.0))
+			else:
+				_rig.head_pivot.rotation.z = lerpf(_rig.head_pivot.rotation.z, 0.0, minf(1.0, delta * 6.0))
+		if _rig.left_arm_pivot != null and _rig.right_arm_pivot != null:
+			if current_mood == BuddyMood.TALKING or _is_speaking_audio:
+				_rig.left_arm_pivot.rotation.x = -0.35 + sin(_hover_time * 7.0) * 0.25
+				_rig.right_arm_pivot.rotation.x = -0.25 + cos(_hover_time * 6.2) * 0.22
+			elif current_mood == BuddyMood.CELEBRATING:
+				_rig.left_arm_pivot.rotation.z = 0.65 + sin(_hover_time * 10.0) * 0.25
+				_rig.right_arm_pivot.rotation.z = -0.65 - sin(_hover_time * 10.0) * 0.25
+			else:
+				_rig.left_arm_pivot.rotation.x = lerpf(_rig.left_arm_pivot.rotation.x, 0.0, minf(1.0, delta * 6.0))
+				_rig.right_arm_pivot.rotation.x = lerpf(_rig.right_arm_pivot.rotation.x, 0.0, minf(1.0, delta * 6.0))
+				_rig.left_arm_pivot.rotation.z = lerpf(_rig.left_arm_pivot.rotation.z, 0.0, minf(1.0, delta * 6.0))
+				_rig.right_arm_pivot.rotation.z = lerpf(_rig.right_arm_pivot.rotation.z, 0.0, minf(1.0, delta * 6.0))
 		if _is_speaking_audio:
 			_rig.set_speaking(true, delta)
-		if current_mood == BuddyMood.CELEBRATING:
-			visual_slot.rotation.z = sin(_hover_time * 10.0) * 0.14
-		else:
-			visual_slot.rotation.z = lerpf(visual_slot.rotation.z, 0.0, minf(1.0, delta * 8.0))
+		if current_mood == BuddyMood.CELEBRATING and _rig.body_pivot != null:
+			_rig.body_pivot.rotation.y = sin(_hover_time * 6.0) * 0.25
+		elif _rig.body_pivot != null:
+			_rig.body_pivot.rotation.y = lerpf(_rig.body_pivot.rotation.y, 0.0, minf(1.0, delta * 6.0))
 
 	_update_screen_bubble()
 

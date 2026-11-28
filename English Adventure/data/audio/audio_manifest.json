@@ -123,6 +123,17 @@
       "status": "bundled_verified",
       "source_license": "Original Procedural Synthesis (English Adventure CC0)",
       "description_vi": "Nhạc nền nhẹ nhàng Đảo Bảng Chữ Cái (Procedural Celesta Pad)"
+    },
+    {
+      "audio_id": "sfx_fountain_loop",
+      "category": "sfx",
+      "path": "res://assets/audio/sfx/sfx_fountain_loop.wav",
+      "dialect": "neutral",
+      "duration_sec": 3.0,
+      "loop": true,
+      "status": "bundled_verified",
+      "source_license": "Original Procedural Synthesis (English Adventure CC0)",
+      "description_vi": "Âm thanh nước đài phun nước chảy nhẹ (Spatial 3D)"
     }
   ]
 }

@@ -30,6 +30,8 @@ var _current_mood: String = "neutral"
 var _materials_cache: Dictionary = {}
 var _is_speaking: bool = false
 var _speak_phase: float = 0.0
+var _blink_timer: float = 2.6
+var _blink_closing: float = 0.0
 
 
 static func build_character(char_id: String) -> CharacterRig3D:
@@ -522,3 +524,24 @@ func set_speaking(active: bool, delta_sec: float = 0.0) -> void:
 	mouth_mesh.scale = Vector3(1.15, open_amt, 1.05)
 	if head_pivot != null:
 		head_pivot.rotation.x = sin(_speak_phase * 0.5) * 0.05
+
+
+func update_blink_and_breath(delta_sec: float, time_sec: float) -> void:
+	if left_eye != null and right_eye != null:
+		_blink_timer -= delta_sec
+		if _blink_timer <= 0.0:
+			_blink_closing = 0.14
+			_blink_timer = 3.2 + fmod(absf(sin(time_sec * 1.7)) * 2.4, 2.4)
+		var base_y := 1.35 if _current_mood == "surprised" else 1.10
+		if _blink_closing > 0.0:
+			_blink_closing = maxf(0.0, _blink_closing - delta_sec)
+			var t_b := sin((_blink_closing / 0.14) * PI)
+			var ey := lerpf(base_y, 0.12, t_b)
+			left_eye.scale.y = ey
+			right_eye.scale.y = ey
+		else:
+			left_eye.scale.y = base_y
+			right_eye.scale.y = base_y
+	if body_pivot != null:
+		var breath := 1.0 + sin(time_sec * 2.4) * 0.018
+		body_pivot.scale = Vector3(breath, 1.0 / sqrt(breath), breath)

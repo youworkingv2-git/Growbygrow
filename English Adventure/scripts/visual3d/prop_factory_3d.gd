@@ -257,6 +257,25 @@ static func _build_portal(root: Node3D) -> void:
 	root.add_child(particles)
 
 
+static func create_foliage_wind_material(
+	base_color: Color,
+	tip_color: Color,
+	wind_strength: float = 0.085,
+	cluster_height: float = 1.4
+) -> ShaderMaterial:
+	var key := "fwind|%s|%s|%.3f|%.2f" % [base_color.to_html(false), tip_color.to_html(false), wind_strength, cluster_height]
+	if _mat_cache.has(key):
+		return _mat_cache[key] as ShaderMaterial
+	var sm := ShaderMaterial.new()
+	sm.shader = load("res://shaders/stylized_foliage_wind.gdshader") as Shader
+	sm.set_shader_parameter("base_color", base_color)
+	sm.set_shader_parameter("tip_color", tip_color)
+	sm.set_shader_parameter("wind_strength", wind_strength)
+	sm.set_shader_parameter("cluster_height", cluster_height)
+	_mat_cache[key] = sm
+	return sm
+
+
 static func build_stylized_tree(
 	scale_factor: float = 1.0,
 	leaf_color: Color = Color("#2B6638"),
@@ -264,73 +283,99 @@ static func build_stylized_tree(
 ) -> Node3D:
 	var tree := Node3D.new()
 	tree.name = "StylizedTree3D"
-	var trunk_mat := _mat(Color("#694427"), 0.82)
-	var bark_dark := _mat(Color("#4E321D"), 0.86)
-	var leaf_mat := _mat(leaf_color, 0.68)
-	var leaf_mid := _mat(leaf_color.lightened(0.10), 0.65)
-	var leaf_hi := _mat(leaf_color.lightened(0.20), 0.62)
+	var trunk_mat := _mat(Color("#6A4326"), 0.84)
+	var bark_dark := _mat(Color("#4D301C"), 0.88)
 
-	_add_contact_shadow(tree, 1.35, 0.28)
+	var leaf_dark := create_foliage_wind_material(leaf_color.darkened(0.24), leaf_color.lightened(0.10), 0.075, 1.5)
+	var leaf_mid := create_foliage_wind_material(leaf_color.darkened(0.10), leaf_color.lightened(0.20), 0.088, 1.4)
+	var leaf_hi := create_foliage_wind_material(leaf_color, leaf_color.lightened(0.28), 0.10, 1.25)
+
+	var is_small := style in ["sapling_oak", "berry_tree", "cypress_small"]
+	_add_contact_shadow(tree, 0.85 if is_small else 1.45, 0.26 if is_small else 0.30)
 
 	match style:
 		"pine":
-			_mesh_part(tree, "Trunk", _cyl(0.18, 0.34, 1.8, 8), bark_dark, Vector3(0, 0.9, 0))
-			_mesh_part(tree, "RootFlare", _cyl(0.26, 0.48, 0.35, 6), bark_dark, Vector3(0, 0.18, 0))
-			_mesh_part(tree, "Tier1", _cyl(0.22, 1.45, 1.45, 8), leaf_mat, Vector3(0, 1.95, 0))
-			_mesh_part(tree, "Tier2", _cyl(0.18, 1.15, 1.30, 8), leaf_mid, Vector3(0, 2.85, 0))
-			_mesh_part(tree, "Tier3", _cyl(0.06, 0.82, 1.15, 8), leaf_hi, Vector3(0, 3.70, 0))
+			# Layered evergreen with natural curved trunk, exposed lower boughs & scalloped needle skirts
+			_mesh_part(tree, "Trunk", StylizedMeshKit.build_curved_trunk_mesh(0.32, 0.14, 2.7, 0.12, -0.06, 9), bark_dark, Vector3(0, 0, 0))
+			_mesh_part(tree, "BoughL", StylizedMeshKit.build_curved_trunk_mesh(0.12, 0.06, 0.95, 0.14, 0.0, 7), bark_dark, Vector3(-0.1, 1.35, 0.08), Vector3(0, 0, 48))
+			_mesh_part(tree, "BoughR", StylizedMeshKit.build_curved_trunk_mesh(0.12, 0.06, 0.90, -0.14, 0.0, 7), bark_dark, Vector3(0.1, 1.55, -0.08), Vector3(0, 0, -45))
+			_mesh_part(tree, "PineSkirt1", StylizedMeshKit.build_pine_bough_tier_mesh(1.52, 1.15, 7, 0.2), leaf_dark, Vector3(0, 1.95, 0))
+			_mesh_part(tree, "PineSkirt2", StylizedMeshKit.build_pine_bough_tier_mesh(1.22, 1.02, 7, 1.4), leaf_mid, Vector3(0.05, 2.72, -0.04), Vector3(0, 26, 0))
+			_mesh_part(tree, "PineSkirt3", StylizedMeshKit.build_pine_bough_tier_mesh(0.88, 0.90, 6, 2.7), leaf_hi, Vector3(0.06, 3.44, -0.03), Vector3(0, 52, 0))
+			_mesh_part(tree, "PineTopTuft", StylizedMeshKit.build_leaf_clump_mesh(3.1, 0.44, 0.56, 6, 10, 0.22), leaf_hi, Vector3(0.06, 4.02, -0.03))
 		"blossom":
-			var warm_trunk := _mat(Color("#7C583C"), 0.78)
-			var blossom_main := _mat(leaf_color, 0.62)
-			var blossom_hi := _mat(Color("#F59BB2"), 0.56)
-			_mesh_part(tree, "Trunk", _cyl(0.18, 0.32, 2.0, 8), warm_trunk, Vector3(0, 1.0, 0), Vector3(0, 0, 3))
-			_mesh_part(tree, "BranchL", _cyl(0.09, 0.15, 0.95, 7), warm_trunk, Vector3(-0.38, 1.9, 0.1), Vector3(0, 0, 36))
-			_mesh_part(tree, "BranchR", _cyl(0.09, 0.14, 0.90, 7), warm_trunk, Vector3(0.38, 1.95, -0.1), Vector3(0, 0, -34))
-			_mesh_part(tree, "CanopyMain", _sph(1.22, 1.9), blossom_main, Vector3(0, 2.75, 0))
-			_mesh_part(tree, "CanopyTop", _sph(0.88, 1.4), blossom_hi, Vector3(0.35, 3.45, -0.18))
-			_mesh_part(tree, "CanopySideL", _sph(0.82, 1.3), blossom_hi, Vector3(-0.78, 2.45, 0.28))
-			_mesh_part(tree, "CanopySideR", _sph(0.75, 1.25), blossom_main, Vector3(0.72, 2.40, 0.32))
+			var warm_trunk := _mat(Color("#7C563B"), 0.80)
+			var bl_deep := create_foliage_wind_material(leaf_color.darkened(0.16), Color("#FFACC4"), 0.09, 1.3)
+			var bl_hi := create_foliage_wind_material(Color("#EF7FA0"), Color("#FFD2DF"), 0.105, 1.2)
+			_mesh_part(tree, "Trunk", StylizedMeshKit.build_curved_trunk_mesh(0.30, 0.16, 2.05, 0.22, 0.09, 9), warm_trunk, Vector3.ZERO)
+			_mesh_part(tree, "BranchL", StylizedMeshKit.build_curved_trunk_mesh(0.14, 0.07, 1.05, 0.18, 0.05, 7), warm_trunk, Vector3(-0.08, 1.55, 0.04), Vector3(0, 0, 42))
+			_mesh_part(tree, "BranchR", StylizedMeshKit.build_curved_trunk_mesh(0.13, 0.07, 1.00, -0.14, -0.06, 7), warm_trunk, Vector3(0.14, 1.65, -0.04), Vector3(0, 0, -38))
+			_mesh_part(tree, "CanopyCore", StylizedMeshKit.build_leaf_clump_mesh(2.2, 1.18, 0.94, 7, 12, 0.20), bl_deep, Vector3(0.10, 2.78, 0.04))
+			_mesh_part(tree, "CanopyTop", StylizedMeshKit.build_leaf_clump_mesh(4.8, 0.86, 0.72, 7, 11, 0.22), bl_hi, Vector3(0.36, 3.45, -0.14))
+			_mesh_part(tree, "CanopyWest", StylizedMeshKit.build_leaf_clump_mesh(6.1, 0.82, 0.68, 6, 10, 0.20), bl_hi, Vector3(-0.76, 2.48, 0.24))
+			_mesh_part(tree, "CanopyEast", StylizedMeshKit.build_leaf_clump_mesh(7.3, 0.74, 0.64, 6, 10, 0.20), bl_deep, Vector3(0.80, 2.42, 0.28))
+		"sapling_oak":
+			# Small tree variant 1: young slender forked oak
+			_mesh_part(tree, "Trunk", StylizedMeshKit.build_curved_trunk_mesh(0.16, 0.08, 1.45, 0.12, 0.05, 7), trunk_mat, Vector3.ZERO)
+			_mesh_part(tree, "BranchL", StylizedMeshKit.build_curved_trunk_mesh(0.07, 0.035, 0.62, 0.08, 0.0, 6), trunk_mat, Vector3(0.04, 1.05, 0.02), Vector3(0, 0, 34))
+			_mesh_part(tree, "LeafCrown", StylizedMeshKit.build_leaf_clump_mesh(8.4, 0.72, 0.62, 6, 10, 0.22), leaf_hi, Vector3(0.08, 1.72, 0.02))
+			_mesh_part(tree, "LeafSide", StylizedMeshKit.build_leaf_clump_mesh(9.1, 0.52, 0.45, 6, 9, 0.20), leaf_mid, Vector3(-0.38, 1.48, 0.14))
+		"berry_tree":
+			# Small tree variant 2: low orchard berry tree with visible fruit clusters
+			_mesh_part(tree, "Trunk", StylizedMeshKit.build_curved_trunk_mesh(0.18, 0.10, 1.25, -0.10, 0.06, 7), bark_dark, Vector3.ZERO)
+			_mesh_part(tree, "CrownA", StylizedMeshKit.build_leaf_clump_mesh(3.7, 0.82, 0.68, 6, 10, 0.21), leaf_mid, Vector3(-0.06, 1.56, 0.02))
+			_mesh_part(tree, "CrownB", StylizedMeshKit.build_leaf_clump_mesh(5.9, 0.58, 0.50, 6, 9, 0.19), leaf_hi, Vector3(0.36, 1.45, -0.14))
+			var berry_m := _mat(Color("#F05252"), 0.42, 0.0, Color("#D93B3B"), 0.15)
+			for bp in [Vector3(-0.42, 1.42, 0.56), Vector3(0.28, 1.62, 0.48), Vector3(-0.18, 1.80, -0.45), Vector3(0.55, 1.38, 0.16)]:
+				_mesh_part(tree, "Berry", _sph(0.08, 0.15, 5, 7), berry_m, bp, Vector3.ZERO, Vector3.ONE, 0.0, false)
+		"cypress_small":
+			# Small tree variant 3: stylized multi-tiered garden cypress / topiary tree
+			_mesh_part(tree, "Trunk", StylizedMeshKit.build_curved_trunk_mesh(0.15, 0.08, 1.30, 0.04, 0.03, 7), bark_dark, Vector3.ZERO)
+			_mesh_part(tree, "PuffLow", StylizedMeshKit.build_leaf_clump_mesh(1.5, 0.62, 0.55, 6, 10, 0.16), leaf_dark, Vector3(0, 1.22, 0))
+			_mesh_part(tree, "PuffMid", StylizedMeshKit.build_leaf_clump_mesh(2.9, 0.50, 0.48, 6, 10, 0.16), leaf_mid, Vector3(0, 1.75, 0))
+			_mesh_part(tree, "PuffTop", StylizedMeshKit.build_leaf_clump_mesh(4.3, 0.36, 0.40, 6, 9, 0.18), leaf_hi, Vector3(0, 2.22, 0))
 		_:
-			# Rich sculpted oak canopy + root buttress + asymmetric branches
-			_mesh_part(tree, "RootFlare", _cyl(0.30, 0.56, 0.42, 7), bark_dark, Vector3(0, 0.21, 0))
-			_mesh_part(tree, "Trunk", _cyl(0.24, 0.38, 2.25, 9), trunk_mat, Vector3(0, 1.12, 0))
-			_mesh_part(tree, "BranchL", _cyl(0.10, 0.17, 1.05, 7), trunk_mat, Vector3(-0.42, 2.05, 0.12), Vector3(0, 0, 38))
-			_mesh_part(tree, "BranchR", _cyl(0.10, 0.16, 0.95, 7), trunk_mat, Vector3(0.40, 2.15, -0.14), Vector3(0, 0, -34))
-			_mesh_part(tree, "CanopyCore", _sph(1.32, 2.05), leaf_mat, Vector3(0, 2.85, 0))
-			_mesh_part(tree, "CanopyCrown", _sph(0.98, 1.55), leaf_hi, Vector3(0.22, 3.72, -0.14))
-			_mesh_part(tree, "CanopyWest", _sph(0.92, 1.45), leaf_mid, Vector3(-0.78, 2.65, 0.30))
-			_mesh_part(tree, "CanopyEast", _sph(0.86, 1.40), leaf_mid, Vector3(0.76, 2.62, 0.26))
-			_mesh_part(tree, "CanopyBack", _sph(0.84, 1.35), leaf_mat, Vector3(-0.15, 2.95, -0.72))
+			# Big Tree Variant 1 ("oak"): Broad storybook oak with curved buttressed trunk, 3 boughs & 6 layered wind-swaying leaf clusters
+			_mesh_part(tree, "Trunk", StylizedMeshKit.build_curved_trunk_mesh(0.42, 0.22, 2.35, 0.18, 0.06, 9), trunk_mat, Vector3.ZERO)
+			_mesh_part(tree, "BranchL", StylizedMeshKit.build_curved_trunk_mesh(0.16, 0.08, 1.15, 0.14, 0.04, 7), trunk_mat, Vector3(0.02, 1.75, 0.02), Vector3(8, 0, 42))
+			_mesh_part(tree, "BranchR", StylizedMeshKit.build_curved_trunk_mesh(0.15, 0.075, 1.10, -0.12, -0.04, 7), trunk_mat, Vector3(0.12, 1.82, 0.02), Vector3(-10, 0, -38))
+			_mesh_part(tree, "BranchBack", StylizedMeshKit.build_curved_trunk_mesh(0.13, 0.07, 0.95, 0.05, -0.10, 7), trunk_mat, Vector3(0.06, 1.90, -0.05), Vector3(-34, 0, 6))
+			_mesh_part(tree, "CanopyCore", StylizedMeshKit.build_leaf_clump_mesh(1.1, 1.32, 1.05, 7, 12, 0.20), leaf_dark, Vector3(0.06, 2.95, 0.0))
+			_mesh_part(tree, "CanopyCrown", StylizedMeshKit.build_leaf_clump_mesh(2.7, 0.98, 0.84, 7, 11, 0.22), leaf_hi, Vector3(0.24, 3.76, -0.10))
+			_mesh_part(tree, "CanopyWest", StylizedMeshKit.build_leaf_clump_mesh(3.9, 0.96, 0.82, 6, 11, 0.20), leaf_mid, Vector3(-0.88, 2.70, 0.34))
+			_mesh_part(tree, "CanopyEast", StylizedMeshKit.build_leaf_clump_mesh(5.2, 0.92, 0.78, 6, 11, 0.20), leaf_mid, Vector3(0.88, 2.66, 0.26))
+			_mesh_part(tree, "CanopyBack", StylizedMeshKit.build_leaf_clump_mesh(6.4, 0.88, 0.76, 6, 10, 0.19), leaf_dark, Vector3(-0.18, 2.98, -0.78))
+			_mesh_part(tree, "CanopyAccent", StylizedMeshKit.build_leaf_clump_mesh(7.8, 0.64, 0.56, 6, 10, 0.22), leaf_hi, Vector3(-0.42, 3.55, 0.42))
 
 	var body := StaticBody3D.new()
 	body.collision_layer = 32
 	body.collision_mask = 0
 	var col := CollisionShape3D.new()
 	var cyl_shape := CylinderShape3D.new()
-	cyl_shape.radius = 0.44
-	cyl_shape.height = 2.2
+	cyl_shape.radius = 0.26 if is_small else 0.44
+	cyl_shape.height = 1.6 if is_small else 2.2
 	col.shape = cyl_shape
-	col.position = Vector3(0, 1.1, 0)
+	col.position = Vector3(0, 0.8 if is_small else 1.1, 0)
 	body.add_child(col)
 	tree.add_child(body)
 
-	# Camera-fade occluder (layer 16) so tree softly turns translucent if between Camera3D and Player
+	# Camera-fade occluder (layer 16)
 	var cam_occ_body := StaticBody3D.new()
 	cam_occ_body.collision_layer = 16
 	cam_occ_body.collision_mask = 0
 	cam_occ_body.set_meta("occluder_root", tree)
 	var trunk_occ := CollisionShape3D.new()
 	var trunk_sph := CylinderShape3D.new()
-	trunk_sph.radius = 0.46
-	trunk_sph.height = 2.2
+	trunk_sph.radius = 0.28 if is_small else 0.46
+	trunk_sph.height = 1.6 if is_small else 2.2
 	trunk_occ.shape = trunk_sph
-	trunk_occ.position = Vector3(0, 1.1, 0)
+	trunk_occ.position = Vector3(0, 0.8 if is_small else 1.1, 0)
 	cam_occ_body.add_child(trunk_occ)
 	var canopy_col := CollisionShape3D.new()
 	var canopy_sph := SphereShape3D.new()
-	canopy_sph.radius = 1.45
+	canopy_sph.radius = 0.90 if is_small else 1.50
 	canopy_col.shape = canopy_sph
-	canopy_col.position = Vector3(0, 2.85, 0)
+	canopy_col.position = Vector3(0, 1.75 if is_small else 2.85, 0)
 	cam_occ_body.add_child(canopy_col)
 	tree.add_child(cam_occ_body)
 
@@ -338,31 +383,66 @@ static func build_stylized_tree(
 	return tree
 
 
+static func build_shrub_variant(variant_idx: int = 0, scale_s: float = 1.0, color: Color = Color("#2D6B37")) -> Node3D:
+	var shrub := Node3D.new()
+	shrub.name = "Shrub3D_%d" % variant_idx
+	var m_dark := create_foliage_wind_material(color.darkened(0.22), color.lightened(0.12), 0.055, 0.7)
+	var m_hi := create_foliage_wind_material(color, color.lightened(0.24), 0.068, 0.65)
+	_add_contact_shadow(shrub, 0.48 * scale_s, 0.22)
+
+	match variant_idx % 3:
+		1:
+			# Fern / woodland rosette
+			for i in range(5):
+				var ang := float(i) * (TAU / 5.0)
+				var frond := _mesh_part(shrub, "Frond_%d" % i, StylizedMeshKit.build_leaf_clump_mesh(float(i) + 0.5, 0.34, 0.16, 5, 8, 0.16), m_hi if i % 2 == 0 else m_dark, Vector3(cos(ang) * 0.22, 0.20, sin(ang) * 0.22), Vector3(-16, rad_to_deg(-ang), 0), Vector3(1.2, 0.75, 0.7))
+				frond.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		2:
+			# Flowering garden shrub
+			_mesh_part(shrub, "BushBase", StylizedMeshKit.build_leaf_clump_mesh(3.3, 0.44, 0.36, 6, 9, 0.20), m_dark, Vector3(0, 0.24, 0))
+			_mesh_part(shrub, "BushTop", StylizedMeshKit.build_leaf_clump_mesh(4.9, 0.32, 0.28, 6, 8, 0.20), m_hi, Vector3(0.14, 0.38, -0.10))
+			var fl_m := _mat(Color("#FF78A0"), 0.45, 0.0, Color("#FF78A0"), 0.15)
+			for fp in [Vector3(-0.20, 0.42, 0.24), Vector3(0.24, 0.46, 0.18), Vector3(0.05, 0.52, -0.16), Vector3(-0.18, 0.32, -0.22)]:
+				_mesh_part(shrub, "Blossom", _sph(0.065, 0.11, 5, 7), fl_m, fp, Vector3.ZERO, Vector3.ONE, 0.0, false)
+		_:
+			# Berry woodland bush
+			_mesh_part(shrub, "BushMain", StylizedMeshKit.build_leaf_clump_mesh(1.8, 0.46, 0.38, 6, 10, 0.22), m_dark, Vector3(0, 0.26, 0))
+			_mesh_part(shrub, "BushSide", StylizedMeshKit.build_leaf_clump_mesh(2.4, 0.30, 0.26, 5, 8, 0.20), m_hi, Vector3(0.26, 0.20, 0.14))
+			var ber := _mat(Color("#F2A62E"), 0.42)
+			for bp in [Vector3(-0.22, 0.38, 0.28), Vector3(0.18, 0.44, 0.24), Vector3(0.32, 0.26, 0.26)]:
+				_mesh_part(shrub, "Berry", _sph(0.055, 0.10, 4, 6), ber, bp, Vector3.ZERO, Vector3.ONE, 0.0, false)
+
+	shrub.scale = Vector3.ONE * scale_s
+	return shrub
+
+
 static func build_village_cottage(
 	roof_color: Color = Color("#C44A3F"),
 	wall_color: Color = Color("#EFE5D2"),
-	with_owl_sign: bool = false
+	with_owl_sign: bool = false,
+	style: String = ""
 ) -> Node3D:
+	var cottage_style := style if not style.is_empty() else ("academy" if with_owl_sign else "garden_cottage")
 	var house := Node3D.new()
-	house.name = "Cottage3D"
+	house.name = "Cottage3D_%s" % cottage_style
 	var wall_m := _mat(wall_color, 0.78)
-	var roof_m := _mat(roof_color, 0.60)
-	var roof_trim_m := _mat(roof_color.darkened(0.24), 0.56)
-	var timber_m := _mat(Color("#5C3A21"), 0.75)
-	var wood_door_m := _mat(Color("#734525"), 0.68)
+	var roof_m := _mat(roof_color, 0.58)
+	var roof_trim_m := _mat(roof_color.darkened(0.26), 0.54)
+	var timber_m := _mat(Color("#5A3820"), 0.75)
+	var wood_door_m := _mat(Color("#734525"), 0.66)
 	var stone_m := _mat(Color("#69707D"), 0.86)
-	var stone_light_m := _mat(Color("#848B96"), 0.80)
+	var stone_light_m := _mat(Color("#88909C"), 0.78)
 	var shutter_m := _mat(roof_color.darkened(0.14), 0.62)
 	var brass_m := _mat(Color("#EBB638"), 0.30, 0.75)
-	var window_glow := _mat(Color("#FFE082"), 0.22, 0.0, Color("#FFD25A"), 0.75)
-	var leaf_m := _mat(Color("#367D3C"), 0.70)
+	var window_glow := _mat(Color("#FFE082"), 0.22, 0.0, Color("#FFD25A"), 0.78)
+	var vine_m := create_foliage_wind_material(Color("#24592B"), Color("#438C3F"), 0.035, 1.2)
 	var flower_m := _mat(Color("#F06277"), 0.55)
 
-	_add_contact_shadow(house, 3.15, 0.28)
+	_add_contact_shadow(house, 3.35, 0.28)
 
-	# Stepped Stone Foundation
-	_mesh_part(house, "FoundationBase", _box(Vector3(4.90, 0.30, 4.30)), stone_m, Vector3(0, 0.15, 0))
-	_mesh_part(house, "FoundationLedge", _box(Vector3(4.65, 0.28, 4.05)), stone_light_m, Vector3(0, 0.42, 0))
+	# Stepped Stone Foundation with corner masonry blocks
+	_mesh_part(house, "FoundationBase", _box(Vector3(4.95, 0.30, 4.35)), stone_m, Vector3(0, 0.15, 0))
+	_mesh_part(house, "FoundationLedge", _box(Vector3(4.68, 0.28, 4.08)), stone_light_m, Vector3(0, 0.42, 0))
 
 	# Main Stucco Walls + Half-Timber Beams
 	_mesh_part(house, "Walls", _box(Vector3(4.25, 2.55, 3.65)), wall_m, Vector3(0, 1.82, 0))
@@ -376,28 +456,28 @@ static func build_village_cottage(
 	_mesh_part(house, "EaveBeamF", _box(Vector3(4.48, 0.18, 0.18)), timber_m, Vector3(0, 3.08, 1.84))
 
 	# Sculpted Overhanging Roof + Ridge + Dormer + Stone Chimney
-	_mesh_part(house, "RoofOverhangRim", _box(Vector3(5.05, 0.16, 4.45)), roof_trim_m, Vector3(0, 3.16, 0))
-	_mesh_part(house, "RoofPyramid", _cyl(0.32, 3.72, 2.25, 4), roof_m, Vector3(0, 4.28, 0), Vector3(0, 45, 0))
-	_mesh_part(house, "RoofFinialCap", _cyl(0.08, 0.42, 0.35, 4), roof_trim_m, Vector3(0, 5.45, 0), Vector3(0, 45, 0))
+	_mesh_part(house, "RoofOverhangRim", _box(Vector3(5.10, 0.16, 4.50)), roof_trim_m, Vector3(0, 3.16, 0))
+	_mesh_part(house, "RoofPyramid", _cyl(0.32, 3.74, 2.28, 4), roof_m, Vector3(0, 4.29, 0), Vector3(0, 45, 0))
+	_mesh_part(house, "RoofFinialCap", _cyl(0.08, 0.44, 0.36, 4), roof_trim_m, Vector3(0, 5.46, 0), Vector3(0, 45, 0))
 
 	# Front Dormer Window on Roof
-	_mesh_part(house, "DormerBody", _box(Vector3(0.95, 0.72, 0.90)), wall_m, Vector3(0, 4.05, 1.42))
+	_mesh_part(house, "DormerBody", _box(Vector3(0.96, 0.72, 0.90)), wall_m, Vector3(0, 4.05, 1.42))
 	_mesh_part(house, "DormerRoof", _cyl(0.06, 0.78, 0.56, 4), roof_trim_m, Vector3(0, 4.62, 1.46), Vector3(0, 45, 0))
 	_mesh_part(house, "DormerGlass", _box(Vector3(0.46, 0.44, 0.10)), window_glow, Vector3(0, 4.06, 1.86))
 
 	# Detailed Stone Chimney
-	_mesh_part(house, "ChimneyShaft", _box(Vector3(0.60, 1.95, 0.60)), stone_m, Vector3(1.28, 4.35, -0.78))
-	_mesh_part(house, "ChimneyCap", _box(Vector3(0.76, 0.16, 0.76)), stone_light_m, Vector3(1.28, 5.36, -0.78))
+	_mesh_part(house, "ChimneyShaft", _box(Vector3(0.62, 2.05, 0.62)), stone_m, Vector3(1.30, 4.38, -0.78))
+	_mesh_part(house, "ChimneyCap", _box(Vector3(0.78, 0.16, 0.78)), stone_light_m, Vector3(1.30, 5.42, -0.78))
 
 	# Porch Steps, Framed Entrance Door & Awning Canopy
-	_mesh_part(house, "PorchStep1", _box(Vector3(1.68, 0.18, 0.92)), stone_m, Vector3(0, 0.09, 2.18))
-	_mesh_part(house, "PorchStep2", _box(Vector3(1.38, 0.16, 0.62)), stone_light_m, Vector3(0, 0.25, 2.02))
+	_mesh_part(house, "PorchStep1", _box(Vector3(1.74, 0.18, 0.96)), stone_m, Vector3(0, 0.09, 2.20))
+	_mesh_part(house, "PorchStep2", _box(Vector3(1.42, 0.16, 0.64)), stone_light_m, Vector3(0, 0.25, 2.04))
 	_mesh_part(house, "DoorFrame", _box(Vector3(1.16, 1.76, 0.18)), timber_m, Vector3(0, 1.42, 1.83))
 	_mesh_part(house, "Door", _box(Vector3(0.94, 1.62, 0.14)), wood_door_m, Vector3(0, 1.38, 1.86))
 	_mesh_part(house, "DoorHandle", _sph(0.055), brass_m, Vector3(0.32, 1.32, 1.95))
-	_mesh_part(house, "PorchAwning", _box(Vector3(1.62, 0.12, 0.88)), roof_trim_m, Vector3(0, 2.40, 2.16), Vector3(16, 0, 0))
-	_mesh_part(house, "AwningBracketL", _box(Vector3(0.10, 0.42, 0.10)), timber_m, Vector3(-0.66, 2.18, 2.02), Vector3(-28, 0, 0))
-	_mesh_part(house, "AwningBracketR", _box(Vector3(0.10, 0.42, 0.10)), timber_m, Vector3(0.66, 2.18, 2.02), Vector3(-28, 0, 0))
+	_mesh_part(house, "PorchAwning", _box(Vector3(1.66, 0.12, 0.92)), roof_trim_m, Vector3(0, 2.40, 2.18), Vector3(16, 0, 0))
+	_mesh_part(house, "AwningBracketL", _box(Vector3(0.10, 0.42, 0.10)), timber_m, Vector3(-0.68, 2.18, 2.04), Vector3(-28, 0, 0))
+	_mesh_part(house, "AwningBracketR", _box(Vector3(0.10, 0.42, 0.10)), timber_m, Vector3(0.68, 2.18, 2.04), Vector3(-28, 0, 0))
 
 	# Framed Front Windows + Shutters + Flower Boxes
 	for side_x in [-1.32, 1.32]:
@@ -406,21 +486,54 @@ static func build_village_cottage(
 		_mesh_part(house, "ShutterL", _box(Vector3(0.20, 0.78, 0.08)), shutter_m, Vector3(side_x - 0.52, 1.78, 1.86))
 		_mesh_part(house, "ShutterR", _box(Vector3(0.20, 0.78, 0.08)), shutter_m, Vector3(side_x + 0.52, 1.78, 1.86))
 		_mesh_part(house, "FlowerBox", _box(Vector3(0.88, 0.20, 0.24)), timber_m, Vector3(side_x, 1.26, 1.92))
-		_mesh_part(house, "FlowerGreenery", _sph(0.22, 0.22), leaf_m, Vector3(side_x, 1.40, 1.94))
-		_mesh_part(house, "FlowerPop", _sph(0.09), flower_m, Vector3(side_x + 0.16, 1.48, 1.98), Vector3.ZERO, Vector3.ONE, 0.0, false)
+		_mesh_part(house, "FlowerGreenery", StylizedMeshKit.build_leaf_clump_mesh(side_x, 0.24, 0.18, 5, 8, 0.20), vine_m, Vector3(side_x, 1.40, 1.94))
+		_mesh_part(house, "FlowerPop", _sph(0.085), flower_m, Vector3(side_x + 0.16, 1.48, 1.98), Vector3.ZERO, Vector3.ONE, 0.0, false)
 
 	# Side Windows
 	for side_x_pos in [-2.14, 2.14]:
 		_mesh_part(house, "SideWinFrame", _box(Vector3(0.14, 0.84, 0.84)), timber_m, Vector3(side_x_pos, 1.80, 0))
 		_mesh_part(house, "SideWinGlass", _box(Vector3(0.16, 0.66, 0.66)), window_glow, Vector3(side_x_pos, 1.80, 0))
 
-	if with_owl_sign:
-		# Golden Academy Medallion + Twin Hanging Entrance Lanterns
-		_mesh_part(house, "AcademySign", _cyl(0.46, 0.46, 0.14, 16), brass_m, Vector3(0, 2.78, 1.92), Vector3(90, 0, 0))
-		_mesh_part(house, "AcademyCrestGem", _sph(0.14), _mat(Color("#54D2FF"), 0.15, 0.1, Color("#4AC8FF"), 1.15), Vector3(0, 2.78, 1.98), Vector3.ZERO, Vector3.ONE, 0.0, false)
-		var lan_glow := _mat(Color("#FFE27A"), 0.1, 0.0, Color("#FFCB4E"), 1.45)
-		for lx in [-0.74, 0.74]:
-			_mesh_part(house, "PorchLantern", _sph(0.12), lan_glow, Vector3(lx, 2.24, 2.48), Vector3.ZERO, Vector3.ONE, 0.0, false)
+	# Distinct Architectural Silhouettes per Building Role
+	match cottage_style:
+		"academy":
+			# Scholar Octagonal Side Tower + Upper Wooden Balcony + Academy Medallion + Hanging Lanterns + Wall Vines
+			_mesh_part(house, "ScholarTowerBase", _cyl(0.95, 1.05, 3.85, 8), wall_m, Vector3(-2.55, 1.92, -0.55))
+			_mesh_part(house, "ScholarTowerPlinth", _cyl(1.08, 1.16, 0.45, 8), stone_m, Vector3(-2.55, 0.22, -0.55))
+			_mesh_part(house, "ScholarTowerRoof", _cyl(0.08, 1.22, 1.45, 8), roof_m, Vector3(-2.55, 4.55, -0.55))
+			_mesh_part(house, "TowerWindow", _box(Vector3(0.42, 0.56, 0.16)), window_glow, Vector3(-2.55, 2.65, 0.40))
+			_mesh_part(house, "BalconyFloor", _box(Vector3(1.75, 0.12, 0.72)), timber_m, Vector3(0, 2.95, 2.18))
+			_mesh_part(house, "BalconyRail", _box(Vector3(1.75, 0.08, 0.08)), timber_m, Vector3(0, 3.36, 2.50))
+			for bx in [-0.76, -0.25, 0.25, 0.76]:
+				_mesh_part(house, "Baluster", _box(Vector3(0.07, 0.36, 0.07)), timber_m, Vector3(bx, 3.16, 2.50))
+			_mesh_part(house, "AcademySign", _cyl(0.46, 0.46, 0.14, 16), brass_m, Vector3(0, 2.74, 1.92), Vector3(90, 0, 0))
+			_mesh_part(house, "AcademyCrestGem", _sph(0.14), _mat(Color("#54D2FF"), 0.15, 0.1, Color("#4AC8FF"), 1.15), Vector3(0, 2.74, 1.98), Vector3.ZERO, Vector3.ONE, 0.0, false)
+			var lan_glow := _mat(Color("#FFE27A"), 0.1, 0.0, Color("#FFCB4E"), 1.45)
+			for lx in [-0.74, 0.74]:
+				_mesh_part(house, "PorchLantern", _sph(0.12), lan_glow, Vector3(lx, 2.22, 2.50), Vector3.ZERO, Vector3.ONE, 0.0, false)
+			_mesh_part(house, "SideVine1", StylizedMeshKit.build_leaf_clump_mesh(2.1, 0.46, 0.72, 5, 8, 0.22), vine_m, Vector3(2.16, 1.45, 0.95))
+			_mesh_part(house, "SideVine2", StylizedMeshKit.build_leaf_clump_mesh(3.4, 0.38, 0.56, 5, 8, 0.22), vine_m, Vector3(2.16, 2.25, 0.75))
+		"garden_cottage":
+			# Cozy Garden Pergola Trellis + Climbing Vines + Flower Planter Tubs + Mailbox
+			for px in [-1.05, 1.05]:
+				_mesh_part(house, "PergolaPost", _cyl(0.08, 0.09, 2.35, 7), timber_m, Vector3(px, 1.18, 2.72))
+			_mesh_part(house, "PergolaBeamF", _box(Vector3(2.45, 0.14, 0.16)), timber_m, Vector3(0, 2.38, 2.72))
+			for rx in [-0.85, -0.30, 0.30, 0.85]:
+				_mesh_part(house, "PergolaRafter", _box(Vector3(0.10, 0.10, 0.95)), timber_m, Vector3(rx, 2.46, 2.35))
+			_mesh_part(house, "PergolaVineL", StylizedMeshKit.build_leaf_clump_mesh(4.2, 0.45, 0.35, 5, 8, 0.22), vine_m, Vector3(-0.85, 2.58, 2.68))
+			_mesh_part(house, "PergolaVineR", StylizedMeshKit.build_leaf_clump_mesh(5.6, 0.48, 0.36, 5, 8, 0.22), vine_m, Vector3(0.82, 2.58, 2.66))
+			_mesh_part(house, "MailboxPost", _cyl(0.055, 0.065, 0.85, 6), timber_m, Vector3(1.75, 0.42, 2.55))
+			_mesh_part(house, "MailboxBody", _box(Vector3(0.28, 0.24, 0.42)), _mat(Color("#4D7ED9"), 0.55), Vector3(1.75, 0.92, 2.55))
+			_mesh_part(house, "GardenPlanterL", _cyl(0.26, 0.20, 0.32, 8), _mat(Color("#B85D3B"), 0.76), Vector3(-1.55, 0.16, 2.35))
+			_mesh_part(house, "PlanterLeafL", StylizedMeshKit.build_leaf_clump_mesh(6.1, 0.32, 0.26, 5, 8, 0.20), vine_m, Vector3(-1.55, 0.42, 2.35))
+		"supply_post":
+			# Explorer Supply Veranda + Hanging Sign Plaque + Stacked Timber Logs
+			_mesh_part(house, "SupplyCanopy", _box(Vector3(3.60, 0.14, 1.35)), roof_trim_m, Vector3(0, 2.44, 2.35), Vector3(14, 0, 0))
+			for px in [-1.55, 1.55]:
+				_mesh_part(house, "SupplyPost", _cyl(0.09, 0.11, 2.28, 8), timber_m, Vector3(px, 1.14, 2.86))
+			_mesh_part(house, "SupplySignBoard", _box(Vector3(1.42, 0.46, 0.10)), _mat(Color("#C9995A"), 0.65), Vector3(0, 2.75, 1.94))
+			for lz in [0.0, 0.22]:
+				_mesh_part(house, "FirewoodLog", _cyl(0.11, 0.11, 0.72, 7), timber_m, Vector3(-2.35, 0.14 + lz, 0.85), Vector3(90, 0, 0))
 
 	# Solid architecture collider on layers 32 (player) + 64 (camera collision)
 	var body := StaticBody3D.new()
@@ -428,7 +541,7 @@ static func build_village_cottage(
 	body.collision_mask = 0
 	var col := CollisionShape3D.new()
 	var box_shape := BoxShape3D.new()
-	box_shape.size = Vector3(4.7, 3.6, 4.1)
+	box_shape.size = Vector3(4.8, 3.6, 4.2)
 	col.shape = box_shape
 	col.position = Vector3(0, 1.8, 0)
 	body.add_child(col)
@@ -441,7 +554,7 @@ static func build_village_cottage(
 	house_occ_body.set_meta("occluder_root", house)
 	var house_occ_col := CollisionShape3D.new()
 	var house_occ_box := BoxShape3D.new()
-	house_occ_box.size = Vector3(5.3, 5.2, 5.2)
+	house_occ_box.size = Vector3(5.6, 5.4, 5.4)
 	house_occ_col.shape = house_occ_box
 	house_occ_col.position = Vector3(0, 2.6, 0)
 	house_occ_body.add_child(house_occ_col)
@@ -450,54 +563,132 @@ static func build_village_cottage(
 
 
 static func build_fountain() -> Node3D:
-	var f := Node3D.new()
+	var f := FountainController.new()
 	f.name = "VillageFountain3D"
-	var stone := _mat(Color("#7C8391"), 0.74)
-	var rim := _mat(Color("#9EA5B2"), 0.62)
-	var gold := _mat(Color("#EBBA3D"), 0.30, 0.68)
-	var water_mat := create_stylized_water_material(Color(0.16, 0.70, 0.94, 0.86))
+	var stone := _mat(Color("#767D8C"), 0.78)
+	var rim := _mat(Color("#A4ACB9"), 0.64)
+	var wet_floor := _mat(Color("#244864"), 0.42)
+	var gold := _mat(Color("#EBBA3D"), 0.28, 0.72)
 
-	_add_contact_shadow(f, 2.55, 0.28)
-	_mesh_part(f, "StepBase", _cyl(2.55, 2.70, 0.16, 20), stone, Vector3(0, 0.08, 0))
-	_mesh_part(f, "BasinOuter", _cyl(2.22, 2.38, 0.56, 20), stone, Vector3(0, 0.36, 0))
-	_mesh_part(f, "RimTorus", _torus(1.96, 2.28), rim, Vector3(0, 0.66, 0))
-	_mesh_part(f, "CenterPillar", _cyl(0.36, 0.56, 1.75, 14), stone, Vector3(0, 0.92, 0))
-	_mesh_part(f, "GoldBand", _torus(0.38, 0.44), gold, Vector3(0, 1.25, 0))
-	_mesh_part(f, "TopBowl", _cyl(0.92, 0.34, 0.36, 16), rim, Vector3(0, 1.74, 0))
-	_mesh_part(f, "CrystalFinial", _cyl(0.03, 0.20, 0.60, 6), _mat(Color("#54DEFF"), 0.14, 0.1, Color("#4AC8FF"), 1.25), Vector3(0, 2.20, 0))
+	var basin_water_mat := create_stylized_water_material(Color(0.18, 0.76, 0.94, 0.82), true)
+	var top_water_mat := create_stylized_water_material(Color(0.28, 0.84, 0.98, 0.84), true)
+	f.water_materials = [basin_water_mat, top_water_mat]
 
-	_mesh_part(f, "WaterSurface", _cyl(1.94, 1.94, 0.06, 20), water_mat, Vector3(0, 0.54, 0), Vector3.ZERO, Vector3.ONE, 0.0, false)
-	_mesh_part(f, "TopBowlWater", _cyl(0.84, 0.84, 0.05, 16), water_mat, Vector3(0, 1.88, 0), Vector3.ZERO, Vector3.ONE, 0.0, false)
+	var jet_mat := ShaderMaterial.new()
+	jet_mat.shader = load("res://shaders/stylized_water_jet.gdshader") as Shader
 
+	_add_contact_shadow(f, 2.72, 0.28)
+	_mesh_part(f, "StepBase", _cyl(2.60, 2.76, 0.16, 20), stone, Vector3(0, 0.08, 0))
+
+	# Real hollow octagonal/circular stone basin wall (built from 16 interlocking curved segments + deep wet floor)
+	_mesh_part(f, "BasinWetFloor", _cyl(2.12, 2.18, 0.18, 20), wet_floor, Vector3(0, 0.24, 0))
+	var wall_segs := 16
+	for i in range(wall_segs):
+		var ang := (float(i) / float(wall_segs)) * TAU
+		var wall_r := 2.18
+		var seg_pos := Vector3(cos(ang) * wall_r, 0.44, sin(ang) * wall_r)
+		_mesh_part(f, "BasinWall_%d" % i, _box(Vector3(0.30, 0.48, 0.94)), stone, seg_pos, Vector3(0, rad_to_deg(-ang), 0))
+	_mesh_part(f, "RimTorus", _torus(1.98, 2.34), rim, Vector3(0, 0.68, 0))
+
+	# Center sculpted column, upper bowl & rotating crystal finial
+	_mesh_part(f, "CenterPillar", _cyl(0.34, 0.56, 1.72, 14), stone, Vector3(0, 0.94, 0))
+	_mesh_part(f, "GoldBand", _torus(0.37, 0.44), gold, Vector3(0, 1.25, 0))
+	_mesh_part(f, "TopBowlRim", _torus(0.76, 0.94), rim, Vector3(0, 1.88, 0))
+	_mesh_part(f, "TopBowl", _cyl(0.90, 0.34, 0.36, 16), stone, Vector3(0, 1.74, 0))
+
+	var crystal_pivot := Node3D.new()
+	crystal_pivot.name = "CrystalFinialPivot"
+	crystal_pivot.position = Vector3(0, 2.26, 0)
+	f.add_child(crystal_pivot)
+	var cryst_mat := _mat(Color("#54DEFF"), 0.14, 0.1, Color("#4AC8FF"), 1.3)
+	_mesh_part(crystal_pivot, "CrystalFinial", _cyl(0.03, 0.20, 0.56, 6), cryst_mat, Vector3(0, 0.0, 0))
+	f.crystal_node = crystal_pivot
+
+	# Animated water surfaces (subdivided plane disks for smooth vertex ripples)
+	var lower_water_mesh := _cyl(2.04, 2.04, 0.04, 24)
+	_mesh_part(f, "WaterSurface", lower_water_mesh, basin_water_mat, Vector3(0, 0.54, 0), Vector3.ZERO, Vector3.ONE, 0.0, false)
+	_mesh_part(f, "TopBowlWater", _cyl(0.80, 0.80, 0.04, 18), top_water_mat, Vector3(0, 1.88, 0), Vector3.ZERO, Vector3.ONE, 0.0, false)
+
+	# Real 3D arching water jets (top crystal spout -> upper bowl, and upper bowl -> main basin)
+	var upper_jet_mesh := StylizedMeshKit.build_water_jet_arc_mesh(0.08, 0.64, 2.15, 2.48, 1.88, 0.048, 10)
+	var lower_jet_mesh := StylizedMeshKit.build_water_jet_arc_mesh(0.78, 1.56, 1.88, 2.04, 0.54, 0.068, 12)
+	for ji in range(6):
+		var rot_y := float(ji) * 60.0
+		var uj := _mesh_part(f, "UpperJet_%d" % ji, upper_jet_mesh, jet_mat, Vector3.ZERO, Vector3(0, rot_y, 0), Vector3.ONE, 0.0, false)
+		var lj := _mesh_part(f, "LowerJet_%d" % ji, lower_jet_mesh, jet_mat, Vector3.ZERO, Vector3(0, rot_y + 30.0, 0), Vector3.ONE, 0.0, false)
+		f.jet_nodes.append(uj)
+		f.jet_nodes.append(lj)
+
+	# 1. Upward Plume Spray at crystal spout
+	var plume := CPUParticles3D.new()
+	plume.name = "FountainPlume"
+	plume.position = Vector3(0, 2.38, 0)
+	plume.lifetime = 0.72
+	plume.emission_shape = CPUParticles3D.EMISSION_SHAPE_SPHERE
+	plume.emission_sphere_radius = 0.12
+	plume.direction = Vector3(0, 1, 0)
+	plume.spread = 28.0
+	plume.gravity = Vector3(0, -6.2, 0)
+	plume.initial_velocity_min = 1.4
+	plume.initial_velocity_max = 2.3
+	plume.scale_amount_min = 0.04
+	plume.scale_amount_max = 0.075
+	plume.mesh = _sph(0.5, 1.0, 5, 6)
+	plume.material_override = _mat(Color("#D6F6FF"), 0.18, 0.0, Color("#8CE6FF"), 0.7)
+	f.add_child(plume)
+	f.plume_particles = plume
+
+	# 2. Ring Splash Droplets where lower jets hit main basin surface
 	var splash := CPUParticles3D.new()
-	splash.name = "FountainSpray"
-	splash.add_to_group("quality_particles")
-	splash.set_meta("base_amount", 20)
-	splash.position = Vector3(0, 1.92, 0)
-	var gq := SettingsManager.graphics_quality
-	splash.amount = 20 if gq == "high" else 10
-	splash.visible = gq != "low"
-	splash.emitting = gq != "low"
-	splash.lifetime = 0.95
+	splash.name = "FountainBasinSplash"
+	splash.position = Vector3(0, 0.58, 0)
+	splash.lifetime = 0.58
 	splash.emission_shape = CPUParticles3D.EMISSION_SHAPE_RING
-	splash.emission_ring_radius = 0.62
-	splash.emission_ring_inner_radius = 0.24
-	splash.emission_ring_height = 0.05
-	splash.gravity = Vector3(0, -4.5, 0)
-	splash.initial_velocity_min = 0.5
-	splash.initial_velocity_max = 1.15
-	splash.scale_amount_min = 0.04
-	splash.scale_amount_max = 0.08
-	splash.mesh = _sph(0.5, 1.0, 5, 6)
-	splash.material_override = _mat(Color("#BEEFFF"), 0.2, 0.0, Color("#7CDFFF"), 0.8)
+	splash.emission_ring_radius = 1.56
+	splash.emission_ring_inner_radius = 1.32
+	splash.emission_ring_height = 0.04
+	splash.direction = Vector3(0, 1, 0)
+	splash.spread = 48.0
+	splash.gravity = Vector3(0, -5.8, 0)
+	splash.initial_velocity_min = 0.9
+	splash.initial_velocity_max = 1.65
+	splash.scale_amount_min = 0.035
+	splash.scale_amount_max = 0.07
+	splash.mesh = _sph(0.5, 1.0, 4, 6)
+	splash.material_override = _mat(Color("#E6FAFF"), 0.15, 0.0, Color("#9AEBFF"), 0.65)
 	f.add_child(splash)
+	f.splash_particles = splash
+
+	# 3. Soft Mist Shimmer floating over basin
+	var mist := CPUParticles3D.new()
+	mist.name = "FountainMist"
+	mist.position = Vector3(0, 0.75, 0)
+	mist.lifetime = 1.45
+	mist.emission_shape = CPUParticles3D.EMISSION_SHAPE_RING
+	mist.emission_ring_radius = 1.65
+	mist.emission_ring_inner_radius = 0.45
+	mist.emission_ring_height = 0.20
+	mist.direction = Vector3(0, 1, 0)
+	mist.gravity = Vector3(0, 0.25, 0)
+	mist.initial_velocity_min = 0.15
+	mist.initial_velocity_max = 0.40
+	mist.scale_amount_min = 0.16
+	mist.scale_amount_max = 0.30
+	mist.mesh = _sph(0.5, 0.7, 5, 6)
+	var mist_mat := StandardMaterial3D.new()
+	mist_mat.albedo_color = Color(0.84, 0.96, 1.0, 0.22)
+	mist_mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	mist_mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	mist.material_override = mist_mat
+	f.add_child(mist)
+	f.mist_particles = mist
 
 	var body := StaticBody3D.new()
 	body.collision_layer = 32 | 64
 	body.collision_mask = 0
 	var col := CollisionShape3D.new()
 	var cyl := CylinderShape3D.new()
-	cyl.radius = 2.35
+	cyl.radius = 2.40
 	cyl.height = 1.6
 	col.shape = cyl
 	col.position = Vector3(0, 0.8, 0)
@@ -638,33 +829,12 @@ static func build_gateway_arch() -> Node3D:
 	return arch
 
 
-static func create_stylized_water_material(base_color: Color = Color(0.14, 0.60, 0.86, 0.88)) -> ShaderMaterial:
-	var sh := Shader.new()
-	sh.code = """
-shader_type spatial;
-render_mode blend_mix, depth_draw_opaque, cull_back, specular_schlick_ggx;
-
-uniform vec4 shallow_color : source_color = vec4(0.18, 0.72, 0.92, 0.88);
-uniform vec4 deep_color : source_color = vec4(0.07, 0.36, 0.68, 0.94);
-uniform float wave_speed = 1.4;
-
-void vertex() {
-	float w = sin(VERTEX.x * 1.8 + TIME * wave_speed) * 0.035 + cos(VERTEX.z * 2.1 + TIME * (wave_speed * 0.85)) * 0.035;
-	VERTEX.y += w;
-}
-
-void fragment() {
-	float ripple = sin(UV.x * 26.0 + TIME * 1.8) * cos(UV.y * 26.0 - TIME * 1.4);
-	vec3 col = mix(deep_color.rgb, shallow_color.rgb, 0.55 + ripple * 0.22);
-	float sparkle = smoothstep(0.72, 0.97, ripple);
-	ALBEDO = col + vec3(sparkle * 0.24);
-	ROUGHNESS = 0.14;
-	METALLIC = 0.18;
-	ALPHA = shallow_color.a;
-}
-"""
+static func create_stylized_water_material(base_color: Color = Color(0.18, 0.74, 0.94, 0.84), radial_mode: bool = false) -> ShaderMaterial:
 	var sm := ShaderMaterial.new()
-	sm.shader = sh
+	sm.shader = load("res://shaders/stylized_water.gdshader") as Shader
 	sm.set_shader_parameter("shallow_color", base_color)
-	sm.set_shader_parameter("deep_color", base_color.darkened(0.34))
+	sm.set_shader_parameter("deep_color", base_color.darkened(0.40))
+	sm.set_shader_parameter("radial_mode", 1.0 if radial_mode else 0.0)
+	var q := SettingsManager.graphics_quality
+	sm.set_shader_parameter("quality_level", 2.0 if q == "high" else (1.0 if q == "medium" else 0.0))
 	return sm

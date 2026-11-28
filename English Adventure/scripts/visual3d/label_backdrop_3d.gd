@@ -21,10 +21,10 @@ static func apply_to_label(label: Label3D, is_npc: bool = false, is_focused: boo
 	label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 	label.no_depth_test = true
 	label.render_priority = 2
-	label.pixel_size = 0.006
-	label.font_size = 48
+	label.pixel_size = 0.0046
+	label.font_size = 44
 	label.outline_modulate = Color(0.03, 0.06, 0.12, 1.0)
-	label.outline_size = 14
+	label.outline_size = 12
 	if is_focused:
 		label.modulate = Color(1.0, 0.93, 0.45, 1.0)
 	elif is_npc:

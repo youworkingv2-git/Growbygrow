@@ -14,7 +14,7 @@ enum NpcState {
 	CELEBRATING
 }
 
-const PROXIMITY_LABEL_RADIUS_SQ: float = 36.0 # Show NPC nameplate within ~6.0m or when focused
+const PROXIMITY_LABEL_RADIUS_SQ: float = 24.0 # Show NPC nameplate within ~4.9m or when focused
 
 var npc_id: String = ""
 var npc_data: Dictionary = {}
@@ -104,34 +104,56 @@ func _process(delta: float) -> void:
 		if _celebrate_timer == 0.0:
 			_refresh_badge()
 
+	var player_node := get_tree().get_first_node_in_group("player") as Node3D
+	var dist_sq := 9999.0
+	var is_near := false
+	if player_node != null and is_instance_valid(player_node):
+		dist_sq = global_position.distance_squared_to(player_node.global_position)
+		is_near = focus_ring.visible or _is_talking or dist_sq <= PROXIMITY_LABEL_RADIUS_SQ
+
 	if _rig != null and is_instance_valid(_rig):
+		_rig.update_blink_and_breath(delta, _idle_t)
 		if _rig.body_pivot != null:
 			var bob_speed := 5.5 if current_state == NpcState.CELEBRATING else 2.2
-			var bob_amp := 0.055 if current_state == NpcState.CELEBRATING else 0.028
+			var bob_amp := 0.055 if current_state == NpcState.CELEBRATING else 0.024
 			_rig.body_pivot.position.y = sin(_idle_t * bob_speed) * bob_amp
+			# Subtle weight-shift sway
+			_rig.body_pivot.rotation.z = sin(_idle_t * 1.15) * 0.032
 		if _rig.head_pivot != null:
-			_rig.head_pivot.rotation.y = sin(_idle_t * 1.1) * 0.12
+			# Turn head gently toward player when nearby before full body rotation on interaction
+			var target_head_yaw := sin(_idle_t * 1.1) * 0.14
+			if player_node != null and is_instance_valid(player_node) and dist_sq <= 36.0 and not (_is_talking or focus_ring.visible):
+				var pd := Vector2(player_node.global_position.x - global_position.x, player_node.global_position.z - global_position.z)
+				if pd.length_squared() > 0.04:
+					target_head_yaw = clampf(wrapf(atan2(pd.x, pd.y) - visual_slot.rotation.y, -PI, PI), -0.68, 0.68)
+			_rig.head_pivot.rotation.y = lerp_angle(_rig.head_pivot.rotation.y, target_head_yaw, minf(1.0, delta * 4.5))
 		if _rig.left_arm_pivot != null and _rig.right_arm_pivot != null:
-			var sway := sin(_idle_t * 2.0) * 0.07
-			_rig.left_arm_pivot.rotation.x = sway
-			_rig.right_arm_pivot.rotation.x = -sway
+			if _is_talking or _is_speaking_audio:
+				_rig.left_arm_pivot.rotation.x = -0.32 + sin(_idle_t * 5.2) * 0.24
+				_rig.right_arm_pivot.rotation.x = -0.26 + cos(_idle_t * 4.6) * 0.22
+				_rig.right_arm_pivot.rotation.z = -0.18 - absf(sin(_idle_t * 3.8)) * 0.16
+			elif current_state == NpcState.CELEBRATING:
+				_rig.left_arm_pivot.rotation.z = 0.75 + sin(_idle_t * 9.0) * 0.25
+				_rig.right_arm_pivot.rotation.z = -0.75 - sin(_idle_t * 9.0) * 0.25
+			else:
+				var sway := sin(_idle_t * 2.0) * 0.08
+				_rig.left_arm_pivot.rotation.x = lerpf(_rig.left_arm_pivot.rotation.x, sway, minf(1.0, delta * 5.0))
+				_rig.right_arm_pivot.rotation.x = lerpf(_rig.right_arm_pivot.rotation.x, -sway, minf(1.0, delta * 5.0))
+				_rig.left_arm_pivot.rotation.z = lerpf(_rig.left_arm_pivot.rotation.z, 0.0, minf(1.0, delta * 5.0))
+				_rig.right_arm_pivot.rotation.z = lerpf(_rig.right_arm_pivot.rotation.z, 0.0, minf(1.0, delta * 5.0))
 		if _is_speaking_audio:
 			_rig.set_speaking(true, delta)
 		if _rig.aura_mesh != null:
 			_rig.aura_mesh.rotation.y += delta * 1.2
 
 	if quest_badge.visible:
-		quest_badge.position.y = 2.48 + sin(_idle_t * 3.6) * 0.08
+		quest_badge.position.y = 2.46 + sin(_idle_t * 3.6) * 0.08
 	if _quest_aura_ring != null and _quest_aura_ring.visible:
 		_quest_aura_ring.rotation.y -= delta * 0.9
 		var pulse := 1.0 + sin(_idle_t * 2.8) * 0.05
 		_quest_aura_ring.scale = Vector3(pulse, 1.0, pulse)
 
-	var player_node := get_tree().get_first_node_in_group("player") as Node3D
-	var is_near := false
 	if player_node != null and is_instance_valid(player_node):
-		var dist_sq := global_position.distance_squared_to(player_node.global_position)
-		is_near = focus_ring.visible or _is_talking or dist_sq <= PROXIMITY_LABEL_RADIUS_SQ
 		if focus_ring.visible or _is_talking:
 			var d := Vector2(player_node.global_position.x - global_position.x, player_node.global_position.z - global_position.z)
 			if d.length_squared() > 0.04:

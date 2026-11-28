@@ -113,6 +113,39 @@ def build_ambient_loop(dur: float = 8.0) -> list[float]:
     return out
 
 
+def build_fountain_water_loop(dur: float = 3.0) -> list[float]:
+    # Soft babbling fountain water using filtered pseudo-noise + gentle droplet harmonics
+    import random
+    rng = random.Random(42)
+    n = int(dur * SAMPLE_RATE)
+    out = [0.0] * n
+    lp1 = 0.0
+    lp2 = 0.0
+    for i in range(n):
+        t = i / float(SAMPLE_RATE)
+        white = rng.uniform(-1.0, 1.0)
+        # Dual-band soft water murmur
+        lp1 = lp1 * 0.86 + white * 0.14
+        lp2 = lp2 * 0.96 + white * 0.04
+        splash_mod = 0.72 + 0.28 * math.sin(2.0 * math.pi * (t / dur) * 3.0)
+        out[i] = (lp1 - lp2 * 0.75) * 0.24 * splash_mod
+    # Subtle water droplet chirps
+    for d_idx in range(18):
+        pos = int((d_idx / 18.0) * n)
+        f0 = 780.0 + (d_idx % 5) * 145.0
+        for j in range(int(0.055 * SAMPLE_RATE)):
+            idx = (pos + j) % n
+            tj = j / float(SAMPLE_RATE)
+            env = math.sin(math.pi * (tj / 0.055))
+            out[idx] += math.sin(2.0 * math.pi * (f0 + tj * 900.0) * tj) * env * 0.032
+    edge = int(0.05 * SAMPLE_RATE)
+    for i in range(edge):
+        g = i / float(edge)
+        out[i] *= g
+        out[n - 1 - i] *= g
+    return out
+
+
 def main() -> None:
     assets_meta: list[dict] = []
 
@@ -157,6 +190,8 @@ def main() -> None:
     # Background Music (Welcome Village & Exploration)
     add_asset("bgm_welcome_village", "music", "assets/audio/music/bgm_welcome_village.wav",
               build_ambient_loop(8.0), "Nhạc nền nhẹ nhàng Đảo Bảng Chữ Cái (Procedural Celesta Pad)", loop=True)
+    add_asset("sfx_fountain_loop", "sfx", "assets/audio/sfx/sfx_fountain_loop.wav",
+              build_fountain_water_loop(3.0), "Âm thanh nước đài phun nước chảy nhẹ (Spatial 3D)", loop=True)
 
     manifest = {
         "schema_version": "1.0",
