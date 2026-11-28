@@ -230,7 +230,7 @@ func _add_grass_field(
 	bounds: Rect2,
 	seed_val: int = 202611
 ) -> void:
-	var max_count := 1150
+	var max_count := 1450
 	var mm := MultiMesh.new()
 	mm.transform_format = MultiMesh.TRANSFORM_3D
 	mm.use_custom_data = true
@@ -286,7 +286,7 @@ func _add_grass_field(
 		if not is_instance_valid(mmi) or mmi.multimesh == null:
 			return
 		var q := SettingsManager.graphics_quality
-		var target := placed if q == "high" else (mini(placed, 640) if q == "medium" else mini(placed, 260))
+		var target := placed if q == "high" else (mini(placed, 820) if q == "medium" else mini(placed, 320))
 		mmi.multimesh.visible_instance_count = target
 	apply_density.call()
 	if not EventBus.settings_changed.is_connected(apply_density):
@@ -380,9 +380,15 @@ func _add_distant_forest_ring(ring_parent: Node3D) -> void:
 	for i in range(spots.size()):
 		var sc := 1.15 + float(i % 3) * 0.25
 		var p: Vector3 = spots[i]
-		_mesh(ring_parent, "BgTrunk_%d" % i, _cached_cylinder(0.20 * sc, 0.32 * sc, 1.8 * sc, 6), bark, p + Vector3(0, 0.9 * sc, 0), Vector3.ZERO, false)
-		_mesh(ring_parent, "BgCrownA_%d" % i, _cached_cylinder(0.18 * sc, 1.45 * sc, 2.2 * sc, 7), pine1 if i % 2 == 0 else pine2, p + Vector3(0, 2.4 * sc, 0), Vector3.ZERO, false)
-		_mesh(ring_parent, "BgCrownB_%d" % i, _cached_cylinder(0.08 * sc, 1.05 * sc, 1.7 * sc, 7), pine2, p + Vector3(0, 3.6 * sc, 0), Vector3.ZERO, false)
+		_mesh(ring_parent, "BgTrunk_%d" % i, _cached_cylinder(0.18 * sc, 0.30 * sc, 2.0 * sc, 6), bark, p + Vector3(0, 1.0 * sc, 0), Vector3.ZERO, false)
+		if i % 3 == 0:
+			# Distant broad oak silhouette
+			_mesh(ring_parent, "BgOakA_%d" % i, StylizedMeshKit.build_leaf_clump_mesh(float(i), 1.45 * sc, 1.15 * sc, 5, 9, 0.18), pine2, p + Vector3(0, 2.75 * sc, 0), Vector3.ZERO, false)
+			_mesh(ring_parent, "BgOakB_%d" % i, StylizedMeshKit.build_leaf_clump_mesh(float(i) + 1.7, 1.05 * sc, 0.90 * sc, 5, 8, 0.18), pine1, p + Vector3(0.45 * sc, 3.45 * sc, 0.2 * sc), Vector3.ZERO, false)
+		else:
+			# Distant scalloped pine bough silhouette (no bare cones)
+			_mesh(ring_parent, "BgCrownA_%d" % i, StylizedMeshKit.build_pine_bough_tier_mesh(1.50 * sc, 1.25 * sc, 6, float(i)), pine1, p + Vector3(0, 2.25 * sc, 0), Vector3.ZERO, false)
+			_mesh(ring_parent, "BgCrownB_%d" % i, StylizedMeshKit.build_pine_bough_tier_mesh(1.10 * sc, 1.05 * sc, 6, float(i) + 0.9), pine2, p + Vector3(0, 3.25 * sc, 0), Vector3(0, 25, 0), false)
 
 	# Distant Mystical Lighthouse / Watchtower in Northeast to spark exploration curiosity
 	var tower_pos := Vector3(24.5, 0, -20.5)
