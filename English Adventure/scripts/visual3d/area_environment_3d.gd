@@ -283,7 +283,7 @@ func _add_distant_forest_ring(ring_parent: Node3D) -> void:
 	# Distant Mystical Lighthouse / Watchtower in Northeast to spark exploration curiosity
 	var tower_pos := Vector3(24.5, 0, -20.5)
 	_mesh(ring_parent, "DistantTowerBase", _cached_cylinder(1.1, 1.45, 5.2, 8), _mat(Color("#697385"), 0.84), tower_pos + Vector3(0, 2.6, 0), Vector3.ZERO, false)
-	_mesh(ring_parent, "DistantTowerBeacon", _cached_sphere(0.65), _mat(Color("#7CE4FF"), 0.15, 0.0, Color("#5CCFFF"), 1.6), tower_pos + Vector3(0, 5.7, 0), Vector3.ZERO, false)
+	_mesh(ring_parent, "DistantTowerBeacon", _cached_sphere(0.65, 1.30, 8, 12), _mat(Color("#7CE4FF"), 0.15, 0.0, Color("#5CCFFF"), 1.6), tower_pos + Vector3(0, 5.7, 0), Vector3.ZERO, false)
 	_mesh(ring_parent, "DistantTowerRoof", _cached_cylinder(0.1, 1.35, 1.6, 8), _mat(Color("#2D4F8A"), 0.65), tower_pos + Vector3(0, 6.7, 0), Vector3.ZERO, false)
 
 
