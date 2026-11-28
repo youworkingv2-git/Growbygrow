@@ -70,8 +70,8 @@ func _apply_area_palette() -> void:
 			sky_mat.ground_horizon_color = Color("#58924C")
 			_sun.light_color = Color("#FFEAC2")
 			_sun.light_energy = 1.06
-			_sun.rotation_degrees = Vector3(-40.0, 26.0, 0.0)
-			env.ambient_light_energy = 0.36
+			_sun.rotation_degrees = Vector3(-46.0, 26.0, 0.0)
+			env.ambient_light_energy = 0.44
 			env.fog_enabled = true
 			env.fog_light_color = Color("#A8E0F7")
 			env.fog_density = 0.0055
@@ -93,9 +93,9 @@ func _apply_area_palette() -> void:
 			sky_mat.ground_bottom_color = Color("#154566")
 			sky_mat.ground_horizon_color = Color("#4CA5CC")
 			_sun.light_color = Color("#E8F6FF")
-			_sun.light_energy = 0.98
-			_sun.rotation_degrees = Vector3(-42.0, -38.0, 0.0)
-			env.ambient_light_energy = 0.38
+			_sun.light_energy = 1.00
+			_sun.rotation_degrees = Vector3(-46.0, -34.0, 0.0)
+			env.ambient_light_energy = 0.45
 			env.fog_enabled = true
 			env.fog_light_color = Color("#8AD7F2")
 			env.fog_density = 0.0058

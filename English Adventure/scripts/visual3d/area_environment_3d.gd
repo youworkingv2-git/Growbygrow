@@ -605,6 +605,18 @@ func _build_alphabet_meadow() -> void:
 	_add_ground_plane(120.0, 100.0, Color("#306B37"))
 	_add_mountain_backdrop(Color("#295E32"), Color("#3D5872"))
 
+	var bg_forest := Node3D.new()
+	bg_forest.name = "DistantForestRing"
+	add_child(bg_forest)
+	_add_distant_forest_ring(bg_forest)
+
+	var relief := Node3D.new()
+	relief.name = "TerrainRelief"
+	add_child(relief)
+	_add_grass_mound(relief, Vector3(-16.5, -0.18, -9.8), 6.2, 1.35, 4.8, Color("#37713B"))
+	_add_grass_mound(relief, Vector3(16.5, -0.18, -9.5), 6.2, 1.40, 4.8, Color("#39733C"))
+	_add_grass_mound(relief, Vector3(0.0, -0.20, -13.0), 10.5, 1.45, 4.5, Color("#346A38"))
+
 	var meadow_disc := CylinderMesh.new()
 	meadow_disc.top_radius = 19.5
 	meadow_disc.bottom_radius = 20.5
@@ -615,6 +627,7 @@ func _build_alphabet_meadow() -> void:
 	var path_mat := _mat(Color("#9A784E"), 0.82)
 	var stone_mat := _mat(Color("#868C98"), 0.82)
 	var trails := Node3D.new()
+	trails.name = "MeadowTrails"
 	add_child(trails)
 	_add_trail_segment(trails, Vector3(-16.8, 0, 2.2), Vector3(16.5, 0, 2.2), 2.1, path_mat, stone_mat)
 	_add_trail_segment(trails, Vector3(-8.8, 0, 2.2), Vector3(-8.8, 0, -3.2), 1.65, path_mat, stone_mat)
@@ -623,22 +636,72 @@ func _build_alphabet_meadow() -> void:
 	_add_trail_segment(trails, Vector3(10.0, 0, 2.2), Vector3(10.0, 0, -3.2), 1.65, path_mat, stone_mat)
 
 	var trees := [
-		{ "pos": Vector3(-13.5, 0, -6.5), "style": "oak", "col": Color("#2A6838") },
-		{ "pos": Vector3(-4.0, 0, -7.2),  "style": "pine", "col": Color("#205430") },
-		{ "pos": Vector3(5.5, 0, -7.5),   "style": "oak", "col": Color("#34753D") },
-		{ "pos": Vector3(13.8, 0, -6.0),  "style": "pine", "col": Color("#245B33") },
-		{ "pos": Vector3(12.5, 0, 6.8),   "style": "blossom", "col": Color("#E4728E") },
-		{ "pos": Vector3(-12.5, 0, 6.8),  "style": "oak", "col": Color("#2D6B39") },
+		{ "pos": Vector3(-14.2, 0, -7.2), "scale": 1.08, "style": "oak", "col": Color("#2A6838"), "rot": 15.0 },
+		{ "pos": Vector3(-4.2, 0, -8.2),  "scale": 1.06, "style": "pine", "col": Color("#205430"), "rot": 40.0 },
+		{ "pos": Vector3(5.6, 0, -8.4),   "scale": 1.08, "style": "oak", "col": Color("#34753D"), "rot": -28.0 },
+		{ "pos": Vector3(14.5, 0, -6.8),  "scale": 1.06, "style": "pine", "col": Color("#245B33"), "rot": 62.0 },
+		{ "pos": Vector3(13.8, 0, 8.6),   "scale": 1.00, "style": "blossom", "col": Color("#E4728E"), "rot": -18.0 },
+		{ "pos": Vector3(-13.8, 0, 8.6),  "scale": 1.02, "style": "oak", "col": Color("#2D6B39"), "rot": 32.0 },
+		{ "pos": Vector3(-11.8, 0, -5.8), "scale": 0.90, "style": "sapling_oak", "col": Color("#3B7F41"), "rot": 10.0 },
+		{ "pos": Vector3(4.0, 0, 8.8),    "scale": 0.92, "style": "berry_tree", "col": Color("#2E6D37"), "rot": -45.0 },
+		{ "pos": Vector3(14.6, 0, -1.6),  "scale": 0.88, "style": "cypress_small", "col": Color("#235D34"), "rot": 0.0 },
 	]
 	for t_info in trees:
-		var t := PropFactory3D.build_stylized_tree(1.05, t_info["col"], str(t_info["style"]))
+		var t := PropFactory3D.build_stylized_tree(float(t_info["scale"]), t_info["col"], str(t_info["style"]))
 		t.position = t_info["pos"]
+		t.rotation_degrees.y = float(t_info["rot"])
 		add_child(t)
 
+	var decor := Node3D.new()
+	decor.name = "MeadowDecor"
+	add_child(decor)
+	_add_fence_row(decor, Vector3(-14.5, 0, 7.6), Vector3(-7.0, 0, 7.6), 5)
+	_add_fence_row(decor, Vector3(-12.5, 0, -6.5), Vector3(-6.0, 0, -6.5), 4)
 	_add_rock(Vector3(0.0, 0, 6.2), 1.05)
-	_add_flower_cluster(self, Vector3(-6.0, 0, -1.5), Color("#ED5A7C"))
-	_add_flower_cluster(self, Vector3(4.2, 0, -2.2), Color("#F2C236"))
-	_add_flower_cluster(self, Vector3(-2.5, 0, 4.5), Color("#509CEB"))
+
+	var flower_spots: Array[Vector3] = [
+		Vector3(-6.0, 0, -1.5),
+		Vector3(4.2, 0, -2.2),
+		Vector3(-2.5, 0, 4.5),
+		Vector3(11.4, 0, 5.2),
+		Vector3(-12.0, 0, 4.8),
+	]
+	var flower_cols := [Color("#ED5A7C"), Color("#F2C236"), Color("#509CEB"), Color("#FF82A0"), Color("#B974F0")]
+	for fi in range(flower_spots.size()):
+		_add_flower_cluster(decor, flower_spots[fi], flower_cols[fi])
+
+	_add_shrub(decor, Vector3(-6.5, 0, -5.2), 1.05, Color("#2A6334"), 0)
+	_add_shrub(decor, Vector3(6.8, 0, -5.4), 1.0, Color("#2D6B37"), 1)
+	_add_shrub(decor, Vector3(12.2, 0, -0.4), 0.95, Color("#32723B"), 2)
+	_add_shrub(decor, Vector3(-5.2, 0, 6.8), 0.95, Color("#285F32"), 1)
+	_add_mushroom_patch(decor, Vector3(-13.6, 0, -4.4))
+	_add_stump_and_leaves(decor, Vector3(3.2, 0, 7.4), Color("#46823B"))
+	_add_pebble_cluster(decor, Vector3(-4.0, 0, 3.4))
+	_add_pebble_cluster(decor, Vector3(5.6, 0, 1.0))
+
+	var avoid_circles: Array[Dictionary] = [
+		{ "center": Vector2(0.0, 6.2), "radius": 1.75 },      # Rock
+		{ "center": Vector2(-16.875, 2.1875), "radius": 2.1 },# Welcome portal
+		{ "center": Vector2(16.5625, 2.1875), "radius": 2.1 },# Cave portal
+		{ "center": Vector2(-8.75, -3.125), "radius": 1.35 }, # Letter A
+		{ "center": Vector2(0.9375, -4.6875), "radius": 1.35 },# Letter B
+		{ "center": Vector2(7.5, 5.625), "radius": 1.35 },    # Letter C
+		{ "center": Vector2(10.0, -3.125), "radius": 1.5 },   # Chest
+	]
+	var avoid_rects: Array[Rect2] = [
+		Rect2(Vector2(-17.2, 0.95), Vector2(34.2, 2.5)),      # Main E-W trail
+		Rect2(Vector2(-9.9, -3.5), Vector2(2.2, 5.8)),        # Spur A
+		Rect2(Vector2(-0.3, -5.0), Vector2(2.2, 7.2)),        # Spur B
+		Rect2(Vector2(6.4, 2.0), Vector2(2.2, 4.0)),          # Spur C
+		Rect2(Vector2(8.9, -3.5), Vector2(2.2, 5.8)),         # Spur Chest
+	]
+	_add_grass_field(decor, avoid_circles, avoid_rects, Rect2(Vector2(-17.4, -9.8), Vector2(34.8, 19.6)), 202622)
+
+	var life := AmbientLife3D.new()
+	life.name = "AmbientLife3D"
+	add_child(life)
+	life.setup_village_life(flower_spots, Vector3(0, 0, 0))
+
 	_add_fireflies(Color("#EBFF80"), 22)
 
 
@@ -673,41 +736,130 @@ func _build_crystal_lake() -> void:
 	_add_ground_plane(116.0, 96.0, Color("#265F4A"))
 	_add_mountain_backdrop(Color("#1F5243"), Color("#2E536E"))
 
+	var bg_forest := Node3D.new()
+	bg_forest.name = "DistantForestRing"
+	add_child(bg_forest)
+	_add_distant_forest_ring(bg_forest)
+
+	var relief := Node3D.new()
+	relief.name = "TerrainRelief"
+	add_child(relief)
+	_add_grass_mound(relief, Vector3(-16.2, -0.18, -9.2), 6.2, 1.35, 4.8, Color("#235D47"))
+	_add_grass_mound(relief, Vector3(16.2, -0.18, -9.2), 6.2, 1.40, 4.8, Color("#25624B"))
+	_add_grass_mound(relief, Vector3(0.0, -0.20, -13.0), 10.5, 1.50, 4.6, Color("#1F5743"))
+
+	# Compacted lake with full 360-degree walkable sandy shore (North shore leaves Crystal Guardian dry at z=-1.25; South shore has 2.9m path)
+	var shore_center := Vector3(-0.3, 0.02, 3.4)
+	var lake_center := Vector3(-0.3, 0.05, 3.5)
+
 	var sand := CylinderMesh.new()
-	sand.top_radius = 9.2
-	sand.bottom_radius = 9.8
+	sand.top_radius = 7.4
+	sand.bottom_radius = 8.0
 	sand.height = 0.08
-	_mesh(self, "ShoreSand", sand, _mat(Color("#D4C294"), 0.82), Vector3(-0.3, 0.02, 3.8), Vector3.ZERO, false)
+	sand.radial_segments = 28
+	_mesh(self, "ShoreSand", sand, _mat(Color("#D4C294"), 0.82), shore_center, Vector3.ZERO, false)
 
 	var water_mesh := CylinderMesh.new()
-	water_mesh.top_radius = 6.2
-	water_mesh.bottom_radius = 6.2
+	water_mesh.top_radius = 4.2
+	water_mesh.bottom_radius = 4.2
 	water_mesh.height = 0.14
 	water_mesh.radial_segments = 28
-	_mesh(self, "LakeWaterSurface", water_mesh, PropFactory3D.create_stylized_water_material(Color(0.15, 0.68, 0.92, 0.88)), Vector3(-0.3, 0.05, 4.2), Vector3.ZERO, false)
+	_mesh(self, "LakeWaterSurface", water_mesh, PropFactory3D.create_stylized_water_material(Color(0.15, 0.68, 0.92, 0.88), true), lake_center, Vector3.ZERO, false)
 
+	# Keep layer 32 ONLY (walk blocker) so SpringArm3D (mask 66) NEVER snaps when circling the lake or talking to Crystal Guardian
 	var lake_body := StaticBody3D.new()
-	lake_body.collision_layer = 32 | 64
+	lake_body.collision_layer = 32
 	lake_body.collision_mask = 0
 	var lake_col := CollisionShape3D.new()
 	var cyl := CylinderShape3D.new()
-	cyl.radius = 5.8
+	cyl.radius = 4.05
 	cyl.height = 1.6
 	lake_col.shape = cyl
-	lake_col.position = Vector3(-0.3, 0.7, 4.2)
+	lake_col.position = Vector3(-0.3, 0.7, 3.5)
 	lake_body.add_child(lake_col)
 	add_child(lake_body)
 
-	for cp in [Vector3(-12.0, 0, -6.0), Vector3(11.0, 0, -6.5), Vector3(13.0, 0, 5.0)]:
+	# Lakeside Wooden Pier on Northwest Shore
+	var pier_wood := _mat(Color("#734A28"), 0.76)
+	var pier_post := _mat(Color("#54331A"), 0.80)
+	_mesh(self, "LakePierDeck", _cached_box(Vector3(1.85, 0.12, 2.25)), pier_wood, Vector3(-3.35, 0.20, 0.15), Vector3(0, -32, 0), true)
+	for px_off in [-0.72, 0.72]:
+		_mesh(self, "LakePierPost", _cached_cylinder(0.08, 0.10, 0.55, 7), pier_post, Vector3(-3.35 + px_off, 0.25, 0.65), Vector3.ZERO, true)
+
+	# Trails connecting Cave Portal -> Lakeside Chest -> Crystal Guardian -> Crystal Shard -> Shadow Gate Portal
+	var path_mat := _mat(Color("#8F7B58"), 0.82)
+	var stone_mat := _mat(Color("#7B8898"), 0.82)
+	var trails := Node3D.new()
+	trails.name = "LakeTrails"
+	add_child(trails)
+	_add_trail_segment(trails, Vector3(-16.8, 0, 2.5), Vector3(-10.3, 0, 5.6), 1.85, path_mat, stone_mat)
+	_add_trail_segment(trails, Vector3(-16.8, 0, 2.5), Vector3(-6.2, 0, -0.8), 1.85, path_mat, stone_mat)
+	_add_trail_segment(trails, Vector3(-6.2, 0, -0.8), Vector3(0.3, 0, -1.6), 1.95, path_mat, stone_mat)
+	_add_trail_segment(trails, Vector3(0.3, 0, -1.6), Vector3(8.1, 0, -0.3), 1.85, path_mat, stone_mat)
+	_add_trail_segment(trails, Vector3(8.1, 0, -0.3), Vector3(16.5, 0, -3.4), 1.95, path_mat, stone_mat)
+
+	for cp in [Vector3(-12.2, 0, -6.2), Vector3(11.2, 0, -6.8), Vector3(13.2, 0, 5.4)]:
 		var cr := PropFactory3D.build_interactable_prop("crystal")
 		cr.position = cp
-		cr.scale = Vector3.ONE * 1.5
+		cr.scale = Vector3.ONE * 1.45
 		add_child(cr)
 
-	for tp in [Vector3(-13.5, 0, -5.0), Vector3(13.5, 0, 6.2), Vector3(-5.0, 0, -8.5)]:
-		var t := PropFactory3D.build_stylized_tree(1.0, Color("#20634A"), "pine")
-		t.position = tp
+	var lake_trees := [
+		{ "pos": Vector3(-14.2, 0, -5.2), "scale": 1.06, "col": Color("#20634A"), "style": "pine", "rot": 18.0 },
+		{ "pos": Vector3(13.8, 0, 7.6),   "scale": 1.02, "col": Color("#276E50"), "style": "oak", "rot": -28.0 },
+		{ "pos": Vector3(-5.2, 0, -8.8),  "scale": 1.08, "col": Color("#1E5A44"), "style": "pine", "rot": 44.0 },
+		{ "pos": Vector3(5.8, 0, -8.8),   "scale": 1.04, "col": Color("#2A7254"), "style": "oak", "rot": -52.0 },
+		{ "pos": Vector3(-13.8, 0, 8.6),  "scale": 0.96, "col": Color("#E07596"), "style": "blossom", "rot": 22.0 },
+		{ "pos": Vector3(8.2, 0, 8.8),    "scale": 0.90, "style": "cypress_small", "col": Color("#1E5F47"), "rot": 0.0 },
+		{ "pos": Vector3(-8.4, 0, -6.2),  "scale": 0.92, "style": "sapling_oak", "col": Color("#2C7556"), "rot": 35.0 },
+	]
+	for lt in lake_trees:
+		var t := PropFactory3D.build_stylized_tree(float(lt["scale"]), lt["col"], str(lt["style"]))
+		t.position = lt["pos"]
+		t.rotation_degrees.y = float(lt["rot"])
 		add_child(t)
+
+	var decor := Node3D.new()
+	decor.name = "LakeDecor"
+	add_child(decor)
+	var flower_spots: Array[Vector3] = [
+		Vector3(-7.6, 0, 2.0),
+		Vector3(5.6, 0, -3.2),
+		Vector3(-5.5, 0, 8.2),
+		Vector3(10.8, 0, 2.8),
+	]
+	var flower_cols := [Color("#5CE0FF"), Color("#F5D050"), Color("#E678A8"), Color("#7CEBBE")]
+	for fi in range(flower_spots.size()):
+		_add_flower_cluster(decor, flower_spots[fi], flower_cols[fi])
+
+	_add_shrub(decor, Vector3(-7.2, 0, -3.8), 1.05, Color("#21634A"), 1)
+	_add_shrub(decor, Vector3(6.8, 0, -5.0), 1.0, Color("#266B50"), 2)
+	_add_shrub(decor, Vector3(11.6, 0, 6.2), 0.98, Color("#1F5D46"), 0)
+	_add_shrub(decor, Vector3(-7.6, 0, 7.6), 0.95, Color("#266B50"), 1)
+	_add_pebble_cluster(decor, Vector3(-4.2, 0, 5.2))
+	_add_pebble_cluster(decor, Vector3(3.6, 0, 5.6))
+	_add_pebble_cluster(decor, Vector3(2.8, 0, -0.6))
+	_add_mushroom_patch(decor, Vector3(-11.4, 0, -3.4))
+
+	var avoid_circles: Array[Dictionary] = [
+		{ "center": Vector2(-0.3, 3.4), "radius": 7.65 },      # Entire ShoreSand + LakeWater
+		{ "center": Vector2(-16.875, 2.5), "radius": 2.1 },    # Cave portal
+		{ "center": Vector2(16.5625, -3.4375), "radius": 2.1 },# Shadow Gate portal
+		{ "center": Vector2(-10.3125, 5.625), "radius": 1.6 }, # Lakeside chest
+		{ "center": Vector2(8.125, -0.3125), "radius": 1.6 },  # Magic crystal
+		{ "center": Vector2(0.3125, -1.25), "radius": 1.6 },   # Crystal Guardian
+	]
+	var avoid_rects: Array[Rect2] = [
+		Rect2(Vector2(-6.5, -2.8), Vector2(14.8, 2.6)),        # North shore trail
+		Rect2(Vector2(-17.0, 1.4), Vector2(11.5, 2.5)),        # West approach
+		Rect2(Vector2(7.5, -4.4), Vector2(9.5, 4.6)),          # East approach
+	]
+	_add_grass_field(decor, avoid_circles, avoid_rects, Rect2(Vector2(-17.2, -9.8), Vector2(34.4, 19.6)), 202644)
+
+	var life := AmbientLife3D.new()
+	life.name = "AmbientLife3D"
+	add_child(life)
+	life.setup_village_life(flower_spots, Vector3(0, 0, 0))
 
 	_add_fireflies(Color(0.42, 0.96, 1.0), 26)
 
