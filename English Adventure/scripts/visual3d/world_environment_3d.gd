@@ -52,29 +52,29 @@ func _apply_area_palette() -> void:
 
 	match _area_id:
 		"welcome_village":
-			sky_mat.sky_top_color = Color("#1B62B8")
-			sky_mat.sky_horizon_color = Color("#8BCCEE")
-			sky_mat.ground_bottom_color = Color("#1F4929")
-			sky_mat.ground_horizon_color = Color("#4D7E45")
-			_sun.light_color = Color("#FFE2B2")
-			_sun.light_energy = 1.04
-			_sun.rotation_degrees = Vector3(-46.0, -32.0, 0.0)
-			env.ambient_light_energy = 0.44
+			sky_mat.sky_top_color = Color("#2C69B4")
+			sky_mat.sky_horizon_color = Color("#98CBEB")
+			sky_mat.ground_bottom_color = Color("#345F20")
+			sky_mat.ground_horizon_color = Color("#659930")
+			_sun.light_color = Color("#FFE6BA")
+			_sun.light_energy = 1.12
+			_sun.rotation_degrees = Vector3(-44.0, -34.0, 0.0)
+			env.ambient_light_energy = 0.48
 			env.fog_enabled = true
-			env.fog_light_color = Color("#9ED2EE")
-			env.fog_density = 0.0062
+			env.fog_light_color = Color("#A8D5EE")
+			env.fog_density = 0.0052
 		"alphabet_meadow":
-			sky_mat.sky_top_color = Color("#2172CC")
-			sky_mat.sky_horizon_color = Color("#9BDDF7")
-			sky_mat.ground_bottom_color = Color("#20522A")
-			sky_mat.ground_horizon_color = Color("#58924C")
-			_sun.light_color = Color("#FFEAC2")
-			_sun.light_energy = 1.06
-			_sun.rotation_degrees = Vector3(-46.0, 26.0, 0.0)
-			env.ambient_light_energy = 0.44
+			sky_mat.sky_top_color = Color("#2E6FBC")
+			sky_mat.sky_horizon_color = Color("#A1D6F2")
+			sky_mat.ground_bottom_color = Color("#366421")
+			sky_mat.ground_horizon_color = Color("#6BA433")
+			_sun.light_color = Color("#FFEBC2")
+			_sun.light_energy = 1.12
+			_sun.rotation_degrees = Vector3(-44.0, 26.0, 0.0)
+			env.ambient_light_energy = 0.48
 			env.fog_enabled = true
-			env.fog_light_color = Color("#A8E0F7")
-			env.fog_density = 0.0055
+			env.fog_light_color = Color("#AEDCF5")
+			env.fog_density = 0.0048
 		"letter_cave":
 			sky_mat.sky_top_color = Color("#10172E")
 			sky_mat.sky_horizon_color = Color("#1E2E54")

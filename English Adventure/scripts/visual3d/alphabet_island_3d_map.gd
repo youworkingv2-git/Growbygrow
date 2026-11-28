@@ -169,13 +169,13 @@ func _build_biome_islands() -> void:
 	base.name = "BiomeIslands"
 	add_child(base)
 
-	# 1. Welcome Village Peninsula (Warm sunlit grass + terracotta cliffs + sandy harbor bay)
-	_build_island_plateau(base, Vector3(-7.0, 0.0, 3.6), 3.3, 2.55, 0.56, Color("#52A445"), Color("#865E3F"), true)
-	_build_island_plateau(base, Vector3(-5.2, 0.0, 1.6), 1.85, 1.45, 0.50, Color("#57AA4A"), Color("#865E3F"), true)
+	# 1. Welcome Village Peninsula (Sunlit chartreuse-lime grass + slate-earth cliff + sandy harbor bay)
+	_build_island_plateau(base, Vector3(-7.0, 0.0, 3.6), 3.3, 2.55, 0.56, Color("#669E2D"), Color("#7C5A3E"), true)
+	_build_island_plateau(base, Vector3(-5.2, 0.0, 1.6), 1.85, 1.45, 0.50, Color("#6BA431"), Color("#7C5A3E"), true)
 
-	# 2. Alphabet Meadow Terrace (Vibrant spring-green elevated pasture)
-	_build_island_plateau(base, Vector3(-4.0, 0.0, -2.6), 3.1, 2.35, 0.82, Color("#60BF4B"), Color("#8D6642"), true)
-	_build_island_plateau(base, Vector3(-2.0, 0.0, -3.5), 1.75, 1.40, 0.86, Color("#5AB546"), Color("#8D6642"), false)
+	# 2. Alphabet Meadow Terrace (Vibrant sunlit lime-green pasture)
+	_build_island_plateau(base, Vector3(-4.0, 0.0, -2.6), 3.1, 2.35, 0.82, Color("#73AC36"), Color("#826040"), true)
+	_build_island_plateau(base, Vector3(-2.0, 0.0, -3.5), 1.75, 1.40, 0.86, Color("#6DA532"), Color("#826040"), false)
 
 	# 3. Letter Cave Granite Mountain Massif (Multi-tiered slate crag peak)
 	_build_island_plateau(base, Vector3(0.4, 0.0, -4.6), 3.25, 2.55, 1.25, Color("#566278"), Color("#3E4659"), true)
@@ -262,39 +262,51 @@ func _build_bridges_and_paths() -> void:
 
 
 func _build_landmarks() -> void:
-	# === 1. WELCOME VILLAGE (Harbor Plaza + Fountain + 3 Distinct Cottages + Dock & Sailboat) ===
+	# === 1. WELCOME VILLAGE (Tudor Violet-Indigo Cottages + Clocktower + Sandy Path + Haystacks + Sailboat) ===
 	var wv := Node3D.new()
 	wv.position = AREA_COORDS["welcome_village"]
 	add_child(wv)
-	_mesh(wv, _cyl(1.35, 1.42, 0.08, 20), _mat(Color("#C9AF7C"), 0.80), Vector3(0, 0.10, 0.1), Vector3.ZERO, Vector3.ONE, false)
+	_mesh(wv, _cyl(1.38, 1.44, 0.08, 20), _mat(Color("#C4966E"), 0.84), Vector3(0, 0.10, 0.1), Vector3.ZERO, Vector3.ONE, false)
+	_mesh(wv, _box(Vector3(0.70, 0.06, 2.15)), _mat(Color("#BE9068"), 0.84), Vector3(0.25, 0.09, -0.45), Vector3(0, -18, 0), Vector3.ONE, false)
 
-	var owl_cottage := PropFactory3D.build_village_cottage(Color("#2D4F8A"), Color("#EFE5D2"), true, "academy")
+	var owl_cottage := PropFactory3D.build_village_cottage(Color("#4A3586"), Color("#E3DFD7"), true, "academy")
 	owl_cottage.position = Vector3(0.0, 0.08, -1.15)
 	owl_cottage.scale = Vector3.ONE * 0.30
 	wv.add_child(owl_cottage)
 
-	var lily_cottage := PropFactory3D.build_village_cottage(Color("#CF4B43"), Color("#F2E7D2"), false, "garden_cottage")
-	lily_cottage.position = Vector3(1.35, 0.08, -0.45)
+	var lily_cottage := PropFactory3D.build_village_cottage(Color("#4E398C"), Color("#E3DFD7"), false, "garden_cottage")
+	lily_cottage.position = Vector3(1.42, 0.08, -0.42)
 	lily_cottage.rotation_degrees.y = -28.0
 	lily_cottage.scale = Vector3.ONE * 0.25
 	wv.add_child(lily_cottage)
 
-	var supply_cottage := PropFactory3D.build_village_cottage(Color("#D6862C"), Color("#EFE3CB"), false, "supply_post")
-	supply_cottage.position = Vector3(-1.35, 0.08, -0.55)
+	var supply_cottage := PropFactory3D.build_village_cottage(Color("#4A3586"), Color("#E1DDD4"), false, "supply_post")
+	supply_cottage.position = Vector3(-1.38, 0.08, -0.52)
 	supply_cottage.rotation_degrees.y = 28.0
 	supply_cottage.scale = Vector3.ONE * 0.25
 	wv.add_child(supply_cottage)
 
+	# Mini Haystacks & Wooden Lantern Post
+	for hp in [Vector3(0.95, 0.08, -1.05), Vector3(1.18, 0.08, -0.82)]:
+		var hs := PropFactory3D.build_haystack()
+		hs.position = hp
+		hs.scale = Vector3.ONE * 0.28
+		wv.add_child(hs)
+	var wv_lamp := PropFactory3D.build_lamppost()
+	wv_lamp.position = Vector3(0.55, 0.08, 0.45)
+	wv_lamp.scale = Vector3.ONE * 0.32
+	wv.add_child(wv_lamp)
+
 	# Mini Fountain on Village Plaza
-	_mesh(wv, _cyl(0.46, 0.50, 0.16, 14), _mat(Color("#9DA6B5"), 0.72), Vector3(-0.42, 0.18, 0.25))
+	_mesh(wv, _cyl(0.46, 0.50, 0.16, 14), _mat(Color("#7C8696"), 0.74), Vector3(-0.42, 0.18, 0.25))
 	_mesh(wv, _cyl(0.36, 0.36, 0.12, 14), _mat(Color("#3BD4FA"), 0.22, Color("#3BD4FA"), 0.45), Vector3(-0.42, 0.24, 0.25), Vector3.ZERO, Vector3.ONE, false)
-	_mesh(wv, _cyl(0.08, 0.14, 0.36, 10), _mat(Color("#A8B2C2"), 0.70), Vector3(-0.42, 0.34, 0.25))
+	_mesh(wv, _cyl(0.08, 0.14, 0.36, 10), _mat(Color("#99A3B3"), 0.72), Vector3(-0.42, 0.34, 0.25))
 	_mesh(wv, _sph(0.11), _mat(Color("#BDF2FF"), 0.15, Color("#8CE8FF"), 0.85), Vector3(-0.42, 0.56, 0.25), Vector3.ZERO, Vector3.ONE, false)
 
-	var wv_t1 := PropFactory3D.build_stylized_tree(0.36, Color("#2E733B"), "oak")
+	var wv_t1 := PropFactory3D.build_stylized_tree(0.36, Color("#2E5C27"), "pine")
 	wv_t1.position = Vector3(-2.15, 0.08, 0.45)
 	wv.add_child(wv_t1)
-	var wv_t2 := PropFactory3D.build_stylized_tree(0.34, Color("#DF6B88"), "blossom")
+	var wv_t2 := PropFactory3D.build_stylized_tree(0.34, Color("#3E772A"), "oak")
 	wv_t2.position = Vector3(1.95, 0.08, 0.65)
 	wv.add_child(wv_t2)
 
@@ -314,8 +326,8 @@ func _build_landmarks() -> void:
 	var am := Node3D.new()
 	am.position = AREA_COORDS["alphabet_meadow"]
 	add_child(am)
-	# Winding pasture path
-	_mesh(am, _box(Vector3(3.6, 0.06, 0.52)), _mat(Color("#C9A063"), 0.84), Vector3(0.0, 0.08, 0.35), Vector3(0, 12, 0), Vector3.ONE, false)
+	# Winding sandy-terracotta pasture path
+	_mesh(am, _box(Vector3(3.6, 0.06, 0.56)), _mat(Color("#BE9068"), 0.84), Vector3(0.0, 0.08, 0.35), Vector3(0, 12, 0), Vector3.ONE, false)
 	# 3 Colorful Alphabet Letter Blocks on Stone Pedestals ("A", "B", "C")
 	var letter_specs := [
 		{ "pos": Vector3(-1.35, 0.10, 0.15), "col": Color("#F25C69"), "rot": 18.0 },
@@ -328,17 +340,17 @@ func _build_landmarks() -> void:
 		_mesh(am, _box(Vector3(0.46, 0.46, 0.22)), _mat(ls["col"], 0.42, ls["col"], 0.25), lp + Vector3(0, 0.38, 0), Vector3(0, float(ls["rot"]), 0))
 		_mesh(am, _box(Vector3(0.20, 0.20, 0.26)), _mat(Color("#FFF9EB"), 0.35, Color("#FFF9EB"), 0.20), lp + Vector3(0, 0.40, 0), Vector3(0, float(ls["rot"]), 45), Vector3.ONE, false)
 
-	var am_t1 := PropFactory3D.build_stylized_tree(0.42, Color("#35823F"), "oak")
+	var am_t1 := PropFactory3D.build_stylized_tree(0.42, Color("#3E782B"), "oak")
 	am_t1.position = Vector3(-1.95, 0.08, -0.95)
 	am.add_child(am_t1)
-	var am_t2 := PropFactory3D.build_stylized_tree(0.38, Color("#EA7296"), "blossom")
+	var am_t2 := PropFactory3D.build_stylized_tree(0.40, Color("#2E5C27"), "pine")
 	am_t2.position = Vector3(1.45, 0.08, -1.05)
 	am.add_child(am_t2)
-	var am_t3 := PropFactory3D.build_stylized_tree(0.32, Color("#2E6E38"), "berry_tree")
+	var am_t3 := PropFactory3D.build_stylized_tree(0.32, Color("#46822E"), "berry_tree")
 	am_t3.position = Vector3(-0.65, 0.08, 1.05)
 	am.add_child(am_t3)
 	for fpos in [Vector3(-1.75, 0.12, 0.95), Vector3(0.45, 0.12, 0.95), Vector3(1.85, 0.12, -0.25)]:
-		var sh := PropFactory3D.build_shrub_variant(2, 0.55, Color("#337A3E"))
+		var sh := PropFactory3D.build_shrub_variant(2, 0.55, Color("#48822E"))
 		sh.position = fpos
 		am.add_child(sh)
 	_landmark_nodes["alphabet_meadow"] = am

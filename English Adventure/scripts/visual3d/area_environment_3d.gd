@@ -398,9 +398,9 @@ func _add_distant_forest_ring(ring_parent: Node3D) -> void:
 
 
 func _build_welcome_village() -> void:
-	# Rich multi-layered natural green ground (never pastel mint!)
-	_add_ground_plane(130.0, 110.0, Color("#2C5D33"))
-	_add_mountain_backdrop(Color("#275632"), Color("#3C556E"))
+	# Vibrant sunlit chartreuse-lime valley lawn & misty slate-grey alpine peaks (matching reference palette)
+	_add_ground_plane(130.0, 110.0, Color("#4D7F22"))
+	_add_mountain_backdrop(Color("#416E24"), Color("#7B8492"))
 
 	var bg_forest := Node3D.new()
 	bg_forest.name = "DistantForestRing"
@@ -411,54 +411,54 @@ func _build_welcome_village() -> void:
 	var terrain_decor := Node3D.new()
 	terrain_decor.name = "TerrainRelief"
 	add_child(terrain_decor)
-	_add_grass_mound(terrain_decor, Vector3(-16.5, -0.15, -9.5), 6.5, 1.35, 5.2, Color("#356C38"))
-	_add_grass_mound(terrain_decor, Vector3(16.5, -0.15, -9.5), 6.5, 1.45, 5.2, Color("#387039"))
-	_add_grass_mound(terrain_decor, Vector3(-16.2, -0.20, 9.2), 6.0, 1.15, 4.6, Color("#3B733C"))
-	_add_grass_mound(terrain_decor, Vector3(16.2, -0.20, 9.2), 6.0, 1.15, 4.6, Color("#376E3A"))
-	_add_grass_mound(terrain_decor, Vector3(0.0, -0.18, -13.2), 11.5, 1.55, 4.8, Color("#326636"))
+	_add_grass_mound(terrain_decor, Vector3(-16.5, -0.15, -9.5), 6.5, 1.35, 5.2, Color("#568B27"))
+	_add_grass_mound(terrain_decor, Vector3(16.5, -0.15, -9.5), 6.5, 1.45, 5.2, Color("#598F29"))
+	_add_grass_mound(terrain_decor, Vector3(-16.2, -0.20, 9.2), 6.0, 1.15, 4.6, Color("#5D942B"))
+	_add_grass_mound(terrain_decor, Vector3(16.2, -0.20, 9.2), 6.0, 1.15, 4.6, Color("#578D28"))
+	_add_grass_mound(terrain_decor, Vector3(0.0, -0.18, -13.2), 11.5, 1.55, 4.8, Color("#508424"))
 
-	# Natural Village Meadow Terrace
+	# Sunlit Village Meadow Terrace
 	var lawn := CylinderMesh.new()
 	lawn.top_radius = 18.6
 	lawn.bottom_radius = 19.8
 	lawn.height = 0.14
 	lawn.radial_segments = 32
-	_mesh(self, "VillageLawn", lawn, _mat(Color("#3F763B"), 0.88), Vector3(0, 0.01, 0), Vector3.ZERO, false)
+	_mesh(self, "VillageLawn", lawn, _mat(Color("#60962D"), 0.88), Vector3(0, 0.01, 0), Vector3.ZERO, false)
 
-	# Stepped Cobblestone Central Plaza (warm earth & stone tones)
+	# Stepped Warm Sandy-Clay & Slate Central Plaza
 	var plaza_rim := CylinderMesh.new()
 	plaza_rim.top_radius = 6.3
 	plaza_rim.bottom_radius = 6.6
 	plaza_rim.height = 0.10
 	plaza_rim.radial_segments = 24
-	_mesh(self, "PlazaBorder", plaza_rim, _mat(Color("#696E78"), 0.84), Vector3(0, 0.035, 1.5), Vector3.ZERO, false)
+	_mesh(self, "PlazaBorder", plaza_rim, _mat(Color("#7C8492"), 0.84), Vector3(0, 0.035, 1.5), Vector3.ZERO, false)
 
 	var plaza_inner := CylinderMesh.new()
 	plaza_inner.top_radius = 5.65
 	plaza_inner.bottom_radius = 5.8
 	plaza_inner.height = 0.11
 	plaza_inner.radial_segments = 24
-	_mesh(self, "PlazaSurface", plaza_inner, _mat(Color("#B69C6E"), 0.82), Vector3(0, 0.045, 1.5), Vector3.ZERO, false)
+	_mesh(self, "PlazaSurface", plaza_inner, _mat(Color("#C99E76"), 0.84), Vector3(0, 0.045, 1.5), Vector3.ZERO, false)
 
 	# Decorative center compass emblem ring on plaza floor
 	var plaza_ring := TorusMesh.new()
 	plaza_ring.inner_radius = 2.65
 	plaza_ring.outer_radius = 2.85
-	_mesh(self, "PlazaEmblemRing", plaza_ring, _mat(Color("#8E7854"), 0.84), Vector3(0, 0.08, 1.5), Vector3.ZERO, false)
+	_mesh(self, "PlazaEmblemRing", plaza_ring, _mat(Color("#9D7452"), 0.84), Vector3(0, 0.08, 1.5), Vector3.ZERO, false)
 
-	# Earth & Flagstone Pathways connecting all landmarks
-	var path_mat := _mat(Color("#8E6C47"), 0.84)
-	var stone_mat := _mat(Color("#838995"), 0.82)
+	# Warm Sandy-Terracotta Dirt Pathways & Slate Stepping Stones
+	var path_mat := _mat(Color("#BE9068"), 0.86)
+	var stone_mat := _mat(Color("#7A8494"), 0.84)
 	var trails_root := Node3D.new()
 	trails_root.name = "VillageTrails"
 	add_child(trails_root)
-	_add_trail_segment(trails_root, Vector3(0, 0, 1.5), Vector3(0, 0, -5.6), 2.3, path_mat, stone_mat)      # To Owl Academy
-	_add_trail_segment(trails_root, Vector3(-3.5, 0, 1.5), Vector3(-10.0, 0, 0.6), 1.85, path_mat, stone_mat) # To Chest Camp
-	_add_trail_segment(trails_root, Vector3(4.2, 0, 1.6), Vector3(16.5, 0, 1.25), 2.2, path_mat, stone_mat)  # To Meadow Arch & Portal
-	_add_trail_segment(trails_root, Vector3(6.2, 0, 2.2), Vector3(10.0, 0, 3.3), 1.75, path_mat, stone_mat)  # To Lily
+	_add_trail_segment(trails_root, Vector3(0, 0, 1.5), Vector3(0, 0, -5.6), 2.4, path_mat, stone_mat)      # To Owl Academy
+	_add_trail_segment(trails_root, Vector3(-3.5, 0, 1.5), Vector3(-10.0, 0, 0.6), 1.9, path_mat, stone_mat) # To Chest Camp
+	_add_trail_segment(trails_root, Vector3(4.2, 0, 1.6), Vector3(16.5, 0, 1.25), 2.25, path_mat, stone_mat) # To Meadow Arch & Portal
+	_add_trail_segment(trails_root, Vector3(6.2, 0, 2.2), Vector3(10.0, 0, 3.3), 1.80, path_mat, stone_mat) # To Lily
 
-	# 1. Professor Owl's Academy Cottage (North center — Scholar Tower + Balcony)
-	var owl_house := PropFactory3D.build_village_cottage(Color("#2D4F8A"), Color("#EFE5D2"), true, "academy")
+	# 1. Professor Owl's Academy Cottage (North center — Tudor Clocktower + Royal Violet-Indigo Roof)
+	var owl_house := PropFactory3D.build_village_cottage(Color("#4A3586"), Color("#E3DFD7"), true, "academy")
 	owl_house.position = Vector3(0, 0, -7.8)
 	add_child(owl_house)
 
@@ -467,14 +467,14 @@ func _build_welcome_village() -> void:
 	lectern.rotation_degrees.y = 22.0
 	add_child(lectern)
 
-	# 2. Lily's Garden Cottage (Northeast — Pergola Trellis + Mailbox + Vines)
-	var lily_house := PropFactory3D.build_village_cottage(Color("#C94B43"), Color("#EFE4CE"), false, "garden_cottage")
+	# 2. Lily's Garden Cottage (Northeast — Royal Violet Roof + Burnt Terracotta Annex + Mailbox)
+	var lily_house := PropFactory3D.build_village_cottage(Color("#4E398C"), Color("#E3DFD7"), false, "garden_cottage")
 	lily_house.position = Vector3(11.6, 0, -4.6)
 	lily_house.rotation_degrees.y = -24.0
 	add_child(lily_house)
 
-	# 3. Explorer's Supply Cottage (Northwest — Timber Canopy + Chest Camp Crates)
-	var west_house := PropFactory3D.build_village_cottage(Color("#CF862E"), Color("#EDE2CC"), false, "supply_post")
+	# 3. Explorer's Supply Cottage (Northwest — Royal Violet Roof + Terracotta Veranda + Crates)
+	var west_house := PropFactory3D.build_village_cottage(Color("#4A3586"), Color("#E1DDD4"), false, "supply_post")
 	west_house.position = Vector3(-11.8, 0, -4.8)
 	west_house.rotation_degrees.y = 26.0
 	add_child(west_house)
@@ -506,22 +506,21 @@ func _build_welcome_village() -> void:
 	gateway.rotation_degrees.y = 90.0
 	add_child(gateway)
 
-	# 6. Varied Big Trees (3 styles) + Small Trees / Saplings (3 styles) with Wind-Animated Foliage
-	# Placed outside the sunlit central plaza & south camera sweep corridor so canopies never cover the player
+	# 6. Tall Layered Spruce-Pines + Broad Oaks + Saplings matching the alpine Tudor village skyline
 	var tree_specs := [
-		{ "pos": Vector3(-15.8, 0, -7.8), "scale": 1.08, "color": Color("#265B33"), "style": "oak", "rot": 18.0 },
-		{ "pos": Vector3(-15.6, 0, 5.8),  "scale": 1.04, "color": Color("#1E4D2D"), "style": "pine", "rot": 40.0 },
-		{ "pos": Vector3(-14.2, 0, 9.8),  "scale": 0.98, "color": Color("#2F6D39"), "style": "oak", "rot": -35.0 },
-		{ "pos": Vector3(7.8, 0, -9.2),   "scale": 1.12, "color": Color("#215330"), "style": "pine", "rot": 12.0 },
-		{ "pos": Vector3(15.4, 0, -7.8),  "scale": 1.05, "color": Color("#2A6436"), "style": "oak", "rot": 65.0 },
-		{ "pos": Vector3(16.6, 0, 9.2),   "scale": 0.98, "color": Color("#DF6B88"), "style": "blossom", "rot": -20.0 },
-		{ "pos": Vector3(-5.8, 0, -10.2), "scale": 1.06, "color": Color("#1F4F2E"), "style": "pine", "rot": 80.0 },
-		{ "pos": Vector3(5.8, 0, -10.2),  "scale": 1.02, "color": Color("#2B6637"), "style": "oak", "rot": -55.0 },
+		{ "pos": Vector3(-15.8, 0, -7.8), "scale": 1.12, "color": Color("#2E5C27"), "style": "pine", "rot": 18.0 },
+		{ "pos": Vector3(-15.6, 0, 5.8),  "scale": 1.06, "color": Color("#2D5B26"), "style": "pine", "rot": 40.0 },
+		{ "pos": Vector3(-14.2, 0, 9.8),  "scale": 1.00, "color": Color("#467E2C"), "style": "oak", "rot": -35.0 },
+		{ "pos": Vector3(7.8, 0, -9.2),   "scale": 1.14, "color": Color("#2A5624"), "style": "pine", "rot": 12.0 },
+		{ "pos": Vector3(15.4, 0, -7.8),  "scale": 1.08, "color": Color("#3B712A"), "style": "oak", "rot": 65.0 },
+		{ "pos": Vector3(16.6, 0, 9.2),   "scale": 1.02, "color": Color("#2E5E28"), "style": "pine", "rot": -20.0 },
+		{ "pos": Vector3(-5.8, 0, -10.2), "scale": 1.12, "color": Color("#2A5624"), "style": "pine", "rot": 80.0 },
+		{ "pos": Vector3(5.8, 0, -10.2),  "scale": 1.06, "color": Color("#386E29"), "style": "oak", "rot": -55.0 },
 		# Small Trees / Saplings (3 distinct small variants)
-		{ "pos": Vector3(-10.8, 0, 9.6),  "scale": 0.92, "color": Color("#387B3E"), "style": "sapling_oak", "rot": 25.0 },
-		{ "pos": Vector3(10.6, 0, 9.4),   "scale": 0.95, "color": Color("#2E6D37"), "style": "berry_tree", "rot": -15.0 },
-		{ "pos": Vector3(7.4, 0, -4.8),   "scale": 0.88, "color": Color("#235D34"), "style": "cypress_small", "rot": 0.0 },
-		{ "pos": Vector3(-14.8, 0, -1.4), "scale": 0.90, "color": Color("#35743B"), "style": "berry_tree", "rot": 48.0 },
+		{ "pos": Vector3(-10.8, 0, 9.6),  "scale": 0.92, "color": Color("#4C882E"), "style": "sapling_oak", "rot": 25.0 },
+		{ "pos": Vector3(10.6, 0, 9.4),   "scale": 0.95, "color": Color("#3E772A"), "style": "berry_tree", "rot": -15.0 },
+		{ "pos": Vector3(7.4, 0, -4.8),   "scale": 0.92, "color": Color("#2E5D28"), "style": "pine", "rot": 0.0 },
+		{ "pos": Vector3(-14.8, 0, -1.4), "scale": 0.90, "color": Color("#467F2D"), "style": "berry_tree", "rot": 48.0 },
 	]
 	for ts in tree_specs:
 		var tree := PropFactory3D.build_stylized_tree(float(ts["scale"]), ts["color"], str(ts["style"]))
@@ -529,24 +528,31 @@ func _build_welcome_village() -> void:
 		tree.rotation_degrees.y = float(ts["rot"])
 		add_child(tree)
 
-	# 7. Warm Glowing Lampposts
+	# 7. Warm Wooden Bracket Lantern Posts along the dirt paths
 	var lamp_spots := [
-		Vector3(-2.6, 0, -3.2),
-		Vector3(2.6, 0, -3.2),
-		Vector3(8.2, 0, 0.2),
-		Vector3(-8.0, 0, 2.2)
+		{ "pos": Vector3(-2.6, 0, -3.2), "rot": -15.0 },
+		{ "pos": Vector3(2.6, 0, -3.2),  "rot": 165.0 },
+		{ "pos": Vector3(8.2, 0, 0.2),   "rot": 90.0 },
+		{ "pos": Vector3(-8.0, 0, 2.2),  "rot": -45.0 },
 	]
 	for lp in lamp_spots:
 		var lamp := PropFactory3D.build_lamppost()
-		lamp.position = lp
+		lamp.position = lp["pos"]
+		lamp.rotation_degrees.y = float(lp["rot"])
 		add_child(lamp)
 
-	# 8. Wooden Fences, 3 Shrub Variants, Flowerbeds, Mushrooms, Pebbles & Stump
+	# 8. Wooden Split-Rail Fences, Golden Haystacks, Shrubs, Flowerbeds, Mushrooms, Pebbles & Stump
 	var decor := Node3D.new()
 	decor.name = "VillageDecor"
 	add_child(decor)
 	_add_fence_row(decor, Vector3(-14.5, 0, 8.8), Vector3(-5.8, 0, 8.8), 6)
 	_add_fence_row(decor, Vector3(5.8, 0, 8.8), Vector3(14.5, 0, 8.8), 6)
+	_add_fence_row(decor, Vector3(3.2, 0, -4.8), Vector3(6.6, 0, -4.8), 3)
+
+	for hp in [Vector3(5.2, 0, -6.2), Vector3(6.8, 0, -5.6), Vector3(-7.4, 0, -5.8), Vector3(13.8, 0, -1.6)]:
+		var hs := PropFactory3D.build_haystack()
+		hs.position = hp
+		add_child(hs)
 
 	var flower_spots: Array[Vector3] = [
 		Vector3(9.4, 0, -1.6),
@@ -602,8 +608,8 @@ func _build_welcome_village() -> void:
 
 
 func _build_alphabet_meadow() -> void:
-	_add_ground_plane(120.0, 100.0, Color("#306B37"))
-	_add_mountain_backdrop(Color("#295E32"), Color("#3D5872"))
+	_add_ground_plane(120.0, 100.0, Color("#518525"))
+	_add_mountain_backdrop(Color("#447326"), Color("#7D8794"))
 
 	var bg_forest := Node3D.new()
 	bg_forest.name = "DistantForestRing"
@@ -613,19 +619,19 @@ func _build_alphabet_meadow() -> void:
 	var relief := Node3D.new()
 	relief.name = "TerrainRelief"
 	add_child(relief)
-	_add_grass_mound(relief, Vector3(-16.5, -0.18, -9.8), 6.2, 1.35, 4.8, Color("#37713B"))
-	_add_grass_mound(relief, Vector3(16.5, -0.18, -9.5), 6.2, 1.40, 4.8, Color("#39733C"))
-	_add_grass_mound(relief, Vector3(0.0, -0.20, -13.0), 10.5, 1.45, 4.5, Color("#346A38"))
+	_add_grass_mound(relief, Vector3(-16.5, -0.18, -9.8), 6.2, 1.35, 4.8, Color("#5A902B"))
+	_add_grass_mound(relief, Vector3(16.5, -0.18, -9.5), 6.2, 1.40, 4.8, Color("#5E952D"))
+	_add_grass_mound(relief, Vector3(0.0, -0.20, -13.0), 10.5, 1.45, 4.5, Color("#548828"))
 
 	var meadow_disc := CylinderMesh.new()
 	meadow_disc.top_radius = 19.5
 	meadow_disc.bottom_radius = 20.5
 	meadow_disc.height = 0.12
 	meadow_disc.radial_segments = 28
-	_mesh(self, "MeadowTerrace", meadow_disc, _mat(Color("#44803E"), 0.86), Vector3(0, 0.01, 0), Vector3.ZERO, false)
+	_mesh(self, "MeadowTerrace", meadow_disc, _mat(Color("#669D30"), 0.86), Vector3(0, 0.01, 0), Vector3.ZERO, false)
 
-	var path_mat := _mat(Color("#9A784E"), 0.82)
-	var stone_mat := _mat(Color("#868C98"), 0.82)
+	var path_mat := _mat(Color("#BE9068"), 0.84)
+	var stone_mat := _mat(Color("#7C8696"), 0.84)
 	var trails := Node3D.new()
 	trails.name = "MeadowTrails"
 	add_child(trails)

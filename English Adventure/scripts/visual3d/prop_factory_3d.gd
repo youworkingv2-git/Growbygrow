@@ -417,121 +417,136 @@ static func build_shrub_variant(variant_idx: int = 0, scale_s: float = 1.0, colo
 
 
 static func build_village_cottage(
-	roof_color: Color = Color("#C44A3F"),
-	wall_color: Color = Color("#EFE5D2"),
+	roof_color: Color = Color("#4A3586"),
+	wall_color: Color = Color("#E3DFD7"),
 	with_owl_sign: bool = false,
 	style: String = ""
 ) -> Node3D:
 	var cottage_style := style if not style.is_empty() else ("academy" if with_owl_sign else "garden_cottage")
 	var house := Node3D.new()
 	house.name = "Cottage3D_%s" % cottage_style
-	var wall_m := _mat(wall_color, 0.78)
-	var roof_m := _mat(roof_color, 0.58)
-	var roof_trim_m := _mat(roof_color.darkened(0.26), 0.54)
-	var timber_m := _mat(Color("#5A3820"), 0.75)
-	var wood_door_m := _mat(Color("#734525"), 0.66)
-	var stone_m := _mat(Color("#69707D"), 0.86)
-	var stone_light_m := _mat(Color("#88909C"), 0.78)
-	var shutter_m := _mat(roof_color.darkened(0.14), 0.62)
-	var brass_m := _mat(Color("#EBB638"), 0.30, 0.75)
-	var window_glow := _mat(Color("#FFE082"), 0.22, 0.0, Color("#FFD25A"), 0.78)
-	var vine_m := create_foliage_wind_material(Color("#24592B"), Color("#438C3F"), 0.035, 1.2)
-	var flower_m := _mat(Color("#F06277"), 0.55)
+	var wall_m := _mat(wall_color, 0.80)
+	var roof_m := _mat(roof_color, 0.62)
+	var roof_shingle_m := _mat(roof_color.darkened(0.18), 0.66)
+	var timber_m := _mat(Color("#7A4D2A"), 0.74)
+	var dark_timber_m := _mat(Color("#5C371C"), 0.78)
+	var wood_door_m := _mat(Color("#8E5B32"), 0.68)
+	var stone_step_m := _mat(Color("#4E5A6D"), 0.84)
+	var stone_light_m := _mat(Color("#697589"), 0.78)
+	var brass_m := _mat(Color("#E8B63E"), 0.30, 0.75)
+	var glass_dark_m := _mat(Color("#2D4058"), 0.25, 0.1)
+	var window_glow := _mat(Color("#FFE088"), 0.22, 0.0, Color("#FFCE5C"), 0.65)
+	var vine_m := create_foliage_wind_material(Color("#2B6127"), Color("#569632"), 0.035, 1.2)
+	var barrel_m := _mat(Color("#84532E"), 0.74)
+	var iron_m := _mat(Color("#343C48"), 0.50, 0.60)
 
-	_add_contact_shadow(house, 3.35, 0.28)
+	_add_contact_shadow(house, 3.45, 0.28)
 
-	# Stepped Stone Foundation with corner masonry blocks
-	_mesh_part(house, "FoundationBase", _box(Vector3(4.95, 0.30, 4.35)), stone_m, Vector3(0, 0.15, 0))
-	_mesh_part(house, "FoundationLedge", _box(Vector3(4.68, 0.28, 4.08)), stone_light_m, Vector3(0, 0.42, 0))
+	# Slate-Blue Stone Foundation & Front Steps (matching reference Tudor cottage)
+	_mesh_part(house, "FoundationBase", _box(Vector3(4.65, 0.28, 4.35)), stone_step_m, Vector3(0, 0.14, 0))
+	_mesh_part(house, "FoundationLedge", _box(Vector3(4.45, 0.14, 4.15)), stone_light_m, Vector3(0, 0.34, 0))
 
-	# Main Stucco Walls + Half-Timber Beams
-	_mesh_part(house, "Walls", _box(Vector3(4.25, 2.55, 3.65)), wall_m, Vector3(0, 1.82, 0))
-	for cx in [-2.08, 2.08]:
-		for cz in [-1.78, 1.78]:
-			_mesh_part(house, "CornerPost", _box(Vector3(0.22, 2.65, 0.22)), timber_m, Vector3(cx, 1.85, cz))
-	_mesh_part(house, "MidBeamF", _box(Vector3(4.40, 0.14, 0.14)), timber_m, Vector3(0, 2.48, 1.84))
-	_mesh_part(house, "MidBeamB", _box(Vector3(4.40, 0.14, 0.14)), timber_m, Vector3(0, 2.48, -1.84))
-	_mesh_part(house, "MidBeamL", _box(Vector3(0.14, 0.14, 3.80)), timber_m, Vector3(-2.14, 2.48, 0))
-	_mesh_part(house, "MidBeamR", _box(Vector3(0.14, 0.14, 3.80)), timber_m, Vector3(2.14, 2.48, 0))
-	_mesh_part(house, "EaveBeamF", _box(Vector3(4.48, 0.18, 0.18)), timber_m, Vector3(0, 3.08, 1.84))
+	# Main Cream Stucco Body + Steep Triangular Plaster Gable Front/Back
+	_mesh_part(house, "Walls", _box(Vector3(4.18, 2.32, 3.92)), wall_m, Vector3(0, 1.54, 0))
+	_mesh_part(house, "GableWall", StylizedMeshKit.build_gable_prism_mesh(4.18, 2.25, 3.92), wall_m, Vector3(0, 2.70, 0))
 
-	# Sculpted Overhanging Roof + Ridge + Dormer + Stone Chimney
-	_mesh_part(house, "RoofOverhangRim", _box(Vector3(5.10, 0.16, 4.50)), roof_trim_m, Vector3(0, 3.16, 0))
-	_mesh_part(house, "RoofPyramid", _cyl(0.32, 3.74, 2.28, 4), roof_m, Vector3(0, 4.29, 0), Vector3(0, 45, 0))
-	_mesh_part(house, "RoofFinialCap", _cyl(0.08, 0.44, 0.36, 4), roof_trim_m, Vector3(0, 5.46, 0), Vector3(0, 45, 0))
+	# Crisp Tudor Half-Timber Frame: Corner Posts, Middle Studs, Horizontal & Eave Beams
+	for cx in [-2.06, 0.0, 2.06]:
+		for cz in [-1.94, 1.94]:
+			if cx != 0.0:
+				_mesh_part(house, "CornerPost", _box(Vector3(0.20, 2.40, 0.20)), timber_m, Vector3(cx, 1.56, cz))
+	for sx in [-1.25, 1.25]:
+		_mesh_part(house, "FrontStud", _box(Vector3(0.14, 2.34, 0.14)), timber_m, Vector3(sx, 1.54, 1.96))
+		_mesh_part(house, "BackStud", _box(Vector3(0.14, 2.34, 0.14)), timber_m, Vector3(sx, 1.54, -1.96))
+	for sz in [-0.95, 0.0, 0.95]:
+		_mesh_part(house, "SideStudL", _box(Vector3(0.14, 2.34, 0.14)), timber_m, Vector3(-2.08, 1.54, sz))
+		_mesh_part(house, "SideStudR", _box(Vector3(0.14, 2.34, 0.14)), timber_m, Vector3(2.08, 1.54, sz))
+	_mesh_part(house, "MidBeamF", _box(Vector3(4.30, 0.15, 0.16)), timber_m, Vector3(0, 2.18, 1.96))
+	_mesh_part(house, "MidBeamB", _box(Vector3(4.30, 0.15, 0.16)), timber_m, Vector3(0, 2.18, -1.96))
+	_mesh_part(house, "MidBeamL", _box(Vector3(0.16, 0.15, 4.08)), timber_m, Vector3(-2.08, 2.18, 0))
+	_mesh_part(house, "MidBeamR", _box(Vector3(0.16, 0.15, 4.08)), timber_m, Vector3(2.08, 2.18, 0))
+	_mesh_part(house, "EaveBeamF", _box(Vector3(4.36, 0.18, 0.18)), timber_m, Vector3(0, 2.70, 1.96))
+	_mesh_part(house, "EaveBeamB", _box(Vector3(4.36, 0.18, 0.18)), timber_m, Vector3(0, 2.70, -1.96))
 
-	# Front Dormer Window on Roof
-	_mesh_part(house, "DormerBody", _box(Vector3(0.96, 0.72, 0.90)), wall_m, Vector3(0, 4.05, 1.42))
-	_mesh_part(house, "DormerRoof", _cyl(0.06, 0.78, 0.56, 4), roof_trim_m, Vector3(0, 4.62, 1.46), Vector3(0, 45, 0))
-	_mesh_part(house, "DormerGlass", _box(Vector3(0.46, 0.44, 0.10)), window_glow, Vector3(0, 4.06, 1.86))
+	# Gable Half-Timber Braces (Vertical King Post + Diagonal A-Braces)
+	for gz in [1.96, -1.96]:
+		_mesh_part(house, "GableKingPost", _box(Vector3(0.14, 2.15, 0.14)), timber_m, Vector3(0, 3.75, gz))
+		_mesh_part(house, "GableBraceL", _box(Vector3(0.13, 1.72, 0.13)), timber_m, Vector3(-0.62, 3.35, gz), Vector3(0, 0, -40))
+		_mesh_part(house, "GableBraceR", _box(Vector3(0.13, 1.72, 0.13)), timber_m, Vector3(0.62, 3.35, gz), Vector3(0, 0, 40))
 
-	# Detailed Stone Chimney
-	_mesh_part(house, "ChimneyShaft", _box(Vector3(0.62, 2.05, 0.62)), stone_m, Vector3(1.30, 4.38, -0.78))
-	_mesh_part(house, "ChimneyCap", _box(Vector3(0.78, 0.16, 0.78)), stone_light_m, Vector3(1.30, 5.42, -0.78))
+	# Steep Royal Violet-Indigo Shingled Gable Roof + Timber Bargeboards
+	_mesh_part(house, "MainRoof", StylizedMeshKit.build_gable_prism_mesh(4.86, 2.52, 4.58), roof_m, Vector3(0, 2.66, 0))
+	_mesh_part(house, "RoofRidgeBeam", _box(Vector3(0.22, 0.22, 4.66)), roof_shingle_m, Vector3(0, 5.16, 0))
+	# Shingle step ridges along slopes for tactile tile look
+	for ri in range(3):
+		var ry := 3.12 + float(ri) * 0.62
+		var rx := 2.00 - float(ri) * 0.58
+		_mesh_part(house, "ShingleStripL_%d" % ri, _box(Vector3(0.10, 0.08, 4.54)), roof_shingle_m, Vector3(-rx, ry, 0), Vector3(0, 0, 46))
+		_mesh_part(house, "ShingleStripR_%d" % ri, _box(Vector3(0.10, 0.08, 4.54)), roof_shingle_m, Vector3(rx, ry, 0), Vector3(0, 0, -46))
+	# Heavy Warm Wood Roof Bargeboards (Front & Back)
+	for bz in [2.24, -2.24]:
+		_mesh_part(house, "BargeboardL", _box(Vector3(0.18, 3.55, 0.22)), timber_m, Vector3(-1.24, 3.92, bz), Vector3(0, 0, -44))
+		_mesh_part(house, "BargeboardR", _box(Vector3(0.18, 3.55, 0.22)), timber_m, Vector3(1.24, 3.92, bz), Vector3(0, 0, 44))
 
-	# Porch Steps, Framed Entrance Door & Awning Canopy
-	_mesh_part(house, "PorchStep1", _box(Vector3(1.74, 0.18, 0.96)), stone_m, Vector3(0, 0.09, 2.20))
-	_mesh_part(house, "PorchStep2", _box(Vector3(1.42, 0.16, 0.64)), stone_light_m, Vector3(0, 0.25, 2.04))
-	_mesh_part(house, "DoorFrame", _box(Vector3(1.16, 1.76, 0.18)), timber_m, Vector3(0, 1.42, 1.83))
-	_mesh_part(house, "Door", _box(Vector3(0.94, 1.62, 0.14)), wood_door_m, Vector3(0, 1.38, 1.86))
-	_mesh_part(house, "DoorHandle", _sph(0.055), brass_m, Vector3(0.32, 1.32, 1.95))
-	_mesh_part(house, "PorchAwning", _box(Vector3(1.66, 0.12, 0.92)), roof_trim_m, Vector3(0, 2.40, 2.18), Vector3(16, 0, 0))
-	_mesh_part(house, "AwningBracketL", _box(Vector3(0.10, 0.42, 0.10)), timber_m, Vector3(-0.68, 2.18, 2.04), Vector3(-28, 0, 0))
-	_mesh_part(house, "AwningBracketR", _box(Vector3(0.10, 0.42, 0.10)), timber_m, Vector3(0.68, 2.18, 2.04), Vector3(-28, 0, 0))
+	# Round Leaded Attic Gable Window
+	_mesh_part(house, "AtticRim", _cyl(0.42, 0.42, 0.16, 14), timber_m, Vector3(0, 3.92, 1.98), Vector3(90, 0, 0))
+	_mesh_part(house, "AtticGlass", _cyl(0.32, 0.32, 0.18, 14), glass_dark_m, Vector3(0, 3.92, 1.99), Vector3(90, 0, 0))
+	_mesh_part(house, "AtticMullionH", _box(Vector3(0.60, 0.05, 0.20)), dark_timber_m, Vector3(0, 3.92, 2.00))
+	_mesh_part(house, "AtticMullionV", _box(Vector3(0.05, 0.60, 0.20)), dark_timber_m, Vector3(0, 3.92, 2.00))
 
-	# Framed Front Windows + Shutters + Flower Boxes
-	for side_x in [-1.32, 1.32]:
-		_mesh_part(house, "WinFrame", _box(Vector3(0.86, 0.86, 0.14)), timber_m, Vector3(side_x, 1.78, 1.83))
-		_mesh_part(house, "WinGlass", _box(Vector3(0.66, 0.66, 0.16)), window_glow, Vector3(side_x, 1.78, 1.84))
-		_mesh_part(house, "ShutterL", _box(Vector3(0.20, 0.78, 0.08)), shutter_m, Vector3(side_x - 0.52, 1.78, 1.86))
-		_mesh_part(house, "ShutterR", _box(Vector3(0.20, 0.78, 0.08)), shutter_m, Vector3(side_x + 0.52, 1.78, 1.86))
-		_mesh_part(house, "FlowerBox", _box(Vector3(0.88, 0.20, 0.24)), timber_m, Vector3(side_x, 1.26, 1.92))
-		_mesh_part(house, "FlowerGreenery", StylizedMeshKit.build_leaf_clump_mesh(side_x, 0.24, 0.18, 5, 8, 0.20), vine_m, Vector3(side_x, 1.40, 1.94))
-		_mesh_part(house, "FlowerPop", _sph(0.085), flower_m, Vector3(side_x + 0.16, 1.48, 1.98), Vector3.ZERO, Vector3.ONE, 0.0, false)
+	# Slate-Blue Stone Entry Stairs + Arched Oak Door Frame & Recessed Door
+	_mesh_part(house, "StepLow", _box(Vector3(1.66, 0.16, 0.88)), stone_step_m, Vector3(0, 0.08, 2.36))
+	_mesh_part(house, "StepMid", _box(Vector3(1.42, 0.16, 0.62)), stone_light_m, Vector3(0, 0.24, 2.22))
+	_mesh_part(house, "DoorJambL", _box(Vector3(0.16, 1.62, 0.22)), timber_m, Vector3(-0.56, 1.18, 1.98))
+	_mesh_part(house, "DoorJambR", _box(Vector3(0.16, 1.62, 0.22)), timber_m, Vector3(0.56, 1.18, 1.98))
+	_mesh_part(house, "DoorArch", _torus(0.46, 0.62), timber_m, Vector3(0, 1.88, 1.98), Vector3(90, 0, 0))
+	_mesh_part(house, "DoorPanel", _box(Vector3(0.94, 1.56, 0.14)), wood_door_m, Vector3(0, 1.16, 1.92))
+	_mesh_part(house, "DoorBrace", _box(Vector3(0.84, 0.10, 0.16)), dark_timber_m, Vector3(0, 1.46, 1.94))
+	_mesh_part(house, "DoorRing", _sph(0.06), iron_m, Vector3(0.28, 1.14, 2.02))
 
-	# Side Windows
-	for side_x_pos in [-2.14, 2.14]:
-		_mesh_part(house, "SideWinFrame", _box(Vector3(0.14, 0.84, 0.84)), timber_m, Vector3(side_x_pos, 1.80, 0))
-		_mesh_part(house, "SideWinGlass", _box(Vector3(0.16, 0.66, 0.66)), window_glow, Vector3(side_x_pos, 1.80, 0))
+	# Side Arched Windows with Warm Glow
+	for sx in [-2.12, 2.12]:
+		for sz in [-0.72, 0.72]:
+			_mesh_part(house, "SideWinFrame", _box(Vector3(0.16, 0.82, 0.62)), timber_m, Vector3(sx, 1.48, sz))
+			_mesh_part(house, "SideWinGlass", _box(Vector3(0.18, 0.64, 0.44)), window_glow, Vector3(sx, 1.48, sz))
 
-	# Distinct Architectural Silhouettes per Building Role
+	# Front Flanking Wooden Barrel Planters with Lush Shrubs
+	for bx in [-1.25, 1.25]:
+		_mesh_part(house, "PorchBarrel", _cyl(0.24, 0.22, 0.56, 10), barrel_m, Vector3(bx, 0.28, 2.34))
+		_mesh_part(house, "BarrelHoopT", _torus(0.22, 0.25), iron_m, Vector3(bx, 0.44, 2.34))
+		_mesh_part(house, "BarrelHoopB", _torus(0.22, 0.25), iron_m, Vector3(bx, 0.14, 2.34))
+		_mesh_part(house, "BarrelPlant", StylizedMeshKit.build_leaf_clump_mesh(bx * 2.0, 0.34, 0.28, 5, 8, 0.20), vine_m, Vector3(bx, 0.68, 2.34))
+
+	# Distinct Architectural Silhouettes per Building Role (matching village skyline in reference)
 	match cottage_style:
 		"academy":
-			# Scholar Octagonal Side Tower + Upper Wooden Balcony + Academy Medallion + Hanging Lanterns + Wall Vines
-			_mesh_part(house, "ScholarTowerBase", _cyl(0.95, 1.05, 3.85, 8), wall_m, Vector3(-2.55, 1.92, -0.55))
-			_mesh_part(house, "ScholarTowerPlinth", _cyl(1.08, 1.16, 0.45, 8), stone_m, Vector3(-2.55, 0.22, -0.55))
-			_mesh_part(house, "ScholarTowerRoof", _cyl(0.08, 1.22, 1.45, 8), roof_m, Vector3(-2.55, 4.55, -0.55))
-			_mesh_part(house, "TowerWindow", _box(Vector3(0.42, 0.56, 0.16)), window_glow, Vector3(-2.55, 2.65, 0.40))
-			_mesh_part(house, "BalconyFloor", _box(Vector3(1.75, 0.12, 0.72)), timber_m, Vector3(0, 2.95, 2.18))
-			_mesh_part(house, "BalconyRail", _box(Vector3(1.75, 0.08, 0.08)), timber_m, Vector3(0, 3.36, 2.50))
-			for bx in [-0.76, -0.25, 0.25, 0.76]:
-				_mesh_part(house, "Baluster", _box(Vector3(0.07, 0.36, 0.07)), timber_m, Vector3(bx, 3.16, 2.50))
-			_mesh_part(house, "AcademySign", _cyl(0.46, 0.46, 0.14, 16), brass_m, Vector3(0, 2.74, 1.92), Vector3(90, 0, 0))
-			_mesh_part(house, "AcademyCrestGem", _sph(0.14), _mat(Color("#54D2FF"), 0.15, 0.1, Color("#4AC8FF"), 1.15), Vector3(0, 2.74, 1.98), Vector3.ZERO, Vector3.ONE, 0.0, false)
-			var lan_glow := _mat(Color("#FFE27A"), 0.1, 0.0, Color("#FFCB4E"), 1.45)
-			for lx in [-0.74, 0.74]:
-				_mesh_part(house, "PorchLantern", _sph(0.12), lan_glow, Vector3(lx, 2.22, 2.50), Vector3.ZERO, Vector3.ONE, 0.0, false)
-			_mesh_part(house, "SideVine1", StylizedMeshKit.build_leaf_clump_mesh(2.1, 0.46, 0.72, 5, 8, 0.22), vine_m, Vector3(2.16, 1.45, 0.95))
-			_mesh_part(house, "SideVine2", StylizedMeshKit.build_leaf_clump_mesh(3.4, 0.38, 0.56, 5, 8, 0.22), vine_m, Vector3(2.16, 2.25, 0.75))
+			# Tall Half-Timbered Clocktower / Belltower + Purple Spire + Golden Clock Face
+			_mesh_part(house, "ClockTowerBase", _box(Vector3(1.65, 5.20, 1.65)), wall_m, Vector3(-2.35, 2.60, -0.85))
+			for tx in [-3.16, -1.54]:
+				for tz in [-1.66, -0.04]:
+					_mesh_part(house, "TowerPost", _box(Vector3(0.16, 5.25, 0.16)), timber_m, Vector3(tx, 2.62, tz))
+			_mesh_part(house, "TowerBandMid", _box(Vector3(1.74, 0.14, 1.74)), timber_m, Vector3(-2.35, 3.25, -0.85))
+			_mesh_part(house, "TowerBandTop", _box(Vector3(1.78, 0.16, 1.78)), timber_m, Vector3(-2.35, 5.15, -0.85))
+			_mesh_part(house, "ClockTowerSpire", _cyl(0.06, 1.32, 2.15, 4), roof_m, Vector3(-2.35, 6.22, -0.85), Vector3(0, 45, 0))
+			_mesh_part(house, "ClockFace", _cyl(0.38, 0.38, 0.12, 14), brass_m, Vector3(-2.35, 4.48, -0.01), Vector3(90, 0, 0))
+			_mesh_part(house, "ClockInner", _cyl(0.28, 0.28, 0.14, 14), wall_m, Vector3(-2.35, 4.48, 0.00), Vector3(90, 0, 0))
+			_mesh_part(house, "AcademySign", _cyl(0.42, 0.42, 0.14, 14), brass_m, Vector3(0, 2.44, 2.02), Vector3(90, 0, 0))
+			_mesh_part(house, "AcademyCrest", _sph(0.13), _mat(Color("#5ED6FF"), 0.15, 0.1, Color("#4AC8FF"), 1.1), Vector3(0, 2.44, 2.08), Vector3.ZERO, Vector3.ONE, 0.0, false)
 		"garden_cottage":
-			# Cozy Garden Pergola Trellis + Climbing Vines + Flower Planter Tubs + Mailbox
-			for px in [-1.05, 1.05]:
-				_mesh_part(house, "PergolaPost", _cyl(0.08, 0.09, 2.35, 7), timber_m, Vector3(px, 1.18, 2.72))
-			_mesh_part(house, "PergolaBeamF", _box(Vector3(2.45, 0.14, 0.16)), timber_m, Vector3(0, 2.38, 2.72))
-			for rx in [-0.85, -0.30, 0.30, 0.85]:
-				_mesh_part(house, "PergolaRafter", _box(Vector3(0.10, 0.10, 0.95)), timber_m, Vector3(rx, 2.46, 2.35))
-			_mesh_part(house, "PergolaVineL", StylizedMeshKit.build_leaf_clump_mesh(4.2, 0.45, 0.35, 5, 8, 0.22), vine_m, Vector3(-0.85, 2.58, 2.68))
-			_mesh_part(house, "PergolaVineR", StylizedMeshKit.build_leaf_clump_mesh(5.6, 0.48, 0.36, 5, 8, 0.22), vine_m, Vector3(0.82, 2.58, 2.66))
-			_mesh_part(house, "MailboxPost", _cyl(0.055, 0.065, 0.85, 6), timber_m, Vector3(1.75, 0.42, 2.55))
-			_mesh_part(house, "MailboxBody", _box(Vector3(0.28, 0.24, 0.42)), _mat(Color("#4D7ED9"), 0.55), Vector3(1.75, 0.92, 2.55))
-			_mesh_part(house, "GardenPlanterL", _cyl(0.26, 0.20, 0.32, 8), _mat(Color("#B85D3B"), 0.76), Vector3(-1.55, 0.16, 2.35))
-			_mesh_part(house, "PlanterLeafL", StylizedMeshKit.build_leaf_clump_mesh(6.1, 0.32, 0.26, 5, 8, 0.20), vine_m, Vector3(-1.55, 0.42, 2.35))
+			# Side Burnt-Terracotta Wing Gable + Garden Mailbox (echoing orange annex roof in reference)
+			var terra_m := _mat(Color("#A34F2C"), 0.64)
+			_mesh_part(house, "AnnexWalls", _box(Vector3(1.85, 1.95, 2.45)), wall_m, Vector3(-2.65, 1.25, -0.35))
+			_mesh_part(house, "AnnexRoof", StylizedMeshKit.build_gable_prism_mesh(2.15, 1.35, 2.72), terra_m, Vector3(-2.65, 2.20, -0.35))
+			_mesh_part(house, "AnnexBeam", _box(Vector3(1.94, 0.14, 2.54)), timber_m, Vector3(-2.65, 2.22, -0.35))
+			_mesh_part(house, "MailboxPost", _cyl(0.055, 0.065, 0.85, 6), timber_m, Vector3(1.85, 0.42, 2.45))
+			_mesh_part(house, "MailboxBody", _box(Vector3(0.28, 0.24, 0.42)), _mat(Color("#4D7ED9"), 0.55), Vector3(1.85, 0.92, 2.45))
 		"supply_post":
-			# Explorer Supply Veranda + Hanging Sign Plaque + Stacked Timber Logs
-			_mesh_part(house, "SupplyCanopy", _box(Vector3(3.60, 0.14, 1.35)), roof_trim_m, Vector3(0, 2.44, 2.35), Vector3(14, 0, 0))
-			for px in [-1.55, 1.55]:
-				_mesh_part(house, "SupplyPost", _cyl(0.09, 0.11, 2.28, 8), timber_m, Vector3(px, 1.14, 2.86))
-			_mesh_part(house, "SupplySignBoard", _box(Vector3(1.42, 0.46, 0.10)), _mat(Color("#C9995A"), 0.65), Vector3(0, 2.75, 1.94))
+			# Explorer Supply Veranda + Hanging Wood Sign + Stacked Logs
+			var terra_m := _mat(Color("#A34F2C"), 0.64)
+			_mesh_part(house, "SupplyCanopy", _box(Vector3(3.40, 0.14, 1.25)), terra_m, Vector3(0, 2.18, 2.45), Vector3(14, 0, 0))
+			for px in [-1.52, 1.52]:
+				_mesh_part(house, "SupplyPost", _cyl(0.09, 0.11, 2.10, 8), timber_m, Vector3(px, 1.05, 2.94))
+			_mesh_part(house, "SupplySignBoard", _box(Vector3(1.36, 0.42, 0.10)), _mat(Color("#C9995A"), 0.65), Vector3(0, 2.48, 2.02))
 			for lz in [0.0, 0.22]:
 				_mesh_part(house, "FirewoodLog", _cyl(0.11, 0.11, 0.72, 7), timber_m, Vector3(-2.35, 0.14 + lz, 0.85), Vector3(90, 0, 0))
 
@@ -541,7 +556,7 @@ static func build_village_cottage(
 	body.collision_mask = 0
 	var col := CollisionShape3D.new()
 	var box_shape := BoxShape3D.new()
-	box_shape.size = Vector3(4.8, 3.6, 4.2)
+	box_shape.size = Vector3(4.8, 3.6, 4.4)
 	col.shape = box_shape
 	col.position = Vector3(0, 1.8, 0)
 	body.add_child(col)
@@ -700,24 +715,28 @@ static func build_fountain() -> Node3D:
 static func build_lamppost() -> Node3D:
 	var lamp := Node3D.new()
 	lamp.name = "LampPost3D"
-	var stone := _mat(Color("#69707D"), 0.84)
-	var iron := _mat(Color("#242B38"), 0.45, 0.62)
-	var glow := _mat(Color("#FFE38A"), 0.1, 0.0, Color("#FFCA54"), 1.65)
+	var timber := _mat(Color("#6E4423"), 0.78)
+	var dark_wood := _mat(Color("#4E2E16"), 0.82)
+	var iron := _mat(Color("#2D3442"), 0.45, 0.60)
+	var glow := _mat(Color("#FFE48F"), 0.1, 0.0, Color("#FFCF58"), 1.65)
 
-	_add_contact_shadow(lamp, 0.34, 0.24)
-	_mesh_part(lamp, "Plinth", _cyl(0.18, 0.26, 0.38, 8), stone, Vector3(0, 0.19, 0))
-	_mesh_part(lamp, "Pole", _cyl(0.06, 0.09, 2.55, 10), iron, Vector3(0, 1.56, 0))
-	_mesh_part(lamp, "Arm", _box(Vector3(0.54, 0.08, 0.08)), iron, Vector3(0.22, 2.82, 0))
-	_mesh_part(lamp, "LanternCap", _cyl(0.04, 0.26, 0.18, 6), iron, Vector3(0.45, 2.74, 0))
-	_mesh_part(lamp, "Lantern", _sph(0.17), glow, Vector3(0.45, 2.58, 0), Vector3.ZERO, Vector3.ONE, 0.0, false)
+	_add_contact_shadow(lamp, 0.36, 0.24)
+	_mesh_part(lamp, "TimberPost", _box(Vector3(0.22, 2.48, 0.22)), timber, Vector3(0, 1.24, 0))
+	_mesh_part(lamp, "PostBase", _box(Vector3(0.32, 0.26, 0.32)), dark_wood, Vector3(0, 0.13, 0))
+	_mesh_part(lamp, "BracketArm", _box(Vector3(0.68, 0.14, 0.14)), timber, Vector3(0.28, 2.42, 0))
+	_mesh_part(lamp, "BracketBrace", _box(Vector3(0.12, 0.56, 0.12)), dark_wood, Vector3(0.20, 2.18, 0), Vector3(0, 0, -45))
+	_mesh_part(lamp, "LanternChain", _cyl(0.025, 0.025, 0.22, 6), iron, Vector3(0.54, 2.26, 0))
+	_mesh_part(lamp, "LanternCap", _cyl(0.05, 0.24, 0.16, 4), iron, Vector3(0.54, 2.14, 0), Vector3(0, 45, 0))
+	_mesh_part(lamp, "Lantern", _box(Vector3(0.24, 0.30, 0.24)), glow, Vector3(0.54, 1.94, 0), Vector3.ZERO, Vector3.ONE, 0.0, false)
+	_mesh_part(lamp, "LanternBase", _box(Vector3(0.26, 0.06, 0.26)), iron, Vector3(0.54, 1.78, 0))
 
 	var omni := OmniLight3D.new()
 	omni.name = "LanternLight"
 	omni.add_to_group("quality_lights")
-	omni.position = Vector3(0.45, 2.55, 0)
+	omni.position = Vector3(0.54, 1.94, 0)
 	omni.light_color = Color("#FFD684")
-	omni.light_energy = 0.65
-	omni.omni_range = 5.8
+	omni.light_energy = 0.72
+	omni.omni_range = 6.0
 	omni.shadow_enabled = false
 	omni.visible = (SettingsManager.graphics_quality == "high")
 	lamp.add_child(omni)
@@ -728,9 +747,9 @@ static func build_lamppost() -> Node3D:
 	var col := CollisionShape3D.new()
 	var cyl := CylinderShape3D.new()
 	cyl.radius = 0.24
-	cyl.height = 2.6
+	cyl.height = 2.5
 	col.shape = cyl
-	col.position = Vector3(0, 1.3, 0)
+	col.position = Vector3(0, 1.25, 0)
 	body.add_child(col)
 	lamp.add_child(body)
 
@@ -740,13 +759,24 @@ static func build_lamppost() -> Node3D:
 	occ_body.set_meta("occluder_root", lamp)
 	var occ_col := CollisionShape3D.new()
 	var occ_cyl := CylinderShape3D.new()
-	occ_cyl.radius = 0.42
-	occ_cyl.height = 2.9
+	occ_cyl.radius = 0.44
+	occ_cyl.height = 2.7
 	occ_col.shape = occ_cyl
-	occ_col.position = Vector3(0.15, 1.45, 0)
+	occ_col.position = Vector3(0.20, 1.35, 0)
 	occ_body.add_child(occ_col)
 	lamp.add_child(occ_body)
 	return lamp
+
+
+static func build_haystack() -> Node3D:
+	var hs := Node3D.new()
+	hs.name = "Haystack3D"
+	var straw := _mat(Color("#C8A33E"), 0.86)
+	var straw_hi := _mat(Color("#D9B64E"), 0.84)
+	_add_contact_shadow(hs, 0.72, 0.22)
+	_mesh_part(hs, "HayBase", _cyl(0.56, 0.72, 0.56, 10), straw, Vector3(0, 0.28, 0))
+	_mesh_part(hs, "HayCone", _cyl(0.12, 0.58, 0.62, 10), straw_hi, Vector3(0, 0.82, 0))
+	return hs
 
 
 static func build_wooden_bench() -> Node3D:

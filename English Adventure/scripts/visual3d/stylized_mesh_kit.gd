@@ -320,3 +320,56 @@ static func _arc_point(t: float, sr: float, er: float, sy: float, py: float, ey:
 	var omt := 1.0 - t
 	var y := omt * omt * sy + 2.0 * omt * t * py + t * t * ey
 	return Vector3(r, y, 0.0)
+
+
+static func build_gable_prism_mesh(width: float = 4.2, height: float = 2.4, depth: float = 4.0) -> ArrayMesh:
+	var key := "gable|%.2f|%.2f|%.2f" % [width, height, depth]
+	if _mesh_cache.has(key):
+		return _mesh_cache[key] as ArrayMesh
+
+	var st := SurfaceTool.new()
+	st.begin(Mesh.PRIMITIVE_TRIANGLES)
+
+	var hw := width * 0.5
+	var hd := depth * 0.5
+	var fl := Vector3(-hw, 0.0, hd)
+	var fr := Vector3(hw, 0.0, hd)
+	var ft := Vector3(0.0, height, hd)
+	var bl := Vector3(-hw, 0.0, -hd)
+	var br := Vector3(hw, 0.0, -hd)
+	var bt := Vector3(0.0, height, -hd)
+
+	# Front triangle (+Z)
+	st.add_vertex(fl)
+	st.add_vertex(fr)
+	st.add_vertex(ft)
+	# Back triangle (-Z)
+	st.add_vertex(br)
+	st.add_vertex(bl)
+	st.add_vertex(bt)
+	# Left slope
+	st.add_vertex(bl)
+	st.add_vertex(fl)
+	st.add_vertex(ft)
+	st.add_vertex(bl)
+	st.add_vertex(ft)
+	st.add_vertex(bt)
+	# Right slope
+	st.add_vertex(fr)
+	st.add_vertex(br)
+	st.add_vertex(bt)
+	st.add_vertex(fr)
+	st.add_vertex(bt)
+	st.add_vertex(ft)
+	# Bottom cap
+	st.add_vertex(bl)
+	st.add_vertex(br)
+	st.add_vertex(fr)
+	st.add_vertex(bl)
+	st.add_vertex(fr)
+	st.add_vertex(fl)
+
+	st.generate_normals()
+	var mesh := st.commit()
+	_mesh_cache[key] = mesh
+	return mesh

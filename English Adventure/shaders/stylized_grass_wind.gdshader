@@ -1,9 +1,9 @@
 shader_type spatial;
 render_mode blend_mix, depth_draw_opaque, cull_disabled, diffuse_burley, specular_schlick_ggx;
 
-uniform vec4 root_color : source_color = vec4(0.14, 0.34, 0.16, 1.0);
-uniform vec4 mid_color : source_color = vec4(0.25, 0.56, 0.22, 1.0);
-uniform vec4 tip_color : source_color = vec4(0.46, 0.76, 0.28, 1.0);
+uniform vec4 root_color : source_color = vec4(0.24, 0.44, 0.14, 1.0);
+uniform vec4 mid_color : source_color = vec4(0.42, 0.64, 0.19, 1.0);
+uniform vec4 tip_color : source_color = vec4(0.58, 0.80, 0.25, 1.0);
 uniform float wind_speed = 2.2;
 uniform float wind_strength = 0.16;
 
