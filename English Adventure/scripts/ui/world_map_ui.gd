@@ -79,20 +79,19 @@ func _build_area_nodes() -> void:
 		var aid := str(area.get("id", ""))
 		var status := GameStateManager.get_area_status(aid)
 		var btn := Button.new()
-		btn.custom_minimum_size = Vector2(142, 62)
+		btn.custom_minimum_size = Vector2(128, 44)
 		btn.clip_text = false
 
 		var badge := ""
 		if bool(area.get("is_start_area", false)):
-			badge += "[Start] "
+			badge += "[*] "
 		if _area_has_active_or_available_quest(aid):
 			badge += "[!] "
 		if status == "locked":
 			badge = "[Khóa] "
 		elif status == "completed":
 			badge = "[OK] " + badge
-		var status_text := _status_label(status)
-		btn.text = "%s%s\n(%s)" % [badge, LocalizationManager.pick_text(area, "name"), status_text]
+		btn.text = "%s%s" % [badge, LocalizationManager.pick_text(area, "name")]
 
 		match status:
 			"locked":
@@ -126,7 +125,7 @@ func _layout_map_nodes() -> void:
 
 	var size_changed := sz.distance_squared_to(_last_canvas_size) > 0.25
 	var compact := sz.x < 520.0
-	var btn_sz := Vector2(106, 48) if compact else Vector2(144, 58)
+	var btn_sz := Vector2(96, 36) if compact else Vector2(128, 44)
 	var vp_sz := Vector2(map_3d_viewport.size)
 
 	for area in DataRepository.areas_ordered:
@@ -136,7 +135,7 @@ func _layout_map_nodes() -> void:
 			if size_changed:
 				btn.custom_minimum_size = btn_sz
 				btn.size = btn_sz
-				btn.add_theme_font_size_override("font_size", 11 if compact else 12)
+				btn.add_theme_font_size_override("font_size", 10 if compact else 11)
 			var center := _normalized_to_canvas(area.get("map_pos", {}), sz)
 			if map_3d_scene != null and vp_sz.x > 10.0 and vp_sz.y > 10.0:
 				var p3d := map_3d_scene.get_area_screen_position(aid)
