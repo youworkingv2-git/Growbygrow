@@ -1,0 +1,1681 @@
+{
+  "world_id": "world_02",
+  "cefr_level": "A1",
+  "vocabulary": [
+    {
+      "id": "word_friend",
+      "word": "friend",
+      "ipa_us": "/frɛnd/",
+      "ipa_uk": "/frɛnd/",
+      "meaning_vi": "Người bạn",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/friend.svg",
+      "example_sentence": "Lan is my best friend.",
+      "example_translation": "Lan là người bạn thân nhất của mình.",
+      "topic": "friends",
+      "topics": [
+        "friends"
+      ],
+      "category": "friends",
+      "world_id": "world_02",
+      "cefr_level": "A1",
+      "difficulty": 2,
+      "related_words": [
+        "word_kind",
+        "word_share"
+      ],
+      "antonyms": [],
+      "synonyms": [],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "friend"
+      ],
+      "phonemes": [
+        "f",
+        "r",
+        "ɛ",
+        "n",
+        "d"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": "",
+      "review_status": "approved",
+      "asset_license": "Project Original Vector (CC0-1.0)"
+    },
+    {
+      "id": "word_kind",
+      "word": "kind",
+      "ipa_us": "/kaɪnd/",
+      "ipa_uk": "/kaɪnd/",
+      "meaning_vi": "Tốt bụng",
+      "part_of_speech": "adjective",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/kind.svg",
+      "example_sentence": "Buddy is very kind to everyone.",
+      "example_translation": "Buddy rất tốt bụng với mọi người.",
+      "topic": "friends",
+      "topics": [
+        "friends"
+      ],
+      "category": "friends",
+      "world_id": "world_02",
+      "cefr_level": "A1",
+      "difficulty": 2,
+      "related_words": [
+        "word_friend"
+      ],
+      "antonyms": [],
+      "synonyms": [],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "kind"
+      ],
+      "phonemes": [
+        "k",
+        "aɪ",
+        "n",
+        "d"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": "",
+      "review_status": "approved",
+      "asset_license": "Project Original Vector (CC0-1.0)"
+    },
+    {
+      "id": "word_funny",
+      "word": "funny",
+      "ipa_us": "/ˈfʌn.i/",
+      "ipa_uk": "/ˈfʌn.i/",
+      "meaning_vi": "Vui tính / Hài hước",
+      "part_of_speech": "adjective",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/funny.svg",
+      "example_sentence": "My friend tells funny stories.",
+      "example_translation": "Bạn của mình kể những câu chuyện vui tính.",
+      "topic": "friends",
+      "topics": [
+        "friends"
+      ],
+      "category": "friends",
+      "world_id": "world_02",
+      "cefr_level": "A1",
+      "difficulty": 2,
+      "related_words": [
+        "word_happy",
+        "word_friend"
+      ],
+      "antonyms": [],
+      "synonyms": [],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "fun",
+        "ny"
+      ],
+      "phonemes": [
+        "f",
+        "ʌ",
+        "n",
+        "i"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": "",
+      "review_status": "approved",
+      "asset_license": "Project Original Vector (CC0-1.0)"
+    },
+    {
+      "id": "word_share",
+      "word": "share",
+      "ipa_us": "/ʃɛr/",
+      "ipa_uk": "/ʃeə/",
+      "meaning_vi": "Chia sẻ",
+      "part_of_speech": "verb",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/share.svg",
+      "example_sentence": "We share our snacks at school.",
+      "example_translation": "Chúng mình chia sẻ đồ ăn vặt ở trường.",
+      "topic": "friends",
+      "topics": [
+        "friends"
+      ],
+      "category": "friends",
+      "world_id": "world_02",
+      "cefr_level": "A1",
+      "difficulty": 2,
+      "related_words": [
+        "word_friend"
+      ],
+      "antonyms": [],
+      "synonyms": [],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "share"
+      ],
+      "phonemes": [
+        "ʃ",
+        "ɛ",
+        "r"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": "",
+      "review_status": "approved",
+      "asset_license": "Project Original Vector (CC0-1.0)"
+    },
+    {
+      "id": "word_library",
+      "word": "library",
+      "ipa_us": "/ˈlaɪ.brɛr.i/",
+      "ipa_uk": "/ˈlaɪ.brə.ri/",
+      "meaning_vi": "Thư viện",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/library.svg",
+      "example_sentence": "I read quiet books in the library.",
+      "example_translation": "Mình đọc sách yên tĩnh trong thư viện.",
+      "topic": "school",
+      "topics": [
+        "school",
+        "places"
+      ],
+      "category": "school",
+      "world_id": "world_02",
+      "cefr_level": "A1",
+      "difficulty": 3,
+      "related_words": [
+        "word_book",
+        "word_school"
+      ],
+      "antonyms": [],
+      "synonyms": [],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "li",
+        "brar",
+        "y"
+      ],
+      "phonemes": [
+        "l",
+        "aɪ",
+        "b",
+        "r",
+        "ɛ",
+        "r",
+        "i"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": "",
+      "review_status": "approved",
+      "asset_license": "Project Original Vector (CC0-1.0)"
+    },
+    {
+      "id": "word_homework",
+      "word": "homework",
+      "ipa_us": "/ˈhoʊm.wɜːrk/",
+      "ipa_uk": "/ˈhəʊm.wɜːk/",
+      "meaning_vi": "Bài tập về nhà",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/homework.svg",
+      "example_sentence": "I do my homework after dinner.",
+      "example_translation": "Mình làm bài tập về nhà sau bữa tối.",
+      "topic": "school",
+      "topics": [
+        "school",
+        "daily_activities"
+      ],
+      "category": "school",
+      "world_id": "world_02",
+      "cefr_level": "A1",
+      "difficulty": 3,
+      "related_words": [
+        "word_study",
+        "word_school"
+      ],
+      "antonyms": [],
+      "synonyms": [],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "home",
+        "work"
+      ],
+      "phonemes": [
+        "h",
+        "oʊ",
+        "m",
+        "w",
+        "ɜːr",
+        "k"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": "",
+      "review_status": "approved",
+      "asset_license": "Project Original Vector (CC0-1.0)"
+    },
+    {
+      "id": "word_science",
+      "word": "science",
+      "ipa_us": "/ˈsaɪ.əns/",
+      "ipa_uk": "/ˈsaɪ.əns/",
+      "meaning_vi": "Môn Khoa học",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/science.svg",
+      "example_sentence": "Science is my favorite subject.",
+      "example_translation": "Khoa học là môn học yêu thích của mình.",
+      "topic": "school",
+      "topics": [
+        "school"
+      ],
+      "category": "school",
+      "world_id": "world_02",
+      "cefr_level": "A1",
+      "difficulty": 3,
+      "related_words": [
+        "word_music",
+        "word_school"
+      ],
+      "antonyms": [],
+      "synonyms": [],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "sci",
+        "ence"
+      ],
+      "phonemes": [
+        "s",
+        "aɪ",
+        "ə",
+        "n",
+        "s"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": "",
+      "review_status": "approved",
+      "asset_license": "Project Original Vector (CC0-1.0)"
+    },
+    {
+      "id": "word_music",
+      "word": "music",
+      "ipa_us": "/ˈmjuː.zɪk/",
+      "ipa_uk": "/ˈmjuː.zɪk/",
+      "meaning_vi": "Âm nhạc",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/music.svg",
+      "example_sentence": "I listen to music every evening.",
+      "example_translation": "Mình nghe nhạc mỗi buổi tối.",
+      "topic": "school",
+      "topics": [
+        "school",
+        "hobbies"
+      ],
+      "category": "school",
+      "world_id": "world_02",
+      "cefr_level": "A1",
+      "difficulty": 2,
+      "related_words": [
+        "word_sing",
+        "word_dance"
+      ],
+      "antonyms": [],
+      "synonyms": [],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "mu",
+        "sic"
+      ],
+      "phonemes": [
+        "m",
+        "j",
+        "uː",
+        "z",
+        "ɪ",
+        "k"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": "",
+      "review_status": "approved",
+      "asset_license": "Project Original Vector (CC0-1.0)"
+    },
+    {
+      "id": "word_breakfast",
+      "word": "breakfast",
+      "ipa_us": "/ˈbrɛk.fəst/",
+      "ipa_uk": "/ˈbrɛk.fəst/",
+      "meaning_vi": "Bữa sáng",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/breakfast.svg",
+      "example_sentence": "I have bread and milk for breakfast.",
+      "example_translation": "Mình ăn bánh mì và uống sữa vào bữa sáng.",
+      "topic": "daily_activities",
+      "topics": [
+        "daily_activities",
+        "food"
+      ],
+      "category": "daily_activities",
+      "world_id": "world_02",
+      "cefr_level": "A1",
+      "difficulty": 2,
+      "related_words": [
+        "word_bread",
+        "word_milk"
+      ],
+      "antonyms": [],
+      "synonyms": [],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "break",
+        "fast"
+      ],
+      "phonemes": [
+        "b",
+        "r",
+        "ɛ",
+        "k",
+        "f",
+        "ə",
+        "s",
+        "t"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": "",
+      "review_status": "approved",
+      "asset_license": "Project Original Vector (CC0-1.0)"
+    },
+    {
+      "id": "word_brush",
+      "word": "brush",
+      "ipa_us": "/brʌʃ/",
+      "ipa_uk": "/brʌʃ/",
+      "meaning_vi": "Đánh (răng) / Chải",
+      "part_of_speech": "verb",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/brush.svg",
+      "example_sentence": "I brush my teeth every morning.",
+      "example_translation": "Mình đánh răng mỗi buổi sáng.",
+      "topic": "daily_activities",
+      "topics": [
+        "daily_activities"
+      ],
+      "category": "daily_activities",
+      "world_id": "world_02",
+      "cefr_level": "A1",
+      "difficulty": 2,
+      "related_words": [
+        "word_clean"
+      ],
+      "antonyms": [],
+      "synonyms": [],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "brush"
+      ],
+      "phonemes": [
+        "b",
+        "r",
+        "ʌ",
+        "ʃ"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": "",
+      "review_status": "approved",
+      "asset_license": "Project Original Vector (CC0-1.0)"
+    },
+    {
+      "id": "word_study",
+      "word": "study",
+      "ipa_us": "/ˈstʌd.i/",
+      "ipa_uk": "/ˈstʌd.i/",
+      "meaning_vi": "Học tập",
+      "part_of_speech": "verb",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/study.svg",
+      "example_sentence": "I study English for twenty minutes.",
+      "example_translation": "Mình học tiếng Anh hai mươi phút.",
+      "topic": "daily_activities",
+      "topics": [
+        "daily_activities",
+        "school"
+      ],
+      "category": "daily_activities",
+      "world_id": "world_02",
+      "cefr_level": "A1",
+      "difficulty": 2,
+      "related_words": [
+        "word_homework",
+        "word_read"
+      ],
+      "antonyms": [],
+      "synonyms": [],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "stud",
+        "y"
+      ],
+      "phonemes": [
+        "s",
+        "t",
+        "ʌ",
+        "d",
+        "i"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": "",
+      "review_status": "approved",
+      "asset_license": "Project Original Vector (CC0-1.0)"
+    },
+    {
+      "id": "word_clean",
+      "word": "clean",
+      "ipa_us": "/kliːn/",
+      "ipa_uk": "/kliːn/",
+      "meaning_vi": "Dọn dẹp / Sạch sẽ",
+      "part_of_speech": "verb",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/clean.svg",
+      "example_sentence": "I clean my room on Sunday.",
+      "example_translation": "Mình dọn phòng vào Chủ nhật.",
+      "topic": "daily_activities",
+      "topics": [
+        "daily_activities"
+      ],
+      "category": "daily_activities",
+      "world_id": "world_02",
+      "cefr_level": "A1",
+      "difficulty": 2,
+      "related_words": [
+        "word_brush"
+      ],
+      "antonyms": [],
+      "synonyms": [],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "clean"
+      ],
+      "phonemes": [
+        "k",
+        "l",
+        "iː",
+        "n"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": "",
+      "review_status": "approved",
+      "asset_license": "Project Original Vector (CC0-1.0)"
+    },
+    {
+      "id": "word_draw",
+      "word": "draw",
+      "ipa_us": "/drɔː/",
+      "ipa_uk": "/drɔː/",
+      "meaning_vi": "Vẽ tranh",
+      "part_of_speech": "verb",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/draw.svg",
+      "example_sentence": "I like to draw colorful animals.",
+      "example_translation": "Mình thích vẽ các con vật nhiều màu sắc.",
+      "topic": "hobbies",
+      "topics": [
+        "hobbies",
+        "daily_activities"
+      ],
+      "category": "hobbies",
+      "world_id": "world_02",
+      "cefr_level": "A1",
+      "difficulty": 2,
+      "related_words": [
+        "word_pencil",
+        "word_sing"
+      ],
+      "antonyms": [],
+      "synonyms": [],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "draw"
+      ],
+      "phonemes": [
+        "d",
+        "r",
+        "ɔː"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": "",
+      "review_status": "approved",
+      "asset_license": "Project Original Vector (CC0-1.0)"
+    },
+    {
+      "id": "word_swim",
+      "word": "swim",
+      "ipa_us": "/swɪm/",
+      "ipa_uk": "/swɪm/",
+      "meaning_vi": "Bơi lội",
+      "part_of_speech": "verb",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/swim.svg",
+      "example_sentence": "I usually swim in the summer.",
+      "example_translation": "Mình thường bơi vào mùa hè.",
+      "topic": "hobbies",
+      "topics": [
+        "hobbies"
+      ],
+      "category": "hobbies",
+      "world_id": "world_02",
+      "cefr_level": "A1",
+      "difficulty": 2,
+      "related_words": [
+        "word_beach",
+        "word_water"
+      ],
+      "antonyms": [],
+      "synonyms": [],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "swim"
+      ],
+      "phonemes": [
+        "s",
+        "w",
+        "ɪ",
+        "m"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": "",
+      "review_status": "approved",
+      "asset_license": "Project Original Vector (CC0-1.0)"
+    },
+    {
+      "id": "word_sing",
+      "word": "sing",
+      "ipa_us": "/sɪŋ/",
+      "ipa_uk": "/sɪŋ/",
+      "meaning_vi": "Hát",
+      "part_of_speech": "verb",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/sing.svg",
+      "example_sentence": "Can you sing an English song?",
+      "example_translation": "Bạn có thể hát một bài tiếng Anh không?",
+      "topic": "hobbies",
+      "topics": [
+        "hobbies"
+      ],
+      "category": "hobbies",
+      "world_id": "world_02",
+      "cefr_level": "A1",
+      "difficulty": 2,
+      "related_words": [
+        "word_music",
+        "word_dance"
+      ],
+      "antonyms": [],
+      "synonyms": [],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "sing"
+      ],
+      "phonemes": [
+        "s",
+        "ɪ",
+        "ŋ"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": "",
+      "review_status": "approved",
+      "asset_license": "Project Original Vector (CC0-1.0)"
+    },
+    {
+      "id": "word_dance",
+      "word": "dance",
+      "ipa_us": "/dæns/",
+      "ipa_uk": "/dɑːns/",
+      "meaning_vi": "Nhảy múa",
+      "part_of_speech": "verb",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/dance.svg",
+      "example_sentence": "We sing and dance at the party.",
+      "example_translation": "Chúng mình hát và nhảy múa ở bữa tiệc.",
+      "topic": "hobbies",
+      "topics": [
+        "hobbies"
+      ],
+      "category": "hobbies",
+      "world_id": "world_02",
+      "cefr_level": "A1",
+      "difficulty": 2,
+      "related_words": [
+        "word_sing",
+        "word_music"
+      ],
+      "antonyms": [],
+      "synonyms": [],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "dance"
+      ],
+      "phonemes": [
+        "d",
+        "æ",
+        "n",
+        "s"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": "",
+      "review_status": "approved",
+      "asset_license": "Project Original Vector (CC0-1.0)"
+    },
+    {
+      "id": "word_chicken",
+      "word": "chicken",
+      "ipa_us": "/ˈtʃɪk.ɪn/",
+      "ipa_uk": "/ˈtʃɪk.ɪn/",
+      "meaning_vi": "Thịt gà",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/chicken.svg",
+      "example_sentence": "I would like some chicken and rice.",
+      "example_translation": "Mình muốn một ít thịt gà và cơm.",
+      "topic": "food",
+      "topics": [
+        "food"
+      ],
+      "category": "food",
+      "world_id": "world_02",
+      "cefr_level": "A1",
+      "difficulty": 2,
+      "related_words": [
+        "word_rice",
+        "word_soup"
+      ],
+      "antonyms": [],
+      "synonyms": [],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "chick",
+        "en"
+      ],
+      "phonemes": [
+        "tʃ",
+        "ɪ",
+        "k",
+        "ɪ",
+        "n"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": "",
+      "review_status": "approved",
+      "asset_license": "Project Original Vector (CC0-1.0)"
+    },
+    {
+      "id": "word_noodles",
+      "word": "noodles",
+      "ipa_us": "/ˈnuː.dəlz/",
+      "ipa_uk": "/ˈnuː.dəlz/",
+      "meaning_vi": "Mì / Bún",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/noodles.svg",
+      "example_sentence": "My brother likes hot noodles.",
+      "example_translation": "Anh trai mình thích mì nóng.",
+      "topic": "food",
+      "topics": [
+        "food"
+      ],
+      "category": "food",
+      "world_id": "world_02",
+      "cefr_level": "A1",
+      "difficulty": 2,
+      "related_words": [
+        "word_soup",
+        "word_rice"
+      ],
+      "antonyms": [],
+      "synonyms": [],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "noo",
+        "dles"
+      ],
+      "phonemes": [
+        "n",
+        "uː",
+        "d",
+        "ə",
+        "l",
+        "z"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": "",
+      "review_status": "approved",
+      "asset_license": "Project Original Vector (CC0-1.0)"
+    },
+    {
+      "id": "word_soup",
+      "word": "soup",
+      "ipa_us": "/suːp/",
+      "ipa_uk": "/suːp/",
+      "meaning_vi": "Súp / Canh",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/soup.svg",
+      "example_sentence": "This vegetable soup is delicious.",
+      "example_translation": "Món súp rau này rất ngon.",
+      "topic": "food",
+      "topics": [
+        "food"
+      ],
+      "category": "food",
+      "world_id": "world_02",
+      "cefr_level": "A1",
+      "difficulty": 2,
+      "related_words": [
+        "word_noodles",
+        "word_salad"
+      ],
+      "antonyms": [],
+      "synonyms": [],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "soup"
+      ],
+      "phonemes": [
+        "s",
+        "uː",
+        "p"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": "",
+      "review_status": "approved",
+      "asset_license": "Project Original Vector (CC0-1.0)"
+    },
+    {
+      "id": "word_salad",
+      "word": "salad",
+      "ipa_us": "/ˈsæl.əd/",
+      "ipa_uk": "/ˈsæl.əd/",
+      "meaning_vi": "Món rau trộn",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/salad.svg",
+      "example_sentence": "Do you like fresh fruit salad?",
+      "example_translation": "Bạn có thích salad trái cây tươi không?",
+      "topic": "food",
+      "topics": [
+        "food"
+      ],
+      "category": "food",
+      "world_id": "world_02",
+      "cefr_level": "A1",
+      "difficulty": 2,
+      "related_words": [
+        "word_soup"
+      ],
+      "antonyms": [],
+      "synonyms": [],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "sal",
+        "ad"
+      ],
+      "phonemes": [
+        "s",
+        "æ",
+        "l",
+        "ə",
+        "d"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": "",
+      "review_status": "approved",
+      "asset_license": "Project Original Vector (CC0-1.0)"
+    },
+    {
+      "id": "word_market",
+      "word": "market",
+      "ipa_us": "/ˈmɑːr.kɪt/",
+      "ipa_uk": "/ˈmɑː.kɪt/",
+      "meaning_vi": "Chợ",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/market.svg",
+      "example_sentence": "Mom buys vegetables at the market.",
+      "example_translation": "Mẹ mua rau ở chợ.",
+      "topic": "places",
+      "topics": [
+        "places",
+        "shopping"
+      ],
+      "category": "places",
+      "world_id": "world_02",
+      "cefr_level": "A1",
+      "difficulty": 2,
+      "related_words": [
+        "word_shop",
+        "word_buy"
+      ],
+      "antonyms": [],
+      "synonyms": [],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "mar",
+        "ket"
+      ],
+      "phonemes": [
+        "m",
+        "ɑːr",
+        "k",
+        "ɪ",
+        "t"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": "",
+      "review_status": "approved",
+      "asset_license": "Project Original Vector (CC0-1.0)"
+    },
+    {
+      "id": "word_hospital",
+      "word": "hospital",
+      "ipa_us": "/ˈhɑːs.pɪ.təl/",
+      "ipa_uk": "/ˈhɒs.pɪ.təl/",
+      "meaning_vi": "Bệnh viện",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/hospital.svg",
+      "example_sentence": "Doctors help people at the hospital.",
+      "example_translation": "Bác sĩ giúp đỡ mọi người ở bệnh viện.",
+      "topic": "places",
+      "topics": [
+        "places"
+      ],
+      "category": "places",
+      "world_id": "world_02",
+      "cefr_level": "A1",
+      "difficulty": 3,
+      "related_words": [
+        "word_street"
+      ],
+      "antonyms": [],
+      "synonyms": [],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "hos",
+        "pi",
+        "tal"
+      ],
+      "phonemes": [
+        "h",
+        "ɑː",
+        "s",
+        "p",
+        "ɪ",
+        "t",
+        "ə",
+        "l"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": "",
+      "review_status": "approved",
+      "asset_license": "Project Original Vector (CC0-1.0)"
+    },
+    {
+      "id": "word_museum",
+      "word": "museum",
+      "ipa_us": "/mjuːˈziː.əm/",
+      "ipa_uk": "/mjuːˈziː.əm/",
+      "meaning_vi": "Bảo tàng",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/museum.svg",
+      "example_sentence": "There is a big museum in town.",
+      "example_translation": "Có một bảo tàng lớn ở trong thị trấn.",
+      "topic": "places",
+      "topics": [
+        "places"
+      ],
+      "category": "places",
+      "world_id": "world_02",
+      "cefr_level": "A1",
+      "difficulty": 3,
+      "related_words": [
+        "word_library"
+      ],
+      "antonyms": [],
+      "synonyms": [],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "mu",
+        "se",
+        "um"
+      ],
+      "phonemes": [
+        "m",
+        "j",
+        "uː",
+        "z",
+        "iː",
+        "ə",
+        "m"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": "",
+      "review_status": "approved",
+      "asset_license": "Project Original Vector (CC0-1.0)"
+    },
+    {
+      "id": "word_street",
+      "word": "street",
+      "ipa_us": "/striːt/",
+      "ipa_uk": "/striːt/",
+      "meaning_vi": "Con đường / Phố",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/street.svg",
+      "example_sentence": "My school is on Green Street.",
+      "example_translation": "Trường của mình nằm trên phố Green.",
+      "topic": "places",
+      "topics": [
+        "places"
+      ],
+      "category": "places",
+      "world_id": "world_02",
+      "cefr_level": "A1",
+      "difficulty": 2,
+      "related_words": [
+        "word_park",
+        "word_market"
+      ],
+      "antonyms": [],
+      "synonyms": [],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "street"
+      ],
+      "phonemes": [
+        "s",
+        "t",
+        "r",
+        "iː",
+        "t"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": "",
+      "review_status": "approved",
+      "asset_license": "Project Original Vector (CC0-1.0)"
+    },
+    {
+      "id": "word_price",
+      "word": "price",
+      "ipa_us": "/praɪs/",
+      "ipa_uk": "/praɪs/",
+      "meaning_vi": "Giá tiền",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/price.svg",
+      "example_sentence": "What is the price of this book?",
+      "example_translation": "Giá của quyển sách này là bao nhiêu?",
+      "topic": "shopping",
+      "topics": [
+        "shopping"
+      ],
+      "category": "shopping",
+      "world_id": "world_02",
+      "cefr_level": "A1",
+      "difficulty": 2,
+      "related_words": [
+        "word_money",
+        "word_cheap"
+      ],
+      "antonyms": [],
+      "synonyms": [],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "price"
+      ],
+      "phonemes": [
+        "p",
+        "r",
+        "aɪ",
+        "s"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": "",
+      "review_status": "approved",
+      "asset_license": "Project Original Vector (CC0-1.0)"
+    },
+    {
+      "id": "word_money",
+      "word": "money",
+      "ipa_us": "/ˈmʌn.i/",
+      "ipa_uk": "/ˈmʌn.i/",
+      "meaning_vi": "Tiền",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/money.svg",
+      "example_sentence": "I save my money in a box.",
+      "example_translation": "Mình tiết kiệm tiền trong một chiếc hộp.",
+      "topic": "shopping",
+      "topics": [
+        "shopping"
+      ],
+      "category": "shopping",
+      "world_id": "world_02",
+      "cefr_level": "A1",
+      "difficulty": 2,
+      "related_words": [
+        "word_price",
+        "word_buy"
+      ],
+      "antonyms": [],
+      "synonyms": [],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "mon",
+        "ey"
+      ],
+      "phonemes": [
+        "m",
+        "ʌ",
+        "n",
+        "i"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": "",
+      "review_status": "approved",
+      "asset_license": "Project Original Vector (CC0-1.0)"
+    },
+    {
+      "id": "word_buy",
+      "word": "buy",
+      "ipa_us": "/baɪ/",
+      "ipa_uk": "/baɪ/",
+      "meaning_vi": "Mua",
+      "part_of_speech": "verb",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/buy.svg",
+      "example_sentence": "I want to buy a new pencil.",
+      "example_translation": "Mình muốn mua một cây bút chì mới.",
+      "topic": "shopping",
+      "topics": [
+        "shopping"
+      ],
+      "category": "shopping",
+      "world_id": "world_02",
+      "cefr_level": "A1",
+      "difficulty": 2,
+      "related_words": [
+        "word_shop",
+        "word_market"
+      ],
+      "antonyms": [],
+      "synonyms": [],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "buy"
+      ],
+      "phonemes": [
+        "b",
+        "aɪ"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": "",
+      "review_status": "approved",
+      "asset_license": "Project Original Vector (CC0-1.0)"
+    },
+    {
+      "id": "word_cheap",
+      "word": "cheap",
+      "ipa_us": "/tʃiːp/",
+      "ipa_uk": "/tʃiːp/",
+      "meaning_vi": "Rẻ",
+      "part_of_speech": "adjective",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/cheap.svg",
+      "example_sentence": "These stickers are very cheap.",
+      "example_translation": "Những hình dán này rất rẻ.",
+      "topic": "shopping",
+      "topics": [
+        "shopping"
+      ],
+      "category": "shopping",
+      "world_id": "world_02",
+      "cefr_level": "A1",
+      "difficulty": 2,
+      "related_words": [
+        "word_price"
+      ],
+      "antonyms": [],
+      "synonyms": [],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "cheap"
+      ],
+      "phonemes": [
+        "tʃ",
+        "iː",
+        "p"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": "",
+      "review_status": "approved",
+      "asset_license": "Project Original Vector (CC0-1.0)"
+    },
+    {
+      "id": "word_cousin",
+      "word": "cousin",
+      "ipa_us": "/ˈkʌz.ən/",
+      "ipa_uk": "/ˈkʌz.ən/",
+      "meaning_vi": "Anh / Chị / Em họ",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/cousin.svg",
+      "example_sentence": "My cousin plays football with me.",
+      "example_translation": "Anh họ mình chơi bóng đá cùng mình.",
+      "topic": "family",
+      "topics": [
+        "family"
+      ],
+      "category": "family",
+      "world_id": "world_02",
+      "cefr_level": "A1",
+      "difficulty": 2,
+      "related_words": [
+        "word_aunt",
+        "word_uncle"
+      ],
+      "antonyms": [],
+      "synonyms": [],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "cou",
+        "sin"
+      ],
+      "phonemes": [
+        "k",
+        "ʌ",
+        "z",
+        "ə",
+        "n"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": "",
+      "review_status": "approved",
+      "asset_license": "Project Original Vector (CC0-1.0)"
+    },
+    {
+      "id": "word_uncle",
+      "word": "uncle",
+      "ipa_us": "/ˈʌŋ.kəl/",
+      "ipa_uk": "/ˈʌŋ.kəl/",
+      "meaning_vi": "Chú / Bác / Cậu",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/uncle.svg",
+      "example_sentence": "My uncle lives near the park.",
+      "example_translation": "Chú của mình sống gần công viên.",
+      "topic": "family",
+      "topics": [
+        "family"
+      ],
+      "category": "family",
+      "world_id": "world_02",
+      "cefr_level": "A1",
+      "difficulty": 2,
+      "related_words": [
+        "word_aunt",
+        "word_cousin"
+      ],
+      "antonyms": [],
+      "synonyms": [],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "un",
+        "cle"
+      ],
+      "phonemes": [
+        "ʌ",
+        "ŋ",
+        "k",
+        "ə",
+        "l"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": "",
+      "review_status": "approved",
+      "asset_license": "Project Original Vector (CC0-1.0)"
+    },
+    {
+      "id": "word_aunt",
+      "word": "aunt",
+      "ipa_us": "/ænt/",
+      "ipa_uk": "/ɑːnt/",
+      "meaning_vi": "Cô / Dì / Bác gái",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/aunt.svg",
+      "example_sentence": "My aunt bakes yummy cakes.",
+      "example_translation": "Dì của mình nướng bánh rất ngon.",
+      "topic": "family",
+      "topics": [
+        "family"
+      ],
+      "category": "family",
+      "world_id": "world_02",
+      "cefr_level": "A1",
+      "difficulty": 2,
+      "related_words": [
+        "word_uncle",
+        "word_cousin"
+      ],
+      "antonyms": [],
+      "synonyms": [],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "aunt"
+      ],
+      "phonemes": [
+        "æ",
+        "n",
+        "t"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": "",
+      "review_status": "approved",
+      "asset_license": "Project Original Vector (CC0-1.0)"
+    },
+    {
+      "id": "word_parents",
+      "word": "parents",
+      "ipa_us": "/ˈpɛr.ənts/",
+      "ipa_uk": "/ˈpeə.rənts/",
+      "meaning_vi": "Bố mẹ / Cha mẹ",
+      "part_of_speech": "noun",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "image_path": "res://assets/learning/images/parents.svg",
+      "example_sentence": "My parents love me very much.",
+      "example_translation": "Bố mẹ yêu thương mình rất nhiều.",
+      "topic": "family",
+      "topics": [
+        "family"
+      ],
+      "category": "family",
+      "world_id": "world_02",
+      "cefr_level": "A1",
+      "difficulty": 2,
+      "related_words": [
+        "word_mom",
+        "word_dad"
+      ],
+      "antonyms": [],
+      "synonyms": [],
+      "usable_activities": [
+        "listening_word_image",
+        "reading_word_meaning",
+        "writing_missing_letter",
+        "speaking_repeat_word",
+        "review_flashcard"
+      ],
+      "accent": "en-US",
+      "syllables": [
+        "par",
+        "ents"
+      ],
+      "phonemes": [
+        "p",
+        "ɛ",
+        "r",
+        "ə",
+        "n",
+        "t",
+        "s"
+      ],
+      "audio_slow_us_path": "",
+      "audio_slow_uk_path": "",
+      "example_audio_us_path": "",
+      "example_audio_uk_path": "",
+      "review_status": "approved",
+      "asset_license": "Project Original Vector (CC0-1.0)"
+    }
+  ]
+}

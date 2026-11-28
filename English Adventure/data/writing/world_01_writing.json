@@ -16,7 +16,9 @@
         "T"
       ],
       "explanation_vi": "APPLE có hai chữ P rồi đến chữ L: A-P-P-L-E.",
-      "difficulty": 1
+      "difficulty": 1,
+      "review_status": "approved",
+      "cefr_level": "Pre-A1"
     },
     {
       "id": "write_02",
@@ -33,7 +35,9 @@
         "S"
       ],
       "explanation_vi": "CAT (con mèo) bắt đầu bằng chữ C.",
-      "difficulty": 1
+      "difficulty": 1,
+      "review_status": "approved",
+      "cefr_level": "Pre-A1"
     },
     {
       "id": "write_03",
@@ -50,7 +54,9 @@
         "K"
       ],
       "explanation_vi": "BALL viết là B-A-L-L.",
-      "difficulty": 1
+      "difficulty": 1,
+      "review_status": "approved",
+      "cefr_level": "Pre-A1"
     },
     {
       "id": "write_04",
@@ -65,7 +71,9 @@
         "A"
       ],
       "explanation_vi": "Thứ tự đúng là D - O - G -> DOG.",
-      "difficulty": 1
+      "difficulty": 1,
+      "review_status": "approved",
+      "cefr_level": "Pre-A1"
     },
     {
       "id": "write_05",
@@ -81,7 +89,9 @@
         "E"
       ],
       "explanation_vi": "Thứ tự đúng là M - I - L - K -> MILK.",
-      "difficulty": 1
+      "difficulty": 1,
+      "review_status": "approved",
+      "cefr_level": "Pre-A1"
     },
     {
       "id": "write_06",
@@ -96,7 +106,9 @@
         "O"
       ],
       "explanation_vi": "Thứ tự đúng là B - O - O - K -> BOOK.",
-      "difficulty": 1
+      "difficulty": 1,
+      "review_status": "approved",
+      "cefr_level": "Pre-A1"
     },
     {
       "id": "write_07",
@@ -111,7 +123,9 @@
         "T"
       ],
       "explanation_vi": "Thứ tự đúng là P - E - N -> PEN.",
-      "difficulty": 1
+      "difficulty": 1,
+      "review_status": "approved",
+      "cefr_level": "Pre-A1"
     },
     {
       "id": "write_08",
@@ -126,7 +140,9 @@
         "chair"
       ],
       "explanation_vi": "'I like bananas' nghĩa là 'Tôi thích chuối'.",
-      "difficulty": 1
+      "difficulty": 1,
+      "review_status": "approved",
+      "cefr_level": "Pre-A1"
     },
     {
       "id": "write_09",
@@ -141,7 +157,9 @@
         "pink"
       ],
       "explanation_vi": "Sau 'a' cần một danh từ -> 'fish' (con cá).",
-      "difficulty": 1
+      "difficulty": 1,
+      "review_status": "approved",
+      "cefr_level": "Pre-A1"
     },
     {
       "id": "write_10",
@@ -154,7 +172,9 @@
         "am"
       ],
       "explanation_vi": "Câu giới thiệu bản thân: I am Leo.",
-      "difficulty": 1
+      "difficulty": 1,
+      "review_status": "approved",
+      "cefr_level": "Pre-A1"
     },
     {
       "id": "write_11",
@@ -168,7 +188,9 @@
         "a"
       ],
       "explanation_vi": "Cấu trúc 'I have + a/an + danh từ': I have a bag.",
-      "difficulty": 2
+      "difficulty": 2,
+      "review_status": "approved",
+      "cefr_level": "Pre-A1"
     },
     {
       "id": "write_12",
@@ -182,7 +204,209 @@
         "milk."
       ],
       "explanation_vi": "Chữ cái đầu câu viết hoa ('I') và có dấu chấm ở cuối câu.",
-      "difficulty": 2
+      "difficulty": 2,
+      "review_status": "approved",
+      "cefr_level": "Pre-A1"
+    },
+    {
+      "id": "write_13",
+      "activity_type": "fill_missing_letter",
+      "prompt_vi": "Chọn chữ cái còn thiếu cho từ 'Mặt trời' (SUN):",
+      "pattern": "S _ N",
+      "target_text": "SUN",
+      "missing_letter": "U",
+      "word_id": "word_sun",
+      "letter_choices": [
+        "U",
+        "A",
+        "I",
+        "O"
+      ],
+      "explanation_vi": "SUN (mặt trời) viết là S-U-N.",
+      "difficulty": 1,
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "write_14",
+      "activity_type": "fill_missing_letter",
+      "prompt_vi": "Chọn chữ cái còn thiếu cho từ 'Ngôi sao' (STAR):",
+      "pattern": "S T _ R",
+      "target_text": "STAR",
+      "missing_letter": "A",
+      "word_id": "word_star",
+      "letter_choices": [
+        "A",
+        "E",
+        "O",
+        "U"
+      ],
+      "explanation_vi": "STAR (ngôi sao) viết là S-T-A-R.",
+      "difficulty": 1,
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "write_15",
+      "activity_type": "assemble_letters_word",
+      "prompt_vi": "Ghép các chữ cái thành từ 'Con ếch' (FROG):",
+      "target_text": "FROG",
+      "word_id": "word_frog",
+      "tiles": [
+        "G",
+        "F",
+        "O",
+        "R"
+      ],
+      "explanation_vi": "FROG (con ếch) gồm F-R-O-G.",
+      "difficulty": 1,
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "write_16",
+      "activity_type": "assemble_letters_word",
+      "prompt_vi": "Ghép các chữ cái thành từ 'Bánh mì' (BREAD):",
+      "target_text": "BREAD",
+      "word_id": "word_bread",
+      "tiles": [
+        "D",
+        "B",
+        "A",
+        "R",
+        "E"
+      ],
+      "explanation_vi": "BREAD (bánh mì) gồm B-R-E-A-D.",
+      "difficulty": 2,
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "write_17",
+      "activity_type": "fill_word_in_sentence",
+      "prompt_vi": "Điền từ chỉ màu sắc đúng vào câu: 'Bầu trời và quả bóng màu xanh dương.'",
+      "sentence_template": "The ball is ___.",
+      "target_word": "blue",
+      "target_text": "The ball is blue.",
+      "word_id": "word_blue",
+      "word_choices": [
+        "blue",
+        "six",
+        "desk"
+      ],
+      "explanation_vi": "'Blue' nghĩa là màu xanh dương.",
+      "difficulty": 1,
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "write_18",
+      "activity_type": "fill_word_in_sentence",
+      "prompt_vi": "Điền từ chỉ bộ phận cơ thể đúng: 'Mình có hai bàn tay.'",
+      "sentence_template": "I have two ___.",
+      "target_word": "hands",
+      "target_text": "I have two hands.",
+      "word_id": "word_hand",
+      "word_choices": [
+        "hands",
+        "sun",
+        "park"
+      ],
+      "explanation_vi": "'Two hands' = hai bàn tay (nhớ thêm 's' khi có 2 trở lên).",
+      "difficulty": 2,
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "write_19",
+      "activity_type": "arrange_words_sentence",
+      "prompt_vi": "Sắp xếp các từ thành câu: 'Tôi thích nho màu tím.'",
+      "target_text": "I like purple grapes",
+      "tokens": [
+        "I",
+        "like",
+        "purple",
+        "grapes"
+      ],
+      "word_id": "word_grape",
+      "acceptable_answers": [
+        "I like purple grapes",
+        "I like purple grapes."
+      ],
+      "explanation_vi": "Cấu trúc: I like + tính từ màu sắc + danh từ -> I like purple grapes.",
+      "difficulty": 2,
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "write_20",
+      "activity_type": "arrange_words_sentence",
+      "prompt_vi": "Sắp xếp các từ thành câu: 'Quyển sách ở trên cái bàn.'",
+      "target_text": "The book is on the table",
+      "tokens": [
+        "The",
+        "book",
+        "is",
+        "on",
+        "the",
+        "table"
+      ],
+      "word_id": "word_table",
+      "acceptable_answers": [
+        "The book is on the table",
+        "The book is on the table."
+      ],
+      "explanation_vi": "Cấu trúc chỉ vị trí: The book is on the table.",
+      "difficulty": 2,
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "write_21",
+      "activity_type": "type_simple_sentence",
+      "prompt_vi": "Viết câu ngắn nói mình thấy một chú thỏ trắng (hoặc một chú thỏ):",
+      "target_text": "I see a white rabbit.",
+      "acceptable_answers": [
+        "I see a white rabbit",
+        "I see a white rabbit.",
+        "I see a rabbit",
+        "I see a rabbit."
+      ],
+      "word_id": "word_rabbit",
+      "starter_chips": [
+        "I see",
+        "a white",
+        "rabbit."
+      ],
+      "explanation_vi": "Cả 'I see a white rabbit.' và 'I see a rabbit.' đều đúng ngữ pháp!",
+      "difficulty": 2,
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "write_22",
+      "activity_type": "type_simple_sentence",
+      "prompt_vi": "Viết câu chào và nói mình rất vui hôm nay:",
+      "target_text": "Hello! I am happy.",
+      "acceptable_answers": [
+        "Hello! I am happy.",
+        "Hello I am happy",
+        "Hello, I am happy.",
+        "Hi! I am happy.",
+        "I am happy.",
+        "I'm happy."
+      ],
+      "word_id": "word_happy",
+      "starter_chips": [
+        "Hello!",
+        "I am",
+        "I'm",
+        "happy."
+      ],
+      "explanation_vi": "Bé có thể viết 'Hello! I am happy.' hoặc 'I'm happy.' đều chính xác!",
+      "difficulty": 2,
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
     }
   ]
 }

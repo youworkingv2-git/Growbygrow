@@ -1,0 +1,127 @@
+{
+  "worlds": [
+    {
+      "id": "world_02",
+      "level_id": "a1_basic",
+      "title_en": "Vocabulary Forest (A1 Foundation Sample)",
+      "title_vi": "Rừng Từ Vựng (Gói Nội Dung Mẫu A1)",
+      "status": "sample_playable",
+      "topics": [
+        {
+          "id": "topic_a1_01_friends_school",
+          "order_index": 1,
+          "title_en": "Friends, Family & School Day",
+          "title_vi": "[A1] Chủ đề 01: Bạn bè, Gia đình & Trường học",
+          "lessons": [
+            {
+              "id": "lesson_a1_01_friends_school",
+              "quest_id": "",
+              "title_en": "My Best Friend & School Library",
+              "title_vi": "[A1] Bài 01: Bạn thân, Thư viện & Môn học",
+              "summary_vi": "Luyện từ vựng A1 về bạn bè, trường học, đọc đoạn văn 30-50 từ và viết câu.",
+              "rewards": {
+                "exp": 50,
+                "gold": 25
+              },
+              "activities": [
+                {
+                  "id": "act_a1_1",
+                  "skill": "listening",
+                  "source_type": "listening",
+                  "source_id": "list_a1_01"
+                },
+                {
+                  "id": "act_a1_2",
+                  "skill": "reading",
+                  "source_type": "reading",
+                  "source_id": "read_a1_03"
+                },
+                {
+                  "id": "act_a1_3",
+                  "skill": "reading",
+                  "source_type": "reading",
+                  "source_id": "read_a1_04"
+                },
+                {
+                  "id": "act_a1_4",
+                  "skill": "writing",
+                  "source_type": "writing",
+                  "source_id": "write_a1_01"
+                },
+                {
+                  "id": "act_a1_5",
+                  "skill": "writing",
+                  "source_type": "writing",
+                  "source_id": "write_a1_06"
+                },
+                {
+                  "id": "act_a1_6",
+                  "skill": "speaking",
+                  "source_type": "speaking",
+                  "source_id": "speak_a1_01"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "topic_a1_02_routine_shopping_places",
+          "order_index": 2,
+          "title_en": "Daily Routine, Hobbies, Food & Shopping",
+          "title_vi": "[A1] Chủ đề 02: Thói quen, Sở thích, Đồ ăn & Mua sắm",
+          "lessons": [
+            {
+              "id": "lesson_a1_02_routine_shop",
+              "quest_id": "",
+              "title_en": "Morning Routine, Hobbies & Market",
+              "title_vi": "[A1] Bài 02: Thói quen buổi sáng, Sở thích & Đi chợ",
+              "summary_vi": "Thực hành 'I usually...', 'I would like...', nghe chỉ đường và đọc hiểu A1.",
+              "rewards": {
+                "exp": 55,
+                "gold": 30
+              },
+              "activities": [
+                {
+                  "id": "act_a1_7",
+                  "skill": "listening",
+                  "source_type": "listening",
+                  "source_id": "list_a1_02"
+                },
+                {
+                  "id": "act_a1_8",
+                  "skill": "listening",
+                  "source_type": "listening",
+                  "source_id": "list_a1_03"
+                },
+                {
+                  "id": "act_a1_9",
+                  "skill": "listening",
+                  "source_type": "listening",
+                  "source_id": "list_a1_04"
+                },
+                {
+                  "id": "act_a1_10",
+                  "skill": "reading",
+                  "source_type": "reading",
+                  "source_id": "read_a1_05"
+                },
+                {
+                  "id": "act_a1_11",
+                  "skill": "writing",
+                  "source_type": "writing",
+                  "source_id": "write_a1_04"
+                },
+                {
+                  "id": "act_a1_12",
+                  "skill": "speaking",
+                  "source_type": "speaking",
+                  "source_id": "speak_a1_02"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

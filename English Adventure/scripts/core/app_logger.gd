@@ -11,8 +11,9 @@ var min_level: Level = Level.INFO
 
 
 func _ready() -> void:
+	min_level = Level.INFO if ReleaseInfo.is_release_build() else Level.DEBUG
 	DirAccess.make_dir_recursive_absolute(LOG_DIR)
-	info("AppLogger", "Logger initialized")
+	info("AppLogger", "Logger initialized (%s)" % ReleaseInfo.get_display_version())
 
 
 func debug(tag: String, message: String) -> void:
@@ -50,6 +51,9 @@ func _redact(text: String) -> String:
 	var redacted := text
 	if redacted.contains("Bearer "):
 		redacted = redacted.split("Bearer ")[0] + "Bearer [REDACTED]"
+	for secret_key in ["apikey=", "token=", "password=", "secret="]:
+		if redacted.contains(secret_key):
+			redacted = redacted.split(secret_key)[0] + secret_key + "[REDACTED]"
 	return redacted
 
 

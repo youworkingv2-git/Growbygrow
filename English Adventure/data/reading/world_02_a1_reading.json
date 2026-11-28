@@ -1,0 +1,167 @@
+{
+  "world_id": "world_02",
+  "cefr_level": "A1",
+  "items": [
+    {
+      "id": "read_a1_01",
+      "activity_type": "read_word_choose_meaning",
+      "prompt_vi": "[A1] Đọc từ sau và chọn nghĩa tiếng Việt đúng:",
+      "text_en": "homework",
+      "translation_vi": "Bài tập về nhà",
+      "word_id": "word_homework",
+      "options": [
+        {
+          "id": "a",
+          "is_correct": true,
+          "label_vi": "Bài tập về nhà"
+        },
+        {
+          "id": "b",
+          "is_correct": false,
+          "label_vi": "Bữa ăn sáng"
+        },
+        {
+          "id": "c",
+          "is_correct": false,
+          "label_vi": "Cửa hàng"
+        }
+      ],
+      "explanation_vi": "'Homework' là bài tập về nhà.",
+      "difficulty": 2,
+      "cefr_level": "A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "read_a1_02",
+      "activity_type": "fill_blank_sentence",
+      "prompt_vi": "[A1] Chọn từ đúng ('is' hay 'are') cho câu sau:",
+      "text_en": "There ___ many colorful books in our school library.",
+      "word_id": "word_library",
+      "options": [
+        {
+          "id": "a",
+          "is_correct": true,
+          "label_en": "are"
+        },
+        {
+          "id": "b",
+          "is_correct": false,
+          "label_en": "is"
+        },
+        {
+          "id": "c",
+          "is_correct": false,
+          "label_en": "am"
+        }
+      ],
+      "explanation_vi": "'Many colorful books' là số nhiều nên dùng 'There are'.",
+      "difficulty": 2,
+      "cefr_level": "A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "read_a1_03",
+      "activity_type": "read_short_passage",
+      "prompt_vi": "[A1] Đọc đoạn văn về bạn thân và trả lời: Hai bạn thường làm gì cùng nhau?",
+      "text_en": "Minh is my best friend. He is kind and funny. We live on the same street and walk to school every morning. After school, we usually draw pictures and share fruit salad at home.",
+      "translation_vi": "Minh là bạn thân nhất của mình. Bạn ấy tốt bụng và vui tính. Chúng mình sống trên cùng một con phố và đi bộ đến trường mỗi sáng. Sau giờ học, chúng mình thường vẽ tranh và chia sẻ salad trái cây ở nhà.",
+      "word_id": "word_friend",
+      "options": [
+        {
+          "id": "a",
+          "is_correct": true,
+          "label_vi": "Vẽ tranh và ăn salad trái cây cùng nhau"
+        },
+        {
+          "id": "b",
+          "is_correct": false,
+          "label_vi": "Đi chợ và dọn bệnh viện"
+        },
+        {
+          "id": "c",
+          "is_correct": false,
+          "label_vi": "Bơi ở bãi biển vào buổi sáng"
+        }
+      ],
+      "explanation_vi": "Câu cuối đoạn văn viết: 'we usually draw pictures and share fruit salad at home.'",
+      "difficulty": 3,
+      "cefr_level": "A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "read_a1_04",
+      "activity_type": "read_short_passage",
+      "prompt_vi": "[A1] Đọc đoạn văn về một ngày ở trường và chọn đáp án đúng: Bạn nhỏ thích môn nào nhất?",
+      "text_en": "My school day starts at seven o'clock. First, I have science class. Science is my favorite subject because we do fun activities. At break time, I listen to music or read in the quiet library.",
+      "translation_vi": "Ngày học của mình bắt đầu lúc 7 giờ. Đầu tiên là tiết Khoa học. Khoa học là môn yêu thích của mình vì chúng mình làm các hoạt động thú vị. Giờ ra chơi, mình nghe nhạc hoặc đọc sách ở thư viện yên tĩnh.",
+      "word_id": "word_science",
+      "options": [
+        {
+          "id": "a",
+          "is_correct": true,
+          "label_vi": "Môn Khoa học (Science)"
+        },
+        {
+          "id": "b",
+          "is_correct": false,
+          "label_vi": "Môn Lịch sử"
+        },
+        {
+          "id": "c",
+          "is_correct": false,
+          "label_vi": "Môn Bơi lội"
+        }
+      ],
+      "explanation_vi": "Đoạn văn nói rõ: 'Science is my favorite subject'.",
+      "difficulty": 3,
+      "cefr_level": "A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "read_a1_05",
+      "activity_type": "read_short_passage",
+      "prompt_vi": "[A1] Đọc đoạn văn và trả lời: Dì (aunt) của bạn nhỏ đi chợ mua gì?",
+      "text_en": "On Sunday morning, my aunt goes to the market near our street. She wants to buy fresh chicken, noodles, and vegetables to cook hot soup for our parents and cousins. The prices at the market are very cheap!",
+      "translation_vi": "Sáng Chủ nhật, dì của mình đi chợ gần phố nhà mình. Dì muốn mua thịt gà tươi, mì và rau để nấu súp nóng cho bố mẹ và các anh chị em họ. Giá cả ở chợ rất rẻ!",
+      "word_id": "word_market",
+      "options": [
+        {
+          "id": "a",
+          "is_correct": true,
+          "label_vi": "Thịt gà tươi, mì và rau"
+        },
+        {
+          "id": "b",
+          "is_correct": false,
+          "label_vi": "Sách khoa học và bút chì"
+        },
+        {
+          "id": "c",
+          "is_correct": false,
+          "label_vi": "Xe đạp và diều giấy"
+        }
+      ],
+      "explanation_vi": "Câu thứ hai liệt kê: 'buy fresh chicken, noodles, and vegetables'.",
+      "difficulty": 3,
+      "cefr_level": "A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "read_a1_06",
+      "activity_type": "arrange_words_sentence",
+      "prompt_vi": "[A1] Sắp xếp các từ để tạo thành câu hoàn chỉnh:",
+      "tokens": [
+        "There",
+        "is",
+        "a",
+        "big",
+        "museum"
+      ],
+      "word_id": "word_museum",
+      "explanation_vi": "Câu đúng là: 'There is a big museum' (Có một bảo tàng lớn).",
+      "difficulty": 2,
+      "cefr_level": "A1",
+      "review_status": "approved"
+    }
+  ]
+}

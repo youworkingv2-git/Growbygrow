@@ -1,7 +1,7 @@
 class_name QuestionManager
 extends RefCounted
-## Normalizes activities from Listening, Reading, Writing, Speaking, or dynamically
-## reused Vocabulary records into a uniform QuestionPayload for any Lesson or Mini-game.
+## Normalizes activities from Listening, Reading, Writing, Speaking, Common Phrases,
+## Phonics Activities, Question Bank, or dynamically reused Vocabulary records.
 
 var _repo: LearningContentRepository
 var _vocab: VocabularyManager
@@ -28,6 +28,8 @@ func build_question_for_activity(activity: Dictionary) -> Dictionary:
 			item = _repo.writing_by_id.get(source_id, {})
 		"speaking":
 			item = _repo.speaking_by_id.get(source_id, {})
+		"question_bank":
+			item = _repo.question_bank_by_id.get(source_id, {})
 
 	if item.is_empty():
 		return {}
@@ -137,3 +139,79 @@ func build_reusable_vocab_question(word_id: String, skill: String) -> Dictionary
 		"options": r_opts,
 		"explanation_vi": "'%s' nghĩa là '%s'. Ví dụ: %s" % [word_en, meaning_vi, str(w.get("example_sentence", ""))]
 	}
+
+
+func build_reusable_phrase_question(phrase_id: String) -> Dictionary:
+	var p := _vocab.get_phrase(phrase_id)
+	if p.is_empty():
+		return {}
+	var phrase_en := str(p.get("phrase_en", ""))
+	var meaning_vi := str(p.get("meaning_vi", ""))
+	var opts: Array[Dictionary] = [
+		{ "id": "opt_0", "label_vi": meaning_vi, "is_correct": true }
+	]
+	var idx := 1
+	for other in _repo.phrases_ordered:
+		if idx > 2:
+			break
+		if str(other.get("id", "")) == phrase_id:
+			continue
+		var other_vi := str(other.get("meaning_vi", ""))
+		if not other_vi.is_empty() and other_vi != meaning_vi:
+			opts.append({ "id": "opt_%d" % idx, "label_vi": other_vi, "is_correct": false })
+			idx += 1
+	opts.shuffle()
+	return {
+		"activity_id": "dyn_phrase_" + phrase_id,
+		"question_id": "q_dyn_phrase_" + phrase_id,
+		"skill": "listening",
+		"activity_type": "listen_word_choose_meaning",
+		"prompt_vi": "Nghe và đọc cụm từ thông dụng sau, rồi chọn nghĩa tiếng Việt đúng:",
+		"transcript_en": phrase_en,
+		"text_en": phrase_en,
+		"ipa": _vocab.get_ipa_for_accent(p),
+		"word_id": str((p.get("linked_vocab_ids", [""]) as Array)[0]) if not (p.get("linked_vocab_ids", []) as Array).is_empty() else "",
+		"options": opts,
+		"explanation_vi": "'%s' nghĩa là '%s'. Ví dụ: %s" % [phrase_en, meaning_vi, str(p.get("example_sentence", ""))],
+		"audio_status": str(p.get("audio_status", "missing_asset")),
+		"audio_path": ""
+	}
+
+
+func build_phonics_quiz_batch() -> Array[Dictionary]:
+	var batch: Array[Dictionary] = []
+	for act in _repo.phonics_activities:
+		var wid := str(act.get("word_id", ""))
+		var w := _vocab.get_word(wid)
+		var raw_opts: Array = act.get("options", [])
+		var correct := str(act.get("correct_answer", ""))
+		var opts: Array[Dictionary] = []
+		for i in range(raw_opts.size()):
+			var lbl := str(raw_opts[i])
+			opts.append({ "id": "ph_opt_%d" % i, "label_en": lbl, "is_correct": (lbl == correct) })
+		batch.append({
+			"activity_id": str(act.get("id", "")),
+			"question_id": "q_" + str(act.get("id", "")),
+			"skill": "reading",
+			"activity_type": "phonics_practice",
+			"prompt_vi": str(act.get("prompt_vi", "")),
+			"text_en": str(w.get("word", "")),
+			"image_path": str(w.get("image_path", "")),
+			"ipa": str(act.get("target_sound", "")),
+			"word_id": wid,
+			"options": opts,
+			"explanation_vi": "Âm mục tiêu của bài này là %s trong từ '%s'." % [correct, str(w.get("word", ""))]
+		})
+	return batch
+
+
+func get_question_bank_items(topic: String = "", cefr_level: String = "", max_difficulty_tier: int = 5) -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	for q in _repo.question_bank_ordered:
+		if not topic.is_empty() and str(q.get("topic", "")) != topic:
+			continue
+		if not cefr_level.is_empty() and str(q.get("cefr_level", "")) != cefr_level:
+			continue
+		if int(q.get("difficulty_tier", 1)) <= max_difficulty_tier:
+			out.append(q)
+	return out

@@ -25,7 +25,9 @@
         }
       ],
       "explanation_vi": "'Dog' nghĩa là con chó.",
-      "difficulty": 1
+      "difficulty": 1,
+      "review_status": "approved",
+      "cefr_level": "Pre-A1"
     },
     {
       "id": "read_02",
@@ -54,7 +56,9 @@
         }
       ],
       "explanation_vi": "'Banana' là quả chuối màu vàng.",
-      "difficulty": 1
+      "difficulty": 1,
+      "review_status": "approved",
+      "cefr_level": "Pre-A1"
     },
     {
       "id": "read_03",
@@ -81,7 +85,9 @@
         }
       ],
       "explanation_vi": "Hình vẽ quyển sách tương ứng với từ 'book'.",
-      "difficulty": 1
+      "difficulty": 1,
+      "review_status": "approved",
+      "cefr_level": "Pre-A1"
     },
     {
       "id": "read_04",
@@ -107,7 +113,9 @@
         }
       ],
       "explanation_vi": "Sau 'a' cần một danh từ số ít bắt đầu bằng phụ âm -> 'book' (một quyển sách). 'blue' là màu sắc đứng một mình không hợp sau 'a'.",
-      "difficulty": 1
+      "difficulty": 1,
+      "review_status": "approved",
+      "cefr_level": "Pre-A1"
     },
     {
       "id": "read_05",
@@ -133,7 +141,9 @@
         }
       ],
       "explanation_vi": "Động từ 'eat' (ăn) phù hợp với đồ ăn 'apple' (quả táo) và đứng sau 'an'.",
-      "difficulty": 1
+      "difficulty": 1,
+      "review_status": "approved",
+      "cefr_level": "Pre-A1"
     },
     {
       "id": "read_06",
@@ -159,7 +169,9 @@
         }
       ],
       "explanation_vi": "'Mom' là mẹ (Bố là 'dad').",
-      "difficulty": 1
+      "difficulty": 1,
+      "review_status": "approved",
+      "cefr_level": "Pre-A1"
     },
     {
       "id": "read_07",
@@ -185,7 +197,9 @@
         }
       ],
       "explanation_vi": "'Green' là màu xanh lá cây.",
-      "difficulty": 1
+      "difficulty": 1,
+      "review_status": "approved",
+      "cefr_level": "Pre-A1"
     },
     {
       "id": "read_08",
@@ -211,7 +225,9 @@
         }
       ],
       "explanation_vi": "'This is my sister' nghĩa là 'Đây là chị/em gái của tôi'.",
-      "difficulty": 1
+      "difficulty": 1,
+      "review_status": "approved",
+      "cefr_level": "Pre-A1"
     },
     {
       "id": "read_09",
@@ -224,7 +240,9 @@
         "chair."
       ],
       "explanation_vi": "Cấu trúc 'This is + a/an + danh từ': This is a chair.",
-      "difficulty": 2
+      "difficulty": 2,
+      "review_status": "approved",
+      "cefr_level": "Pre-A1"
     },
     {
       "id": "read_10",
@@ -250,7 +268,9 @@
         }
       ],
       "explanation_vi": "Trong đoạn có cụm 'a pink bag' (một chiếc túi màu hồng).",
-      "difficulty": 2
+      "difficulty": 2,
+      "review_status": "approved",
+      "cefr_level": "Pre-A1"
     },
     {
       "id": "read_11",
@@ -276,7 +296,9 @@
         }
       ],
       "explanation_vi": "'A blue bird' nghĩa là một chú chim màu xanh dương.",
-      "difficulty": 2
+      "difficulty": 2,
+      "review_status": "approved",
+      "cefr_level": "Pre-A1"
     },
     {
       "id": "read_12",
@@ -305,7 +327,287 @@
         }
       ],
       "explanation_vi": "'Elephant' nghĩa là con voi.",
-      "difficulty": 1
+      "difficulty": 1,
+      "review_status": "approved",
+      "cefr_level": "Pre-A1"
+    },
+    {
+      "id": "read_13",
+      "activity_type": "read_word_choose_meaning",
+      "prompt_vi": "Đọc từ sau và chọn nghĩa tiếng Việt đúng:",
+      "text_en": "triangle",
+      "translation_vi": "Hình tam giác",
+      "word_id": "word_triangle",
+      "options": [
+        {
+          "id": "a",
+          "is_correct": true,
+          "label_vi": "Hình tam giác"
+        },
+        {
+          "id": "b",
+          "is_correct": false,
+          "label_vi": "Hình tròn"
+        },
+        {
+          "id": "c",
+          "is_correct": false,
+          "label_vi": "Hình vuông"
+        }
+      ],
+      "explanation_vi": "'Triangle' là hình tam giác (có 3 cạnh).",
+      "difficulty": 2,
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "read_14",
+      "activity_type": "read_word_choose_image",
+      "prompt_vi": "Đọc từ và chọn hình tương ứng:",
+      "text_en": "pencil",
+      "translation_vi": "Bút chì",
+      "word_id": "word_pencil",
+      "options": [
+        {
+          "id": "a",
+          "is_correct": false,
+          "label_en": "ruler",
+          "word_id": "word_ruler"
+        },
+        {
+          "id": "b",
+          "is_correct": true,
+          "label_en": "pencil",
+          "word_id": "word_pencil"
+        },
+        {
+          "id": "c",
+          "is_correct": false,
+          "label_en": "desk",
+          "word_id": "word_desk"
+        }
+      ],
+      "explanation_vi": "'Pencil' là cây bút chì.",
+      "difficulty": 1,
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "read_15",
+      "activity_type": "match_word_image",
+      "prompt_vi": "Từ nào khớp với bức tranh dưới đây?",
+      "text_en": "frog",
+      "word_id": "word_frog",
+      "image_path": "res://assets/learning/images/frog.svg",
+      "options": [
+        {
+          "id": "a",
+          "is_correct": true,
+          "label_en": "frog"
+        },
+        {
+          "id": "b",
+          "is_correct": false,
+          "label_en": "lion"
+        },
+        {
+          "id": "c",
+          "is_correct": false,
+          "label_en": "cow"
+        }
+      ],
+      "explanation_vi": "Hình chú ếch xanh là 'frog'.",
+      "difficulty": 1,
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "read_16",
+      "activity_type": "fill_blank_sentence",
+      "prompt_vi": "Chọn mạo từ đúng (a / an) điền vào chỗ trống:",
+      "text_en": "I eat ___ orange every morning.",
+      "word_id": "word_orange",
+      "options": [
+        {
+          "id": "a",
+          "is_correct": true,
+          "label_en": "an"
+        },
+        {
+          "id": "b",
+          "is_correct": false,
+          "label_en": "a"
+        },
+        {
+          "id": "c",
+          "is_correct": false,
+          "label_en": "two"
+        }
+      ],
+      "explanation_vi": "'Orange' bắt đầu bằng nguyên âm 'o' nên dùng 'an orange'.",
+      "difficulty": 1,
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "read_17",
+      "activity_type": "fill_blank_sentence",
+      "prompt_vi": "Chọn giới từ vị trí đúng điền vào chỗ trống:",
+      "text_en": "The red apple is ___ the table.",
+      "word_id": "word_table",
+      "options": [
+        {
+          "id": "a",
+          "is_correct": true,
+          "label_en": "on"
+        },
+        {
+          "id": "b",
+          "is_correct": false,
+          "label_en": "happy"
+        },
+        {
+          "id": "c",
+          "is_correct": false,
+          "label_en": "six"
+        }
+      ],
+      "explanation_vi": "'On the table' = ở trên bàn.",
+      "difficulty": 2,
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "read_18",
+      "activity_type": "read_short_sentence",
+      "prompt_vi": "Đọc câu và chọn nghĩa đúng:",
+      "text_en": "My grandma wears a green coat.",
+      "translation_vi": "Bà của mình mặc một chiếc áo khoác màu xanh lá.",
+      "word_id": "word_coat",
+      "options": [
+        {
+          "id": "a",
+          "is_correct": true,
+          "label_vi": "Bà của mình mặc áo khoác xanh lá."
+        },
+        {
+          "id": "b",
+          "is_correct": false,
+          "label_vi": "Ông của mình đội mũ màu đỏ."
+        },
+        {
+          "id": "c",
+          "is_correct": false,
+          "label_vi": "Em bé đang ngủ trên giường."
+        }
+      ],
+      "explanation_vi": "'Grandma' = bà, 'wears' = mặc, 'green coat' = áo khoác xanh lá.",
+      "difficulty": 2,
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "read_19",
+      "activity_type": "read_short_passage",
+      "prompt_vi": "Đọc đoạn ngắn và trả lời: Bạn nhỏ đi đâu?",
+      "text_en": "Today is sunny. I go to the park with my dog. We fly a blue kite!",
+      "translation_vi": "Hôm nay trời nắng. Mình đi công viên cùng chú chó. Chúng mình thả một chiếc diều xanh dương!",
+      "word_id": "word_park",
+      "options": [
+        {
+          "id": "a",
+          "is_correct": true,
+          "label_vi": "Đi công viên"
+        },
+        {
+          "id": "b",
+          "is_correct": false,
+          "label_vi": "Đi đến trường"
+        },
+        {
+          "id": "c",
+          "is_correct": false,
+          "label_vi": "Đi ra bãi biển"
+        }
+      ],
+      "explanation_vi": "Câu thứ hai nói rõ: 'I go to the park with my dog.'",
+      "difficulty": 2,
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "read_20",
+      "activity_type": "read_short_passage",
+      "prompt_vi": "Đọc đoạn ngắn và chọn đáp án đúng: Con thỏ màu gì?",
+      "text_en": "I have two pets. My cat is black. My rabbit is white and has long ears.",
+      "translation_vi": "Mình có hai thú cưng. Con mèo màu đen. Con thỏ màu trắng và có đôi tai dài.",
+      "word_id": "word_rabbit",
+      "options": [
+        {
+          "id": "a",
+          "is_correct": true,
+          "label_vi": "Màu trắng"
+        },
+        {
+          "id": "b",
+          "is_correct": false,
+          "label_vi": "Màu đen"
+        },
+        {
+          "id": "c",
+          "is_correct": false,
+          "label_vi": "Màu nâu"
+        }
+      ],
+      "explanation_vi": "Câu cuối: 'My rabbit is white' -> chú thỏ màu trắng.",
+      "difficulty": 2,
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "read_21",
+      "activity_type": "read_short_passage",
+      "prompt_vi": "Đọc đoạn ngắn và cho biết bạn nhỏ cảm thấy thế nào:",
+      "text_en": "I am hungry! I eat bread, an egg, and drink sweet orange juice. Now I am happy!",
+      "translation_vi": "Mình đói bụng rồi! Mình ăn bánh mì, một quả trứng và uống nước cam ngọt. Bây giờ mình thấy vui!",
+      "word_id": "word_juice",
+      "options": [
+        {
+          "id": "a",
+          "is_correct": true,
+          "label_vi": "Vui vẻ sau khi ăn uống"
+        },
+        {
+          "id": "b",
+          "is_correct": false,
+          "label_vi": "Buồn ngủ và mệt mỏi"
+        },
+        {
+          "id": "c",
+          "is_correct": false,
+          "label_vi": "Đang đi thả diều"
+        }
+      ],
+      "explanation_vi": "Sau khi ăn bánh mì, trứng và uống nước cam: 'Now I am happy!'",
+      "difficulty": 2,
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "read_22",
+      "activity_type": "arrange_words_sentence",
+      "prompt_vi": "Sắp xếp các từ để tạo thành câu đúng: 'Tôi thấy sáu ngôi sao.'",
+      "tokens": [
+        "I",
+        "see",
+        "six",
+        "stars"
+      ],
+      "word_id": "word_six",
+      "explanation_vi": "Câu đúng là: 'I see six stars'.",
+      "difficulty": 2,
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
     }
   ]
 }

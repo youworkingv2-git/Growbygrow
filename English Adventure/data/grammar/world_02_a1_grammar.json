@@ -1,0 +1,492 @@
+{
+  "world_id": "world_02",
+  "cefr_level": "A1",
+  "structures": [
+    {
+      "id": "gram_a1_01",
+      "world_id": "world_02",
+      "structure": "I usually ...",
+      "explanation_vi": "Thì hiện tại đơn (Present Simple) nói về thói quen hằng ngày với 'usually' (thường xuyên).",
+      "example_sentences": [
+        {
+          "en": "I usually have breakfast at seven.",
+          "vi": "Mình thường ăn sáng lúc bảy giờ.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        },
+        {
+          "en": "I usually study English after school.",
+          "vi": "Mình thường học tiếng Anh sau giờ học.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        }
+      ],
+      "difficulty": 2,
+      "cefr_level": "A1",
+      "common_mistakes_vi": [
+        "Đặt 'usually' trước động từ thường: 'I usually walk' (không nói 'I walk usually')."
+      ],
+      "substitution_slots": [
+        {
+          "slot": "...",
+          "options": [
+            "read books",
+            "brush my teeth",
+            "swim on Sunday"
+          ]
+        }
+      ],
+      "practice_activities": [
+        "sentence_builder",
+        "writing"
+      ],
+      "review_status": "approved"
+    },
+    {
+      "id": "gram_a1_02",
+      "world_id": "world_02",
+      "structure": "I go to ... at ...",
+      "explanation_vi": "Dùng 'go to + địa điểm' kết hợp 'at + giờ' để kể lịch trình hằng ngày.",
+      "example_sentences": [
+        {
+          "en": "I go to school at seven o'clock.",
+          "vi": "Mình đi học lúc bảy giờ.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        },
+        {
+          "en": "I go to the library at three o'clock.",
+          "vi": "Mình đến thư viện lúc ba giờ.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        }
+      ],
+      "difficulty": 2,
+      "cefr_level": "A1",
+      "common_mistakes_vi": [
+        "Dùng 'at' trước giờ cụ thể, nhưng nói 'go home' không cần 'to'."
+      ],
+      "substitution_slots": [
+        {
+          "slot": "...",
+          "options": [
+            "school at seven",
+            "the park at four",
+            "bed at nine"
+          ]
+        }
+      ],
+      "practice_activities": [
+        "sentence_builder"
+      ],
+      "review_status": "approved"
+    },
+    {
+      "id": "gram_a1_03",
+      "world_id": "world_02",
+      "structure": "I would like ...",
+      "explanation_vi": "Cách nói lịch sự khi muốn gọi món ăn hoặc xin mua đồ vật.",
+      "example_sentences": [
+        {
+          "en": "I would like some chicken soup, please.",
+          "vi": "Làm ơn cho mình một ít súp gà.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        },
+        {
+          "en": "I would like a glass of orange juice.",
+          "vi": "Mình muốn một ly nước cam.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        }
+      ],
+      "difficulty": 2,
+      "cefr_level": "A1",
+      "common_mistakes_vi": [
+        "Lịch sự hơn 'I want' khi ở cửa hàng hay nhà hàng."
+      ],
+      "substitution_slots": [
+        {
+          "slot": "...",
+          "options": [
+            "some noodles",
+            "fruit salad",
+            "a blue pencil"
+          ]
+        }
+      ],
+      "practice_activities": [
+        "dialogue_adventure",
+        "sentence_builder"
+      ],
+      "review_status": "approved"
+    },
+    {
+      "id": "gram_a1_04",
+      "world_id": "world_02",
+      "structure": "Can you ...?",
+      "explanation_vi": "Dùng để hỏi khả năng hoặc nhờ ai đó làm giúp việc gì một cách thân thiện.",
+      "example_sentences": [
+        {
+          "en": "Can you swim? Yes, I can.",
+          "vi": "Bạn biết bơi không? Có, mình biết.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        },
+        {
+          "en": "Can you help me draw a star?",
+          "vi": "Bạn giúp mình vẽ ngôi sao được không?",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        }
+      ],
+      "difficulty": 2,
+      "cefr_level": "A1",
+      "common_mistakes_vi": [
+        "Sau 'Can you' dùng động từ nguyên mẫu (Can you sing?, không thêm 'to')."
+      ],
+      "substitution_slots": [
+        {
+          "slot": "...",
+          "options": [
+            "sing",
+            "swim",
+            "dance",
+            "draw"
+          ]
+        }
+      ],
+      "practice_activities": [
+        "dialogue_adventure",
+        "speaking_hero"
+      ],
+      "review_status": "approved"
+    },
+    {
+      "id": "gram_a1_05",
+      "world_id": "world_02",
+      "structure": "There is ... / There are ...",
+      "explanation_vi": "'There is' dùng với 1 vật; 'There are' dùng với từ 2 vật trở lên.",
+      "example_sentences": [
+        {
+          "en": "There is a museum on this street.",
+          "vi": "Có một bảo tàng trên con phố này.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        },
+        {
+          "en": "There are many books in the library.",
+          "vi": "Có nhiều sách ở trong thư viện.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        }
+      ],
+      "difficulty": 2,
+      "cefr_level": "A1",
+      "common_mistakes_vi": [
+        "Số nhiều phải dùng 'There are', không dùng 'There is many books'."
+      ],
+      "substitution_slots": [
+        {
+          "slot": "...",
+          "options": [
+            "a big park",
+            "two markets",
+            "five birds"
+          ]
+        }
+      ],
+      "practice_activities": [
+        "reading",
+        "writing"
+      ],
+      "review_status": "approved"
+    },
+    {
+      "id": "gram_a1_06",
+      "world_id": "world_02",
+      "structure": "What are you doing?",
+      "explanation_vi": "Thì hiện tại tiếp diễn (Present Continuous) hỏi/nói việc đang diễn ra ngay lúc này.",
+      "example_sentences": [
+        {
+          "en": "What are you doing? I am reading.",
+          "vi": "Bạn đang làm gì thế? Mình đang đọc sách.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        },
+        {
+          "en": "She is drawing a funny cat.",
+          "vi": "Bạn ấy đang vẽ một chú mèo ngộ nghĩnh.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        }
+      ],
+      "difficulty": 3,
+      "cefr_level": "A1",
+      "common_mistakes_vi": [
+        "Nhớ đi kèm động từ to be + V-ing: 'I am reading', không nói 'I reading'."
+      ],
+      "substitution_slots": [
+        {
+          "slot": "...",
+          "options": [
+            "reading a book",
+            "drawing a bird",
+            "cleaning my desk"
+          ]
+        }
+      ],
+      "practice_activities": [
+        "dialogue_adventure",
+        "sentence_builder"
+      ],
+      "review_status": "approved"
+    },
+    {
+      "id": "gram_a1_07",
+      "world_id": "world_02",
+      "structure": "Have / Has",
+      "explanation_vi": "I/You/We/They dùng 'have'; He/She/It hoặc 1 người dùng 'has'.",
+      "example_sentences": [
+        {
+          "en": "I have a kind friend.",
+          "vi": "Mình có một người bạn tốt bụng.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        },
+        {
+          "en": "My cousin has a new bike.",
+          "vi": "Anh họ mình có một chiếc xe đạp mới.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        }
+      ],
+      "difficulty": 2,
+      "cefr_level": "A1",
+      "common_mistakes_vi": [
+        "Với He/She (1 người) nhớ đổi 'have' thành 'has'."
+      ],
+      "substitution_slots": [
+        {
+          "slot": "...",
+          "options": [
+            "a new book",
+            "two cousins",
+            "a green kite"
+          ]
+        }
+      ],
+      "practice_activities": [
+        "reading",
+        "writing"
+      ],
+      "review_status": "approved"
+    },
+    {
+      "id": "gram_a1_08",
+      "world_id": "world_02",
+      "structure": "my / your / his / her",
+      "explanation_vi": "Tính từ sở hữu đứng trước danh từ để chỉ đồ của ai (của tôi/bạn/anh ấy/cô ấy).",
+      "example_sentences": [
+        {
+          "en": "This is my homework.",
+          "vi": "Đây là bài tập về nhà của mình.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        },
+        {
+          "en": "Her aunt works at the hospital.",
+          "vi": "Dì của cô ấy làm việc ở bệnh viện.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        }
+      ],
+      "difficulty": 2,
+      "cefr_level": "A1",
+      "common_mistakes_vi": [
+        "Dùng 'his' cho bạn nam và 'her' cho bạn nữ."
+      ],
+      "substitution_slots": [
+        {
+          "slot": "...",
+          "options": [
+            "my friend",
+            "his uncle",
+            "her bag"
+          ]
+        }
+      ],
+      "practice_activities": [
+        "reading",
+        "sentence_builder"
+      ],
+      "review_status": "approved"
+    },
+    {
+      "id": "gram_a1_09",
+      "world_id": "world_02",
+      "structure": "Where do you live?",
+      "explanation_vi": "Hỏi và trả lời nơi ở hoặc thông tin cơ bản về bản thân.",
+      "example_sentences": [
+        {
+          "en": "Where do you live? I live near the park.",
+          "vi": "Bạn sống ở đâu? Mình sống gần công viên.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        },
+        {
+          "en": "I live on Green Street.",
+          "vi": "Mình sống ở phố Green.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        }
+      ],
+      "difficulty": 2,
+      "cefr_level": "A1",
+      "common_mistakes_vi": [
+        "Dùng 'on + tên đường', 'near + địa điểm' (near the school)."
+      ],
+      "substitution_slots": [
+        {
+          "slot": "...",
+          "options": [
+            "near the school",
+            "on Green Street",
+            "in a small house"
+          ]
+        }
+      ],
+      "practice_activities": [
+        "dialogue_adventure",
+        "speaking_hero"
+      ],
+      "review_status": "approved"
+    },
+    {
+      "id": "gram_a1_10",
+      "world_id": "world_02",
+      "structure": "Some / Any",
+      "explanation_vi": "Dùng 'some' trong câu khẳng định hoặc lời mời; dùng 'any' trong câu hỏi hoặc phủ định.",
+      "example_sentences": [
+        {
+          "en": "I have some salad and noodles.",
+          "vi": "Mình có một ít salad và mì.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        },
+        {
+          "en": "Do you have any fresh juice?",
+          "vi": "Bạn có chút nước ép tươi nào không?",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        }
+      ],
+      "difficulty": 3,
+      "cefr_level": "A1",
+      "common_mistakes_vi": [
+        "Câu hỏi thông thường dùng 'any': 'Do you have any money?'."
+      ],
+      "substitution_slots": [
+        {
+          "slot": "...",
+          "options": [
+            "some soup",
+            "some fruit",
+            "any apples"
+          ]
+        }
+      ],
+      "practice_activities": [
+        "reading",
+        "writing"
+      ],
+      "review_status": "approved"
+    }
+  ],
+  "model_sentences": [
+    {
+      "id": "sent_a1_01",
+      "en": "I usually brush my teeth at six.",
+      "vi": "Mình thường đánh răng lúc sáu giờ.",
+      "grammar_id": "gram_a1_01",
+      "audio_status": "missing_asset"
+    },
+    {
+      "id": "sent_a1_02",
+      "en": "I go to school at seven o'clock.",
+      "vi": "Mình đi học lúc bảy giờ.",
+      "grammar_id": "gram_a1_02",
+      "audio_status": "missing_asset"
+    },
+    {
+      "id": "sent_a1_03",
+      "en": "I would like some chicken soup.",
+      "vi": "Mình muốn một ít súp gà.",
+      "grammar_id": "gram_a1_03",
+      "audio_status": "missing_asset"
+    },
+    {
+      "id": "sent_a1_04",
+      "en": "Can you sing and dance?",
+      "vi": "Bạn có biết hát và nhảy không?",
+      "grammar_id": "gram_a1_04",
+      "audio_status": "missing_asset"
+    },
+    {
+      "id": "sent_a1_05",
+      "en": "There is a museum on Green Street.",
+      "vi": "Có một bảo tàng trên phố Green.",
+      "grammar_id": "gram_a1_05",
+      "audio_status": "missing_asset"
+    },
+    {
+      "id": "sent_a1_06",
+      "en": "There are ten books in the library.",
+      "vi": "Có mười quyển sách trong thư viện.",
+      "grammar_id": "gram_a1_05",
+      "audio_status": "missing_asset"
+    },
+    {
+      "id": "sent_a1_07",
+      "en": "What are you doing? I am drawing.",
+      "vi": "Bạn đang làm gì thế? Mình đang vẽ tranh.",
+      "grammar_id": "gram_a1_06",
+      "audio_status": "missing_asset"
+    },
+    {
+      "id": "sent_a1_08",
+      "en": "My cousin has a funny robot.",
+      "vi": "Anh họ mình có một con người máy ngộ nghĩnh.",
+      "grammar_id": "gram_a1_07",
+      "audio_status": "missing_asset"
+    },
+    {
+      "id": "sent_a1_09",
+      "en": "Her parents are very kind.",
+      "vi": "Bố mẹ của bạn ấy rất tốt bụng.",
+      "grammar_id": "gram_a1_08",
+      "audio_status": "missing_asset"
+    },
+    {
+      "id": "sent_a1_10",
+      "en": "Where do you live? I live near the park.",
+      "vi": "Bạn sống ở đâu? Mình sống gần công viên.",
+      "grammar_id": "gram_a1_09",
+      "audio_status": "missing_asset"
+    },
+    {
+      "id": "sent_a1_11",
+      "en": "We share some fruit salad at school.",
+      "vi": "Chúng mình chia sẻ ít salad trái cây ở trường.",
+      "grammar_id": "gram_a1_10",
+      "audio_status": "missing_asset"
+    },
+    {
+      "id": "sent_a1_12",
+      "en": "How much is this science book?",
+      "vi": "Quyển sách khoa học này giá bao nhiêu?",
+      "grammar_id": "gram_a1_03",
+      "audio_status": "missing_asset"
+    }
+  ]
+}

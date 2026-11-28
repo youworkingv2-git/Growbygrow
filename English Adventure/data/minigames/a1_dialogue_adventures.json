@@ -1,0 +1,270 @@
+{
+  "world_id": "world_02",
+  "cefr_level": "A1",
+  "scenarios": [
+    {
+      "id": "dlg_adv_11_a1_new_friend",
+      "topic": "Friends",
+      "title_vi": "[A1] Làm quen bạn mới ở trường",
+      "title_en": "Meeting a New Friend",
+      "npc_id": "lily",
+      "npc_name_vi": "Lily",
+      "cefr_level": "A1",
+      "review_status": "approved",
+      "linked_grammar_id": "gram_a1_09",
+      "linked_vocab_ids": [
+        "word_friend",
+        "word_kind",
+        "word_street"
+      ],
+      "turns": [
+        {
+          "npc_line_en": "Hi! I am Lily. Where do you live?",
+          "npc_line_vi": "Chào bạn! Mình là Lily. Bạn sống ở đâu?",
+          "options": [
+            {
+              "text_en": "I live near the park on Green Street.",
+              "text_vi": "Mình sống gần công viên trên phố Green.",
+              "is_correct": true,
+              "feedback_vi": "Chính xác! Trả lời đầy đủ nơi ở."
+            },
+            {
+              "text_en": "I have two eyes.",
+              "text_vi": "Mình có hai mắt.",
+              "is_correct": false,
+              "feedback_vi": "Câu này nói về bộ phận cơ thể, chưa trả lời 'Where do you live?'."
+            },
+            {
+              "text_en": "It is Tuesday.",
+              "text_vi": "Hôm nay là thứ Ba.",
+              "is_correct": false,
+              "feedback_vi": "Câu này nói về thứ trong tuần."
+            }
+          ]
+        },
+        {
+          "npc_line_en": "Oh, that is close! Would you like to be friends and share books?",
+          "npc_line_vi": "Ồ, gần đấy! Chúng mình làm bạn và chia sẻ sách cùng nhau nhé?",
+          "options": [
+            {
+              "text_en": "Yes! You are very kind. Let us go to the library.",
+              "text_vi": "Có chứ! Bạn thật tốt bụng. Cùng đến thư viện nào.",
+              "is_correct": true,
+              "feedback_vi": "Tuyệt vời! Phản hồi rất thân thiện và tự nhiên."
+            },
+            {
+              "text_en": "The price is cheap.",
+              "text_vi": "Giá rất rẻ.",
+              "is_correct": false,
+              "feedback_vi": "Câu này dùng khi mua sắm."
+            },
+            {
+              "text_en": "I brush my teeth.",
+              "text_vi": "Mình đánh răng.",
+              "is_correct": false,
+              "feedback_vi": "Câu này không khớp ngữ cảnh kết bạn."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dlg_adv_12_a1_hobbies",
+      "topic": "Hobbies",
+      "title_vi": "[A1] Trò chuyện về sở thích",
+      "title_en": "Talking About Hobbies",
+      "npc_id": "professor_owl",
+      "npc_name_vi": "Giáo sư Cú",
+      "cefr_level": "A1",
+      "review_status": "approved",
+      "linked_grammar_id": "gram_a1_04",
+      "linked_vocab_ids": [
+        "word_draw",
+        "word_music",
+        "word_swim"
+      ],
+      "turns": [
+        {
+          "npc_line_en": "What do you usually do on Sunday? Can you draw or swim?",
+          "npc_line_vi": "Chủ nhật bạn thường làm gì? Bạn biết vẽ hay bơi không?",
+          "options": [
+            {
+              "text_en": "I usually draw pictures and listen to music.",
+              "text_vi": "Mình thường vẽ tranh và nghe nhạc.",
+              "is_correct": true,
+              "feedback_vi": "Rất hay! Dùng đúng trạng từ 'usually'."
+            },
+            {
+              "text_en": "I go to the hospital.",
+              "text_vi": "Mình đến bệnh viện.",
+              "is_correct": false,
+              "feedback_vi": "Đây không phải câu trả lời về sở thích cuối tuần."
+            },
+            {
+              "text_en": "There is a rice.",
+              "text_vi": "Có một cơm.",
+              "is_correct": false,
+              "feedback_vi": "Câu sai ngữ pháp và không liên quan chủ đề sở thích."
+            }
+          ]
+        },
+        {
+          "npc_line_en": "Wonderful! What are you drawing right now?",
+          "npc_line_vi": "Tuyệt quá! Ngay bây giờ bạn đang vẽ gì thế?",
+          "options": [
+            {
+              "text_en": "I am drawing a cute frog by the lake.",
+              "text_vi": "Mình đang vẽ một chú ếch dễ thương bên hồ.",
+              "is_correct": true,
+              "feedback_vi": "Chuẩn thì hiện tại tiếp diễn 'I am drawing'!"
+            },
+            {
+              "text_en": "My uncle is a teacher.",
+              "text_vi": "Chú mình là giáo viên.",
+              "is_correct": false,
+              "feedback_vi": "Câu hỏi hỏi 'đang vẽ gì' (What are you drawing?)."
+            },
+            {
+              "text_en": "Two plus three.",
+              "text_vi": "Hai cộng ba.",
+              "is_correct": false,
+              "feedback_vi": "Không liên quan câu hỏi."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dlg_adv_13_a1_shop",
+      "topic": "Shopping",
+      "title_vi": "[A1] Mua đồ dùng học tập ở cửa hàng",
+      "title_en": "At the Shop",
+      "npc_id": "crystal_guardian",
+      "npc_name_vi": "Người Bảo Vệ Pha Lê",
+      "cefr_level": "A1",
+      "review_status": "approved",
+      "linked_grammar_id": "gram_a1_03",
+      "linked_vocab_ids": [
+        "word_buy",
+        "word_price",
+        "word_cheap"
+      ],
+      "turns": [
+        {
+          "npc_line_en": "Welcome to the Adventure Shop! What would you like to buy?",
+          "npc_line_vi": "Chào mừng đến Cửa hàng Phiêu lưu! Bạn muốn mua gì nào?",
+          "options": [
+            {
+              "text_en": "I would like to buy a science book, please.",
+              "text_vi": "Làm ơn cho mình mua một quyển sách khoa học ạ.",
+              "is_correct": true,
+              "feedback_vi": "Lịch sự và chuẩn mẫu 'I would like to buy...'!"
+            },
+            {
+              "text_en": "I sleep in my bed.",
+              "text_vi": "Mình ngủ trên giường.",
+              "is_correct": false,
+              "feedback_vi": "Câu này nói về việc đi ngủ."
+            },
+            {
+              "text_en": "The wind is strong.",
+              "text_vi": "Gió mạnh quá.",
+              "is_correct": false,
+              "feedback_vi": "Câu này nói về thời tiết."
+            }
+          ]
+        },
+        {
+          "npc_line_en": "Here is the science book. It is only five gold coins — very cheap!",
+          "npc_line_vi": "Sách khoa học đây. Chỉ năm đồng vàng thôi — rất rẻ đấy!",
+          "options": [
+            {
+              "text_en": "That is a good price! Here is the money. Thank you!",
+              "text_vi": "Giá tốt quá! Tiền đây ạ. Cảm ơn bạn!",
+              "is_correct": true,
+              "feedback_vi": "Giao tiếp mua sắm tự nhiên và lễ phép!"
+            },
+            {
+              "text_en": "Touch your nose.",
+              "text_vi": "Chạm vào mũi của bạn.",
+              "is_correct": false,
+              "feedback_vi": "Không phù hợp tình huống thanh toán."
+            },
+            {
+              "text_en": "I am hungry.",
+              "text_vi": "Mình đói bụng.",
+              "is_correct": false,
+              "feedback_vi": "Không liên quan đến việc trả tiền mua sách."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dlg_adv_14_a1_school_day",
+      "topic": "School",
+      "title_vi": "[A1] Một ngày ở trường & Thức ăn",
+      "title_en": "At the School & Lunch",
+      "npc_id": "professor_owl",
+      "npc_name_vi": "Giáo sư Cú",
+      "cefr_level": "A1",
+      "review_status": "approved",
+      "linked_grammar_id": "gram_a1_10",
+      "linked_vocab_ids": [
+        "word_library",
+        "word_homework",
+        "word_soup"
+      ],
+      "turns": [
+        {
+          "npc_line_en": "Do you have any homework today?",
+          "npc_line_vi": "Hôm nay bạn có bài tập về nhà nào không?",
+          "options": [
+            {
+              "text_en": "Yes, I have some science homework in my bag.",
+              "text_vi": "Có ạ, mình có một ít bài tập khoa học trong cặp.",
+              "is_correct": true,
+              "feedback_vi": "Dùng đúng 'some' trong câu khẳng định!"
+            },
+            {
+              "text_en": "I am a triangle.",
+              "text_vi": "Mình là hình tam giác.",
+              "is_correct": false,
+              "feedback_vi": "Câu trả lời không hợp lý."
+            },
+            {
+              "text_en": "She is swimming.",
+              "text_vi": "Bạn ấy đang bơi.",
+              "is_correct": false,
+              "feedback_vi": "Chưa trả lời câu hỏi 'Do you have any homework?'."
+            }
+          ]
+        },
+        {
+          "npc_line_en": "Great! After finishing homework, what would you like for lunch?",
+          "npc_line_vi": "Tuyệt! Sau khi làm xong bài tập, bạn muốn ăn gì cho bữa trưa?",
+          "options": [
+            {
+              "text_en": "I would like some chicken noodles and salad.",
+              "text_vi": "Mình muốn một ít mì gà và rau trộn.",
+              "is_correct": true,
+              "feedback_vi": "Chính xác! Kết hợp tốt từ vựng đồ ăn A1."
+            },
+            {
+              "text_en": "Turn left at the museum.",
+              "text_vi": "Rẽ trái ở bảo tàng.",
+              "is_correct": false,
+              "feedback_vi": "Câu này dùng để chỉ đường."
+            },
+            {
+              "text_en": "My shoes are white.",
+              "text_vi": "Giày mình màu trắng.",
+              "is_correct": false,
+              "feedback_vi": "Không phải món ăn trưa nhé."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

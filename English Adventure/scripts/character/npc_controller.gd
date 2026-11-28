@@ -89,7 +89,7 @@ func _process(delta: float) -> void:
 		if _rig.aura_mesh != null:
 			_rig.aura_mesh.rotation.y += delta * 1.2
 	if quest_badge.visible:
-		quest_badge.position.y = 2.05 + sin(_idle_t * 3.6) * 0.10
+		quest_badge.position.y = 2.52 + sin(_idle_t * 3.6) * 0.08
 	if focus_ring.visible:
 		focus_ring.rotation.y += delta * 1.6
 		var player_node := get_tree().get_first_node_in_group("player") as Node3D
@@ -111,6 +111,7 @@ func _refresh_visuals() -> void:
 	if not (loaded is CharacterRig3D):
 		_rig = null
 	name_label.text = LocalizationManager.pick_text(npc_data, "name")
+	LabelBackdrop3D.apply_to_label(name_label, true, focus_ring.visible)
 	_refresh_badge()
 
 
@@ -160,6 +161,7 @@ func set_talking(talking: bool) -> void:
 
 func set_focused(is_focused: bool) -> void:
 	focus_ring.visible = is_focused
+	LabelBackdrop3D.apply_to_label(name_label, true, is_focused)
 	_refresh_badge()
 
 

@@ -116,3 +116,22 @@ Tài liệu này tổng hợp kết quả kiểm tra tính nhất quán của **
   - `tests/integration/run_webgl2_e2e_qa.py` chạy qua `TC01–TC10` trên Chrome Headless WebGL2 (`0` lỗi console, `0` lỗi reload, ghi nhận TTS thực tế, đo FPS/Heap/tải tài nguyên).
 - [x] **Hoàn thiện 10 tài liệu QA P8:** `QA_TEST_PLAN.md`, `QA_TEST_CASES.md`, `BUG_REPORT.md`, `REGRESSION_TEST_REPORT.md`, `PERFORMANCE_REPORT.md`, `3D_OPTIMIZATION_REPORT.md`, `CROSS_PLATFORM_TEST_REPORT.md`, `SECURITY_REVIEW.md`, `FINAL_QA_REPORT.md`, `KNOWN_ISSUES.md`.
 - [ ] Export & kiểm thử thực tế trên thiết bị Android, iOS, Windows `.exe` và Supabase Cloud + Azure Speech live (chưa khả dụng trong môi trường QA hiện tại).
+
+---
+
+## 7. TRẠNG THÁI TRIỂN KHAI PROMPT 09 – CONTENT EXPANSION SYSTEM
+- [x] **Lộ trình Pre-A1 & A1:** Thiết kế đầy đủ khung 20 chủ đề Pre-A1 + 20 chủ đề A1, 6 thế giới dài hạn (`learning_curriculum.json`, `a1_sample_curriculum.json`) và cơ chế mở khóa A1 đa yếu tố (`evaluate_a1_unlock_status()`).
+- [x] **Kho nội dung Pre-A1 & A1 mẫu:** 26 chữ cái (`alphabet_a_z.json`), 115 từ Pre-A1 (`world_01_vocab.json`) + 32 từ A1 (`world_02_a1_vocab.json`), 48 cụm từ (`common_phrases.json`), 24 Phonics + 6 bài tập (`phonics_units.json`), 32 mẫu câu + 38 câu mẫu (`world_01_grammar.json`, `world_02_a1_grammar.json`), 116 bài 4 kỹ năng (28 Listening, 28 Reading, 28 Writing hỗ trợ `acceptable_answers`, 16 Speaking giữ trung thực `not_integrated_experimental`), 14 hội thoại (`dialogue_adventures.json` + `a1_dialogue_adventures.json`), và 20 câu hỏi dùng chung (`question_bank.json`).
+- [x] **Tài nguyên hình ảnh 1:1:** Sinh 109 SVG mới (`tools/generate_p9_svgs.py`), nâng tổng số lên **147 SVG độc lập** tại `assets/learning/images/`. Audio giọng đọc `.ogg` giữ trung thực `audio_status: "missing_asset"` và chạy qua `VoiceManager` TTS `en-US`/`en-GB`.
+- [x] **Tích hợp Engine, Quest, UI & DB:** Nâng cấp `LearningContentRepository` (lọc `review_status`), `VocabularyManager`, `QuestionManager`, `WritingManager`, `LearningProgressManager` (4 trạng thái + Adaptive Support), `LearningEngine`, `LearningHubModal`, `MinigameDataProvider`, `world_01_quests.json` (8 quest liên kết đầy đủ), và `supabase/migrations/0007_content_expansion_system.sql`.
+- [x] **Kiểm định & Tài liệu P9:** Hoàn thành 18 tài liệu mới + 7 tài liệu cập nhật trong `docs/`; vượt qua `validate_prompt_02.py`..`09.py`, `validate_3d_visual_direction.py` và `tests/integration/run_p9_content_tests.py` (0 lỗi).
+- [ ] Giai đoạn mở rộng tiếp theo (Batch P9.2–P9.5): Bổ sung nốt 85–135 từ Pre-A1 và 268–368 từ A1 theo `CONTENT_EXPANSION_ROADMAP.md`, thu âm `.ogg` bản địa và chạy `tests/unit/test_p9_content_integration.gd` trong Godot Editor 4.3+.
+
+---
+
+## 8. TRẠNG THÁI TRIỂN KHAI PROMPT 10 – RELEASE PREPARATION (`v0.9.0-rc.1`)
+- [x] **Quản lý phiên bản & Build Profiles:** `data/release/version.json` (`0.9.0`, Build `900`), `ReleaseInfo`, `project.godot` đồng bộ, tách Development (`DEBUG`) vs Release (`INFO`, loại trừ `tests/*,tools/*,docs/*,supabase/*` khỏi `.pck`).
+- [x] **Export Presets & Pipeline đóng gói:** Cấu hình 5 preset trong `export_presets.cfg` (`Web`, `Windows Desktop`, `Android`, `Android AAB`, `iOS`), kèm `tools/audit_release_assets.py`, `tools/build_release.ps1`, `tools/build_release.sh`, và `.github/workflows/release-multiplatform.yml`.
+- [x] **Bảo mật, Lưu dữ liệu & An toàn nền:** Quét `0` secret trong client/config; nâng cấp `SaveLoadManager` (`migrate_save_data()` v1->v2 + pre-migration backup); bổ sung `AudioManager._on_app_backgrounded()` tạm dừng nhạc/TTS và hủy ghi âm khi app ra nền; sửa `KI-05` (`AdventureHUD`) & `KI-06` (`CharacterSelectionUI`); hiển thị Version & Privacy trong `SettingsModalUI` và `MainMenuUI`.
+- [x] **Tài liệu & Kiểm định P10:** Hoàn thành 20 tài liệu trong `docs/release/`, `tests/content_validation/validate_prompt_10.py` và `tests/unit/test_p10_release_readiness.gd`.
+- [ ] **Chờ môi trường & Chủ dự án:** Chạy xuất file nhị phân `.exe`/`.apk`/`.aab`/`.ipa` trên máy có Godot `4.3` + Export Templates + Android SDK + macOS/Xcode, hoàn tất kiểm thử thiết bị thật và điền các trường `REQUIRES_OWNER_INPUT`.

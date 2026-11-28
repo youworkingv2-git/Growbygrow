@@ -1,8 +1,8 @@
 class_name LearningProgressManager
 extends RefCounted
 ## Persists player learning progress offline-first: item mastery states
-## (new/learning/practicing/reviewing/mastered), skill accuracy, completed lessons/topics,
-## attempt logs, and sync outbox queuing for Supabase.
+## (new/learning/practicing/reviewing/mastered), 4-state learning breakdown,
+## skill accuracy, completed lessons/topics, attempt logs, and adaptive support hints.
 
 const PROGRESS_PATH := "user://profiles/learning_progress.json"
 const TEMP_PROGRESS_PATH := "user://profiles/learning_progress.json.tmp"
@@ -38,17 +38,72 @@ func _init_default_skills() -> void:
 func get_item_status(item_id: String) -> String:
 	if not item_states.has(item_id):
 		return "new"
-	return str(item_states[item_id].get("status", "new"))
+	var rec: Dictionary = item_states[item_id]
+	return str(rec.get("status", "new"))
 
 
 func get_item_mastery(item_id: String) -> float:
 	if not item_states.has(item_id):
 		return 0.0
-	return float(item_states[item_id].get("mastery_score", 0.0))
+	var rec: Dictionary = item_states[item_id]
+	return float(rec.get("mastery_score", 0.0))
 
 
 func is_lesson_completed(lesson_id: String) -> bool:
 	return completed_lessons.has(lesson_id)
+
+
+func get_four_state_summary() -> Dictionary:
+	var remembered_count := 0
+	var mastered_count := 0
+	var practicing_count := 0
+	var total_correct_answers := 0
+	var total_attempts := 0
+
+	for item_id_var in item_states.keys():
+		var rec: Dictionary = item_states[str(item_id_var)]
+		var st := str(rec.get("status", "new"))
+		var mastery := float(rec.get("mastery_score", 0.0))
+		if st == "mastered":
+			mastered_count += 1
+			remembered_count += 1
+		elif st == "reviewing" or (st == "practicing" and mastery >= 55.0):
+			remembered_count += 1
+		elif st == "practicing" or st == "learning":
+			practicing_count += 1
+
+	for sk in ["listening", "speaking", "reading", "writing"]:
+		var st_d: Dictionary = skill_stats.get(sk, {})
+		total_attempts += int(st_d.get("attempts", 0))
+		total_correct_answers += int(st_d.get("correct", 0))
+
+	var overall_acc := 0.0
+	if total_attempts > 0:
+		overall_acc = round((float(total_correct_answers) / float(total_attempts)) * 1000.0) / 10.0
+
+	return {
+		"lessons_completed": completed_lessons.size(),
+		"topics_completed": completed_topics.size(),
+		"correct_answers": total_correct_answers,
+		"total_attempts": total_attempts,
+		"overall_accuracy_pct": overall_acc,
+		"practicing_items": practicing_count,
+		"remembered_items": remembered_count,
+		"mastered_items": mastered_count
+	}
+
+
+func get_adaptive_support_for_item(item_id: String) -> Dictionary:
+	if not item_states.has(item_id):
+		return { "needs_support": false, "wrong_count": 0, "hint_mode": "standard" }
+	var rec: Dictionary = item_states[item_id]
+	var wrongs := int(rec.get("wrong_count", 0))
+	var mastery := float(rec.get("mastery_score", 0.0))
+	return {
+		"needs_support": wrongs >= 2 and mastery < 70.0,
+		"wrong_count": wrongs,
+		"hint_mode": "scaffold_audio_and_visual" if wrongs >= 2 else "standard"
+	}
 
 
 func record_attempt(attempt: Dictionary, skill: String, target_item_id: String, lesson_game_score: int, lesson_learning_score: int) -> void:

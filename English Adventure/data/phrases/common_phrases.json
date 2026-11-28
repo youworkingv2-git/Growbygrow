@@ -1,0 +1,935 @@
+{
+  "phrases": [
+    {
+      "id": "phr_01",
+      "phrase_en": "good morning",
+      "meaning_vi": "chào buổi sáng",
+      "ipa_us": "/ɡʊd ˈmɔːr.nɪŋ/",
+      "ipa_uk": "/ɡʊd ˈmɔː.nɪŋ/",
+      "cefr_level": "Pre-A1",
+      "topic": "greetings",
+      "world_id": "world_01",
+      "linked_vocab_ids": [
+        "word_hello"
+      ],
+      "example_sentence": "Good morning, Professor Owl!",
+      "example_translation": "Chào buổi sáng, Giáo sư Cú!",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    },
+    {
+      "id": "phr_02",
+      "phrase_en": "good afternoon",
+      "meaning_vi": "chào buổi chiều",
+      "ipa_us": "/ɡʊd ˌæf.tɚˈnuːn/",
+      "ipa_uk": "/ɡʊd ˌɑːf.təˈnuːn/",
+      "cefr_level": "Pre-A1",
+      "topic": "greetings",
+      "world_id": "world_01",
+      "linked_vocab_ids": [
+        "word_hello"
+      ],
+      "example_sentence": "Good afternoon, friends!",
+      "example_translation": "Chào buổi chiều các bạn!",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    },
+    {
+      "id": "phr_03",
+      "phrase_en": "good night",
+      "meaning_vi": "chúc ngủ ngon",
+      "ipa_us": "/ɡʊd naɪt/",
+      "ipa_uk": "/ɡʊd naɪt/",
+      "cefr_level": "Pre-A1",
+      "topic": "greetings",
+      "world_id": "world_01",
+      "linked_vocab_ids": [
+        "word_sleep",
+        "word_bed"
+      ],
+      "example_sentence": "Good night, Mom and Dad.",
+      "example_translation": "Chúc bố mẹ ngủ ngon.",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    },
+    {
+      "id": "phr_04",
+      "phrase_en": "thank you",
+      "meaning_vi": "cảm ơn bạn",
+      "ipa_us": "/θæŋk juː/",
+      "ipa_uk": "/θæŋk juː/",
+      "cefr_level": "Pre-A1",
+      "topic": "greetings",
+      "world_id": "world_01",
+      "linked_vocab_ids": [
+        "word_please"
+      ],
+      "example_sentence": "Thank you for helping me!",
+      "example_translation": "Cảm ơn bạn đã giúp mình!",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    },
+    {
+      "id": "phr_05",
+      "phrase_en": "you are welcome",
+      "meaning_vi": "không có gì",
+      "ipa_us": "/juː ɑːr ˈwɛl.kəm/",
+      "ipa_uk": "/juː ɑː ˈwɛl.kəm/",
+      "cefr_level": "Pre-A1",
+      "topic": "greetings",
+      "world_id": "world_01",
+      "linked_vocab_ids": [
+        "word_yes"
+      ],
+      "example_sentence": "You are welcome, Buddy!",
+      "example_translation": "Không có gì đâu, Buddy!",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    },
+    {
+      "id": "phr_06",
+      "phrase_en": "nice to meet you",
+      "meaning_vi": "rất vui được gặp bạn",
+      "ipa_us": "/naɪs tuː miːt juː/",
+      "ipa_uk": "/naɪs tuː miːt juː/",
+      "cefr_level": "Pre-A1",
+      "topic": "greetings",
+      "world_id": "world_01",
+      "linked_vocab_ids": [
+        "word_hello"
+      ],
+      "example_sentence": "Hello! Nice to meet you.",
+      "example_translation": "Xin chào! Rất vui được gặp bạn.",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    },
+    {
+      "id": "phr_07",
+      "phrase_en": "see you later",
+      "meaning_vi": "hẹn gặp lại sau",
+      "ipa_us": "/siː juː ˈleɪ.t̬ɚ/",
+      "ipa_uk": "/siː juː ˈleɪ.tə/",
+      "cefr_level": "Pre-A1",
+      "topic": "greetings",
+      "world_id": "world_01",
+      "linked_vocab_ids": [
+        "word_bye"
+      ],
+      "example_sentence": "Bye! See you later.",
+      "example_translation": "Tạm biệt! Hẹn gặp lại sau nhé.",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    },
+    {
+      "id": "phr_08",
+      "phrase_en": "a red apple",
+      "meaning_vi": "một quả táo đỏ",
+      "ipa_us": "/ə rɛd ˈæp.əl/",
+      "ipa_uk": "/ə rɛd ˈæp.əl/",
+      "cefr_level": "Pre-A1",
+      "topic": "fruits",
+      "world_id": "world_01",
+      "linked_vocab_ids": [
+        "word_red",
+        "word_apple"
+      ],
+      "example_sentence": "I have a red apple.",
+      "example_translation": "Mình có một quả táo đỏ.",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    },
+    {
+      "id": "phr_09",
+      "phrase_en": "a yellow banana",
+      "meaning_vi": "một quả chuối vàng",
+      "ipa_us": "/ə ˈjɛl.oʊ bəˈnæn.ə/",
+      "ipa_uk": "/ə ˈjɛl.əʊ bəˈnɑː.nə/",
+      "cefr_level": "Pre-A1",
+      "topic": "fruits",
+      "world_id": "world_01",
+      "linked_vocab_ids": [
+        "word_yellow",
+        "word_banana"
+      ],
+      "example_sentence": "Look at a yellow banana.",
+      "example_translation": "Hãy nhìn một quả chuối vàng.",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    },
+    {
+      "id": "phr_10",
+      "phrase_en": "a blue ball",
+      "meaning_vi": "một quả bóng xanh dương",
+      "ipa_us": "/ə bluː bɔːl/",
+      "ipa_uk": "/ə bluː bɔːl/",
+      "cefr_level": "Pre-A1",
+      "topic": "toys",
+      "world_id": "world_01",
+      "linked_vocab_ids": [
+        "word_blue",
+        "word_ball"
+      ],
+      "example_sentence": "This is a blue ball.",
+      "example_translation": "Đây là một quả bóng màu xanh dương.",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    },
+    {
+      "id": "phr_11",
+      "phrase_en": "two green frogs",
+      "meaning_vi": "hai con ếch xanh lá",
+      "ipa_us": "/tuː ɡriːn frɑːɡz/",
+      "ipa_uk": "/tuː ɡriːn frɒɡz/",
+      "cefr_level": "Pre-A1",
+      "topic": "animals",
+      "world_id": "world_01",
+      "linked_vocab_ids": [
+        "word_two",
+        "word_green",
+        "word_frog"
+      ],
+      "example_sentence": "I see two green frogs.",
+      "example_translation": "Mình thấy hai con ếch màu xanh lá.",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    },
+    {
+      "id": "phr_12",
+      "phrase_en": "three cute cats",
+      "meaning_vi": "ba chú mèo dễ thương",
+      "ipa_us": "/θriː kjuːt kæts/",
+      "ipa_uk": "/θriː kjuːt kæts/",
+      "cefr_level": "Pre-A1",
+      "topic": "animals",
+      "world_id": "world_01",
+      "linked_vocab_ids": [
+        "word_three",
+        "word_cat"
+      ],
+      "example_sentence": "There are three cute cats.",
+      "example_translation": "Có ba chú mèo dễ thương.",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    },
+    {
+      "id": "phr_13",
+      "phrase_en": "drink water",
+      "meaning_vi": "uống nước",
+      "ipa_us": "/drɪŋk ˈwɔː.t̬ɚ/",
+      "ipa_uk": "/drɪŋk ˈwɔː.tə/",
+      "cefr_level": "Pre-A1",
+      "topic": "daily_activities",
+      "world_id": "world_01",
+      "linked_vocab_ids": [
+        "word_drink",
+        "word_water"
+      ],
+      "example_sentence": "Remember to drink water.",
+      "example_translation": "Hãy nhớ uống nước nhé.",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    },
+    {
+      "id": "phr_14",
+      "phrase_en": "drink milk",
+      "meaning_vi": "uống sữa",
+      "ipa_us": "/drɪŋk mɪlk/",
+      "ipa_uk": "/drɪŋk mɪlk/",
+      "cefr_level": "Pre-A1",
+      "topic": "daily_activities",
+      "world_id": "world_01",
+      "linked_vocab_ids": [
+        "word_drink",
+        "word_milk"
+      ],
+      "example_sentence": "I drink milk in the morning.",
+      "example_translation": "Mình uống sữa vào buổi sáng.",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    },
+    {
+      "id": "phr_15",
+      "phrase_en": "eat bread",
+      "meaning_vi": "ăn bánh mì",
+      "ipa_us": "/iːt brɛd/",
+      "ipa_uk": "/iːt brɛd/",
+      "cefr_level": "Pre-A1",
+      "topic": "food",
+      "world_id": "world_01",
+      "linked_vocab_ids": [
+        "word_eat",
+        "word_bread"
+      ],
+      "example_sentence": "I eat bread and an egg.",
+      "example_translation": "Mình ăn bánh mì và một quả trứng.",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    },
+    {
+      "id": "phr_16",
+      "phrase_en": "read a book",
+      "meaning_vi": "đọc một quyển sách",
+      "ipa_us": "/riːd ə bʊk/",
+      "ipa_uk": "/riːd ə bʊk/",
+      "cefr_level": "Pre-A1",
+      "topic": "school",
+      "world_id": "world_01",
+      "linked_vocab_ids": [
+        "word_read",
+        "word_book"
+      ],
+      "example_sentence": "Let us read a book together.",
+      "example_translation": "Cùng đọc một quyển sách nhé.",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    },
+    {
+      "id": "phr_17",
+      "phrase_en": "go to school",
+      "meaning_vi": "đi học / đến trường",
+      "ipa_us": "/ɡoʊ tuː skuːl/",
+      "ipa_uk": "/ɡəʊ tuː skuːl/",
+      "cefr_level": "Pre-A1",
+      "topic": "school",
+      "world_id": "world_01",
+      "linked_vocab_ids": [
+        "word_school"
+      ],
+      "example_sentence": "I go to school with my sister.",
+      "example_translation": "Mình đi học cùng chị gái.",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    },
+    {
+      "id": "phr_18",
+      "phrase_en": "go home",
+      "meaning_vi": "về nhà",
+      "ipa_us": "/ɡoʊ hoʊm/",
+      "ipa_uk": "/ɡəʊ həʊm/",
+      "cefr_level": "Pre-A1",
+      "topic": "places",
+      "world_id": "world_01",
+      "linked_vocab_ids": [
+        "word_home"
+      ],
+      "example_sentence": "Time to go home!",
+      "example_translation": "Đến giờ về nhà rồi!",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    },
+    {
+      "id": "phr_19",
+      "phrase_en": "open your book",
+      "meaning_vi": "mở sách ra",
+      "ipa_us": "/ˈoʊ.pən jʊr bʊk/",
+      "ipa_uk": "/ˈəʊ.pən jɔː bʊk/",
+      "cefr_level": "Pre-A1",
+      "topic": "school",
+      "world_id": "world_01",
+      "linked_vocab_ids": [
+        "word_book"
+      ],
+      "example_sentence": "Please open your book.",
+      "example_translation": "Làm ơn mở sách của bạn ra.",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    },
+    {
+      "id": "phr_20",
+      "phrase_en": "close the door",
+      "meaning_vi": "đóng cửa lại",
+      "ipa_us": "/kloʊz ðə dɔːr/",
+      "ipa_uk": "/kləʊz ðə dɔː/",
+      "cefr_level": "Pre-A1",
+      "topic": "house",
+      "world_id": "world_01",
+      "linked_vocab_ids": [
+        "word_door"
+      ],
+      "example_sentence": "Please close the door.",
+      "example_translation": "Làm ơn đóng cửa lại.",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    },
+    {
+      "id": "phr_21",
+      "phrase_en": "sit down",
+      "meaning_vi": "ngồi xuống",
+      "ipa_us": "/sɪt daʊn/",
+      "ipa_uk": "/sɪt daʊn/",
+      "cefr_level": "Pre-A1",
+      "topic": "school",
+      "world_id": "world_01",
+      "linked_vocab_ids": [
+        "word_chair"
+      ],
+      "example_sentence": "Sit down on the chair.",
+      "example_translation": "Hãy ngồi xuống ghế.",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    },
+    {
+      "id": "phr_22",
+      "phrase_en": "stand up",
+      "meaning_vi": "đứng lên",
+      "ipa_us": "/stænd ʌp/",
+      "ipa_uk": "/stænd ʌp/",
+      "cefr_level": "Pre-A1",
+      "topic": "school",
+      "world_id": "world_01",
+      "linked_vocab_ids": [
+        "word_teacher"
+      ],
+      "example_sentence": "Stand up and say hello.",
+      "example_translation": "Hãy đứng lên và nói xin chào.",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    },
+    {
+      "id": "phr_23",
+      "phrase_en": "listen carefully",
+      "meaning_vi": "lắng nghe cẩn thận",
+      "ipa_us": "/ˈlɪs.ən ˈkɛr.fəl.i/",
+      "ipa_uk": "/ˈlɪs.ən ˈkeə.fəl.i/",
+      "cefr_level": "Pre-A1",
+      "topic": "school",
+      "world_id": "world_01",
+      "linked_vocab_ids": [
+        "word_ear"
+      ],
+      "example_sentence": "Listen carefully to the sound.",
+      "example_translation": "Hãy lắng nghe âm thanh thật kỹ.",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    },
+    {
+      "id": "phr_24",
+      "phrase_en": "wash your hands",
+      "meaning_vi": "rửa tay",
+      "ipa_us": "/wɑːʃ jʊr hændz/",
+      "ipa_uk": "/wɒʃ jɔː hændz/",
+      "cefr_level": "Pre-A1",
+      "topic": "body_parts",
+      "world_id": "world_01",
+      "linked_vocab_ids": [
+        "word_hand",
+        "word_water"
+      ],
+      "example_sentence": "Wash your hands before eating.",
+      "example_translation": "Hãy rửa tay trước khi ăn.",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    },
+    {
+      "id": "phr_25",
+      "phrase_en": "in the bag",
+      "meaning_vi": "ở trong cặp sách",
+      "ipa_us": "/ɪn ðə bæɡ/",
+      "ipa_uk": "/ɪn ðə bæɡ/",
+      "cefr_level": "Pre-A1",
+      "topic": "school",
+      "world_id": "world_01",
+      "linked_vocab_ids": [
+        "word_bag",
+        "word_pen"
+      ],
+      "example_sentence": "My pen is in the bag.",
+      "example_translation": "Cây bút của mình ở trong cặp.",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    },
+    {
+      "id": "phr_26",
+      "phrase_en": "on the table",
+      "meaning_vi": "ở trên bàn",
+      "ipa_us": "/ɑːn ðə ˈteɪ.bəl/",
+      "ipa_uk": "/ɒn ðə ˈteɪ.bəl/",
+      "cefr_level": "Pre-A1",
+      "topic": "house",
+      "world_id": "world_01",
+      "linked_vocab_ids": [
+        "word_table",
+        "word_apple"
+      ],
+      "example_sentence": "The cake is on the table.",
+      "example_translation": "Chiếc bánh ở trên bàn.",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    },
+    {
+      "id": "phr_27",
+      "phrase_en": "under the chair",
+      "meaning_vi": "ở dưới ghế",
+      "ipa_us": "/ˈʌn.dɚ ðə tʃɛr/",
+      "ipa_uk": "/ˈʌn.də ðə tʃeə/",
+      "cefr_level": "Pre-A1",
+      "topic": "house",
+      "world_id": "world_01",
+      "linked_vocab_ids": [
+        "word_chair",
+        "word_cat"
+      ],
+      "example_sentence": "The cat is under the chair.",
+      "example_translation": "Con mèo ở dưới cái ghế.",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    },
+    {
+      "id": "phr_28",
+      "phrase_en": "fly a kite",
+      "meaning_vi": "thả diều",
+      "ipa_us": "/flaɪ ə kaɪt/",
+      "ipa_uk": "/flaɪ ə kaɪt/",
+      "cefr_level": "Pre-A1",
+      "topic": "toys",
+      "world_id": "world_01",
+      "linked_vocab_ids": [
+        "word_kite",
+        "word_wind"
+      ],
+      "example_sentence": "We fly a kite in the park.",
+      "example_translation": "Chúng mình thả diều ở công viên.",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    },
+    {
+      "id": "phr_29",
+      "phrase_en": "ride a bike",
+      "meaning_vi": "đi xe đạp",
+      "ipa_us": "/raɪd ə baɪk/",
+      "ipa_uk": "/raɪd ə baɪk/",
+      "cefr_level": "Pre-A1",
+      "topic": "toys",
+      "world_id": "world_01",
+      "linked_vocab_ids": [
+        "word_bike"
+      ],
+      "example_sentence": "I can ride a bike.",
+      "example_translation": "Mình biết đi xe đạp.",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    },
+    {
+      "id": "phr_30",
+      "phrase_en": "play with a ball",
+      "meaning_vi": "chơi với quả bóng",
+      "ipa_us": "/pleɪ wɪð ə bɔːl/",
+      "ipa_uk": "/pleɪ wɪð ə bɔːl/",
+      "cefr_level": "Pre-A1",
+      "topic": "toys",
+      "world_id": "world_01",
+      "linked_vocab_ids": [
+        "word_play",
+        "word_ball"
+      ],
+      "example_sentence": "The dog plays with a ball.",
+      "example_translation": "Chú chó chơi với quả bóng.",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    },
+    {
+      "id": "phr_31",
+      "phrase_en": "at the park",
+      "meaning_vi": "tại công viên",
+      "ipa_us": "/æt ðə pɑːrk/",
+      "ipa_uk": "/æt ðə pɑːk/",
+      "cefr_level": "Pre-A1",
+      "topic": "places",
+      "world_id": "world_01",
+      "linked_vocab_ids": [
+        "word_park"
+      ],
+      "example_sentence": "I run at the park.",
+      "example_translation": "Mình chạy bộ ở công viên.",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    },
+    {
+      "id": "phr_32",
+      "phrase_en": "at the zoo",
+      "meaning_vi": "tại sở thú",
+      "ipa_us": "/æt ðə zuː/",
+      "ipa_uk": "/æt ðə zuː/",
+      "cefr_level": "Pre-A1",
+      "topic": "places",
+      "world_id": "world_01",
+      "linked_vocab_ids": [
+        "word_zoo",
+        "word_lion"
+      ],
+      "example_sentence": "I see a lion at the zoo.",
+      "example_translation": "Mình thấy một con sư tử ở sở thú.",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    },
+    {
+      "id": "phr_33",
+      "phrase_en": "a sunny day",
+      "meaning_vi": "một ngày nắng đẹp",
+      "ipa_us": "/ə ˈsʌn.i deɪ/",
+      "ipa_uk": "/ə ˈsʌn.i deɪ/",
+      "cefr_level": "Pre-A1",
+      "topic": "weather",
+      "world_id": "world_01",
+      "linked_vocab_ids": [
+        "word_sun"
+      ],
+      "example_sentence": "It is a sunny day today.",
+      "example_translation": "Hôm nay là một ngày nắng đẹp.",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    },
+    {
+      "id": "phr_34",
+      "phrase_en": "a rainy day",
+      "meaning_vi": "một ngày mưa",
+      "ipa_us": "/ə ˈreɪ.ni deɪ/",
+      "ipa_uk": "/ə ˈreɪ.ni deɪ/",
+      "cefr_level": "Pre-A1",
+      "topic": "weather",
+      "world_id": "world_01",
+      "linked_vocab_ids": [
+        "word_rain"
+      ],
+      "example_sentence": "Take a coat on a rainy day.",
+      "example_translation": "Hãy mang áo khoác vào ngày mưa.",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    },
+    {
+      "id": "phr_35",
+      "phrase_en": "my big family",
+      "meaning_vi": "gia đình lớn của mình",
+      "ipa_us": "/maɪ bɪɡ ˈfæm.əl.i/",
+      "ipa_uk": "/maɪ bɪɡ ˈfæm.əl.i/",
+      "cefr_level": "Pre-A1",
+      "topic": "family",
+      "world_id": "world_01",
+      "linked_vocab_ids": [
+        "word_mom",
+        "word_dad"
+      ],
+      "example_sentence": "I love my big family.",
+      "example_translation": "Mình yêu gia đình lớn của mình.",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    },
+    {
+      "id": "phr_36",
+      "phrase_en": "very happy",
+      "meaning_vi": "rất vui vẻ",
+      "ipa_us": "/ˈvɛr.i ˈhæp.i/",
+      "ipa_uk": "/ˈvɛr.i ˈhæp.i/",
+      "cefr_level": "Pre-A1",
+      "topic": "feelings",
+      "world_id": "world_01",
+      "linked_vocab_ids": [
+        "word_happy"
+      ],
+      "example_sentence": "I am very happy!",
+      "example_translation": "Mình rất vui!",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    },
+    {
+      "id": "phr_37",
+      "phrase_en": "do homework",
+      "meaning_vi": "làm bài tập về nhà",
+      "ipa_us": "/duː ˈhoʊm.wɜːrk/",
+      "ipa_uk": "/duː ˈhəʊm.wɜːk/",
+      "cefr_level": "A1",
+      "topic": "school",
+      "world_id": "world_02",
+      "linked_vocab_ids": [
+        "word_homework"
+      ],
+      "example_sentence": "I do homework at seven o'clock.",
+      "example_translation": "Mình làm bài tập về nhà lúc bảy giờ.",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    },
+    {
+      "id": "phr_38",
+      "phrase_en": "brush my teeth",
+      "meaning_vi": "đánh răng",
+      "ipa_us": "/brʌʃ maɪ tiːθ/",
+      "ipa_uk": "/brʌʃ maɪ tiːθ/",
+      "cefr_level": "A1",
+      "topic": "daily_activities",
+      "world_id": "world_02",
+      "linked_vocab_ids": [
+        "word_brush"
+      ],
+      "example_sentence": "I brush my teeth every morning.",
+      "example_translation": "Mình đánh răng mỗi buổi sáng.",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    },
+    {
+      "id": "phr_39",
+      "phrase_en": "have breakfast",
+      "meaning_vi": "ăn bữa sáng",
+      "ipa_us": "/hæv ˈbrɛk.fəst/",
+      "ipa_uk": "/hæv ˈbrɛk.fəst/",
+      "cefr_level": "A1",
+      "topic": "daily_activities",
+      "world_id": "world_02",
+      "linked_vocab_ids": [
+        "word_breakfast"
+      ],
+      "example_sentence": "I have breakfast at home.",
+      "example_translation": "Mình ăn sáng ở nhà.",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    },
+    {
+      "id": "phr_40",
+      "phrase_en": "in the library",
+      "meaning_vi": "trong thư viện",
+      "ipa_us": "/ɪn ðə ˈlaɪ.brɛr.i/",
+      "ipa_uk": "/ɪn ðə ˈlaɪ.brə.ri/",
+      "cefr_level": "A1",
+      "topic": "school",
+      "world_id": "world_02",
+      "linked_vocab_ids": [
+        "word_library"
+      ],
+      "example_sentence": "We read quietly in the library.",
+      "example_translation": "Chúng mình đọc sách yên lặng trong thư viện.",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    },
+    {
+      "id": "phr_41",
+      "phrase_en": "best friend",
+      "meaning_vi": "bạn thân nhất",
+      "ipa_us": "/bɛst frɛnd/",
+      "ipa_uk": "/bɛst frɛnd/",
+      "cefr_level": "A1",
+      "topic": "friends",
+      "world_id": "world_02",
+      "linked_vocab_ids": [
+        "word_friend"
+      ],
+      "example_sentence": "My best friend is very funny.",
+      "example_translation": "Bạn thân nhất của mình rất vui tính.",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    },
+    {
+      "id": "phr_42",
+      "phrase_en": "share toys",
+      "meaning_vi": "chia sẻ đồ chơi",
+      "ipa_us": "/ʃɛr tɔɪz/",
+      "ipa_uk": "/ʃeə tɔɪz/",
+      "cefr_level": "A1",
+      "topic": "friends",
+      "world_id": "world_02",
+      "linked_vocab_ids": [
+        "word_share"
+      ],
+      "example_sentence": "Good friends share toys together.",
+      "example_translation": "Bạn tốt cùng nhau chia sẻ đồ chơi.",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    },
+    {
+      "id": "phr_43",
+      "phrase_en": "draw a picture",
+      "meaning_vi": "vẽ một bức tranh",
+      "ipa_us": "/drɔː ə ˈpɪk.tʃɚ/",
+      "ipa_uk": "/drɔː ə ˈpɪk.tʃə/",
+      "cefr_level": "A1",
+      "topic": "hobbies",
+      "world_id": "world_02",
+      "linked_vocab_ids": [
+        "word_draw"
+      ],
+      "example_sentence": "I like to draw a picture of a bird.",
+      "example_translation": "Mình thích vẽ một bức tranh con chim.",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    },
+    {
+      "id": "phr_44",
+      "phrase_en": "listen to music",
+      "meaning_vi": "nghe nhạc",
+      "ipa_us": "/ˈlɪs.ən tuː ˈmjuː.zɪk/",
+      "ipa_uk": "/ˈlɪs.ən tuː ˈmjuː.zɪk/",
+      "cefr_level": "A1",
+      "topic": "hobbies",
+      "world_id": "world_02",
+      "linked_vocab_ids": [
+        "word_music"
+      ],
+      "example_sentence": "She likes to listen to music.",
+      "example_translation": "Bạn ấy thích nghe nhạc.",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    },
+    {
+      "id": "phr_45",
+      "phrase_en": "how much is it",
+      "meaning_vi": "cái này giá bao nhiêu",
+      "ipa_us": "/haʊ mʌtʃ ɪz ɪt/",
+      "ipa_uk": "/haʊ mʌtʃ ɪz ɪt/",
+      "cefr_level": "A1",
+      "topic": "shopping",
+      "world_id": "world_02",
+      "linked_vocab_ids": [
+        "word_price"
+      ],
+      "example_sentence": "Excuse me, how much is it?",
+      "example_translation": "Xin lỗi, cái này giá bao nhiêu ạ?",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    },
+    {
+      "id": "phr_46",
+      "phrase_en": "at the market",
+      "meaning_vi": "ở chợ",
+      "ipa_us": "/æt ðə ˈmɑːr.kɪt/",
+      "ipa_uk": "/æt ðə ˈmɑː.kɪt/",
+      "cefr_level": "A1",
+      "topic": "places",
+      "world_id": "world_02",
+      "linked_vocab_ids": [
+        "word_market"
+      ],
+      "example_sentence": "We buy fresh fruit at the market.",
+      "example_translation": "Chúng mình mua trái cây tươi ở chợ.",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    },
+    {
+      "id": "phr_47",
+      "phrase_en": "turn left",
+      "meaning_vi": "rẽ trái",
+      "ipa_us": "/tɜːrn lɛft/",
+      "ipa_uk": "/tɜːn lɛft/",
+      "cefr_level": "A1",
+      "topic": "places",
+      "world_id": "world_02",
+      "linked_vocab_ids": [
+        "word_street"
+      ],
+      "example_sentence": "Turn left at the park.",
+      "example_translation": "Hãy rẽ trái ở chỗ công viên.",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    },
+    {
+      "id": "phr_48",
+      "phrase_en": "go straight",
+      "meaning_vi": "đi thẳng",
+      "ipa_us": "/ɡoʊ streɪt/",
+      "ipa_uk": "/ɡəʊ streɪt/",
+      "cefr_level": "A1",
+      "topic": "places",
+      "world_id": "world_02",
+      "linked_vocab_ids": [
+        "word_street"
+      ],
+      "example_sentence": "Go straight to the museum.",
+      "example_translation": "Hãy đi thẳng đến bảo tàng.",
+      "audio_us_path": "",
+      "audio_uk_path": "",
+      "audio_status": "missing_asset",
+      "review_status": "approved"
+    }
+  ]
+}

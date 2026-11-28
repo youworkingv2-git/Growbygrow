@@ -1,7 +1,7 @@
 class_name VocabularyManager
 extends RefCounted
-## Single source of truth for Vocabulary records, reusable across Listening,
-## Speaking, Reading, Writing, Review, and future Prompt 05 mini-games.
+## Single source of truth for Vocabulary & Common Phrases records, reusable across
+## Listening, Speaking, Reading, Writing, Review, and Mini-Games.
 
 var _repo: LearningContentRepository
 var _progress: LearningProgressManager
@@ -19,6 +19,14 @@ func get_all_words() -> Array[Dictionary]:
 	return out
 
 
+func get_words_by_level(cefr_level: String) -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	for w in _repo.vocab_ordered:
+		if cefr_level.is_empty() or str(w.get("cefr_level", "Pre-A1")) == cefr_level:
+			out.append(enrich_with_status(w))
+	return out
+
+
 func get_word(word_id: String) -> Dictionary:
 	var w: Dictionary = _repo.vocab_by_id.get(word_id, {})
 	if w.is_empty():
@@ -26,18 +34,24 @@ func get_word(word_id: String) -> Dictionary:
 	return enrich_with_status(w)
 
 
-func get_words_by_topic(topic: String) -> Array[Dictionary]:
+func get_words_by_topic(topic: String, cefr_level: String = "") -> Array[Dictionary]:
 	var out: Array[Dictionary] = []
 	for w in _repo.vocab_ordered:
-		if str(w.get("topic", "")) == topic:
+		if not cefr_level.is_empty() and str(w.get("cefr_level", "Pre-A1")) != cefr_level:
+			continue
+		var primary := str(w.get("topic", ""))
+		var tags: Array = w.get("topics", [])
+		if primary == topic or tags.has(topic):
 			out.append(enrich_with_status(w))
 	return out
 
 
-func get_topics() -> Array[String]:
+func get_topics(cefr_level: String = "") -> Array[String]:
 	var seen: Dictionary = {}
 	var out: Array[String] = []
 	for w in _repo.vocab_ordered:
+		if not cefr_level.is_empty() and str(w.get("cefr_level", "Pre-A1")) != cefr_level:
+			continue
 		var t := str(w.get("topic", ""))
 		if not t.is_empty() and not seen.has(t):
 			seen[t] = true
@@ -45,11 +59,30 @@ func get_topics() -> Array[String]:
 	return out
 
 
-func get_words_for_difficulty(max_difficulty: int, topic_filter: String = "") -> Array[Dictionary]:
+func get_all_phrases(cefr_level: String = "", topic_filter: String = "") -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	for p in _repo.phrases_ordered:
+		if not cefr_level.is_empty() and str(p.get("cefr_level", "Pre-A1")) != cefr_level:
+			continue
+		if not topic_filter.is_empty() and str(p.get("topic", "")) != topic_filter:
+			continue
+		out.append(p)
+	return out
+
+
+func get_phrase(phrase_id: String) -> Dictionary:
+	return _repo.phrases_by_id.get(phrase_id, {})
+
+
+func get_words_for_difficulty(max_difficulty: int, topic_filter: String = "", cefr_level: String = "") -> Array[Dictionary]:
 	var out: Array[Dictionary] = []
 	for w in _repo.vocab_ordered:
+		if not cefr_level.is_empty() and str(w.get("cefr_level", "Pre-A1")) != cefr_level:
+			continue
 		if int(w.get("difficulty", 1)) <= max_difficulty:
-			if topic_filter.is_empty() or str(w.get("topic", "")) == topic_filter:
+			var primary := str(w.get("topic", ""))
+			var tags: Array = w.get("topics", [])
+			if topic_filter.is_empty() or primary == topic_filter or tags.has(topic_filter):
 				out.append(enrich_with_status(w))
 	return out
 
@@ -138,6 +171,14 @@ func get_phonemes(word_dict: Dictionary) -> Array[String]:
 func play_word(word_dict: Dictionary, slow: bool = false, accent: String = "") -> Dictionary:
 	if AudioManager != null and AudioManager.voice_manager != null:
 		return AudioManager.voice_manager.speak_vocab_word(word_dict, slow, accent)
+	return { "played": false, "source": "unavailable" }
+
+
+func play_phrase(phrase_dict: Dictionary, slow: bool = false, accent: String = "") -> Dictionary:
+	if AudioManager != null and AudioManager.voice_manager != null:
+		var acc := accent if not accent.is_empty() else SettingsManager.preferred_accent
+		var path := str(phrase_dict.get("audio_uk_path" if acc == "en-GB" else "audio_us_path", ""))
+		return AudioManager.voice_manager.speak_learning_text(str(phrase_dict.get("phrase_en", "")), path, acc, slow)
 	return { "played": false, "source": "unavailable" }
 
 

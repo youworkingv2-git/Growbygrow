@@ -22,6 +22,7 @@ var _active_popup_quest_id: String = ""
 var _quest_log_filter: String = "main"
 var _bag_tab: String = "items"
 var _has_focused_target: bool = false
+var _focused_target_title: String = ""
 var _touch_input_seen: bool = false
 var _reward_claim_locked: bool = false
 var _dialogue_active: bool = false
@@ -403,12 +404,14 @@ func set_area_header(area_data: Dictionary) -> void:
 func set_focused_target(meta: Dictionary) -> void:
 	if meta.is_empty():
 		_has_focused_target = false
+		_focused_target_title = ""
 		interact_banner.visible = false
 		touch_interact_btn.disabled = true
 		return
 	_has_focused_target = true
+	_focused_target_title = str(meta.get("title", ""))
 	var prefix := "Chạm: " if SceneRouter.is_mobile_or_compact() else "[E] Tương tác: "
-	interact_banner.text = prefix + str(meta.get("title", ""))
+	interact_banner.text = prefix + _focused_target_title
 	interact_banner.visible = not _is_any_modal_or_dialogue_open()
 	touch_interact_btn.disabled = false
 
@@ -906,6 +909,9 @@ func _apply_responsive() -> void:
 	var short_dock := vp.x < 700.0
 	learn_btn.text = LocalizationManager.tr_key("btn_learn", "Học tập") if short_dock else ("%s [L]" % LocalizationManager.tr_key("btn_learn", "Học tập"))
 	minigames_btn.text = LocalizationManager.tr_key("btn_minigames", "Trò chơi") if short_dock else ("%s [G]" % LocalizationManager.tr_key("btn_minigames", "Trò chơi"))
+	if _has_focused_target:
+		var prefix := "Chạm: " if SceneRouter.is_mobile_or_compact() else "[E] Tương tác: "
+		interact_banner.text = prefix + _focused_target_title
 
 	var modal_half_w := minf(330.0, (vp.x - 28.0) * 0.5)
 	quest_log_modal.offset_left = -modal_half_w

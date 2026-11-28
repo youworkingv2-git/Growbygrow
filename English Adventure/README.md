@@ -15,17 +15,17 @@
 
 ---
 
-## 2. Trạng thái dự án hiện tại (Prompt 01–08)
+## 2. Trạng thái dự án hiện tại (Prompt 01–09)
 
-Dự án đã hoàn thành toàn bộ hệ thống nền tảng **Prompt 01–07** và trải qua đợt **kiểm thử tổng thể, sửa lỗi và tối ưu hóa Prompt 08** (phiên bản WebGL2 đã chạy kiểm thử thực tế trên Chrome + bộ validator tự động):
+Dự án đã hoàn thành toàn bộ hệ thống nền tảng **Prompt 01–08** (đã qua kiểm thử WebGL2 E2E) và vừa hoàn tất **Prompt 09 – Content Expansion System**:
 
 - **Stylized 3D World & Characters:** Chuyển đổi toàn bộ gameplay sang **3D thực thụ** (`CharacterBody3D`, camera góc nhìn thứ ba `SpringArm3D` tránh xuyên vật thể, mô hình placeholder 3D có khớp cho cả 7 nhân vật `Boy`, `Girl`, `Buddy`, `Professor Owl`, `Lily`, `Rocky`, `Crystal Guardian`, cùng 5 khu vực 3D với **Welcome Village** làm khu vực 3D trọng điểm, World Map 3D isometric, Diorama 3D trên Main Menu & Character Selection, và thiết lập chất lượng đồ họa `Low` / `Medium` / `High`). Xem [`docs/VISUAL_3D_ARCHITECTURE.md`](docs/VISUAL_3D_ARCHITECTURE.md) và [`docs/ASSET_3D_PIPELINE.md`](docs/ASSET_3D_PIPELINE.md).
-- **Core & Persistence:** Đã triển khai 12 Autoloads (`AppLogger`, `EventBus`, `LocalizationManager`, `DataRepository`, `SaveLoadManager`, `GameStateManager`, `QuestManager`, `LearningEngine`, `SettingsManager`, `AudioManager`, `UIManager`, `SceneRouter`).
+- **Core & Persistence:** Đã triển khai 14 Autoloads (`AppLogger`, `EventBus`, `LocalizationManager`, `DataRepository`, `SaveLoadManager`, `GameStateManager`, `QuestManager`, `LearningEngine`, `MiniGameManager`, `RewardManager`, `SettingsManager`, `AudioManager`, `UIManager`, `SceneRouter`).
 - **UI/UX Design System & Màn hình:** `UIDesignSystem`, `UIAnimator`, `ResponsiveHelper`, thư viện component dùng chung (`AdventureConfirmDialog`, `RewardDisplay`, `QuestCardWidget`, `WorldCardWidget`, `AvatarBadge`, `LoadingIndicatorWidget`), Splash Screen, Main Menu, Character Selection, World Introduction, World Map, In-game HUD, Dialogue UI, Quest Log, Reward Popup, Inventory UI, Settings Modal, Pause Menu và Notification Stack.
 - **World & Exploration:** Xây dựng **Alphabet Island** với **5 khu vực** (`Welcome Village`, `Alphabet Meadow`, `Letter Cave`, `Crystal Lake`, `The Shadow Gate`), bản đồ `World Map` tương tác, cơ chế khóa/mở khóa theo dữ liệu và chuyển cảnh bảo vệ khu vực khóa.
-- **Characters & Quests:** Chọn nhân vật `Boy` / `Girl`, điều khiển PC (`WASD`/Arrows + `Space` + `E` + `H` + `L` + `Esc`) và Mobile (`VirtualJoystick` + nút chạm), đồng hành **Buddy** (7 trạng thái), 4 NPCs (`Professor Owl`, `Lily`, `Rocky`, `Crystal Guardian`), hệ thống hội thoại song ngữ, `InteractionManager` và 3 nhiệm vụ mẫu.
-- **English Learning Engine (Prompt 04):** Đã triển khai bộ máy học tiếng Anh độc lập, hướng dữ liệu (`LearningPathManager`, `VocabularyManager`, `PhonicsManager`, `GrammarManager`, `ListeningManager`, `SpeakingManager`, `ReadingManager`, `WritingManager`, `QuestionManager`, `AssessmentEngine`, `LearningProgressManager`, `ReviewEngine`) kèm giao diện `LearningHubModal` tích hợp vào thế giới 3D và Quest System. Bao gồm 26 chữ cái, 32 từ vựng (+ 32 SVG), 10 nhóm Phonics, 15 cấu trúc câu, 12 câu mẫu và hoạt động 4 kỹ năng. Audio thu sẵn đang chờ bổ sung (`missing_asset`); AI chấm phát âm là bản thử nghiệm chưa tích hợp ASR.
-- **Mini-games hoàn chỉnh & Audio studio:** Dành cho **Prompt 05+**.
+- **Characters & Quests:** Chọn nhân vật `Boy` / `Girl`, điều khiển PC (`WASD`/Arrows + `Space` + `E` + `H` + `L` + `G` + `Esc`) và Mobile (`VirtualJoystick` + nút chạm), đồng hành **Buddy** (7 trạng thái), 4 NPCs (`Professor Owl`, `Lily`, `Rocky`, `Crystal Guardian`), hệ thống hội thoại song ngữ, `InteractionManager` và 8 nhiệm vụ liên kết đầy đủ học liệu.
+- **English Learning Engine & Kho nội dung Pre-A1 / A1 (Prompt 04 + 09):** Triển khai bộ máy học tiếng Anh độc lập, hướng dữ liệu kèm `LearningHubModal` (lọc theo Pre-A1 / A1 / Cụm từ, nút luyện Phonics, cổng mở khóa A1 đa điều kiện, bảng 4 trạng thái ghi nhớ và Adaptive Support). Kho nội dung hiện có **26 chữ cái**, **115 từ Pre-A1 + 32 từ mẫu A1** (**147 ảnh SVG độc lập 1:1**), **48 cụm từ**, **24 đơn vị Phonics + 6 bài tập**, **32 mẫu câu + 38 câu ví dụ**, **116 bài thực hành 4 kỹ năng** (28 Nghe, 28 Đọc, 28 Viết, 16 Nói), **14 kịch bản hội thoại** và **20 câu hỏi dùng chung**. Audio `.ogg` giữ trung thực `audio_status: "missing_asset"` (phát thực tế qua `VoiceManager` TTS `en-US`/`en-GB`); AI chấm phát âm giữ `ai_scoring_status: "not_integrated_experimental"`.
+- **8 Mini-games & Audio/Voice System (Prompt 05–07):** 8 mini-game kết nối `LearningEngine` (`listen_and_find`, `word_builder`, `word_matching`, `sentence_builder`, `sound_detective`, `speaking_hero`, `memory_quest`, `dialogue_adventure`), 11 file `.wav` UI/SFX/BGM gốc và `SpeakingPracticePanel`.
 
 ---
 
@@ -82,6 +82,30 @@ Dự án đã hoàn thành toàn bộ hệ thống nền tảng **Prompt 01–07
 | [`docs/SECURITY_REVIEW.md`](docs/SECURITY_REVIEW.md) | Rà soát bảo mật, RLS & an toàn trẻ em |
 | [`docs/FINAL_QA_REPORT.md`](docs/FINAL_QA_REPORT.md) | Tổng kết chất lượng dự án tại thời điểm P8 |
 | [`docs/KNOWN_ISSUES.md`](docs/KNOWN_ISSUES.md) | Các giới hạn và vấn đề còn tồn tại sau P8 |
+| [`docs/CURRICULUM_PRE_A1.md`](docs/CURRICULUM_PRE_A1.md) | Lộ trình học Pre-A1 (20 chủ đề & tích hợp Alphabet Island) |
+| [`docs/CURRICULUM_A1.md`](docs/CURRICULUM_A1.md) | Lộ trình học A1 (20 chủ đề, gói mẫu 8 chủ đề & mở khóa đa yếu tố) |
+| [`docs/VOCABULARY_CONTENT_SPEC.md`](docs/VOCABULARY_CONTENT_SPEC.md) | Quy chuẩn từ vựng & cụm từ (147 từ, 48 cụm, 147 SVG) |
+| [`docs/PHONICS_CURRICULUM.md`](docs/PHONICS_CURRICULUM.md) | Chương trình Phonics (26 chữ cái, 24 nhóm âm, 6 bài tập) |
+| [`docs/SENTENCE_PATTERNS.md`](docs/SENTENCE_PATTERNS.md) | Danh mục 32 mẫu câu Pre-A1 & A1 kèm slot thay thế |
+| [`docs/GRAMMAR_CURRICULUM.md`](docs/GRAMMAR_CURRICULUM.md) | Ngữ pháp ứng dụng theo tình huống Pre-A1 & A1 |
+| [`docs/LISTENING_CONTENT_SPEC.md`](docs/LISTENING_CONTENT_SPEC.md) | Quy chuẩn & 28 bài luyện nghe (Pre-A1 & A1) |
+| [`docs/SPEAKING_CONTENT_SPEC.md`](docs/SPEAKING_CONTENT_SPEC.md) | Quy chuẩn & 16 bài luyện nói tích hợp fallback an toàn |
+| [`docs/READING_CONTENT_SPEC.md`](docs/READING_CONTENT_SPEC.md) | Quy chuẩn & 28 bài luyện đọc (từ, câu, đoạn 30–50 từ) |
+| [`docs/WRITING_CONTENT_SPEC.md`](docs/WRITING_CONTENT_SPEC.md) | Quy chuẩn & 28 bài luyện viết hỗ trợ `acceptable_answers` |
+| [`docs/DIALOGUE_CONTENT_SPEC.md`](docs/DIALOGUE_CONTENT_SPEC.md) | Cấu trúc 14 hội thoại tình huống Pre-A1 & A1 |
+| [`docs/CONTENT_WORLD_MAPPING.md`](docs/CONTENT_WORLD_MAPPING.md) | Phân bổ nội dung vào 6 thế giới dài hạn & 5 khu Alphabet Island |
+| [`docs/CONTENT_QUEST_MAPPING.md`](docs/CONTENT_QUEST_MAPPING.md) | Ánh xạ 8 nhiệm vụ với kho từ vựng, mẫu câu, mini-game & ôn tập |
+| [`docs/CONTENT_QUALITY_GUIDELINES.md`](docs/CONTENT_QUALITY_GUIDELINES.md) | Quy chuẩn kiểm duyệt (`review_status`) & tiêu chuẩn ngôn ngữ |
+| [`docs/CONTENT_ASSET_GUIDELINES.md`](docs/CONTENT_ASSET_GUIDELINES.md) | Quy chuẩn 147 ảnh SVG 1:1 & khai báo audio trung thực |
+| [`docs/CONTENT_VALIDATION_REPORT.md`](docs/CONTENT_VALIDATION_REPORT.md) | Báo cáo kiểm định dữ liệu tự động Prompt 09 |
+| [`docs/CONTENT_INTEGRATION_TEST_REPORT.md`](docs/CONTENT_INTEGRATION_TEST_REPORT.md) | Báo cáo kiểm thử tích hợp Test 01–08 (Prompt 09) |
+| [`docs/CONTENT_EXPANSION_ROADMAP.md`](docs/CONTENT_EXPANSION_ROADMAP.md) | Kế hoạch mở rộng kho từ vựng & audio giai đoạn tiếp theo |
+| [`docs/release/RELEASE_PLAN.md`](docs/release/RELEASE_PLAN.md) | Kế hoạch phát hành đa nền tảng (`v0.9.0-rc.1`) |
+| [`docs/release/VERSIONING.md`](docs/release/VERSIONING.md) | Quy tắc quản lý phiên bản thống nhất (`0.9.0` · Build `900`) |
+| [`docs/release/BUILD_CONFIGURATION.md`](docs/release/BUILD_CONFIGURATION.md) | Cấu hình Build Development/Release & 5 Export Presets |
+| [`docs/release/RELEASE_TEST_REPORT.md`](docs/release/RELEASE_TEST_REPORT.md) | Báo cáo kiểm định phát hành & trạng thái từng nền tảng |
+| [`docs/release/RELEASE_CHECKLIST.md`](docs/release/RELEASE_CHECKLIST.md) | Checklist chuẩn bị phát hành Windows, Android, iOS, Web |
+| [`docs/release/PRIVACY_POLICY_DRAFT.md`](docs/release/PRIVACY_POLICY_DRAFT.md) | Bản dự thảo Chính sách quyền riêng tư cho trẻ em |
 | [`docs/IMPLEMENTATION_CHECKLIST.md`](docs/IMPLEMENTATION_CHECKLIST.md) | Checklist kiểm tra & danh sách công việc cho các Prompt tiếp theo |
 
 ---
@@ -133,8 +157,12 @@ English Adventure/
    - `0004_minigame_system_extensions.sql`
    - `0005_quest_reward_inventory_integration.sql`
    - `0006_audio_voice_pronunciation.sql`
+   - `0007_content_expansion_system.sql`
 4. Chạy bộ kiểm thử tự động:
-   - Python validators (`validate_prompt_02.py`..`validate_prompt_08.py`, `validate_3d_visual_direction.py`).
-   - GDScript Unit/Regression Suite trong Godot Editor: `tests/unit/test_p8_regression_suite.gd` (chạy dưới scene runner hoặc `godot --headless --script tests/unit/test_p8_regression_suite.gd`).
+   - Python validators (`validate_prompt_02.py`..`validate_prompt_10.py`, `validate_3d_visual_direction.py`).
+   - Kiểm tra tài nguyên đóng gói: `python tools/audit_release_assets.py`.
+   - Kiểm thử tích hợp nội dung P9: `python tests/integration/run_p9_content_tests.py`.
+   - GDScript Unit/Regression Suite trong Godot Editor: `tests/unit/test_p8_regression_suite.gd`, `tests/unit/test_p9_content_integration.gd`, `tests/unit/test_p10_release_readiness.gd`.
+   - Đóng gói Release (trên máy đã cài Godot 4.3+): `.\tools\build_release.ps1 -Target windows` hoặc GitHub Actions `.github/workflows/release-multiplatform.yml`.
    - Live WebGL2 E2E QA (Chrome CDP): `python tests/integration/run_webgl2_e2e_qa.py`.
-5. Xem `docs/IMPLEMENTATION_CHECKLIST.md`, `docs/FINAL_QA_REPORT.md`, `docs/MINIGAME_SYSTEM.md`, `docs/GAMEPLAY_LOOP.md`, và `docs/AUDIO_SYSTEM.md` để vận hành đầy đủ từ Prompt 01 → Prompt 08.
+5. Xem `docs/IMPLEMENTATION_CHECKLIST.md`, `docs/FINAL_QA_REPORT.md`, `docs/CONTENT_VALIDATION_REPORT.md`, `docs/release/RELEASE_TEST_REPORT.md`, `docs/release/RELEASE_CHECKLIST.md` để vận hành đầy đủ từ Prompt 01 → Prompt 10.

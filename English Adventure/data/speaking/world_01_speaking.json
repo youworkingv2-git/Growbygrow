@@ -13,7 +13,9 @@
       "audio_status": "missing_asset",
       "audio_path": "",
       "ai_scoring_status": "not_integrated_experimental",
-      "difficulty": 1
+      "difficulty": 1,
+      "review_status": "approved",
+      "cefr_level": "Pre-A1"
     },
     {
       "id": "speak_02",
@@ -26,7 +28,9 @@
       "audio_status": "missing_asset",
       "audio_path": "",
       "ai_scoring_status": "not_integrated_experimental",
-      "difficulty": 1
+      "difficulty": 1,
+      "review_status": "approved",
+      "cefr_level": "Pre-A1"
     },
     {
       "id": "speak_03",
@@ -39,7 +43,9 @@
       "audio_status": "missing_asset",
       "audio_path": "",
       "ai_scoring_status": "not_integrated_experimental",
-      "difficulty": 1
+      "difficulty": 1,
+      "review_status": "approved",
+      "cefr_level": "Pre-A1"
     },
     {
       "id": "speak_04",
@@ -52,7 +58,9 @@
       "audio_status": "missing_asset",
       "audio_path": "",
       "ai_scoring_status": "not_integrated_experimental",
-      "difficulty": 2
+      "difficulty": 2,
+      "review_status": "approved",
+      "cefr_level": "Pre-A1"
     },
     {
       "id": "speak_05",
@@ -66,7 +74,9 @@
       "audio_status": "missing_asset",
       "audio_path": "",
       "ai_scoring_status": "not_integrated_experimental",
-      "difficulty": 1
+      "difficulty": 1,
+      "review_status": "approved",
+      "cefr_level": "Pre-A1"
     },
     {
       "id": "speak_06",
@@ -80,7 +90,105 @@
       "audio_status": "missing_asset",
       "audio_path": "",
       "ai_scoring_status": "not_integrated_experimental",
-      "difficulty": 2
+      "difficulty": 2,
+      "review_status": "approved",
+      "cefr_level": "Pre-A1"
+    },
+    {
+      "id": "speak_07",
+      "speaking_mode": "repeat_word",
+      "prompt_vi": "Tập nói từ 'Star' (Ngôi sao):",
+      "target_text_en": "Star",
+      "meaning_vi": "Ngôi sao",
+      "ipa": "/stɑːr/",
+      "word_id": "word_star",
+      "mouth_hint_vi": "Xì nhẹ âm /s/, nối sang /t/ và mở rộng khẩu hình /ɑːr/.",
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "ai_scoring_status": "not_integrated_experimental",
+      "difficulty": 1,
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "speak_08",
+      "speaking_mode": "repeat_word",
+      "prompt_vi": "Tập nói từ 'Rabbit' (Con thỏ):",
+      "target_text_en": "Rabbit",
+      "meaning_vi": "Con thỏ",
+      "ipa": "/ˈræb.ɪt/",
+      "word_id": "word_rabbit",
+      "mouth_hint_vi": "Nhấn trọng âm vào âm tiết đầu 'RAB-bit'.",
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "ai_scoring_status": "not_integrated_experimental",
+      "difficulty": 1,
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "speak_09",
+      "speaking_mode": "repeat_sentence",
+      "prompt_vi": "Tập nói lời chào buổi sáng:",
+      "target_text_en": "Good morning! Nice to meet you.",
+      "meaning_vi": "Chào buổi sáng! Rất vui được gặp bạn.",
+      "ipa": "/ɡʊd ˈmɔːr.nɪŋ naɪs tuː miːt juː/",
+      "word_id": "word_hello",
+      "mouth_hint_vi": "Nói với giọng tươi vui, rõ từng từ.",
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "ai_scoring_status": "not_integrated_experimental",
+      "difficulty": 1,
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "speak_10",
+      "speaking_mode": "repeat_sentence",
+      "prompt_vi": "Tập nói màu sắc và đồ vật:",
+      "target_text_en": "It is a yellow banana.",
+      "meaning_vi": "Đó là một quả chuối màu vàng.",
+      "ipa": "/ɪt ɪz ə ˈjɛl.oʊ bəˈnæn.ə/",
+      "word_id": "word_banana",
+      "mouth_hint_vi": "Đọc nối nhẹ 'It is' và nhấn ở 'yellow', 'banana'.",
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "ai_scoring_status": "not_integrated_experimental",
+      "difficulty": 2,
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "speak_11",
+      "speaking_mode": "repeat_sentence",
+      "prompt_vi": "Tập đếm số và nói về đồ vật:",
+      "target_text_en": "I have six blue pencils.",
+      "meaning_vi": "Mình có sáu cây bút chì màu xanh dương.",
+      "ipa": "/aɪ hæv sɪks bluː ˈpɛn.səlz/",
+      "word_id": "word_pencil",
+      "mouth_hint_vi": "Chú ý âm /s/ ở cuối 'six' và /z/ ở cuối 'pencils'.",
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "ai_scoring_status": "not_integrated_experimental",
+      "difficulty": 2,
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "speak_12",
+      "speaking_mode": "repeat_sentence",
+      "prompt_vi": "Tập hỏi thăm lịch sự:",
+      "target_text_en": "Thank you! See you later.",
+      "meaning_vi": "Cảm ơn bạn! Hẹn gặp lại sau nhé.",
+      "ipa": "/θæŋk juː siː juː ˈleɪ.t̬ɚ/",
+      "word_id": "word_bye",
+      "mouth_hint_vi": "Đặt nhẹ đầu lưỡi giữa hai răng cho âm /θ/ trong 'Thank'.",
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "ai_scoring_status": "not_integrated_experimental",
+      "difficulty": 2,
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
     }
   ]
 }

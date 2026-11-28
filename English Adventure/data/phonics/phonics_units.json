@@ -48,7 +48,8 @@
       ],
       "audio_status": "missing_asset",
       "audio_path": "",
-      "cefr_level": "Pre-A1"
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
     },
     {
       "id": "ph_short_e",
@@ -79,7 +80,8 @@
       ],
       "audio_status": "missing_asset",
       "audio_path": "",
-      "cefr_level": "Pre-A1"
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
     },
     {
       "id": "ph_short_i",
@@ -111,7 +113,8 @@
       ],
       "audio_status": "missing_asset",
       "audio_path": "",
-      "cefr_level": "Pre-A1"
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
     },
     {
       "id": "ph_short_o",
@@ -142,7 +145,8 @@
       ],
       "audio_status": "missing_asset",
       "audio_path": "",
-      "cefr_level": "Pre-A1"
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
     },
     {
       "id": "ph_short_u",
@@ -164,7 +168,8 @@
       ],
       "audio_status": "missing_asset",
       "audio_path": "",
-      "cefr_level": "Pre-A1"
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
     },
     {
       "id": "ph_long_a",
@@ -186,7 +191,8 @@
       ],
       "audio_status": "missing_asset",
       "audio_path": "",
-      "cefr_level": "Pre-A1"
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
     },
     {
       "id": "ph_long_i",
@@ -208,7 +214,8 @@
       ],
       "audio_status": "missing_asset",
       "audio_path": "",
-      "cefr_level": "Pre-A1"
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
     },
     {
       "id": "ph_cons_b",
@@ -239,7 +246,8 @@
       ],
       "audio_status": "missing_asset",
       "audio_path": "",
-      "cefr_level": "Pre-A1"
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
     },
     {
       "id": "ph_digraph_sh",
@@ -270,7 +278,8 @@
       ],
       "audio_status": "missing_asset",
       "audio_path": "",
-      "cefr_level": "Pre-A1"
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
     },
     {
       "id": "ph_digraph_ch",
@@ -291,7 +300,8 @@
       ],
       "audio_status": "missing_asset",
       "audio_path": "",
-      "cefr_level": "Pre-A1"
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
     },
     {
       "id": "ph_digraph_th",
@@ -313,7 +323,8 @@
       ],
       "audio_status": "missing_asset",
       "audio_path": "",
-      "cefr_level": "Pre-A1"
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
     },
     {
       "id": "ph_team_ee",
@@ -345,7 +356,8 @@
       ],
       "audio_status": "missing_asset",
       "audio_path": "",
-      "cefr_level": "Pre-A1"
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
     },
     {
       "id": "ph_team_oo",
@@ -367,7 +379,8 @@
       ],
       "audio_status": "missing_asset",
       "audio_path": "",
-      "cefr_level": "Pre-A1"
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
     },
     {
       "id": "ph_pattern_at",
@@ -388,7 +401,8 @@
       ],
       "audio_status": "missing_asset",
       "audio_path": "",
-      "cefr_level": "Pre-A1"
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
     },
     {
       "id": "ph_blend_cvc",
@@ -446,7 +460,358 @@
       ],
       "audio_status": "missing_asset",
       "audio_path": "",
-      "cefr_level": "Pre-A1"
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "ph_long_o",
+      "category": "long_vowels",
+      "grapheme": "o_e",
+      "phoneme_ipa": "/oʊ/",
+      "title_vi": "Nguyên âm dài O (/oʊ/)",
+      "explanation_vi": "Khi có e câm ở cuối như trong home, nose, chữ o đọc dài là /oʊ/.",
+      "examples": [
+        {
+          "word_id": "word_home",
+          "word": "home",
+          "segments": [
+            "h",
+            "oʊ",
+            "m"
+          ]
+        },
+        {
+          "word_id": "word_nose",
+          "word": "nose",
+          "segments": [
+            "n",
+            "oʊ",
+            "z"
+          ]
+        }
+      ],
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "ph_cons_c",
+      "category": "consonants",
+      "grapheme": "c",
+      "phoneme_ipa": "/k/",
+      "title_vi": "Phụ âm C cứng (/k/)",
+      "explanation_vi": "Âm /k/ bật hơi nhẹ như trong cat, cake, cow, coat.",
+      "examples": [
+        {
+          "word_id": "word_cat",
+          "word": "cat",
+          "segments": [
+            "k",
+            "æ",
+            "t"
+          ]
+        },
+        {
+          "word_id": "word_cow",
+          "word": "cow",
+          "segments": [
+            "k",
+            "aʊ"
+          ]
+        }
+      ],
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "ph_cons_d",
+      "category": "consonants",
+      "grapheme": "d",
+      "phoneme_ipa": "/d/",
+      "title_vi": "Phụ âm D (/d/)",
+      "explanation_vi": "Đầu lưỡi chạm nướu trên bật âm /d/ như trong dog, dad, duck, desk.",
+      "examples": [
+        {
+          "word_id": "word_dog",
+          "word": "dog",
+          "segments": [
+            "d",
+            "ɑː",
+            "ɡ"
+          ]
+        },
+        {
+          "word_id": "word_desk",
+          "word": "desk",
+          "segments": [
+            "d",
+            "ɛ",
+            "s",
+            "k"
+          ]
+        }
+      ],
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "ph_cons_m",
+      "category": "consonants",
+      "grapheme": "m",
+      "phoneme_ipa": "/m/",
+      "title_vi": "Phụ âm mũi M (/m/)",
+      "explanation_vi": "Khép hai môi và rung âm mũi /m/ như trong mom, milk, mango.",
+      "examples": [
+        {
+          "word_id": "word_mom",
+          "word": "mom",
+          "segments": [
+            "m",
+            "ɑː",
+            "m"
+          ]
+        },
+        {
+          "word_id": "word_milk",
+          "word": "milk",
+          "segments": [
+            "m",
+            "ɪ",
+            "l",
+            "k"
+          ]
+        }
+      ],
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "ph_cons_s",
+      "category": "consonants",
+      "grapheme": "s",
+      "phoneme_ipa": "/s/",
+      "title_vi": "Phụ âm xì S (/s/)",
+      "explanation_vi": "Đẩy luồng hơi nhẹ qua răng như tiếng gió /s/ trong sun, six, sad.",
+      "examples": [
+        {
+          "word_id": "word_sun",
+          "word": "sun",
+          "segments": [
+            "s",
+            "ʌ",
+            "n"
+          ]
+        },
+        {
+          "word_id": "word_six",
+          "word": "six",
+          "segments": [
+            "s",
+            "ɪ",
+            "k",
+            "s"
+          ]
+        }
+      ],
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "ph_cons_t",
+      "category": "consonants",
+      "grapheme": "t",
+      "phoneme_ipa": "/t/",
+      "title_vi": "Phụ âm T (/t/)",
+      "explanation_vi": "Bật hơi nhẹ âm /t/ ở đầu hoặc cuối từ như ten, table, cat.",
+      "examples": [
+        {
+          "word_id": "word_ten",
+          "word": "ten",
+          "segments": [
+            "t",
+            "ɛ",
+            "n"
+          ]
+        },
+        {
+          "word_id": "word_table",
+          "word": "table",
+          "segments": [
+            "t",
+            "eɪ",
+            "b",
+            "ə",
+            "l"
+          ]
+        }
+      ],
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "ph_digraph_wh",
+      "category": "consonant_digraphs",
+      "grapheme": "wh",
+      "phoneme_ipa": "/w/",
+      "title_vi": "Tổ hợp WH (/w/)",
+      "explanation_vi": "Tổ hợp 'wh' thường đọc là /w/ trong white, what, where.",
+      "examples": [
+        {
+          "word_id": "word_white",
+          "word": "white",
+          "segments": [
+            "w",
+            "aɪ",
+            "t"
+          ]
+        }
+      ],
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "ph_team_ai",
+      "category": "vowel_teams",
+      "grapheme": "ai",
+      "phoneme_ipa": "/eɪ/",
+      "title_vi": "Cặp nguyên âm AI (/eɪ/)",
+      "explanation_vi": "Cặp chữ 'ai' tạo âm /eɪ/ như trong rain (mưa).",
+      "examples": [
+        {
+          "word_id": "word_rain",
+          "word": "rain",
+          "segments": [
+            "r",
+            "eɪ",
+            "n"
+          ]
+        }
+      ],
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "ph_pattern_an",
+      "category": "common_sound_patterns",
+      "grapheme": "-an",
+      "phoneme_ipa": "/æn/",
+      "title_vi": "Vần -AN (/æn/)",
+      "explanation_vi": "Ghép phụ âm đầu với vần -an để đọc nhanh từ van, man, fan.",
+      "examples": [
+        {
+          "word_id": "word_van",
+          "word": "van",
+          "segments": [
+            "v",
+            "æn"
+          ]
+        }
+      ],
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
+    }
+  ],
+  "phonics_activities": [
+    {
+      "id": "pha_01",
+      "type": "beginning_sound",
+      "prompt_vi": "Nhìn hình quả táo (apple) và chọn âm đầu đúng:",
+      "word_id": "word_apple",
+      "target_sound": "/æ/",
+      "options": [
+        "/æ/",
+        "/b/",
+        "/k/"
+      ],
+      "correct_answer": "/æ/",
+      "review_status": "approved"
+    },
+    {
+      "id": "pha_02",
+      "type": "beginning_sound",
+      "prompt_vi": "Nhìn hình mặt trời (sun) và chọn chữ cái đầu đúng:",
+      "word_id": "word_sun",
+      "target_sound": "/s/",
+      "options": [
+        "S",
+        "B",
+        "M"
+      ],
+      "correct_answer": "S",
+      "review_status": "approved"
+    },
+    {
+      "id": "pha_03",
+      "type": "ending_sound",
+      "prompt_vi": "Từ 'cat' kết thúc bằng âm nào?",
+      "word_id": "word_cat",
+      "target_sound": "/t/",
+      "options": [
+        "/t/",
+        "/k/",
+        "/æ/"
+      ],
+      "correct_answer": "/t/",
+      "review_status": "approved"
+    },
+    {
+      "id": "pha_04",
+      "type": "blending",
+      "prompt_vi": "Ghép 3 âm /b/ - /æ/ - /ɡ/ thành từ tiếng Anh nào?",
+      "word_id": "word_bag",
+      "target_sound": "bag",
+      "options": [
+        "bag",
+        "bed",
+        "box"
+      ],
+      "correct_answer": "bag",
+      "review_status": "approved"
+    },
+    {
+      "id": "pha_05",
+      "type": "minimal_pair",
+      "prompt_vi": "Phân biệt cặp âm gần nhau: Từ nào có âm đầu /p/ (không phải /b/)?",
+      "word_id": "word_pen",
+      "target_sound": "/p/",
+      "options": [
+        "pen",
+        "bag",
+        "ball"
+      ],
+      "correct_answer": "pen",
+      "review_status": "approved"
+    },
+    {
+      "id": "pha_06",
+      "type": "digraph_match",
+      "prompt_vi": "Từ 'ship' (con tàu) bắt đầu bằng tổ hợp chữ cái nào?",
+      "word_id": "word_ship",
+      "target_sound": "sh",
+      "options": [
+        "sh",
+        "ch",
+        "th"
+      ],
+      "correct_answer": "sh",
+      "review_status": "approved"
     }
   ]
 }

@@ -1,0 +1,133 @@
+{
+  "world_id": "world_02",
+  "cefr_level": "A1",
+  "items": [
+    {
+      "id": "write_a1_01",
+      "activity_type": "fill_missing_letter",
+      "prompt_vi": "[A1] Điền chữ cái còn thiếu cho từ 'Thư viện' (LIBRARY):",
+      "pattern": "L I B _ A R Y",
+      "target_text": "LIBRARY",
+      "missing_letter": "R",
+      "word_id": "word_library",
+      "letter_choices": [
+        "R",
+        "L",
+        "N",
+        "T"
+      ],
+      "explanation_vi": "LIBRARY viết là L-I-B-R-A-R-Y.",
+      "difficulty": 2,
+      "cefr_level": "A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "write_a1_02",
+      "activity_type": "assemble_letters_word",
+      "prompt_vi": "[A1] Ghép các chữ cái thành từ 'Âm nhạc' (MUSIC):",
+      "target_text": "MUSIC",
+      "word_id": "word_music",
+      "tiles": [
+        "C",
+        "M",
+        "S",
+        "U",
+        "I"
+      ],
+      "explanation_vi": "MUSIC gồm M-U-S-I-C.",
+      "difficulty": 2,
+      "cefr_level": "A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "write_a1_03",
+      "activity_type": "fill_word_in_sentence",
+      "prompt_vi": "[A1] Điền động từ đúng vào câu: 'Mình đánh răng mỗi sáng.'",
+      "sentence_template": "I ___ my teeth every morning.",
+      "target_word": "brush",
+      "target_text": "I brush my teeth every morning.",
+      "word_id": "word_brush",
+      "word_choices": [
+        "brush",
+        "swim",
+        "buy"
+      ],
+      "explanation_vi": "'Brush my teeth' là cụm từ chuẩn nghĩa là đánh răng.",
+      "difficulty": 2,
+      "cefr_level": "A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "write_a1_04",
+      "activity_type": "arrange_words_sentence",
+      "prompt_vi": "[A1] Sắp xếp từ thành câu lịch sự khi gọi đồ ăn:",
+      "target_text": "I would like some chicken soup",
+      "tokens": [
+        "I",
+        "would",
+        "like",
+        "some",
+        "chicken",
+        "soup"
+      ],
+      "word_id": "word_soup",
+      "acceptable_answers": [
+        "I would like some chicken soup",
+        "I would like some chicken soup."
+      ],
+      "explanation_vi": "Mẫu câu lịch sự: 'I would like some + món ăn'.",
+      "difficulty": 2,
+      "cefr_level": "A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "write_a1_05",
+      "activity_type": "type_simple_sentence",
+      "prompt_vi": "[A1] Viết câu nói về thói quen buổi tối của bạn (dùng 'usually' và 'study' hoặc 'homework'):",
+      "target_text": "I usually do my homework.",
+      "acceptable_answers": [
+        "I usually do my homework.",
+        "I usually do homework.",
+        "I usually study English.",
+        "I usually study in the evening.",
+        "I usually read books."
+      ],
+      "word_id": "word_homework",
+      "starter_chips": [
+        "I usually",
+        "do my homework.",
+        "study English.",
+        "read books."
+      ],
+      "explanation_vi": "Mẫu câu Present Simple với trạng từ tần suất: 'I usually + động từ nguyên mẫu'.",
+      "difficulty": 3,
+      "cefr_level": "A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "write_a1_06",
+      "activity_type": "type_simple_sentence",
+      "prompt_vi": "[A1] Viết 1–2 câu giới thiệu bạn thân hoặc gia đình của bạn:",
+      "target_text": "My best friend is kind.",
+      "acceptable_answers": [
+        "My best friend is kind.",
+        "My best friend is funny.",
+        "My friend is very kind.",
+        "My parents are kind.",
+        "My cousin is funny."
+      ],
+      "word_id": "word_friend",
+      "starter_chips": [
+        "My best friend",
+        "My parents",
+        "is kind.",
+        "is funny.",
+        "are kind."
+      ],
+      "explanation_vi": "Chấp nhận nhiều câu mô tả đúng cấu trúc chủ ngữ + is/are + tính từ!",
+      "difficulty": 3,
+      "cefr_level": "A1",
+      "review_status": "approved"
+    }
+  ]
+}

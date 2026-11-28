@@ -96,6 +96,27 @@ func _apply_volumes_from_settings() -> void:
 		music_manager.pop_duck("_refresh_noop")
 
 
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_APPLICATION_PAUSED or what == NOTIFICATION_APPLICATION_FOCUS_OUT or what == NOTIFICATION_WM_WINDOW_FOCUS_OUT:
+		_on_app_backgrounded()
+	elif what == NOTIFICATION_APPLICATION_RESUMED or what == NOTIFICATION_APPLICATION_FOCUS_IN or what == NOTIFICATION_WM_WINDOW_FOCUS_IN:
+		_on_app_foregrounded()
+
+
+func _on_app_backgrounded() -> void:
+	if playback_manager != null:
+		playback_manager.stop_all_speech()
+	if speech_recorder != null and speech_recorder.is_recording():
+		speech_recorder.clear_recording(false)
+	if music_manager != null:
+		music_manager.set_paused(true)
+
+
+func _on_app_foregrounded() -> void:
+	if music_manager != null:
+		music_manager.set_paused(false)
+
+
 func set_bus_linear_volume(bus_idx: int, linear: float) -> void:
 	if settings_manager != null:
 		settings_manager.set_bus_linear_volume(bus_idx, linear)

@@ -253,3 +253,11 @@ Mỗi lần người chơi tương tác với một từ/kiến thức (`learnin
 
 - **Mini-Game System (`MiniGameManager` + `MiniGameUI`):** Kết nối trực tiếp `LearningEngine` để biến từ vựng, phonics và mẫu câu thành 8 trò chơi phiêu lưu (4 game ưu tiên: *Listen and Find, Word Builder, Word Matching, Sentence Builder*; 4 game mở rộng: *Sound Detective, Speaking Hero, Memory Quest, Dialogue Adventure*).
 - **Trải nghiệm liền mạch trong thế giới 3D:** Người chơi kích hoạt mini-game qua NPC, Rương/Biển báo/Cổng 3D, Nhiệm vụ hoặc nút **Trò chơi [G]**, tạm dừng thế giới 3D và trở lại đúng vị trí nhân vật sau khi nhận sao & phần thưởng. Chi tiết xem [`docs/MINIGAME_SYSTEM.md`](MINIGAME_SYSTEM.md).
+
+---
+
+## 10. MỞ RỘNG CHƯƠNG TRÌNH HỌC PRE-A1 & A1 (CẬP NHẬT PROMPT 09)
+
+- **Kho nội dung Pre-A1 playable trên Alphabet Island:** 26 chữ cái A–Z, **115 từ vựng** (147 SVG riêng 1:1 tính cả A1), **36 cụm từ Pre-A1**, **24 đơn vị Phonics + 6 bài tập ghép âm**, **22 mẫu câu + 26 câu ví dụ**, **10 bài học lớn** (22 bài nghe, 22 bài đọc, 22 bài viết, 12 bài nói) và **10 kịch bản hội thoại tương tác**.
+- **Nền tảng A1 mẫu (`world_02` Vocabulary Forest):** **32 từ vựng A1** thuộc 8 chủ đề ưu tiên, **12 cụm từ A1**, **10 mẫu câu A1 + 12 câu ví dụ**, **2 bài học mẫu A1** (6 nghe, 6 đọc, 6 viết, 4 nói) và **4 hội thoại A1** — chỉ mở khóa khi đạt điều kiện đa yếu tố (hoàn thành `>= 6` bài Pre-A1, ghi nhớ/thành thạo `>= 15` đơn vị, độ chính xác `>= 60%`, hoàn thành `quest_03_mysterious_gate`).
+- **Phân biệt rõ 4 trạng thái học tập:** Hoàn thành bài học, Trả lời đúng, Đã ghi nhớ, Thành thạo kiến thức; tích hợp ôn tập thích ứng (Adaptive Support) và Ngân hàng câu hỏi dùng chung (**20 câu hỏi** theo 5 bậc độ khó). Xem [`docs/CURRICULUM_PRE_A1.md`](CURRICULUM_PRE_A1.md) và [`docs/CURRICULUM_A1.md`](CURRICULUM_A1.md).

@@ -31,7 +31,9 @@
       "explanation_vi": "'Apple' là quả táo (phát âm /ˈæp.əl/).",
       "audio_status": "missing_asset",
       "audio_path": "",
-      "difficulty": 1
+      "difficulty": 1,
+      "review_status": "approved",
+      "cefr_level": "Pre-A1"
     },
     {
       "id": "list_02",
@@ -63,7 +65,9 @@
       "explanation_vi": "'Cat' nghĩa là con mèo, bắt đầu bằng âm /k/.",
       "audio_status": "missing_asset",
       "audio_path": "",
-      "difficulty": 1
+      "difficulty": 1,
+      "review_status": "approved",
+      "cefr_level": "Pre-A1"
     },
     {
       "id": "list_03",
@@ -95,7 +99,9 @@
       "explanation_vi": "'Ball' là quả bóng, bắt đầu bằng âm /b/.",
       "audio_status": "missing_asset",
       "audio_path": "",
-      "difficulty": 1
+      "difficulty": 1,
+      "review_status": "approved",
+      "cefr_level": "Pre-A1"
     },
     {
       "id": "list_04",
@@ -124,7 +130,9 @@
       "explanation_vi": "'Milk' nghĩa là sữa.",
       "audio_status": "missing_asset",
       "audio_path": "",
-      "difficulty": 1
+      "difficulty": 1,
+      "review_status": "approved",
+      "cefr_level": "Pre-A1"
     },
     {
       "id": "list_05",
@@ -153,7 +161,9 @@
       "explanation_vi": "'Blue' là màu xanh dương.",
       "audio_status": "missing_asset",
       "audio_path": "",
-      "difficulty": 1
+      "difficulty": 1,
+      "review_status": "approved",
+      "cefr_level": "Pre-A1"
     },
     {
       "id": "list_06",
@@ -185,7 +195,9 @@
       "explanation_vi": "'Ship' bắt đầu bằng âm /ʃ/ (SH) và nghĩa là con tàu.",
       "audio_status": "missing_asset",
       "audio_path": "",
-      "difficulty": 2
+      "difficulty": 2,
+      "review_status": "approved",
+      "cefr_level": "Pre-A1"
     },
     {
       "id": "list_07",
@@ -214,7 +226,9 @@
       "explanation_vi": "Câu 'I eat an apple' có từ khóa 'apple' (quả táo).",
       "audio_status": "missing_asset",
       "audio_path": "",
-      "difficulty": 1
+      "difficulty": 1,
+      "review_status": "approved",
+      "cefr_level": "Pre-A1"
     },
     {
       "id": "list_08",
@@ -243,7 +257,9 @@
       "explanation_vi": "'Two' nghĩa là số 2, 'pens' là những cây bút.",
       "audio_status": "missing_asset",
       "audio_path": "",
-      "difficulty": 1
+      "difficulty": 1,
+      "review_status": "approved",
+      "cefr_level": "Pre-A1"
     },
     {
       "id": "list_09",
@@ -272,7 +288,9 @@
       "explanation_vi": "'My name is Leo' nghĩa là 'Tên mình là Leo'.",
       "audio_status": "missing_asset",
       "audio_path": "",
-      "difficulty": 1
+      "difficulty": 1,
+      "review_status": "approved",
+      "cefr_level": "Pre-A1"
     },
     {
       "id": "list_10",
@@ -301,7 +319,9 @@
       "explanation_vi": "'Yes, I do' là câu trả lời đồng ý cho 'Do you like...?'",
       "audio_status": "missing_asset",
       "audio_path": "",
-      "difficulty": 2
+      "difficulty": 2,
+      "review_status": "approved",
+      "cefr_level": "Pre-A1"
     },
     {
       "id": "list_11",
@@ -317,7 +337,9 @@
       "explanation_vi": "Trật tự đúng là Chủ ngữ (I) + Động từ (like) + Danh từ (cats).",
       "audio_status": "missing_asset",
       "audio_path": "",
-      "difficulty": 2
+      "difficulty": 2,
+      "review_status": "approved",
+      "cefr_level": "Pre-A1"
     },
     {
       "id": "list_12",
@@ -346,7 +368,334 @@
       "explanation_vi": "'Yellow' nghĩa là màu vàng; 'yellow duck' là chú vịt màu vàng.",
       "audio_status": "missing_asset",
       "audio_path": "",
-      "difficulty": 2
+      "difficulty": 2,
+      "review_status": "approved",
+      "cefr_level": "Pre-A1"
+    },
+    {
+      "id": "list_13",
+      "activity_type": "listen_word_choose_image",
+      "prompt_vi": "Nghe từ về hình dạng và chọn đúng hình:",
+      "transcript_en": "star",
+      "translation_vi": "Ngôi sao",
+      "ipa": "/stɑːr/",
+      "word_id": "word_star",
+      "options": [
+        {
+          "id": "a",
+          "is_correct": true,
+          "label_en": "star",
+          "word_id": "word_star"
+        },
+        {
+          "id": "b",
+          "is_correct": false,
+          "label_en": "circle",
+          "word_id": "word_circle"
+        },
+        {
+          "id": "c",
+          "is_correct": false,
+          "label_en": "square",
+          "word_id": "word_square"
+        }
+      ],
+      "explanation_vi": "'Star' nghĩa là ngôi sao / hình ngôi sao.",
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "difficulty": 1,
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "list_14",
+      "activity_type": "listen_word_choose_image",
+      "prompt_vi": "Nghe từ về bộ phận cơ thể và chọn hình đúng:",
+      "transcript_en": "eye",
+      "translation_vi": "Con mắt",
+      "ipa": "/aɪ/",
+      "word_id": "word_eye",
+      "options": [
+        {
+          "id": "a",
+          "is_correct": false,
+          "label_en": "ear",
+          "word_id": "word_ear"
+        },
+        {
+          "id": "b",
+          "is_correct": true,
+          "label_en": "eye",
+          "word_id": "word_eye"
+        },
+        {
+          "id": "c",
+          "is_correct": false,
+          "label_en": "nose",
+          "word_id": "word_nose"
+        }
+      ],
+      "explanation_vi": "'Eye' (/aɪ/) là con mắt.",
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "difficulty": 1,
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "list_15",
+      "activity_type": "listen_word_choose_meaning",
+      "prompt_vi": "Nghe từ và chọn nghĩa tiếng Việt đúng:",
+      "transcript_en": "happy",
+      "translation_vi": "Vui vẻ",
+      "ipa": "/ˈhæp.i/",
+      "word_id": "word_happy",
+      "options": [
+        {
+          "id": "a",
+          "is_correct": true,
+          "label_vi": "Vui vẻ"
+        },
+        {
+          "id": "b",
+          "is_correct": false,
+          "label_vi": "Buồn bã"
+        },
+        {
+          "id": "c",
+          "is_correct": false,
+          "label_vi": "Đói bụng"
+        }
+      ],
+      "explanation_vi": "'Happy' nghĩa là vui vẻ.",
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "difficulty": 1,
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "list_16",
+      "activity_type": "listen_word_choose_image",
+      "prompt_vi": "Nghe từ về thời tiết và chọn hình đúng:",
+      "transcript_en": "sun",
+      "translation_vi": "Mặt trời",
+      "ipa": "/sʌn/",
+      "word_id": "word_sun",
+      "options": [
+        {
+          "id": "a",
+          "is_correct": false,
+          "label_en": "rain",
+          "word_id": "word_rain"
+        },
+        {
+          "id": "b",
+          "is_correct": true,
+          "label_en": "sun",
+          "word_id": "word_sun"
+        },
+        {
+          "id": "c",
+          "is_correct": false,
+          "label_en": "cloud",
+          "word_id": "word_cloud"
+        }
+      ],
+      "explanation_vi": "'Sun' (/sʌn/) là mặt trời.",
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "difficulty": 1,
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "list_17",
+      "activity_type": "listen_word_choose_image",
+      "prompt_vi": "Nghe từ về đồ chơi và chọn hình đúng:",
+      "transcript_en": "kite",
+      "translation_vi": "Cái diều",
+      "ipa": "/kaɪt/",
+      "word_id": "word_kite",
+      "options": [
+        {
+          "id": "a",
+          "is_correct": true,
+          "label_en": "kite",
+          "word_id": "word_kite"
+        },
+        {
+          "id": "b",
+          "is_correct": false,
+          "label_en": "doll",
+          "word_id": "word_doll"
+        },
+        {
+          "id": "c",
+          "is_correct": false,
+          "label_en": "robot",
+          "word_id": "word_robot"
+        }
+      ],
+      "explanation_vi": "'Kite' là cái diều bay trong gió.",
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "difficulty": 1,
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "list_18",
+      "activity_type": "listen_sentence_choose_answer",
+      "prompt_vi": "Nghe câu và chọn hình miêu tả đúng:",
+      "transcript_en": "A black cat.",
+      "translation_vi": "Một con mèo màu đen.",
+      "ipa": "/ə blæk kæt/",
+      "word_id": "word_black",
+      "options": [
+        {
+          "id": "a",
+          "is_correct": true,
+          "label_en": "A black cat",
+          "word_id": "word_black"
+        },
+        {
+          "id": "b",
+          "is_correct": false,
+          "label_en": "A white rabbit",
+          "word_id": "word_white"
+        },
+        {
+          "id": "c",
+          "is_correct": false,
+          "label_en": "A brown bear",
+          "word_id": "word_brown"
+        }
+      ],
+      "explanation_vi": "'A black cat' là một con mèo màu đen.",
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "difficulty": 2,
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "list_19",
+      "activity_type": "listen_sentence_choose_answer",
+      "prompt_vi": "Nghe câu và chọn đáp án đúng:",
+      "transcript_en": "I ride my blue bike in the park.",
+      "translation_vi": "Mình đi xe đạp xanh dương ở công viên.",
+      "ipa": "/aɪ raɪd maɪ bluː baɪk ɪn ðə pɑːrk/",
+      "word_id": "word_bike",
+      "options": [
+        {
+          "id": "a",
+          "is_correct": true,
+          "label_vi": "Đi xe đạp xanh dương ở công viên"
+        },
+        {
+          "id": "b",
+          "is_correct": false,
+          "label_vi": "Ngủ trên giường ở nhà"
+        },
+        {
+          "id": "c",
+          "is_correct": false,
+          "label_vi": "Ăn bánh mì và trứng"
+        }
+      ],
+      "explanation_vi": "'Ride my blue bike' = đi xe đạp màu xanh dương; 'in the park' = ở công viên.",
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "difficulty": 2,
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "list_20",
+      "activity_type": "listen_short_dialogue",
+      "prompt_vi": "Nghe câu hỏi và chọn câu trả lời phù hợp:",
+      "transcript_en": "What color is the lemon?",
+      "translation_vi": "Quả chanh màu gì?",
+      "ipa": "/wʌt ˈkʌl.ɚ ɪz ðə ˈlɛm.ən/",
+      "word_id": "word_lemon",
+      "options": [
+        {
+          "id": "a",
+          "is_correct": true,
+          "label_en": "It is yellow."
+        },
+        {
+          "id": "b",
+          "is_correct": false,
+          "label_en": "It is seven."
+        },
+        {
+          "id": "c",
+          "is_correct": false,
+          "label_en": "My name is Leo."
+        }
+      ],
+      "explanation_vi": "Quả chanh vàng (lemon) có màu vàng -> 'It is yellow.'",
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "difficulty": 2,
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "list_21",
+      "activity_type": "listen_identify_detail",
+      "prompt_vi": "Nghe câu hướng dẫn và chọn hành động đúng:",
+      "transcript_en": "Please open the door and sit on the chair.",
+      "translation_vi": "Làm ơn mở cửa và ngồi xuống ghế.",
+      "ipa": "/pliːz ˈoʊ.pən ðə dɔːr ænd sɪt ɑːn ðə tʃɛr/",
+      "word_id": "word_door",
+      "options": [
+        {
+          "id": "a",
+          "is_correct": true,
+          "label_vi": "Mở cửa và ngồi xuống ghế"
+        },
+        {
+          "id": "b",
+          "is_correct": false,
+          "label_vi": "Đóng cửa sổ và đi ngủ"
+        },
+        {
+          "id": "c",
+          "is_correct": false,
+          "label_vi": "Rửa tay và uống sữa"
+        }
+      ],
+      "explanation_vi": "'Open the door' = mở cửa, 'sit on the chair' = ngồi lên ghế.",
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "difficulty": 2,
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "list_22",
+      "activity_type": "listen_arrange_sentence",
+      "prompt_vi": "Nghe câu mẫu rồi chạm các từ để ghép lại cho đúng:",
+      "transcript_en": "I have ten red stars",
+      "translation_vi": "Mình có mười ngôi sao đỏ.",
+      "ipa": "/aɪ hæv tɛn rɛd stɑːrz/",
+      "word_id": "word_ten",
+      "tokens": [
+        "I",
+        "have",
+        "ten",
+        "red",
+        "stars"
+      ],
+      "explanation_vi": "Thứ tự đúng: I have ten red stars (Mình có mười ngôi sao đỏ).",
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "difficulty": 2,
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
     }
   ]
 }

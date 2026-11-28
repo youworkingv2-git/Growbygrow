@@ -1,0 +1,78 @@
+name: Build English Adventure Release Artifacts
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "Target platform (windows, web, all)"
+        required: false
+        default: "all"
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+
+jobs:
+  validate_and_build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: "English Adventure"
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run Prompt 02-10 Validation & P9 Integration Suite
+        run: |
+          for s in \
+            tests/content_validation/validate_prompt_02.py \
+            tests/content_validation/validate_prompt_03.py \
+            tests/content_validation/validate_prompt_04.py \
+            tests/content_validation/validate_prompt_05.py \
+            tests/content_validation/validate_prompt_06.py \
+            tests/content_validation/validate_prompt_07.py \
+            tests/content_validation/validate_prompt_08.py \
+            tests/content_validation/validate_prompt_09.py \
+            tests/content_validation/validate_prompt_10.py \
+            tests/content_validation/validate_3d_visual_direction.py \
+            tests/integration/run_p9_content_tests.py; do
+            python3 "$s"
+          done
+
+      - name: Setup Godot 4.3.0 with Export Templates
+        uses: chickensoft-games/setup-godot@v2
+        with:
+          version: 4.3.0
+          use-dotnet: false
+          include-templates: true
+
+      - name: Import Godot Resources
+        run: godot --headless --import
+
+      - name: Export Windows Desktop Portable Build
+        if: ${{ github.event.inputs.target != 'web' }}
+        run: |
+          mkdir -p builds/windows
+          godot --headless --verbose --export-release "Windows Desktop" builds/windows/EnglishAdventure.exe
+          test -s builds/windows/EnglishAdventure.exe
+          test -s builds/windows/EnglishAdventure.pck
+          (cd builds/windows && zip -r ../EnglishAdventure-windows-x64.zip .)
+          sha256sum builds/EnglishAdventure-windows-x64.zip > builds/EnglishAdventure-windows-x64.zip.sha256
+
+      - name: Export Web Build
+        if: ${{ github.event.inputs.target != 'windows' }}
+        run: |
+          mkdir -p builds/web
+          godot --headless --verbose --export-release "Web" builds/web/index.html
+          test -s builds/web/index.html
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: english-adventure-release-builds
+          path: |
+            English Adventure/builds/EnglishAdventure-windows-x64.zip
+            English Adventure/builds/EnglishAdventure-windows-x64.zip.sha256
+            English Adventure/builds/web/

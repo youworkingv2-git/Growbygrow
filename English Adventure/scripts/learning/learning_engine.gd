@@ -1,7 +1,7 @@
 extends Node
 ## Autoload facade for the English Learning Engine.
-## Orchestrates Curriculum, Vocabulary, Phonics, Grammar, 4 Skills, Assessment,
-## Learning Progress, Spaced Repetition Review, Quest hooks, and Mini-Game data packs.
+## Orchestrates Curriculum, Vocabulary, Phrases, Phonics, Grammar, 4 Skills, Assessment,
+## Learning Progress, Spaced Repetition Review, Level Unlocking, Quest hooks, and Mini-Games.
 
 var content_repo: LearningContentRepository
 var path_manager: LearningPathManager
@@ -48,9 +48,10 @@ func initialize_engine() -> void:
 
 	AppLogger.info(
 		"LearningEngine",
-		"Initialized: %d letters, %d vocab, %d phonics units, %d grammar structures, %d lessons" % [
+		"Initialized: %d letters, %d vocab, %d phrases, %d phonics units, %d grammar, %d lessons" % [
 			content_repo.alphabet_ordered.size(),
 			content_repo.vocab_ordered.size(),
+			content_repo.phrases_ordered.size(),
 			content_repo.phonics_units_ordered.size(),
 			content_repo.grammar_ordered.size(),
 			content_repo.lessons_ordered.size()
@@ -183,9 +184,52 @@ func complete_active_lesson() -> Dictionary:
 	return summary
 
 
-## Public API for Prompt 05 Mini-Games: returns reusable vocabulary & dynamic questions
-func get_mini_game_vocabulary_pack(topic: String = "", max_difficulty: int = 2, count: int = 8) -> Array[Dictionary]:
-	var pool := vocabulary_manager.get_words_for_difficulty(max_difficulty, topic)
+## Evaluates multi-factor Pre-A1 -> A1 unlock readiness (never based on a single quiz).
+func evaluate_a1_unlock_status() -> Dictionary:
+	var criteria: Dictionary = content_repo.a1_unlock_criteria
+	var req_lessons := int(criteria.get("min_pre_a1_lessons_completed", 6))
+	var req_remembered := int(criteria.get("min_remembered_or_mastered_items", 15))
+	var req_acc := float(criteria.get("min_overall_accuracy_pct", 60.0))
+	var req_quests: Array = criteria.get("required_quest_ids", ["quest_03_mysterious_gate"])
+
+	var four := progress_manager.get_four_state_summary()
+	var pre_a1_done := 0
+	for lid in progress_manager.completed_lessons:
+		var ls := path_manager.get_lesson(lid)
+		if str(ls.get("world_id", "")) == "world_01":
+			pre_a1_done += 1
+
+	var remembered := int(four.get("remembered_items", 0))
+	var acc := float(four.get("overall_accuracy_pct", 0.0))
+	var quests_ok := true
+	for qid_var in req_quests:
+		var qid := str(qid_var)
+		if GameStateManager == null or not GameStateManager.get_flag("quest_completed_" + qid, false):
+			quests_ok = false
+			break
+
+	var unlocked := (
+		pre_a1_done >= req_lessons
+		and remembered >= req_remembered
+		and acc >= req_acc
+		and quests_ok
+	)
+	return {
+		"unlocked": unlocked,
+		"pre_a1_lessons_done": pre_a1_done,
+		"pre_a1_lessons_required": req_lessons,
+		"remembered_items": remembered,
+		"remembered_required": req_remembered,
+		"overall_accuracy_pct": acc,
+		"accuracy_required": req_acc,
+		"quests_completed": quests_ok,
+		"required_quests": req_quests
+	}
+
+
+## Public API for Prompt 05/09 Mini-Games: returns reusable vocabulary & dynamic questions
+func get_mini_game_vocabulary_pack(topic: String = "", max_difficulty: int = 2, count: int = 8, cefr_level: String = "") -> Array[Dictionary]:
+	var pool := vocabulary_manager.get_words_for_difficulty(max_difficulty, topic, cefr_level)
 	var out: Array[Dictionary] = []
 	for i in range(mini(count, pool.size())):
 		out.append(pool[i])
@@ -202,12 +246,18 @@ func get_review_question_batch(limit: int = 6) -> Array[Dictionary]:
 	var idx := 0
 	for d in due:
 		var wid := str(d.get("item_id", ""))
-		var sk: String = skills_cycle[idx % skills_cycle.size()]
+		var support := progress_manager.get_adaptive_support_for_item(wid)
+		var sk: String = "listening" if bool(support.get("needs_support", false)) else skills_cycle[idx % skills_cycle.size()]
 		var q := question_manager.build_reusable_vocab_question(wid, sk)
 		if not q.is_empty():
+			q["adaptive_support"] = support
 			batch.append(q)
 		idx += 1
 	return batch
+
+
+func get_phonics_quiz_batch() -> Array[Dictionary]:
+	return question_manager.build_phonics_quiz_batch()
 
 
 func consume_requested_lesson() -> String:

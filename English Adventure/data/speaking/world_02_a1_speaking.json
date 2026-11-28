@@ -1,0 +1,70 @@
+{
+  "world_id": "world_02",
+  "cefr_level": "A1",
+  "items": [
+    {
+      "id": "speak_a1_01",
+      "speaking_mode": "repeat_sentence",
+      "prompt_vi": "[A1] Tập giới thiệu bản thân và bạn thân:",
+      "target_text_en": "I live near the park. My best friend is very kind.",
+      "meaning_vi": "Mình sống gần công viên. Bạn thân của mình rất tốt bụng.",
+      "ipa": "/aɪ lɪv nɪr ðə pɑːrk/",
+      "word_id": "word_friend",
+      "mouth_hint_vi": "Ngắt nhịp nhẹ ở dấu chấm giữa hai câu.",
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "ai_scoring_status": "not_integrated_experimental",
+      "difficulty": 2,
+      "cefr_level": "A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "speak_a1_02",
+      "speaking_mode": "repeat_sentence",
+      "prompt_vi": "[A1] Tập nói về thói quen buổi sáng:",
+      "target_text_en": "I usually brush my teeth and have breakfast at seven.",
+      "meaning_vi": "Mình thường đánh răng và ăn sáng lúc bảy giờ.",
+      "ipa": "/aɪ ˈjuː.ʒu.ə.li brʌʃ maɪ tiːθ/",
+      "word_id": "word_breakfast",
+      "mouth_hint_vi": "Đọc mượt âm /ʒ/ trong 'usually' và /θ/ trong 'teeth'.",
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "ai_scoring_status": "not_integrated_experimental",
+      "difficulty": 3,
+      "cefr_level": "A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "speak_a1_03",
+      "speaking_mode": "repeat_sentence",
+      "prompt_vi": "[A1] Tập nói về sở thích của bạn:",
+      "target_text_en": "I like to draw pictures and listen to music.",
+      "meaning_vi": "Mình thích vẽ tranh và nghe nhạc.",
+      "ipa": "/aɪ laɪk tuː drɔː ˈpɪk.tʃɚz/",
+      "word_id": "word_draw",
+      "mouth_hint_vi": "Nhấn giọng vào các từ khóa: draw, pictures, listen, music.",
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "ai_scoring_status": "not_integrated_experimental",
+      "difficulty": 2,
+      "cefr_level": "A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "speak_a1_04",
+      "speaking_mode": "repeat_sentence",
+      "prompt_vi": "[A1] Tập gọi đồ hoặc mua đồ lịch sự ở cửa hàng:",
+      "target_text_en": "How much is this book? I would like to buy it.",
+      "meaning_vi": "Quyển sách này giá bao nhiêu ạ? Mình muốn mua nó.",
+      "ipa": "/haʊ mʌtʃ ɪz ðɪs bʊk/",
+      "word_id": "word_buy",
+      "mouth_hint_vi": "Lên giọng nhẹ ở cuối câu hỏi 'How much is this book?'.",
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "ai_scoring_status": "not_integrated_experimental",
+      "difficulty": 3,
+      "cefr_level": "A1",
+      "review_status": "approved"
+    }
+  ]
+}

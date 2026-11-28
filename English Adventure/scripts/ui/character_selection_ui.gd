@@ -9,6 +9,7 @@ var _selected_gender: String = "boy"
 var _is_submitting: bool = false
 var _drag_boy: bool = false
 var _drag_girl: bool = false
+var _nickname_edited_by_user: bool = false
 
 @onready var root_margin: MarginContainer = $RootMargin
 @onready var back_btn: Button = $RootMargin/Scroll/VBox/HeaderRow/BackBtn
@@ -45,6 +46,7 @@ func _ready() -> void:
 	girl_preview.tooltip_text = LocalizationManager.tr_key("char_drag_hint", "Kéo để xoay 360°")
 	random_name_btn.pressed.connect(_on_random_name_pressed)
 	confirm_btn.pressed.connect(_on_confirm_pressed)
+	nickname_input.text_changed.connect(func(_t: String) -> void: _nickname_edited_by_user = true)
 	EventBus.viewport_breakpoint_changed.connect(_on_breakpoint_changed)
 
 	var boy_cfg := DataRepository.get_character_config("boy")
@@ -54,12 +56,15 @@ func _ready() -> void:
 
 	_select_character(GameStateManager.selected_character)
 	nickname_input.text = "Leo" if _selected_gender == "boy" else "Mia"
+	_nickname_edited_by_user = false
 	_apply_responsive_layout()
 
 
 func _select_character(gender: String) -> void:
 	_selected_gender = gender
 	var is_boy := gender == "boy"
+	if not _nickname_edited_by_user and nickname_input != null:
+		nickname_input.text = "Leo" if is_boy else "Mia"
 
 	var selected_style := UIDesignSystem.make_panel_style(Color(0.14, 0.25, 0.44, 0.98), UIDesignSystem.SECONDARY, 16, 3, 0, 0)
 	var idle_style := UIDesignSystem.make_panel_style(Color(0.1, 0.16, 0.28, 0.88), UIDesignSystem.BORDER_DEFAULT, 16, 2, 0, 0)

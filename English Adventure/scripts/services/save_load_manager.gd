@@ -43,6 +43,8 @@ func save_state(state_data: Dictionary) -> bool:
 	DirAccess.make_dir_recursive_absolute(SAVE_DIR)
 	var payload := _sanitize_save_data(state_data)
 	payload["schema_version"] = SAVE_SCHEMA_VERSION
+	payload["app_version"] = ReleaseInfo.get_version()
+	payload["build_number"] = ReleaseInfo.get_build_number()
 	payload["saved_at_utc"] = Time.get_datetime_string_from_system(true)
 	payload["last_saved_unix"] = int(Time.get_unix_time_from_system())
 
@@ -121,9 +123,45 @@ func _try_read_valid_save(path: String) -> Dictionary:
 	if typeof(parsed) != TYPE_DICTIONARY:
 		return {}
 	var data: Dictionary = parsed
+	var src_schema := int(data.get("schema_version", 1))
+	if src_schema < SAVE_SCHEMA_VERSION:
+		_backup_pre_migration(src_schema, raw)
+		data = migrate_save_data(data)
 	if not _validate_save_schema(data):
 		AppLogger.warn("SaveLoadManager", "Invalid save schema at %s; sanitizing state" % path)
 	return _sanitize_save_data(data)
+
+
+## Non-destructive migration from older save schemas (v1 -> v2) preserving all player progress.
+func migrate_save_data(data: Dictionary) -> Dictionary:
+	var migrated := data.duplicate(true)
+	var from_ver := int(migrated.get("schema_version", 1))
+	if from_ver < 2:
+		if not migrated.has("claimed_quests"):
+			migrated["claimed_quests"] = (migrated.get("rewarded_quests", []) as Array).duplicate(true)
+		if not migrated.has("npc_encounters"):
+			migrated["npc_encounters"] = {}
+		if not migrated.has("minigame_records"):
+			migrated["minigame_records"] = {}
+		if not migrated.has("claimed_reward_keys"):
+			migrated["claimed_reward_keys"] = []
+		if not migrated.has("reward_history"):
+			migrated["reward_history"] = []
+		if not migrated.has("unlocked_achievements"):
+			migrated["unlocked_achievements"] = []
+		migrated["schema_version"] = SAVE_SCHEMA_VERSION
+		migrated["migrated_from_schema"] = from_ver
+		AppLogger.info("SaveLoadManager", "Migrated save schema v%d -> v%d" % [from_ver, SAVE_SCHEMA_VERSION])
+	return migrated
+
+
+func _backup_pre_migration(from_ver: int, raw_json: String) -> void:
+	DirAccess.make_dir_recursive_absolute(SAVE_DIR)
+	var pre_path := "%s/active_profile.pre_migrate_v%d.bak.json" % [SAVE_DIR, from_ver]
+	var bf := FileAccess.open(pre_path, FileAccess.WRITE)
+	if bf != null:
+		bf.store_string(raw_json)
+		bf.close()
 
 
 ## Conflict-safe merge: never overwrites a newer local save with older remote data.

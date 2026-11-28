@@ -36,25 +36,28 @@ script = ExtResource("2_slot")
 asset_id = "npc"
 
 [node name="NameLabel3D" type="Label3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.92, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.06, 0)
 billboard = 1
 no_depth_test = true
-modulate = Color(1, 1, 1, 1)
-outline_modulate = Color(0.06, 0.09, 0.16, 1)
+render_priority = 2
+pixel_size = 0.006
+modulate = Color(1, 0.96, 0.78, 1)
+outline_modulate = Color(0.03, 0.06, 0.12, 1)
 text = "NPC"
-font_size = 42
-outline_size = 12
+font_size = 48
+outline_size = 14
 
 [node name="QuestBadge3D" type="Label3D" parent="."]
 visible = false
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.34, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.52, 0)
 billboard = 1
 no_depth_test = true
+render_priority = 3
 modulate = Color(0.98, 0.75, 0.14, 1)
-outline_modulate = Color(0.06, 0.09, 0.16, 1)
+outline_modulate = Color(0.04, 0.07, 0.14, 1)
 text = "!"
 font_size = 76
-outline_size = 14
+outline_size = 16
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)

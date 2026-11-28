@@ -66,6 +66,7 @@ func _process(delta: float) -> void:
 func _refresh_visuals() -> void:
 	var collected := GameStateManager.is_object_collected(object_id)
 	label.text = LocalizationManager.pick_text(object_data, "title")
+	LabelBackdrop3D.apply_to_label(label, false, focus_ring.visible)
 
 	var override_glb := str(object_data.get("model_3d_path", ""))
 	if not override_glb.is_empty():
@@ -101,6 +102,7 @@ func _refresh_visuals() -> void:
 
 func set_focused(is_focused: bool) -> void:
 	focus_ring.visible = is_focused
+	LabelBackdrop3D.apply_to_label(label, false, is_focused)
 
 
 func get_interaction_metadata() -> Dictionary:

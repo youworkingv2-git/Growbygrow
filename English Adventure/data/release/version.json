@@ -1,0 +1,37 @@
+{
+  "app_name": "English Adventure",
+  "package_id": "com.englishadventure.game",
+  "version": "0.9.0",
+  "build_number": 900,
+  "version_label": "0.9.0-rc.1",
+  "stage": "release_candidate",
+  "release_date": "2026-11-27",
+  "godot_version_target": "4.3.0",
+  "renderer": "gl_compatibility",
+  "save_schema_version": 2,
+  "min_supported_save_schema": 1,
+  "content_pack_version": "p9-2026.11",
+  "supported_platforms": ["windows", "android", "ios", "web"],
+  "build_profiles": {
+    "development": {
+      "log_min_level": "DEBUG",
+      "allow_debug_diagnostics": true,
+      "approved_content_only": false
+    },
+    "release": {
+      "log_min_level": "INFO",
+      "allow_debug_diagnostics": false,
+      "approved_content_only": true,
+      "strip_secrets": true
+    }
+  },
+  "privacy_summary": {
+    "child_directed": true,
+    "collects_pii": false,
+    "background_mic_recording": false,
+    "auto_upload_audio": false,
+    "offline_first_playable": true,
+    "privacy_policy_url": "REQUIRES_OWNER_INPUT",
+    "support_email": "REQUIRES_OWNER_INPUT"
+  }
+}

@@ -9,7 +9,10 @@
       "npc_id": "professor_owl",
       "npc_name_vi": "Giáo sư Cú Mèo",
       "linked_grammar_id": "gram_12",
-      "linked_vocab_ids": ["word_one", "word_two"],
+      "linked_vocab_ids": [
+        "word_one",
+        "word_two"
+      ],
       "turns": [
         {
           "id": "g1_t1",
@@ -17,9 +20,24 @@
           "npc_vi": "Xin chào! Chào buổi sáng, nhà thám hiểm trẻ tuổi!",
           "prompt_vi": "Bé hãy chọn câu chào lại Giáo sư Cú Mèo nhé:",
           "options": [
-            { "id": "a", "text_en": "Hello! Good morning!", "text_vi": "Xin chào! Chào buổi sáng ạ!", "is_correct": true },
-            { "id": "b", "text_en": "I am an apple.", "text_vi": "Tôi là một quả táo.", "is_correct": false },
-            { "id": "c", "text_en": "It is a book.", "text_vi": "Nó là một quyển sách.", "is_correct": false }
+            {
+              "id": "a",
+              "text_en": "Hello! Good morning!",
+              "text_vi": "Xin chào! Chào buổi sáng ạ!",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text_en": "I am an apple.",
+              "text_vi": "Tôi là một quả táo.",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text_en": "It is a book.",
+              "text_vi": "Nó là một quyển sách.",
+              "is_correct": false
+            }
           ],
           "explanation_vi": "Khi gặp ai đó chào 'Hello! Good morning!', ta đáp lại lịch sự bằng 'Hello! Good morning!'."
         },
@@ -29,13 +47,30 @@
           "npc_vi": "Hôm nay con có khỏe không?",
           "prompt_vi": "Bé trả lời thế nào khi mình đang khỏe và vui?",
           "options": [
-            { "id": "a", "text_en": "I am good, thank you!", "text_vi": "Con khỏe, cảm ơn Giáo sư!", "is_correct": true },
-            { "id": "b", "text_en": "Yes, two cats.", "text_vi": "Có, hai con mèo.", "is_correct": false },
-            { "id": "c", "text_en": "Red and blue.", "text_vi": "Màu đỏ và xanh.", "is_correct": false }
+            {
+              "id": "a",
+              "text_en": "I am good, thank you!",
+              "text_vi": "Con khỏe, cảm ơn Giáo sư!",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text_en": "Yes, two cats.",
+              "text_vi": "Có, hai con mèo.",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text_en": "Red and blue.",
+              "text_vi": "Màu đỏ và xanh.",
+              "is_correct": false
+            }
           ],
           "explanation_vi": "Câu hỏi 'How are you?' dùng để hỏi thăm sức khỏe. Ta trả lời 'I am good, thank you!' hoặc 'I am happy!'."
         }
-      ]
+      ],
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
     },
     {
       "id": "dlg_adv_02_introduce",
@@ -45,7 +80,10 @@
       "npc_id": "lily",
       "npc_name_vi": "Bé Lily",
       "linked_grammar_id": "gram_11",
-      "linked_vocab_ids": ["word_red", "word_blue"],
+      "linked_vocab_ids": [
+        "word_red",
+        "word_blue"
+      ],
       "turns": [
         {
           "id": "g2_t1",
@@ -53,9 +91,24 @@
           "npc_vi": "Chào cậu! Tớ là Lily. Tên cậu là gì?",
           "prompt_vi": "Hãy giới thiệu tên của mình bằng tiếng Anh:",
           "options": [
-            { "id": "a", "text_en": "My name is Leo.", "text_vi": "Tên mình là Leo.", "is_correct": true },
-            { "id": "b", "text_en": "What is this?", "text_vi": "Đây là cái gì?", "is_correct": false },
-            { "id": "c", "text_en": "I like milk.", "text_vi": "Mình thích sữa.", "is_correct": false }
+            {
+              "id": "a",
+              "text_en": "My name is Leo.",
+              "text_vi": "Tên mình là Leo.",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text_en": "What is this?",
+              "text_vi": "Đây là cái gì?",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text_en": "I like milk.",
+              "text_vi": "Mình thích sữa.",
+              "is_correct": false
+            }
           ],
           "explanation_vi": "Khi được hỏi 'What is your name?', ta dùng mẫu câu 'My name is ...' hoặc 'I am ...'."
         },
@@ -65,13 +118,30 @@
           "npc_vi": "Rất vui được gặp cậu!",
           "prompt_vi": "Bé đáp lại lời chào làm quen như thế nào?",
           "options": [
-            { "id": "a", "text_en": "Nice to meet you, too!", "text_vi": "Mình cũng rất vui được gặp cậu!", "is_correct": true },
-            { "id": "b", "text_en": "Where is my pen?", "text_vi": "Cây bút của mình ở đâu?", "is_correct": false },
-            { "id": "c", "text_en": "No, it is a dog.", "text_vi": "Không, đó là con chó.", "is_correct": false }
+            {
+              "id": "a",
+              "text_en": "Nice to meet you, too!",
+              "text_vi": "Mình cũng rất vui được gặp cậu!",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text_en": "Where is my pen?",
+              "text_vi": "Cây bút của mình ở đâu?",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text_en": "No, it is a dog.",
+              "text_vi": "Không, đó là con chó.",
+              "is_correct": false
+            }
           ],
           "explanation_vi": "Thêm 'too' ở cuối ('Nice to meet you, too!') có nghĩa là 'Mình cũng vậy!'."
         }
-      ]
+      ],
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
     },
     {
       "id": "dlg_adv_03_family",
@@ -81,7 +151,11 @@
       "npc_id": "lily",
       "npc_name_vi": "Bé Lily",
       "linked_grammar_id": "gram_03",
-      "linked_vocab_ids": ["word_mom", "word_dad", "word_sister"],
+      "linked_vocab_ids": [
+        "word_mom",
+        "word_dad",
+        "word_sister"
+      ],
       "turns": [
         {
           "id": "g3_t1",
@@ -89,9 +163,24 @@
           "npc_vi": "Nhìn bức ảnh này nè! Bà ấy là ai vậy?",
           "prompt_vi": "Giới thiệu mẹ của mình bằng mẫu câu 'This is...':",
           "options": [
-            { "id": "a", "text_en": "This is my mom.", "text_vi": "Đây là mẹ của mình.", "is_correct": true },
-            { "id": "b", "text_en": "This is a ship.", "text_vi": "Đây là một con tàu.", "is_correct": false },
-            { "id": "c", "text_en": "I want water.", "text_vi": "Mình muốn uống nước.", "is_correct": false }
+            {
+              "id": "a",
+              "text_en": "This is my mom.",
+              "text_vi": "Đây là mẹ của mình.",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text_en": "This is a ship.",
+              "text_vi": "Đây là một con tàu.",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text_en": "I want water.",
+              "text_vi": "Mình muốn uống nước.",
+              "is_correct": false
+            }
           ],
           "explanation_vi": "'My mom' nghĩa là mẹ của mình; 'This is my mom.' dùng để giới thiệu mẹ."
         },
@@ -101,13 +190,30 @@
           "npc_vi": "Còn người đàn ông đứng cạnh mẹ cậu là ai?",
           "prompt_vi": "Chọn câu giới thiệu bố của mình:",
           "options": [
-            { "id": "a", "text_en": "That is my dad.", "text_vi": "Kia là bố của mình.", "is_correct": true },
-            { "id": "b", "text_en": "It is yellow.", "text_vi": "Nó có màu vàng.", "is_correct": false },
-            { "id": "c", "text_en": "I have five pens.", "text_vi": "Mình có 5 cây bút.", "is_correct": false }
+            {
+              "id": "a",
+              "text_en": "That is my dad.",
+              "text_vi": "Kia là bố của mình.",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text_en": "It is yellow.",
+              "text_vi": "Nó có màu vàng.",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text_en": "I have five pens.",
+              "text_vi": "Mình có 5 cây bút.",
+              "is_correct": false
+            }
           ],
           "explanation_vi": "'My dad' nghĩa là bố của mình. 'That is my dad.' = Kia là bố của mình."
         }
-      ]
+      ],
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
     },
     {
       "id": "dlg_adv_04_food",
@@ -117,7 +223,12 @@
       "npc_id": "professor_owl",
       "npc_name_vi": "Giáo sư Cú Mèo",
       "linked_grammar_id": "gram_15",
-      "linked_vocab_ids": ["word_apple", "word_banana", "word_milk", "word_cake"],
+      "linked_vocab_ids": [
+        "word_apple",
+        "word_banana",
+        "word_milk",
+        "word_cake"
+      ],
       "turns": [
         {
           "id": "g4_t1",
@@ -125,9 +236,24 @@
           "npc_vi": "Con thích táo hay chuối?",
           "prompt_vi": "Chọn câu trả lời nói sở thích của mình:",
           "options": [
-            { "id": "a", "text_en": "I like apples!", "text_vi": "Con thích táo ạ!", "is_correct": true },
-            { "id": "b", "text_en": "My name is Leo.", "text_vi": "Tên con là Leo.", "is_correct": false },
-            { "id": "c", "text_en": "It is a chair.", "text_vi": "Nó là cái ghế.", "is_correct": false }
+            {
+              "id": "a",
+              "text_en": "I like apples!",
+              "text_vi": "Con thích táo ạ!",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text_en": "My name is Leo.",
+              "text_vi": "Tên con là Leo.",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text_en": "It is a chair.",
+              "text_vi": "Nó là cái ghế.",
+              "is_correct": false
+            }
           ],
           "explanation_vi": "Khi trả lời câu hỏi 'Do you like ...?', ta có thể nói 'I like apples!'."
         },
@@ -137,13 +263,30 @@
           "npc_vi": "Con có khát không? Con muốn uống gì nào?",
           "prompt_vi": "Nói lịch sự rằng mình muốn sữa:",
           "options": [
-            { "id": "a", "text_en": "I want milk, please.", "text_vi": "Cho con xin sữa ạ.", "is_correct": true },
-            { "id": "b", "text_en": "This is my sister.", "text_vi": "Đây là chị của con.", "is_correct": false },
-            { "id": "c", "text_en": "I can jump.", "text_vi": "Con có thể nhảy.", "is_correct": false }
+            {
+              "id": "a",
+              "text_en": "I want milk, please.",
+              "text_vi": "Cho con xin sữa ạ.",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text_en": "This is my sister.",
+              "text_vi": "Đây là chị của con.",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text_en": "I can jump.",
+              "text_vi": "Con có thể nhảy.",
+              "is_correct": false
+            }
           ],
           "explanation_vi": "Mẫu câu 'I want ..., please.' dùng để xin đồ ăn/thức uống rất lịch sự."
         }
-      ]
+      ],
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
     },
     {
       "id": "dlg_adv_05_animals",
@@ -153,7 +296,12 @@
       "npc_id": "lily",
       "npc_name_vi": "Bé Lily",
       "linked_grammar_id": "gram_14",
-      "linked_vocab_ids": ["word_cat", "word_dog", "word_bird", "word_duck"],
+      "linked_vocab_ids": [
+        "word_cat",
+        "word_dog",
+        "word_bird",
+        "word_duck"
+      ],
       "turns": [
         {
           "id": "g5_t1",
@@ -161,9 +309,24 @@
           "npc_vi": "Nhìn kìa! Đây có phải con chó không (trên cành cây đang kêu meo meo)?",
           "prompt_vi": "Nếu đó là con mèo chứ không phải con chó, bé nói sao?",
           "options": [
-            { "id": "a", "text_en": "No, it is a cat.", "text_vi": "Không, đó là một con mèo.", "is_correct": true },
-            { "id": "b", "text_en": "I like orange.", "text_vi": "Mình thích màu cam.", "is_correct": false },
-            { "id": "c", "text_en": "I am a student.", "text_vi": "Mình là học sinh.", "is_correct": false }
+            {
+              "id": "a",
+              "text_en": "No, it is a cat.",
+              "text_vi": "Không, đó là một con mèo.",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text_en": "I like orange.",
+              "text_vi": "Mình thích màu cam.",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text_en": "I am a student.",
+              "text_vi": "Mình là học sinh.",
+              "is_correct": false
+            }
           ],
           "explanation_vi": "Phủ định câu hỏi 'Is this a dog?', ta nói 'No, it is a cat.'."
         },
@@ -173,13 +336,30 @@
           "npc_vi": "Con vật nào có thể bơi ở Hồ Pha Lê?",
           "prompt_vi": "Chọn câu nói đúng về chú vịt:",
           "options": [
-            { "id": "a", "text_en": "A duck can swim!", "text_vi": "Một chú vịt có thể bơi!", "is_correct": true },
-            { "id": "b", "text_en": "A book is red.", "text_vi": "Quyển sách màu đỏ.", "is_correct": false },
-            { "id": "c", "text_en": "Good morning!", "text_vi": "Chào buổi sáng!", "is_correct": false }
+            {
+              "id": "a",
+              "text_en": "A duck can swim!",
+              "text_vi": "Một chú vịt có thể bơi!",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text_en": "A book is red.",
+              "text_vi": "Quyển sách màu đỏ.",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text_en": "Good morning!",
+              "text_vi": "Chào buổi sáng!",
+              "is_correct": false
+            }
           ],
           "explanation_vi": "'Duck' là con vịt, 'swim' là bơi. 'A duck can swim!' = Vịt có thể bơi!"
         }
-      ]
+      ],
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
     },
     {
       "id": "dlg_adv_06_school",
@@ -189,7 +369,12 @@
       "npc_id": "professor_owl",
       "npc_name_vi": "Giáo sư Cú Mèo",
       "linked_grammar_id": "gram_06",
-      "linked_vocab_ids": ["word_book", "word_pen", "word_bag", "word_chair"],
+      "linked_vocab_ids": [
+        "word_book",
+        "word_pen",
+        "word_bag",
+        "word_chair"
+      ],
       "turns": [
         {
           "id": "g6_t1",
@@ -197,9 +382,24 @@
           "npc_vi": "Trong cặp đi học của con có gì nào?",
           "prompt_vi": "Trả lời bằng mẫu câu 'I have ...':",
           "options": [
-            { "id": "a", "text_en": "I have two books and a pen.", "text_vi": "Con có hai quyển sách và một cây bút.", "is_correct": true },
-            { "id": "b", "text_en": "I like bananas.", "text_vi": "Con thích chuối.", "is_correct": false },
-            { "id": "c", "text_en": "That is an elephant.", "text_vi": "Kia là con voi.", "is_correct": false }
+            {
+              "id": "a",
+              "text_en": "I have two books and a pen.",
+              "text_vi": "Con có hai quyển sách và một cây bút.",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text_en": "I like bananas.",
+              "text_vi": "Con thích chuối.",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text_en": "That is an elephant.",
+              "text_vi": "Kia là con voi.",
+              "is_correct": false
+            }
           ],
           "explanation_vi": "Dùng 'I have ...' để liệt kê đồ dùng mình có: 'two books' (hai quyển sách) và 'a pen' (một cây bút)."
         },
@@ -209,13 +409,30 @@
           "npc_vi": "Chúng ta có thể làm gì với một quyển sách?",
           "prompt_vi": "Chọn câu diễn đạt đúng khả năng của mình:",
           "options": [
-            { "id": "a", "text_en": "I can read a book.", "text_vi": "Con có thể đọc sách.", "is_correct": true },
-            { "id": "b", "text_en": "I am blue.", "text_vi": "Con màu xanh dương.", "is_correct": false },
-            { "id": "c", "text_en": "Hello, fish!", "text_vi": "Xin chào chú cá!", "is_correct": false }
+            {
+              "id": "a",
+              "text_en": "I can read a book.",
+              "text_vi": "Con có thể đọc sách.",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text_en": "I am blue.",
+              "text_vi": "Con màu xanh dương.",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text_en": "Hello, fish!",
+              "text_vi": "Xin chào chú cá!",
+              "is_correct": false
+            }
           ],
           "explanation_vi": "'Read' là đọc. 'I can read a book.' nghĩa là 'Tôi có thể đọc một quyển sách.'"
         }
-      ]
+      ],
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
     },
     {
       "id": "dlg_adv_07_help",
@@ -225,7 +442,10 @@
       "npc_id": "rocky",
       "npc_name_vi": "Rocky",
       "linked_grammar_id": "gram_13",
-      "linked_vocab_ids": ["word_bag", "word_blue"],
+      "linked_vocab_ids": [
+        "word_bag",
+        "word_blue"
+      ],
       "turns": [
         {
           "id": "g7_t1",
@@ -233,9 +453,24 @@
           "npc_vi": "Cậu trông đang lo lắng kìa! Cậu đang tìm gì thế?",
           "prompt_vi": "Hỏi Rocky xem chiếc cặp của mình ở đâu:",
           "options": [
-            { "id": "a", "text_en": "Help! Where is my bag?", "text_vi": "Giúp mình với! Cái cặp của mình ở đâu?", "is_correct": true },
-            { "id": "b", "text_en": "I like cake.", "text_vi": "Mình thích bánh ngọt.", "is_correct": false },
-            { "id": "c", "text_en": "It is green.", "text_vi": "Nó màu xanh lá.", "is_correct": false }
+            {
+              "id": "a",
+              "text_en": "Help! Where is my bag?",
+              "text_vi": "Giúp mình với! Cái cặp của mình ở đâu?",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text_en": "I like cake.",
+              "text_vi": "Mình thích bánh ngọt.",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text_en": "It is green.",
+              "text_vi": "Nó màu xanh lá.",
+              "is_correct": false
+            }
           ],
           "explanation_vi": "Khi cần nhờ giúp tìm đồ, ta dùng 'Help! Where is ...?' (Giúp với! ... ở đâu?)."
         },
@@ -245,13 +480,30 @@
           "npc_vi": "Chiếc cặp xanh của cậu ở ngay kia cạnh viên pha lê đấy!",
           "prompt_vi": "Đừng quên nói cảm ơn bạn đã giúp nhé:",
           "options": [
-            { "id": "a", "text_en": "Thank you very much!", "text_vi": "Cảm ơn cậu rất nhiều!", "is_correct": true },
-            { "id": "b", "text_en": "Is this a duck?", "text_vi": "Đây có phải con vịt không?", "is_correct": false },
-            { "id": "c", "text_en": "One, two, three.", "text_vi": "Một, hai, ba.", "is_correct": false }
+            {
+              "id": "a",
+              "text_en": "Thank you very much!",
+              "text_vi": "Cảm ơn cậu rất nhiều!",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text_en": "Is this a duck?",
+              "text_vi": "Đây có phải con vịt không?",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text_en": "One, two, three.",
+              "text_vi": "Một, hai, ba.",
+              "is_correct": false
+            }
           ],
           "explanation_vi": "Luôn nói 'Thank you!' hoặc 'Thank you very much!' khi được người khác giúp đỡ."
         }
-      ]
+      ],
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
     },
     {
       "id": "dlg_adv_08_shopping",
@@ -261,7 +513,12 @@
       "npc_id": "crystal_guardian",
       "npc_name_vi": "Người Bảo Vệ Pha Lê",
       "linked_grammar_id": "gram_09",
-      "linked_vocab_ids": ["word_apple", "word_cake", "word_two", "word_five"],
+      "linked_vocab_ids": [
+        "word_apple",
+        "word_cake",
+        "word_two",
+        "word_five"
+      ],
       "turns": [
         {
           "id": "g8_t1",
@@ -269,9 +526,24 @@
           "npc_vi": "Chào mừng tới Chợ Làng! Con muốn mua gì nào?",
           "prompt_vi": "Chọn câu nói mình muốn mua 2 quả táo:",
           "options": [
-            { "id": "a", "text_en": "I want two apples, please.", "text_vi": "Cho con hai quả táo ạ.", "is_correct": true },
-            { "id": "b", "text_en": "I am a bird.", "text_vi": "Con là một chú chim.", "is_correct": false },
-            { "id": "c", "text_en": "Where is dad?", "text_vi": "Bố ở đâu ạ?", "is_correct": false }
+            {
+              "id": "a",
+              "text_en": "I want two apples, please.",
+              "text_vi": "Cho con hai quả táo ạ.",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text_en": "I am a bird.",
+              "text_vi": "Con là một chú chim.",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text_en": "Where is dad?",
+              "text_vi": "Bố ở đâu ạ?",
+              "is_correct": false
+            }
           ],
           "explanation_vi": "Dùng 'I want [số lượng] [tên đồ], please.' để mua sắm lịch sự bằng tiếng Anh."
         },
@@ -281,11 +553,160 @@
           "npc_vi": "Của con đây! Hai quả táo đỏ nhé.",
           "prompt_vi": "Khi nhận đồ từ người bán hàng, bé nói gì?",
           "options": [
-            { "id": "a", "text_en": "Thank you! Goodbye!", "text_vi": "Cảm ơn ạ! Tạm biệt!", "is_correct": true },
-            { "id": "b", "text_en": "I can write.", "text_vi": "Con có thể viết.", "is_correct": false },
-            { "id": "c", "text_en": "This is a chair.", "text_vi": "Đây là cái ghế.", "is_correct": false }
+            {
+              "id": "a",
+              "text_en": "Thank you! Goodbye!",
+              "text_vi": "Cảm ơn ạ! Tạm biệt!",
+              "is_correct": true
+            },
+            {
+              "id": "b",
+              "text_en": "I can write.",
+              "text_vi": "Con có thể viết.",
+              "is_correct": false
+            },
+            {
+              "id": "c",
+              "text_en": "This is a chair.",
+              "text_vi": "Đây là cái ghế.",
+              "is_correct": false
+            }
           ],
           "explanation_vi": "Nhận đồ xong ta nói 'Thank you!' và chào 'Goodbye!' khi rời đi."
+        }
+      ],
+      "cefr_level": "Pre-A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "dlg_adv_09_colors_numbers",
+      "topic": "Colors & Numbers",
+      "title_vi": "Đếm sao & Chọn màu sắc",
+      "title_en": "Counting Stars & Colors",
+      "npc_id": "lily",
+      "npc_name_vi": "Lily",
+      "cefr_level": "Pre-A1",
+      "review_status": "approved",
+      "linked_grammar_id": "gram_18",
+      "linked_vocab_ids": [
+        "word_star",
+        "word_yellow",
+        "word_seven"
+      ],
+      "turns": [
+        {
+          "npc_line_en": "Look at the sky! How many stars do you see?",
+          "npc_line_vi": "Nhìn bầu trời kìa! Bạn thấy bao nhiêu ngôi sao?",
+          "options": [
+            {
+              "text_en": "I see seven yellow stars!",
+              "text_vi": "Mình thấy bảy ngôi sao màu vàng!",
+              "is_correct": true,
+              "feedback_vi": "Tuyệt vời! Con đã kết hợp đúng số đếm và màu sắc."
+            },
+            {
+              "text_en": "I eat an apple.",
+              "text_vi": "Mình ăn một quả táo.",
+              "is_correct": false,
+              "feedback_vi": "Câu này nói về ăn táo, chưa trả lời câu hỏi 'How many stars?'."
+            },
+            {
+              "text_en": "Good night!",
+              "text_vi": "Chúc ngủ ngon!",
+              "is_correct": false,
+              "feedback_vi": "Câu này dùng khi chúc ngủ ngon nhé."
+            }
+          ]
+        },
+        {
+          "npc_line_en": "What color is your favorite star?",
+          "npc_line_vi": "Ngôi sao yêu thích của bạn màu gì?",
+          "options": [
+            {
+              "text_en": "It is yellow and bright.",
+              "text_vi": "Nó màu vàng và sáng lấp lánh.",
+              "is_correct": true,
+              "feedback_vi": "Chính xác! 'It is + màu sắc' rất tự nhiên."
+            },
+            {
+              "text_en": "My name is Lily.",
+              "text_vi": "Tên mình là Lily.",
+              "is_correct": false,
+              "feedback_vi": "Đây là câu giới thiệu tên, chưa trả lời về màu sắc."
+            },
+            {
+              "text_en": "It is a desk.",
+              "text_vi": "Nó là cái bàn.",
+              "is_correct": false,
+              "feedback_vi": "Câu hỏi 'What color' cần trả lời bằng tên màu sắc."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dlg_adv_10_can_i_have",
+      "topic": "Polite Requests",
+      "title_vi": "Xin phép & Nhờ giúp đỡ lịch sự",
+      "title_en": "Can I Have Some Water?",
+      "npc_id": "rocky",
+      "npc_name_vi": "Rocky",
+      "cefr_level": "Pre-A1",
+      "review_status": "approved",
+      "linked_grammar_id": "gram_09",
+      "linked_vocab_ids": [
+        "word_water",
+        "word_please",
+        "word_apple"
+      ],
+      "turns": [
+        {
+          "npc_line_en": "You look tired after walking! What do you want?",
+          "npc_line_vi": "Sau khi đi bộ trông bạn hơi mệt đấy! Bạn muốn gì nào?",
+          "options": [
+            {
+              "text_en": "Can I have some water, please?",
+              "text_vi": "Làm ơn cho mình xin ít nước được không?",
+              "is_correct": true,
+              "feedback_vi": "Rất lịch sự và tự nhiên với 'please'!"
+            },
+            {
+              "text_en": "Where is the lion?",
+              "text_vi": "Con sư tử ở đâu?",
+              "is_correct": false,
+              "feedback_vi": "Câu này hỏi vị trí sư tử, chưa trả lời về thứ bạn muốn."
+            },
+            {
+              "text_en": "It is a square.",
+              "text_vi": "Nó là hình vuông.",
+              "is_correct": false,
+              "feedback_vi": "Câu này nói về hình dạng rồi."
+            }
+          ]
+        },
+        {
+          "npc_line_en": "Here you are! Have a fresh red apple too.",
+          "npc_line_vi": "Của bạn đây! Ăn thêm một quả táo đỏ tươi nữa nhé.",
+          "options": [
+            {
+              "text_en": "Thank you very much!",
+              "text_vi": "Cảm ơn bạn rất nhiều!",
+              "is_correct": true,
+              "feedback_vi": "Tuyệt lắm! Luôn nói 'Thank you' khi nhận đồ nhé."
+            },
+            {
+              "text_en": "I am sorry.",
+              "text_vi": "Mình xin lỗi.",
+              "is_correct": false,
+              "feedback_vi": "Khi nhận quà từ bạn, mình nói 'Thank you', không phải 'I am sorry'."
+            },
+            {
+              "text_en": "Close the door.",
+              "text_vi": "Đóng cửa lại.",
+              "is_correct": false,
+              "feedback_vi": "Câu này không phù hợp khi cảm ơn bạn."
+            }
+          ]
         }
       ]
     }

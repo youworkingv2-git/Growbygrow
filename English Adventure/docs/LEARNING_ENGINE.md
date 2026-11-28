@@ -53,3 +53,13 @@
 
 - **Vocabulary & Phonics Audio:** `VocabularyManager` bổ sung thông tin `syllables`, `phonemes`, `play_word(slow=true/false)` và `play_example()`, hoạt động qua `AudioManager.voice_manager` (hỗ trợ cả Native `DisplayServer.tts_*` và Web TTS, sẵn sàng cho file `.ogg`).
 - **Speaking Practice & Progress:** `SpeakingManager` kết nối `SpeechRecorder`, `SpeechRecognitionManager` và `PronunciationAssessmentManager` để ghi nhận `speaking_practice_session` vào `SaveLoadManager` outbox mà không bao giờ giả lập điểm AI. Chi tiết xem [`docs/AUDIO_SYSTEM.md`](AUDIO_SYSTEM.md).
+
+---
+
+## 5. MỞ RỘNG TẠI PROMPT 09 – CONTENT EXPANSION, ADAPTIVE REVIEW & A1 GATE
+
+- **`LearningContentRepository`:** Nạp hợp nhất gói Pre-A1 (`world_01_*`) + gói mẫu A1 (`world_02_a1_*`, `a1_sample_curriculum.json`, `a1_dialogue_adventures.json`), `common_phrases.json` (48 cụm từ) và `question_bank.json` (20 câu hỏi chuẩn hóa), đồng thời lọc qua `_is_publishable()` để chỉ đưa nội dung `approved` / `published` vào trải nghiệm chính thức.
+- **`LearningProgressManager` & `ReviewEngine`:** Bổ sung `get_four_state_summary()` phân tách rạch ròi 4 chỉ số (`lessons_completed`, `correct_answers`, `remembered_items`, `mastered_items`) và `get_adaptive_support_for_item()` tự động bật gợi ý ảnh, phát chậm mẫu và hạ áp lực cho các từ trẻ hay sai.
+- **`LearningEngine.evaluate_a1_unlock_status()`:** Kiểm tra điều kiện mở khóa A1 đa yếu tố (`>= 6` bài Pre-A1 hoàn thành, `>= 15` đơn vị ghi nhớ/thành thạo, độ chính xác `>= 60%`, và đã hoàn thành `quest_03_mysterious_gate`).
+- **`QuestionManager` & `WritingManager`:** Hỗ trợ sinh câu hỏi cụm từ (`build_reusable_phrase_question()`), bộ luyện Phonics (`build_phonics_quiz_batch()`), và chấm viết đa đáp án hợp lệ qua `acceptable_answers`.
+- **`LearningHubModal`:** Bổ sung bộ lọc theo cấp độ (`Tất cả`, `Pre-A1`, `A1`, `Cụm từ`) + chip chủ đề tự động xuống dòng, nút `"Luyện Phonics"`, gắn nhãn cấp độ CEFR tham chiếu, cổng khóa A1, và bảng theo dõi 4 trạng thái ghi nhớ trong tab Tiến độ.

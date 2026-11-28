@@ -6,6 +6,7 @@ extends RefCounted
 ## Zero duplicate vocabulary records are ever hardcoded inside mini-games.
 
 const DIALOGUES_PATH := "res://data/minigames/dialogue_adventures.json"
+const A1_DIALOGUES_PATH := "res://data/minigames/a1_dialogue_adventures.json"
 
 static var _dialogue_cache: Array[Dictionary] = []
 
@@ -527,19 +528,20 @@ static func get_dialogue_scenarios() -> Array[Dictionary]:
 		for sc in _dialogue_cache:
 			cached_out.append(sc.duplicate(true))
 		return cached_out
-	if not FileAccess.file_exists(DIALOGUES_PATH):
-		return []
-	var f := FileAccess.open(DIALOGUES_PATH, FileAccess.READ)
-	if f == null:
-		return []
-	var parsed: Variant = JSON.parse_string(f.get_as_text())
-	f.close()
-	if typeof(parsed) != TYPE_DICTIONARY:
-		return []
-	var doc: Dictionary = parsed
-	for s_var in doc.get("scenarios", []):
-		if typeof(s_var) == TYPE_DICTIONARY:
-			_dialogue_cache.append(s_var as Dictionary)
+	for dlg_path in [DIALOGUES_PATH, A1_DIALOGUES_PATH]:
+		if not FileAccess.file_exists(dlg_path):
+			continue
+		var f := FileAccess.open(dlg_path, FileAccess.READ)
+		if f == null:
+			continue
+		var parsed: Variant = JSON.parse_string(f.get_as_text())
+		f.close()
+		if typeof(parsed) != TYPE_DICTIONARY:
+			continue
+		var doc: Dictionary = parsed
+		for s_var in doc.get("scenarios", []):
+			if typeof(s_var) == TYPE_DICTIONARY:
+				_dialogue_cache.append(s_var as Dictionary)
 	var out: Array[Dictionary] = []
 	for sc in _dialogue_cache:
 		out.append(sc.duplicate(true))

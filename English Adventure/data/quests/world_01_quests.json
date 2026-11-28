@@ -23,7 +23,9 @@
         "Nghe và nhận biết 5 từ vựng cơ bản: Apple, Cat, Dog, Book, Ball",
         "Hoàn thành hoạt động Nghe và Chọn hình (Listen and Find)"
       ],
-      "minigame_requirements": ["listen_and_find"],
+      "minigame_requirements": [
+        "listen_and_find"
+      ],
       "steps": [
         {
           "id": "q1_step_1",
@@ -76,13 +78,41 @@
         "gold": 25,
         "stars": 1,
         "items": [],
-        "unlock_areas": ["alphabet_meadow"],
-        "set_flags": ["q1_done"]
+        "unlock_areas": [
+          "alphabet_meadow"
+        ],
+        "set_flags": [
+          "q1_done"
+        ]
       },
       "learning_hook": {
         "future_lesson_id": "lesson_01_00_intro",
         "future_minigame_id": "listen_and_find",
-        "skills": ["listening", "reading"]
+        "skills": [
+          "listening",
+          "reading"
+        ],
+        "linked_topics": [
+          "greetings",
+          "numbers"
+        ],
+        "linked_vocab_ids": [
+          "word_hello",
+          "word_yes",
+          "word_one",
+          "word_two"
+        ],
+        "linked_phrase_ids": [
+          "phr_01",
+          "phr_06"
+        ],
+        "linked_grammar_ids": [
+          "gram_01",
+          "gram_16"
+        ],
+        "review_vocab_ids": [
+          "word_hello"
+        ]
       }
     },
     {
@@ -102,13 +132,17 @@
       "claim_mode": "manual_or_npc",
       "start_condition": {
         "type": "quests_completed",
-        "required_quests": ["quest_01_new_adventure"]
+        "required_quests": [
+          "quest_01_new_adventure"
+        ]
       },
       "learning_objectives_vi": [
         "Nhận diện 3 chữ cái A, B, C và âm cơ bản",
         "Xếp chữ thành từ tiếng Anh qua Word Builder"
       ],
-      "minigame_requirements": ["word_builder"],
+      "minigame_requirements": [
+        "word_builder"
+      ],
       "steps": [
         {
           "id": "q2_step_1",
@@ -152,15 +186,51 @@
         "gold": 40,
         "stars": 2,
         "items": [
-          { "id": "lost_letters_abc", "name_vi": "Bộ Chữ Cái A-B-C", "name_en": "Lost Letters A-B-C", "quantity": 1 }
+          {
+            "id": "lost_letters_abc",
+            "name_vi": "Bộ Chữ Cái A-B-C",
+            "name_en": "Lost Letters A-B-C",
+            "quantity": 1
+          }
         ],
-        "unlock_areas": ["letter_cave"],
-        "set_flags": ["q2_done"]
+        "unlock_areas": [
+          "letter_cave"
+        ],
+        "set_flags": [
+          "q2_done"
+        ]
       },
       "learning_hook": {
         "future_lesson_id": "lesson_01_01_abc",
         "future_minigame_id": "word_builder",
-        "skills": ["listening", "reading", "writing"]
+        "skills": [
+          "listening",
+          "reading",
+          "writing"
+        ],
+        "linked_topics": [
+          "alphabet",
+          "fruits",
+          "toys",
+          "animals"
+        ],
+        "linked_vocab_ids": [
+          "word_apple",
+          "word_ball",
+          "word_cat"
+        ],
+        "linked_phrase_ids": [
+          "phr_08",
+          "phr_10"
+        ],
+        "linked_grammar_ids": [
+          "gram_03",
+          "gram_20"
+        ],
+        "review_vocab_ids": [
+          "word_apple",
+          "word_cat"
+        ]
       }
     },
     {
@@ -180,13 +250,18 @@
       "claim_mode": "manual_or_npc",
       "start_condition": {
         "type": "quests_completed",
-        "required_quests": ["quest_02_lost_letters"]
+        "required_quests": [
+          "quest_02_lost_letters"
+        ]
       },
       "learning_objectives_vi": [
         "Ghép 5 cặp từ vựng tiếng Anh chính xác",
         "Sắp xếp các từ thành câu tiếng Anh có nghĩa"
       ],
-      "minigame_requirements": ["word_matching", "sentence_builder"],
+      "minigame_requirements": [
+        "word_matching",
+        "sentence_builder"
+      ],
       "steps": [
         {
           "id": "q3_step_1",
@@ -239,15 +314,52 @@
         "gold": 60,
         "stars": 2,
         "items": [
-          { "id": "magic_crystal_shard", "name_vi": "Mảnh Pha Lê Phép Thuật", "name_en": "Magic Crystal Shard", "quantity": 1 }
+          {
+            "id": "magic_crystal_shard",
+            "name_vi": "Mảnh Pha Lê Phép Thuật",
+            "name_en": "Magic Crystal Shard",
+            "quantity": 1
+          }
         ],
-        "unlock_areas": ["shadow_gate"],
-        "set_flags": ["q3_done"]
+        "unlock_areas": [
+          "shadow_gate"
+        ],
+        "set_flags": [
+          "q3_done"
+        ]
       },
       "learning_hook": {
         "future_lesson_id": "lesson_01_18_gate",
         "future_minigame_id": "sentence_builder",
-        "skills": ["listening", "speaking", "reading", "writing"]
+        "skills": [
+          "listening",
+          "speaking",
+          "reading",
+          "writing"
+        ],
+        "linked_topics": [
+          "phonics",
+          "school",
+          "food"
+        ],
+        "linked_vocab_ids": [
+          "word_ship",
+          "word_book",
+          "word_milk"
+        ],
+        "linked_phrase_ids": [
+          "phr_16",
+          "phr_14"
+        ],
+        "linked_grammar_ids": [
+          "gram_06",
+          "gram_07"
+        ],
+        "review_vocab_ids": [
+          "word_apple",
+          "word_ball",
+          "word_ship"
+        ]
       }
     },
     {
@@ -267,13 +379,17 @@
       "claim_mode": "manual_or_npc",
       "start_condition": {
         "type": "quests_completed",
-        "required_quests": ["quest_03_mysterious_gate"]
+        "required_quests": [
+          "quest_03_mysterious_gate"
+        ]
       },
       "learning_objectives_vi": [
         "Ôn tập lại các từ vựng đã học qua Spaced Repetition",
         "Kết hợp Nghe, Đọc và Ghi nhớ trong Memory Quest"
       ],
-      "minigame_requirements": ["memory_quest"],
+      "minigame_requirements": [
+        "memory_quest"
+      ],
       "steps": [
         {
           "id": "q4_step_1",
@@ -317,15 +433,56 @@
         "gold": 75,
         "stars": 3,
         "items": [
-          { "id": "golden_key", "name_vi": "Chìa Khóa Vàng", "name_en": "Golden Key", "quantity": 1 },
-          { "id": "star_fragment", "name_vi": "Mảnh Sao Tri Thức", "name_en": "Star Fragment", "quantity": 1 }
+          {
+            "id": "golden_key",
+            "name_vi": "Chìa Khóa Vàng",
+            "name_en": "Golden Key",
+            "quantity": 1
+          },
+          {
+            "id": "star_fragment",
+            "name_vi": "Mảnh Sao Tri Thức",
+            "name_en": "Star Fragment",
+            "quantity": 1
+          }
         ],
-        "set_flags": ["q4_done", "golden_key_earned"]
+        "set_flags": [
+          "q4_done",
+          "golden_key_earned"
+        ]
       },
       "learning_hook": {
         "future_lesson_id": "lesson_04_01_context",
         "future_minigame_id": "memory_quest",
-        "skills": ["listening", "reading"]
+        "skills": [
+          "listening",
+          "reading"
+        ],
+        "linked_topics": [
+          "colors",
+          "shapes",
+          "animals",
+          "weather"
+        ],
+        "linked_vocab_ids": [
+          "word_red",
+          "word_blue",
+          "word_star",
+          "word_frog",
+          "word_sun"
+        ],
+        "linked_phrase_ids": [
+          "phr_11",
+          "phr_33"
+        ],
+        "linked_grammar_ids": [
+          "gram_18",
+          "gram_19"
+        ],
+        "review_vocab_ids": [
+          "word_red",
+          "word_frog"
+        ]
       }
     },
     {
@@ -345,14 +502,23 @@
       "claim_mode": "manual_or_npc",
       "start_condition": {
         "type": "quests_and_items",
-        "required_quests": ["quest_03_mysterious_gate"],
-        "required_items": ["magic_crystal_shard"]
+        "required_quests": [
+          "quest_03_mysterious_gate"
+        ],
+        "required_items": [
+          "magic_crystal_shard"
+        ]
       },
       "learning_objectives_vi": [
         "Vận dụng 4 kỹ năng tiếng Anh cơ bản để mở Cổng Bóng Tối",
         "Hoàn thành hội thoại song ngữ trong Dialogue Adventure"
       ],
-      "minigame_requirements": ["word_builder", "sentence_builder", "listen_and_find", "dialogue_adventure"],
+      "minigame_requirements": [
+        "word_builder",
+        "sentence_builder",
+        "listen_and_find",
+        "dialogue_adventure"
+      ],
       "steps": [
         {
           "id": "q5_step_1",
@@ -405,14 +571,53 @@
         "gold": 120,
         "stars": 3,
         "items": [
-          { "id": "star_fragment", "name_vi": "Mảnh Sao Tri Thức", "name_en": "Star Fragment", "quantity": 2 }
+          {
+            "id": "star_fragment",
+            "name_vi": "Mảnh Sao Tri Thức",
+            "name_en": "Star Fragment",
+            "quantity": 2
+          }
         ],
-        "set_flags": ["shadow_gate_inspected", "q5_done", "world_completed_world_01"]
+        "set_flags": [
+          "shadow_gate_inspected",
+          "q5_done",
+          "world_completed_world_01"
+        ]
       },
       "learning_hook": {
         "future_lesson_id": "lesson_01_18_gate",
         "future_minigame_id": "dialogue_adventure",
-        "skills": ["listening", "speaking", "reading", "writing"]
+        "skills": [
+          "listening",
+          "speaking",
+          "reading",
+          "writing"
+        ],
+        "linked_topics": [
+          "simple_sentences",
+          "feelings",
+          "places"
+        ],
+        "linked_vocab_ids": [
+          "word_happy",
+          "word_park",
+          "word_home"
+        ],
+        "linked_phrase_ids": [
+          "phr_04",
+          "phr_36"
+        ],
+        "linked_grammar_ids": [
+          "gram_07",
+          "gram_15",
+          "gram_22"
+        ],
+        "review_vocab_ids": [
+          "word_apple",
+          "word_cat",
+          "word_happy",
+          "word_star"
+        ]
       }
     },
     {
@@ -434,7 +639,9 @@
       "learning_objectives_vi": [
         "Ôn tập ghép cặp từ tiếng Anh với hình ảnh"
       ],
-      "minigame_requirements": ["word_matching"],
+      "minigame_requirements": [
+        "word_matching"
+      ],
       "steps": [
         {
           "id": "sq1_step_1",
@@ -460,14 +667,42 @@
         "gold": 30,
         "stars": 1,
         "items": [
-          { "id": "star_fragment", "name_vi": "Mảnh Sao Tri Thức", "name_en": "Star Fragment", "quantity": 1 }
+          {
+            "id": "star_fragment",
+            "name_vi": "Mảnh Sao Tri Thức",
+            "name_en": "Star Fragment",
+            "quantity": 1
+          }
         ],
-        "set_flags": ["side_buddy_done"]
+        "set_flags": [
+          "side_buddy_done"
+        ]
       },
       "learning_hook": {
         "future_lesson_id": "lesson_02_01_food_animals",
         "future_minigame_id": "word_matching",
-        "skills": ["reading"]
+        "skills": [
+          "reading"
+        ],
+        "linked_topics": [
+          "food",
+          "fruits"
+        ],
+        "linked_vocab_ids": [
+          "word_banana",
+          "word_cake",
+          "word_grape"
+        ],
+        "linked_phrase_ids": [
+          "phr_09",
+          "phr_15"
+        ],
+        "linked_grammar_ids": [
+          "gram_07"
+        ],
+        "review_vocab_ids": [
+          "word_banana"
+        ]
       }
     },
     {
@@ -485,12 +720,16 @@
       "claim_mode": "manual_or_npc",
       "start_condition": {
         "type": "quests_completed",
-        "required_quests": ["quest_01_new_adventure"]
+        "required_quests": [
+          "quest_01_new_adventure"
+        ]
       },
       "learning_objectives_vi": [
         "Phân biệt tên chữ cái và âm chữ cái trong Sound Detective"
       ],
-      "minigame_requirements": ["sound_detective"],
+      "minigame_requirements": [
+        "sound_detective"
+      ],
       "steps": [
         {
           "id": "sq2_step_1",
@@ -516,12 +755,37 @@
         "gold": 30,
         "stars": 1,
         "items": [],
-        "set_flags": ["side_lily_done"]
+        "set_flags": [
+          "side_lily_done"
+        ]
       },
       "learning_hook": {
         "future_lesson_id": "lesson_01_02_alphabet_all",
         "future_minigame_id": "sound_detective",
-        "skills": ["listening", "reading"]
+        "skills": [
+          "listening",
+          "reading"
+        ],
+        "linked_topics": [
+          "colors",
+          "alphabet"
+        ],
+        "linked_vocab_ids": [
+          "word_green",
+          "word_yellow",
+          "word_pink",
+          "word_purple"
+        ],
+        "linked_phrase_ids": [
+          "phr_08"
+        ],
+        "linked_grammar_ids": [
+          "gram_18"
+        ],
+        "review_vocab_ids": [
+          "word_green",
+          "word_yellow"
+        ]
       }
     },
     {
@@ -539,12 +803,16 @@
       "claim_mode": "manual_or_npc",
       "start_condition": {
         "type": "quests_completed",
-        "required_quests": ["quest_02_lost_letters"]
+        "required_quests": [
+          "quest_02_lost_letters"
+        ]
       },
       "learning_objectives_vi": [
         "Thực hành nghe mẫu và tự đọc từ/câu giao tiếp"
       ],
-      "minigame_requirements": ["speaking_hero"],
+      "minigame_requirements": [
+        "speaking_hero"
+      ],
       "steps": [
         {
           "id": "sq3_step_1",
@@ -561,12 +829,37 @@
         "gold": 35,
         "stars": 1,
         "items": [],
-        "set_flags": ["side_rocky_done"]
+        "set_flags": [
+          "side_rocky_done"
+        ]
       },
       "learning_hook": {
         "future_lesson_id": "lesson_02_01_food_animals",
         "future_minigame_id": "speaking_hero",
-        "skills": ["speaking"]
+        "skills": [
+          "speaking"
+        ],
+        "linked_topics": [
+          "animals"
+        ],
+        "linked_vocab_ids": [
+          "word_dog",
+          "word_bird",
+          "word_lion",
+          "word_rabbit",
+          "word_bear"
+        ],
+        "linked_phrase_ids": [
+          "phr_12",
+          "phr_32"
+        ],
+        "linked_grammar_ids": [
+          "gram_17"
+        ],
+        "review_vocab_ids": [
+          "word_dog",
+          "word_lion"
+        ]
       }
     }
   ]

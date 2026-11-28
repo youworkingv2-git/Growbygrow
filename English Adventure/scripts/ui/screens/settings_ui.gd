@@ -66,6 +66,9 @@ var _speed_val: Label
 var _accent_label: Label
 var _accent_option: OptionButton
 var _reset_audio_btn: Button
+var _about_title_label: Label
+var _about_info_label: Label
+var _privacy_info_label: Label
 
 
 func _ready() -> void:
@@ -233,6 +236,26 @@ func _build_extended_audio_controls() -> void:
 	footer_hbox.add_child(_reset_audio_btn)
 	footer_hbox.move_child(_reset_audio_btn, 0)
 
+	# Release Version, About & Child Privacy section at the bottom of Settings Form
+	var about_sep := HSeparator.new()
+	form_vbox.add_child(about_sep)
+
+	_about_title_label = Label.new()
+	_about_title_label.add_theme_font_size_override("font_size", 15)
+	_about_title_label.add_theme_color_override("font_color", UIDesignSystem.TEXT_GOLD)
+	form_vbox.add_child(_about_title_label)
+
+	_about_info_label = Label.new()
+	_about_info_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_about_info_label.add_theme_font_size_override("font_size", 13)
+	form_vbox.add_child(_about_info_label)
+
+	_privacy_info_label = Label.new()
+	_privacy_info_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_privacy_info_label.add_theme_font_size_override("font_size", 12)
+	_privacy_info_label.add_theme_color_override("font_color", Color(0.76, 0.85, 0.96, 1.0))
+	form_vbox.add_child(_privacy_info_label)
+
 
 func _make_slider_row(label_text: String, min_v: float, max_v: float, step_v: float) -> Dictionary:
 	var row := HBoxContainer.new()
@@ -343,6 +366,16 @@ func _refresh_texts() -> void:
 	main_menu_btn.text = LocalizationManager.tr_key("settings_main_menu", "Về Menu Chính")
 	audio_note_label.visible = true
 	audio_note_label.text = LocalizationManager.tr_key("settings_audio_learning_note", AudioManager.missing_audio_notice)
+	if _about_title_label != null:
+		_about_title_label.text = "Version & Child Privacy" if is_en else "Phiên bản & Quyền riêng tư trẻ em"
+	if _about_info_label != null:
+		_about_info_label.text = ReleaseInfo.get_about_summary_en() if is_en else ReleaseInfo.get_about_summary_vi()
+	if _privacy_info_label != null:
+		_privacy_info_label.text = (
+			"Save storage: local offline profile (user://). Sync: %s" % SaveLoadManager.get_sync_status_summary()
+			if is_en else
+			"Lưu tiến trình cục bộ (Offline-First). Trạng thái: %s" % SaveLoadManager.get_sync_status_summary()
+		)
 
 
 func _on_save_pressed() -> void:

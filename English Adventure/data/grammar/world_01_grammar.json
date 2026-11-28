@@ -39,7 +39,8 @@
       "practice_activities": [
         "reading_fill_blank",
         "writing_arrange_words"
-      ]
+      ],
+      "review_status": "approved"
     },
     {
       "id": "gram_02",
@@ -79,7 +80,8 @@
       "practice_activities": [
         "reading_fill_blank",
         "writing_arrange_words"
-      ]
+      ],
+      "review_status": "approved"
     },
     {
       "id": "gram_03",
@@ -119,7 +121,8 @@
       "practice_activities": [
         "reading_fill_blank",
         "writing_arrange_words"
-      ]
+      ],
+      "review_status": "approved"
     },
     {
       "id": "gram_04",
@@ -159,7 +162,8 @@
       "practice_activities": [
         "reading_fill_blank",
         "writing_arrange_words"
-      ]
+      ],
+      "review_status": "approved"
     },
     {
       "id": "gram_05",
@@ -199,7 +203,8 @@
       "practice_activities": [
         "reading_fill_blank",
         "writing_arrange_words"
-      ]
+      ],
+      "review_status": "approved"
     },
     {
       "id": "gram_06",
@@ -239,7 +244,8 @@
       "practice_activities": [
         "reading_fill_blank",
         "writing_arrange_words"
-      ]
+      ],
+      "review_status": "approved"
     },
     {
       "id": "gram_07",
@@ -280,7 +286,8 @@
       "practice_activities": [
         "reading_fill_blank",
         "writing_arrange_words"
-      ]
+      ],
+      "review_status": "approved"
     },
     {
       "id": "gram_08",
@@ -321,7 +328,8 @@
       "practice_activities": [
         "reading_fill_blank",
         "writing_arrange_words"
-      ]
+      ],
+      "review_status": "approved"
     },
     {
       "id": "gram_09",
@@ -361,7 +369,8 @@
       "practice_activities": [
         "reading_fill_blank",
         "writing_arrange_words"
-      ]
+      ],
+      "review_status": "approved"
     },
     {
       "id": "gram_10",
@@ -401,7 +410,8 @@
       "practice_activities": [
         "reading_fill_blank",
         "writing_arrange_words"
-      ]
+      ],
+      "review_status": "approved"
     },
     {
       "id": "gram_11",
@@ -441,7 +451,8 @@
       "practice_activities": [
         "reading_fill_blank",
         "writing_arrange_words"
-      ]
+      ],
+      "review_status": "approved"
     },
     {
       "id": "gram_12",
@@ -481,7 +492,8 @@
       "practice_activities": [
         "reading_fill_blank",
         "writing_arrange_words"
-      ]
+      ],
+      "review_status": "approved"
     },
     {
       "id": "gram_13",
@@ -521,7 +533,8 @@
       "practice_activities": [
         "reading_fill_blank",
         "writing_arrange_words"
-      ]
+      ],
+      "review_status": "approved"
     },
     {
       "id": "gram_14",
@@ -561,7 +574,8 @@
       "practice_activities": [
         "reading_fill_blank",
         "writing_arrange_words"
-      ]
+      ],
+      "review_status": "approved"
     },
     {
       "id": "gram_15",
@@ -602,7 +616,290 @@
       "practice_activities": [
         "reading_fill_blank",
         "writing_arrange_words"
-      ]
+      ],
+      "review_status": "approved"
+    },
+    {
+      "id": "gram_16",
+      "world_id": "world_01",
+      "structure": "My name is ...",
+      "explanation_vi": "Dùng để giới thiệu tên của mình.",
+      "example_sentences": [
+        {
+          "en": "My name is Leo.",
+          "vi": "Tên mình là Leo.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        },
+        {
+          "en": "My name is Buddy.",
+          "vi": "Tên mình là Buddy.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        }
+      ],
+      "difficulty": 1,
+      "cefr_level": "Pre-A1",
+      "common_mistakes_vi": [
+        "Không thiếu 'is': nói 'My name is Leo', không nói 'My name Leo'."
+      ],
+      "substitution_slots": [
+        {
+          "slot": "...",
+          "options": [
+            "Leo",
+            "Mia",
+            "Buddy"
+          ]
+        }
+      ],
+      "practice_activities": [
+        "sentence_builder",
+        "speaking_hero"
+      ],
+      "review_status": "approved"
+    },
+    {
+      "id": "gram_17",
+      "world_id": "world_01",
+      "structure": "I see ...",
+      "explanation_vi": "Dùng để nói về những gì mình nhìn thấy xung quanh.",
+      "example_sentences": [
+        {
+          "en": "I see a red bird.",
+          "vi": "Mình thấy một con chim màu đỏ.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        },
+        {
+          "en": "I see two green frogs.",
+          "vi": "Mình thấy hai con ếch xanh.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        }
+      ],
+      "difficulty": 1,
+      "cefr_level": "Pre-A1",
+      "common_mistakes_vi": [
+        "Nhớ thêm 'a/an' trước danh từ số ít (I see a cat)."
+      ],
+      "substitution_slots": [
+        {
+          "slot": "...",
+          "options": [
+            "a cat",
+            "a star",
+            "the sun"
+          ]
+        }
+      ],
+      "practice_activities": [
+        "sentence_builder",
+        "listen_and_find"
+      ],
+      "review_status": "approved"
+    },
+    {
+      "id": "gram_18",
+      "world_id": "world_01",
+      "structure": "What color is it?",
+      "explanation_vi": "Dùng để hỏi màu sắc của một đồ vật hoặc con vật.",
+      "example_sentences": [
+        {
+          "en": "What color is it? It is blue.",
+          "vi": "Nó màu gì? Nó màu xanh dương.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        },
+        {
+          "en": "What color is the sun? It is yellow.",
+          "vi": "Mặt trời màu gì? Nó màu vàng.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        }
+      ],
+      "difficulty": 1,
+      "cefr_level": "Pre-A1",
+      "common_mistakes_vi": [
+        "Trả lời bằng 'It is + màu sắc' (It is red)."
+      ],
+      "substitution_slots": [
+        {
+          "slot": "...",
+          "options": [
+            "red",
+            "blue",
+            "yellow",
+            "green"
+          ]
+        }
+      ],
+      "practice_activities": [
+        "dialogue_adventure",
+        "sentence_builder"
+      ],
+      "review_status": "approved"
+    },
+    {
+      "id": "gram_19",
+      "world_id": "world_01",
+      "structure": "How many ...?",
+      "explanation_vi": "Dùng để hỏi số lượng (bao nhiêu...) với danh từ đếm được số nhiều.",
+      "example_sentences": [
+        {
+          "en": "How many apples? Three apples.",
+          "vi": "Có bao nhiêu quả táo? Ba quả táo.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        },
+        {
+          "en": "How many stars do you see? Five stars.",
+          "vi": "Bạn thấy bao nhiêu ngôi sao? Năm ngôi sao.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        }
+      ],
+      "difficulty": 2,
+      "cefr_level": "Pre-A1",
+      "common_mistakes_vi": [
+        "Danh từ sau 'How many' thêm 's' ở cuối: How many books?"
+      ],
+      "substitution_slots": [
+        {
+          "slot": "...",
+          "options": [
+            "apples",
+            "books",
+            "stars"
+          ]
+        }
+      ],
+      "practice_activities": [
+        "dialogue_adventure",
+        "sentence_builder"
+      ],
+      "review_status": "approved"
+    },
+    {
+      "id": "gram_20",
+      "world_id": "world_01",
+      "structure": "A / An + noun",
+      "explanation_vi": "Dùng 'an' trước từ bắt đầu bằng nguyên âm (a, e, i, o, u), dùng 'a' trước phụ âm.",
+      "example_sentences": [
+        {
+          "en": "an apple, an egg, an orange",
+          "vi": "một quả táo, một quả trứng, một quả cam",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        },
+        {
+          "en": "a book, a cat, a banana",
+          "vi": "một quyển sách, một con mèo, một quả chuối",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        }
+      ],
+      "difficulty": 1,
+      "cefr_level": "Pre-A1",
+      "common_mistakes_vi": [
+        "Không dùng 'a apple' — phải nói 'an apple' để dễ nối âm."
+      ],
+      "substitution_slots": [
+        {
+          "slot": "...",
+          "options": [
+            "a ball",
+            "an apple",
+            "an egg",
+            "a pen"
+          ]
+        }
+      ],
+      "practice_activities": [
+        "reading",
+        "writing"
+      ],
+      "review_status": "approved"
+    },
+    {
+      "id": "gram_21",
+      "world_id": "world_01",
+      "structure": "Singular & Plural (-s)",
+      "explanation_vi": "Từ 2 vật trở lên thường thêm 's' vào cuối danh từ (1 book -> 2 books).",
+      "example_sentences": [
+        {
+          "en": "one cat -> two cats",
+          "vi": "một con mèo -> hai con mèo",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        },
+        {
+          "en": "one star -> six stars",
+          "vi": "một ngôi sao -> sáu ngôi sao",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        }
+      ],
+      "difficulty": 2,
+      "cefr_level": "Pre-A1",
+      "common_mistakes_vi": [
+        "Đừng quên chữ 's' khi có số từ 2 trở lên: 'three cats', không nói 'three cat'."
+      ],
+      "substitution_slots": [
+        {
+          "slot": "...",
+          "options": [
+            "two cats",
+            "three books",
+            "four apples"
+          ]
+        }
+      ],
+      "practice_activities": [
+        "writing",
+        "sentence_builder"
+      ],
+      "review_status": "approved"
+    },
+    {
+      "id": "gram_22",
+      "world_id": "world_01",
+      "structure": "in / on / under",
+      "explanation_vi": "Giới từ chỉ vị trí cơ bản: in (bên trong), on (ở trên), under (ở dưới).",
+      "example_sentences": [
+        {
+          "en": "The pen is in the bag.",
+          "vi": "Cây bút ở trong cặp sách.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        },
+        {
+          "en": "The apple is on the table.",
+          "vi": "Quả táo ở trên bàn.",
+          "audio_status": "missing_asset",
+          "audio_path": ""
+        }
+      ],
+      "difficulty": 2,
+      "cefr_level": "Pre-A1",
+      "common_mistakes_vi": [
+        "Phân biệt 'in' (bên trong hộp/cặp) và 'on' (nằm trên bề mặt)."
+      ],
+      "substitution_slots": [
+        {
+          "slot": "...",
+          "options": [
+            "in the bag",
+            "on the table",
+            "under the chair"
+          ]
+        }
+      ],
+      "practice_activities": [
+        "reading",
+        "sentence_builder"
+      ],
+      "review_status": "approved"
     }
   ],
   "model_sentences": [
@@ -688,6 +985,104 @@
       "en": "Do you like apples?",
       "vi": "Bạn có thích táo không?",
       "grammar_id": "gram_15",
+      "audio_status": "missing_asset"
+    },
+    {
+      "id": "sent_13",
+      "en": "My name is Leo.",
+      "vi": "Tên mình là Leo.",
+      "grammar_id": "gram_16",
+      "audio_status": "missing_asset"
+    },
+    {
+      "id": "sent_14",
+      "en": "I see a white rabbit.",
+      "vi": "Mình thấy một con thỏ trắng.",
+      "grammar_id": "gram_17",
+      "audio_status": "missing_asset"
+    },
+    {
+      "id": "sent_15",
+      "en": "What color is it? It is green.",
+      "vi": "Nó màu gì? Nó màu xanh lá.",
+      "grammar_id": "gram_18",
+      "audio_status": "missing_asset"
+    },
+    {
+      "id": "sent_16",
+      "en": "How many stars? Seven stars.",
+      "vi": "Có bao nhiêu ngôi sao? Bảy ngôi sao.",
+      "grammar_id": "gram_19",
+      "audio_status": "missing_asset"
+    },
+    {
+      "id": "sent_17",
+      "en": "I have an orange and a pear.",
+      "vi": "Mình có một quả cam và một quả lê.",
+      "grammar_id": "gram_20",
+      "audio_status": "missing_asset"
+    },
+    {
+      "id": "sent_18",
+      "en": "Three cats play in the park.",
+      "vi": "Ba con mèo chơi ở công viên.",
+      "grammar_id": "gram_21",
+      "audio_status": "missing_asset"
+    },
+    {
+      "id": "sent_19",
+      "en": "The book is on the desk.",
+      "vi": "Quyển sách ở trên bàn học.",
+      "grammar_id": "gram_22",
+      "audio_status": "missing_asset"
+    },
+    {
+      "id": "sent_20",
+      "en": "Good morning! Nice to meet you.",
+      "vi": "Chào buổi sáng! Rất vui được gặp bạn.",
+      "grammar_id": "gram_01",
+      "audio_status": "missing_asset"
+    },
+    {
+      "id": "sent_21",
+      "en": "I can ride a bike.",
+      "vi": "Mình biết đi xe đạp.",
+      "grammar_id": "gram_08",
+      "audio_status": "missing_asset"
+    },
+    {
+      "id": "sent_22",
+      "en": "I want some water, please.",
+      "vi": "Làm ơn cho mình một ít nước.",
+      "grammar_id": "gram_09",
+      "audio_status": "missing_asset"
+    },
+    {
+      "id": "sent_23",
+      "en": "This is my grandma.",
+      "vi": "Đây là bà của mình.",
+      "grammar_id": "gram_03",
+      "audio_status": "missing_asset"
+    },
+    {
+      "id": "sent_24",
+      "en": "Touch your head and nose.",
+      "vi": "Hãy chạm vào đầu và mũi của bạn.",
+      "grammar_id": "gram_10",
+      "audio_status": "missing_asset"
+    },
+    {
+      "id": "sent_25",
+      "en": "It is a sunny day.",
+      "vi": "Hôm nay là một ngày nắng đẹp.",
+      "grammar_id": "gram_05",
+      "audio_status": "missing_asset"
+    },
+    {
+      "id": "sent_26",
+      "en": "The frog is under the chair.",
+      "vi": "Con ếch ở dưới cái ghế.",
+      "grammar_id": "gram_22",
       "audio_status": "missing_asset"
     }
   ]

@@ -1,0 +1,593 @@
+{
+  "version": "1.0",
+  "questions": [
+    {
+      "id": "qb_01",
+      "question_type": "multiple_choice",
+      "difficulty_tier": 1,
+      "cefr_level": "Pre-A1",
+      "topic": "fruits",
+      "knowledge_ids": [
+        "word_apple"
+      ],
+      "prompt_vi": "Từ 'apple' có nghĩa là gì?",
+      "options": [
+        {
+          "id": "a",
+          "is_correct": true,
+          "label_vi": "Quả táo"
+        },
+        {
+          "id": "b",
+          "is_correct": false,
+          "label_vi": "Quả chuối"
+        },
+        {
+          "id": "c",
+          "is_correct": false,
+          "label_vi": "Quả cam"
+        }
+      ],
+      "correct_answer": "a",
+      "explanation_vi": "'Apple' là quả táo.",
+      "image_path": "res://assets/learning/images/apple.svg",
+      "audio_path": "",
+      "review_status": "approved"
+    },
+    {
+      "id": "qb_02",
+      "question_type": "listen_and_choose",
+      "difficulty_tier": 1,
+      "cefr_level": "Pre-A1",
+      "topic": "animals",
+      "knowledge_ids": [
+        "word_lion"
+      ],
+      "prompt_vi": "Nghe từ 'lion' và chọn đúng con vật:",
+      "transcript_en": "lion",
+      "options": [
+        {
+          "id": "a",
+          "is_correct": true,
+          "label_en": "lion",
+          "word_id": "word_lion"
+        },
+        {
+          "id": "b",
+          "is_correct": false,
+          "label_en": "frog",
+          "word_id": "word_frog"
+        },
+        {
+          "id": "c",
+          "is_correct": false,
+          "label_en": "bear",
+          "word_id": "word_bear"
+        }
+      ],
+      "correct_answer": "a",
+      "explanation_vi": "'Lion' là con sư tử.",
+      "image_path": "res://assets/learning/images/lion.svg",
+      "audio_path": "",
+      "review_status": "approved"
+    },
+    {
+      "id": "qb_03",
+      "question_type": "image_word_matching",
+      "difficulty_tier": 2,
+      "cefr_level": "Pre-A1",
+      "topic": "shapes",
+      "knowledge_ids": [
+        "word_circle"
+      ],
+      "prompt_vi": "Nhìn hình tròn và chọn đúng từ tiếng Anh:",
+      "options": [
+        {
+          "id": "a",
+          "is_correct": true,
+          "label_en": "circle"
+        },
+        {
+          "id": "b",
+          "is_correct": false,
+          "label_en": "square"
+        },
+        {
+          "id": "c",
+          "is_correct": false,
+          "label_en": "triangle"
+        }
+      ],
+      "correct_answer": "a",
+      "explanation_vi": "'Circle' là hình tròn.",
+      "image_path": "res://assets/learning/images/circle.svg",
+      "audio_path": "",
+      "review_status": "approved"
+    },
+    {
+      "id": "qb_04",
+      "question_type": "drag_and_drop",
+      "difficulty_tier": 2,
+      "cefr_level": "Pre-A1",
+      "topic": "body_parts",
+      "knowledge_ids": [
+        "word_hand"
+      ],
+      "prompt_vi": "Ghép các chữ cái thành từ 'Bàn tay' (HAND):",
+      "tiles": [
+        "N",
+        "H",
+        "D",
+        "A"
+      ],
+      "correct_answer": "HAND",
+      "explanation_vi": "HAND gồm 4 chữ cái H-A-N-D.",
+      "image_path": "res://assets/learning/images/hand.svg",
+      "audio_path": "",
+      "review_status": "approved"
+    },
+    {
+      "id": "qb_05",
+      "question_type": "fill_in_the_blank",
+      "difficulty_tier": 3,
+      "cefr_level": "Pre-A1",
+      "topic": "school",
+      "knowledge_ids": [
+        "word_pencil",
+        "gram_20"
+      ],
+      "prompt_vi": "Điền mạo từ đúng: 'I have ___ pencil.'",
+      "options": [
+        {
+          "id": "a",
+          "is_correct": true,
+          "label_en": "a"
+        },
+        {
+          "id": "b",
+          "is_correct": false,
+          "label_en": "an"
+        },
+        {
+          "id": "c",
+          "is_correct": false,
+          "label_en": "are"
+        }
+      ],
+      "correct_answer": "a",
+      "explanation_vi": "'Pencil' bắt đầu bằng phụ âm /p/ nên dùng 'a pencil'.",
+      "image_path": "res://assets/learning/images/pencil.svg",
+      "audio_path": "",
+      "review_status": "approved"
+    },
+    {
+      "id": "qb_06",
+      "question_type": "word_ordering",
+      "difficulty_tier": 4,
+      "cefr_level": "Pre-A1",
+      "topic": "weather",
+      "knowledge_ids": [
+        "word_sun",
+        "gram_05"
+      ],
+      "prompt_vi": "Sắp xếp thành câu hoàn chỉnh: 'Hôm nay trời nắng.'",
+      "tokens": [
+        "It",
+        "is",
+        "a",
+        "sunny",
+        "day"
+      ],
+      "correct_answer": "It is a sunny day",
+      "acceptable_answers": [
+        "It is a sunny day",
+        "It is a sunny day."
+      ],
+      "explanation_vi": "Câu hoàn chỉnh: 'It is a sunny day.'",
+      "image_path": "res://assets/learning/images/sun.svg",
+      "audio_path": "",
+      "review_status": "approved"
+    },
+    {
+      "id": "qb_07",
+      "question_type": "sentence_ordering",
+      "difficulty_tier": 4,
+      "cefr_level": "A1",
+      "topic": "daily_activities",
+      "knowledge_ids": [
+        "word_breakfast",
+        "gram_a1_01"
+      ],
+      "prompt_vi": "Sắp xếp thứ tự hợp lý cho buổi sáng:",
+      "tokens": [
+        "I wake up.",
+        "I brush my teeth.",
+        "I have breakfast."
+      ],
+      "correct_answer": "I wake up. I brush my teeth. I have breakfast.",
+      "explanation_vi": "Trình tự buổi sáng: thức dậy -> đánh răng -> ăn sáng.",
+      "image_path": "res://assets/learning/images/breakfast.svg",
+      "audio_path": "",
+      "review_status": "approved"
+    },
+    {
+      "id": "qb_08",
+      "question_type": "spelling",
+      "difficulty_tier": 2,
+      "cefr_level": "Pre-A1",
+      "topic": "clothes",
+      "knowledge_ids": [
+        "word_shirt"
+      ],
+      "prompt_vi": "Điền chữ cái còn thiếu cho 'Áo sơ mi' (SH_RT):",
+      "options": [
+        {
+          "id": "a",
+          "is_correct": true,
+          "label_en": "I"
+        },
+        {
+          "id": "b",
+          "is_correct": false,
+          "label_en": "E"
+        },
+        {
+          "id": "c",
+          "is_correct": false,
+          "label_en": "A"
+        }
+      ],
+      "correct_answer": "a",
+      "explanation_vi": "SHIRT viết là S-H-I-R-T.",
+      "image_path": "res://assets/learning/images/shirt.svg",
+      "audio_path": "",
+      "review_status": "approved"
+    },
+    {
+      "id": "qb_09",
+      "question_type": "reading_comprehension",
+      "difficulty_tier": 5,
+      "cefr_level": "A1",
+      "topic": "places",
+      "knowledge_ids": [
+        "word_library",
+        "word_museum"
+      ],
+      "prompt_vi": "Đọc đoạn ngắn: 'There is a library next to the museum on Green Street.' — Thư viện ở đâu?",
+      "options": [
+        {
+          "id": "a",
+          "is_correct": true,
+          "label_vi": "Cạnh bảo tàng trên phố Green"
+        },
+        {
+          "id": "b",
+          "is_correct": false,
+          "label_vi": "Trong công viên"
+        },
+        {
+          "id": "c",
+          "is_correct": false,
+          "label_vi": "Ở ngoài bãi biển"
+        }
+      ],
+      "correct_answer": "a",
+      "explanation_vi": "'Next to the museum on Green Street' = cạnh bảo tàng trên phố Green.",
+      "image_path": "res://assets/learning/images/library.svg",
+      "audio_path": "",
+      "review_status": "approved"
+    },
+    {
+      "id": "qb_10",
+      "question_type": "speaking_practice",
+      "difficulty_tier": 5,
+      "cefr_level": "A1",
+      "topic": "shopping",
+      "knowledge_ids": [
+        "word_price",
+        "gram_a1_03"
+      ],
+      "prompt_vi": "Luyện nói câu hỏi giá tiền lịch sự:",
+      "target_text_en": "Excuse me, how much is it?",
+      "correct_answer": "Excuse me, how much is it?",
+      "explanation_vi": "Dùng 'Excuse me, how much is it?' để hỏi giá tiền lịch sự.",
+      "image_path": "res://assets/learning/images/price.svg",
+      "audio_path": "",
+      "review_status": "approved"
+    },
+    {
+      "id": "qb_11",
+      "question_type": "multiple_choice",
+      "difficulty_tier": 1,
+      "cefr_level": "Pre-A1",
+      "topic": "numbers",
+      "knowledge_ids": [
+        "word_eight"
+      ],
+      "prompt_vi": "Số tám trong tiếng Anh viết là gì?",
+      "options": [
+        {
+          "id": "a",
+          "label_en": "eight",
+          "is_correct": true
+        },
+        {
+          "id": "b",
+          "label_en": "six",
+          "is_correct": false
+        },
+        {
+          "id": "c",
+          "label_en": "ten",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "a",
+      "explanation_vi": "Eight là số 8.",
+      "image_path": "res://assets/learning/images/eight.svg",
+      "audio_path": "",
+      "review_status": "approved"
+    },
+    {
+      "id": "qb_12",
+      "question_type": "listen_and_choose",
+      "difficulty_tier": 1,
+      "cefr_level": "Pre-A1",
+      "topic": "weather",
+      "knowledge_ids": [
+        "word_rain"
+      ],
+      "prompt_vi": "Nghe từ 'rain' và chọn hình đúng:",
+      "transcript_en": "rain",
+      "options": [
+        {
+          "id": "a",
+          "label_en": "rain",
+          "word_id": "word_rain",
+          "is_correct": true
+        },
+        {
+          "id": "b",
+          "label_en": "sun",
+          "word_id": "word_sun",
+          "is_correct": false
+        },
+        {
+          "id": "c",
+          "label_en": "wind",
+          "word_id": "word_wind",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "a",
+      "explanation_vi": "Rain là trời mưa.",
+      "image_path": "res://assets/learning/images/rain.svg",
+      "audio_path": "",
+      "review_status": "approved"
+    },
+    {
+      "id": "qb_13",
+      "question_type": "image_word_matching",
+      "difficulty_tier": 2,
+      "cefr_level": "Pre-A1",
+      "topic": "toys",
+      "knowledge_ids": [
+        "word_robot"
+      ],
+      "prompt_vi": "Hình người máy tương ứng với từ nào?",
+      "options": [
+        {
+          "id": "a",
+          "label_en": "robot",
+          "is_correct": true
+        },
+        {
+          "id": "b",
+          "label_en": "doll",
+          "is_correct": false
+        },
+        {
+          "id": "c",
+          "label_en": "kite",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "a",
+      "explanation_vi": "Robot là người máy.",
+      "image_path": "res://assets/learning/images/robot.svg",
+      "audio_path": "",
+      "review_status": "approved"
+    },
+    {
+      "id": "qb_14",
+      "question_type": "drag_and_drop",
+      "difficulty_tier": 2,
+      "cefr_level": "Pre-A1",
+      "topic": "house",
+      "knowledge_ids": [
+        "word_door"
+      ],
+      "prompt_vi": "Ghép các chữ cái thành từ 'Cánh cửa' (DOOR):",
+      "tiles": [
+        "R",
+        "D",
+        "O",
+        "O"
+      ],
+      "correct_answer": "DOOR",
+      "explanation_vi": "DOOR gồm D-O-O-R.",
+      "image_path": "res://assets/learning/images/door.svg",
+      "audio_path": "",
+      "review_status": "approved"
+    },
+    {
+      "id": "qb_15",
+      "question_type": "fill_in_the_blank",
+      "difficulty_tier": 3,
+      "cefr_level": "A1",
+      "topic": "family",
+      "knowledge_ids": [
+        "word_cousin",
+        "gram_a1_07"
+      ],
+      "prompt_vi": "Điền động từ đúng (have / has): 'My cousin ___ a green bike.'",
+      "options": [
+        {
+          "id": "a",
+          "label_en": "has",
+          "is_correct": true
+        },
+        {
+          "id": "b",
+          "label_en": "have",
+          "is_correct": false
+        },
+        {
+          "id": "c",
+          "label_en": "are",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "a",
+      "explanation_vi": "My cousin (1 người) dùng 'has'.",
+      "image_path": "res://assets/learning/images/cousin.svg",
+      "audio_path": "",
+      "review_status": "approved"
+    },
+    {
+      "id": "qb_16",
+      "question_type": "word_ordering",
+      "difficulty_tier": 4,
+      "cefr_level": "A1",
+      "topic": "hobbies",
+      "knowledge_ids": [
+        "word_sing",
+        "gram_a1_04"
+      ],
+      "prompt_vi": "Sắp xếp thành câu hỏi khả năng:",
+      "tokens": [
+        "Can",
+        "you",
+        "sing",
+        "a",
+        "song?"
+      ],
+      "correct_answer": "Can you sing a song?",
+      "acceptable_answers": [
+        "Can you sing a song?",
+        "Can you sing a song"
+      ],
+      "explanation_vi": "Câu hỏi bắt đầu bằng 'Can you...'.",
+      "image_path": "res://assets/learning/images/sing.svg",
+      "audio_path": "",
+      "review_status": "approved"
+    },
+    {
+      "id": "qb_17",
+      "question_type": "sentence_ordering",
+      "difficulty_tier": 4,
+      "cefr_level": "A1",
+      "topic": "shopping",
+      "knowledge_ids": [
+        "word_buy",
+        "word_money"
+      ],
+      "prompt_vi": "Sắp xếp trình tự hội thoại mua đồ:",
+      "tokens": [
+        "How much is it?",
+        "It is five coins.",
+        "I would like to buy it."
+      ],
+      "correct_answer": "How much is it? It is five coins. I would like to buy it.",
+      "explanation_vi": "Hỏi giá -> Nghe giá -> Đồng ý mua.",
+      "image_path": "res://assets/learning/images/buy.svg",
+      "audio_path": "",
+      "review_status": "approved"
+    },
+    {
+      "id": "qb_18",
+      "question_type": "spelling",
+      "difficulty_tier": 2,
+      "cefr_level": "A1",
+      "topic": "food",
+      "knowledge_ids": [
+        "word_salad"
+      ],
+      "prompt_vi": "Chọn chữ cái còn thiếu cho 'Rau trộn' (SAL_D):",
+      "options": [
+        {
+          "id": "a",
+          "label_en": "A",
+          "is_correct": true
+        },
+        {
+          "id": "b",
+          "label_en": "E",
+          "is_correct": false
+        },
+        {
+          "id": "c",
+          "label_en": "O",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "a",
+      "explanation_vi": "SALAD viết là S-A-L-A-D.",
+      "image_path": "res://assets/learning/images/salad.svg",
+      "audio_path": "",
+      "review_status": "approved"
+    },
+    {
+      "id": "qb_19",
+      "question_type": "reading_comprehension",
+      "difficulty_tier": 5,
+      "cefr_level": "A1",
+      "topic": "friends",
+      "knowledge_ids": [
+        "word_friend",
+        "word_share"
+      ],
+      "prompt_vi": "Đọc: 'Nam and Hoa are good friends. They share snacks and study together.' — Hai bạn làm gì?",
+      "options": [
+        {
+          "id": "a",
+          "label_vi": "Chia sẻ đồ ăn và học cùng nhau",
+          "is_correct": true
+        },
+        {
+          "id": "b",
+          "label_vi": "Đi bệnh viện",
+          "is_correct": false
+        },
+        {
+          "id": "c",
+          "label_vi": "Ngủ cả ngày",
+          "is_correct": false
+        }
+      ],
+      "correct_answer": "a",
+      "explanation_vi": "'Share snacks and study together' = chia sẻ đồ ăn và học cùng nhau.",
+      "image_path": "res://assets/learning/images/share.svg",
+      "audio_path": "",
+      "review_status": "approved"
+    },
+    {
+      "id": "qb_20",
+      "question_type": "speaking_practice",
+      "difficulty_tier": 5,
+      "cefr_level": "Pre-A1",
+      "topic": "feelings",
+      "knowledge_ids": [
+        "word_happy",
+        "gram_01"
+      ],
+      "prompt_vi": "Luyện nói câu diễn đạt cảm xúc vui vẻ:",
+      "target_text_en": "I am very happy today!",
+      "correct_answer": "I am very happy today!",
+      "explanation_vi": "Đọc tự nhiên, nhấn vào 'happy'.",
+      "image_path": "res://assets/learning/images/happy.svg",
+      "audio_path": "",
+      "review_status": "approved"
+    }
+  ]
+}

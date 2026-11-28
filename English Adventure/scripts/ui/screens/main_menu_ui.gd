@@ -43,7 +43,10 @@ func _ready() -> void:
 func _refresh_state() -> void:
 	var has_save := SaveLoadManager.has_saved_profile()
 	title_label.text = LocalizationManager.tr_key("app_title", "ENGLISH ADVENTURE")
-	subtitle_label.text = LocalizationManager.tr_key("app_subtitle", "Cuộc Phiêu Lưu Học Tiếng Anh Kỳ Thú")
+	subtitle_label.text = "%s · %s" % [
+		LocalizationManager.tr_key("app_subtitle", "Cuộc Phiêu Lưu Học Tiếng Anh Kỳ Thú"),
+		ReleaseInfo.get_display_version()
+	]
 	settings_btn.text = LocalizationManager.tr_key("menu_settings", "Cài đặt")
 	world_map_btn.text = LocalizationManager.tr_key("menu_world_map", "Bản Đồ Đảo")
 	quit_btn.text = LocalizationManager.tr_key("menu_quit", "Thoát game")

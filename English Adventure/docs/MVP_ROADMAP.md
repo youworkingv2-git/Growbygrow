@@ -171,3 +171,11 @@ gantt
   1. Cài đặt Godot 4.3+ Editor/Export Templates để export & kiểm thử trên **Windows `.exe`**, **Android APK** và **iOS IPA** thật.
   2. Cấu hình Supabase Cloud + `AZURE_SPEECH_KEY` để kiểm thử đồng bộ đám mây RLS và AI chấm phát âm thật.
   3. Tổ chức Playtest giáo dục với 5–10 trẻ ~10 tuổi và bổ sung giọng thu âm `.ogg` cho toàn bộ từ vựng/NPC nếu có ngân sách sản xuất.
+
+---
+
+## CẬP NHẬT TRẠNG THÁI THỰC TẾ TẠI PROMPT 09 & 10 (`v0.9.0-rc.1`)
+
+- **P9 (Content Expansion):** Đã hoàn thiện gói Pre-A1 playable (`26` chữ cái, `115` từ, `36` cụm, `24` Phonics, `22` mẫu câu, `10` bài học, `10` hội thoại) và gói mẫu A1 (`32` từ, `12` cụm, `10` mẫu câu, `2` bài học, `4` hội thoại, `20` câu hỏi ngân hàng dùng chung, `147` SVG 1:1).
+- **P10 (Release Preparation):** Đã chuẩn hóa phiên bản thống nhất `0.9.0` (Build `900`), 5 export presets (`Web`, `Windows Desktop`, `Android`, `Android AAB`, `iOS`), save migration `v1->v2` kèm sao lưu tiền di trú, ngắt âm thanh/micro khi mất focus, `tools/build_release.ps1`/`.sh`, workflow `.github/workflows/release-multiplatform.yml`, kiểm định `validate_prompt_10.py` và 20 tài liệu trong `docs/release/`.
+- **Giới hạn hiện tại:** Chưa build được file nhị phân `.exe`/`.apk`/`.aab`/`.ipa` trực tiếp tại máy trạm do thiếu Godot `4.3` CLI/Export Templates, Android SDK và macOS/Xcode; các thông tin pháp lý Store còn chờ chủ dự án điền `REQUIRES_OWNER_INPUT`.

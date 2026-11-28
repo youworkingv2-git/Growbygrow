@@ -1,0 +1,191 @@
+{
+  "world_id": "world_02",
+  "cefr_level": "A1",
+  "items": [
+    {
+      "id": "list_a1_01",
+      "activity_type": "listen_word_choose_image",
+      "prompt_vi": "[A1] Nghe từ chỉ địa điểm và chọn hình đúng:",
+      "transcript_en": "library",
+      "translation_vi": "Thư viện",
+      "ipa": "/ˈlaɪ.brɛr.i/",
+      "word_id": "word_library",
+      "options": [
+        {
+          "id": "a",
+          "is_correct": true,
+          "label_en": "library",
+          "word_id": "word_library"
+        },
+        {
+          "id": "b",
+          "is_correct": false,
+          "label_en": "hospital",
+          "word_id": "word_hospital"
+        },
+        {
+          "id": "c",
+          "is_correct": false,
+          "label_en": "market",
+          "word_id": "word_market"
+        }
+      ],
+      "explanation_vi": "'Library' là thư viện nơi đọc và mượn sách.",
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "difficulty": 2,
+      "cefr_level": "A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "list_a1_02",
+      "activity_type": "listen_short_dialogue",
+      "prompt_vi": "[A1] Nghe câu hỏi trong cửa hàng và chọn lời đáp phù hợp:",
+      "transcript_en": "How much is this science book? It is cheap!",
+      "translation_vi": "Quyển sách khoa học này giá bao nhiêu? Rất rẻ!",
+      "ipa": "/haʊ mʌtʃ ɪz ðɪs ˈsaɪ.əns bʊk/",
+      "word_id": "word_price",
+      "options": [
+        {
+          "id": "a",
+          "is_correct": true,
+          "label_en": "I would like to buy it, please."
+        },
+        {
+          "id": "b",
+          "is_correct": false,
+          "label_en": "I brush my teeth at six."
+        },
+        {
+          "id": "c",
+          "is_correct": false,
+          "label_en": "The elephant is big."
+        }
+      ],
+      "explanation_vi": "Khi muốn mua món đồ vừa hỏi giá, nói: 'I would like to buy it, please.'",
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "difficulty": 2,
+      "cefr_level": "A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "list_a1_03",
+      "activity_type": "listen_identify_detail",
+      "prompt_vi": "[A1] Nghe thói quen buổi sáng và cho biết bạn nhỏ ăn gì:",
+      "transcript_en": "I brush my teeth at six thirty. Then I have bread and milk for breakfast.",
+      "translation_vi": "Mình đánh răng lúc 6:30. Sau đó mình ăn bánh mì và uống sữa cho bữa sáng.",
+      "ipa": "/aɪ brʌʃ maɪ tiːθ æt sɪks ˈθɜːr.t̬i/",
+      "word_id": "word_breakfast",
+      "options": [
+        {
+          "id": "a",
+          "is_correct": true,
+          "label_vi": "Bánh mì và sữa"
+        },
+        {
+          "id": "b",
+          "is_correct": false,
+          "label_vi": "Mì gà và rau trộn"
+        },
+        {
+          "id": "c",
+          "is_correct": false,
+          "label_vi": "Súp và cơm"
+        }
+      ],
+      "explanation_vi": "Trong đoạn nghe có cụm 'have bread and milk for breakfast'.",
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "difficulty": 2,
+      "cefr_level": "A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "list_a1_04",
+      "activity_type": "listen_identify_detail",
+      "prompt_vi": "[A1] Nghe chỉ đường và chọn địa điểm cuối cùng:",
+      "transcript_en": "Go straight on Green Street and turn left at the park. The museum is next to the library.",
+      "translation_vi": "Đi thẳng trên phố Green và rẽ trái ở công viên. Bảo tàng nằm cạnh thư viện.",
+      "ipa": "/ɡoʊ streɪt ɑːn ɡriːn striːt/",
+      "word_id": "word_museum",
+      "options": [
+        {
+          "id": "a",
+          "is_correct": true,
+          "label_vi": "Bảo tàng (bên cạnh thư viện)"
+        },
+        {
+          "id": "b",
+          "is_correct": false,
+          "label_vi": "Bệnh viện"
+        },
+        {
+          "id": "c",
+          "is_correct": false,
+          "label_vi": "Chợ"
+        }
+      ],
+      "explanation_vi": "Câu cuối cho biết 'The museum is next to the library.'",
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "difficulty": 3,
+      "cefr_level": "A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "list_a1_05",
+      "activity_type": "listen_sentence_choose_answer",
+      "prompt_vi": "[A1] Nghe câu hỏi về sở thích và chọn câu trả lời đúng:",
+      "transcript_en": "Can you swim or draw?",
+      "translation_vi": "Bạn biết bơi hay vẽ tranh không?",
+      "ipa": "/kæn juː swɪm ɔːr drɔː/",
+      "word_id": "word_swim",
+      "options": [
+        {
+          "id": "a",
+          "is_correct": true,
+          "label_en": "Yes, I can swim very well."
+        },
+        {
+          "id": "b",
+          "is_correct": false,
+          "label_en": "My uncle works at the market."
+        },
+        {
+          "id": "c",
+          "is_correct": false,
+          "label_en": "There are five tables."
+        }
+      ],
+      "explanation_vi": "Câu hỏi bắt đầu bằng 'Can you...' trả lời bằng 'Yes, I can...' hoặc 'No, I can't...'.",
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "difficulty": 2,
+      "cefr_level": "A1",
+      "review_status": "approved"
+    },
+    {
+      "id": "list_a1_06",
+      "activity_type": "listen_arrange_sentence",
+      "prompt_vi": "[A1] Nghe và sắp xếp các từ thành câu hoàn chỉnh:",
+      "transcript_en": "My cousin likes funny music",
+      "translation_vi": "Anh họ mình thích nhạc vui nhộn.",
+      "ipa": "/maɪ ˈkʌz.ən laɪks ˈfʌn.i ˈmjuː.zɪk/",
+      "word_id": "word_cousin",
+      "tokens": [
+        "My",
+        "cousin",
+        "likes",
+        "funny",
+        "music"
+      ],
+      "explanation_vi": "Thứ tự đúng: My cousin likes funny music.",
+      "audio_status": "missing_asset",
+      "audio_path": "",
+      "difficulty": 3,
+      "cefr_level": "A1",
+      "review_status": "approved"
+    }
+  ]
+}

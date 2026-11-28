@@ -6,6 +6,7 @@ class_name LearningHubModal
 signal closed()
 
 var _current_tab: String = "lessons"
+var _vocab_level_filter: String = "all" # "all" | "Pre-A1" | "A1" | "phrases"
 var _vocab_topic_filter: String = "all"
 var _selected_letter_id: String = "letter_a"
 var _selected_grammar_id: String = "gram_07"
@@ -220,7 +221,8 @@ func _render_lessons_tab() -> void:
 	levels_card.add_child(lv_box)
 	content_vbox.add_child(levels_card)
 
-	# World 01 Topics & Lessons
+	# World 01 Topics & Lessons (Pre-A1 Alphabet Island)
+	content_vbox.add_child(_make_label("THẾ GIỚI 1: ALPHABET ISLAND (PRE-A1)", 17, UIDesignSystem.PRIMARY))
 	for topic in LearningEngine.path_manager.get_topics_for_world("world_01"):
 		var t_id := str(topic.get("id", ""))
 		var topic_done := LearningEngine.progress_manager.completed_topics.has(t_id)
@@ -261,6 +263,56 @@ func _render_lessons_tab() -> void:
 			row.add_child(start_btn)
 			card.add_child(row)
 			content_vbox.add_child(card)
+
+	# World 02: A1 Foundation Sample + Multi-Factor Unlock Gate
+	var a1_gate := LearningEngine.evaluate_a1_unlock_status()
+	var a1_unlocked := bool(a1_gate.get("unlocked", false))
+	var gate_card := _make_card(
+		Color(0.10, 0.22, 0.26, 0.96) if a1_unlocked else Color(0.16, 0.16, 0.26, 0.96),
+		UIDesignSystem.SUCCESS if a1_unlocked else UIDesignSystem.TEXT_GOLD
+	)
+	var gv := VBoxContainer.new()
+	gv.add_theme_constant_override("separation", 4)
+	gv.add_child(_make_label(
+		"THẾ GIỚI 2: VOCABULARY FOREST — GÓI MẪU A1 (%s)" % ("ĐÃ MỞ KHÓA" if a1_unlocked else "CHỜ HOÀN THÀNH PRE-A1"),
+		16,
+		UIDesignSystem.SUCCESS if a1_unlocked else UIDesignSystem.TEXT_GOLD
+	))
+	gv.add_child(_make_label(
+		"Điều kiện mở khóa chính thức A1: Bài Pre-A1 (%d/%d) | Kiến thức đã ghi nhớ (%d/%d) | Độ chính xác (%.1f%%/%.0f%%) | Hoàn thành Quest Cổng Bí Ẩn (%s)" % [
+			int(a1_gate.get("pre_a1_lessons_done", 0)), int(a1_gate.get("pre_a1_lessons_required", 6)),
+			int(a1_gate.get("remembered_items", 0)), int(a1_gate.get("remembered_required", 15)),
+			float(a1_gate.get("overall_accuracy_pct", 0.0)), float(a1_gate.get("accuracy_required", 60.0)),
+			"Đạt" if bool(a1_gate.get("quests_completed", false)) else "Chưa xong"
+		],
+		13,
+		UIDesignSystem.TEXT_MUTED
+	))
+	gate_card.add_child(gv)
+	content_vbox.add_child(gate_card)
+
+	for topic_a1 in LearningEngine.path_manager.get_topics_for_world("world_02"):
+		var tid_a1 := str(topic_a1.get("id", ""))
+		content_vbox.add_child(_make_label(str(topic_a1.get("title_vi", "")), 15, UIDesignSystem.TEXT_GOLD))
+		for ls_a1 in LearningEngine.path_manager.get_lessons_for_topic(tid_a1):
+			var lid_a1 := str(ls_a1.get("id", ""))
+			var done_a1 := LearningEngine.progress_manager.is_lesson_completed(lid_a1)
+			var card_a1 := _make_card(Color(0.11, 0.17, 0.30, 0.96), UIDesignSystem.BORDER_DEFAULT)
+			var row_a1 := HBoxContainer.new()
+			row_a1.add_theme_constant_override("separation", 12)
+			var col_a1 := VBoxContainer.new()
+			col_a1.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			col_a1.add_child(_make_label(str(ls_a1.get("title_vi", "")), 15, UIDesignSystem.TEXT_LIGHT))
+			col_a1.add_child(_make_label(str(ls_a1.get("summary_vi", "")), 13, UIDesignSystem.TEXT_MUTED))
+			row_a1.add_child(col_a1)
+			var btn_a1 := Button.new()
+			btn_a1.text = ("Học lại" if done_a1 else "Học A1") if a1_unlocked else "Học thử A1"
+			btn_a1.custom_minimum_size = Vector2(120, 42)
+			UIDesignSystem.apply_button_variant(btn_a1, "confirm" if a1_unlocked else "secondary")
+			btn_a1.pressed.connect(func() -> void: start_lesson_runner(lid_a1))
+			row_a1.add_child(btn_a1)
+			card_a1.add_child(row_a1)
+			content_vbox.add_child(card_a1)
 
 
 # =============================================================================
@@ -382,8 +434,25 @@ func _render_phonics_tab() -> void:
 		detail.add_child(dv)
 		content_vbox.add_child(detail)
 
-	# Phonics Units (Short/Long Vowels, Digraphs, Blending)
-	content_vbox.add_child(_make_label("Nhóm âm Phonics & Ghép vần cơ bản:", 16, UIDesignSystem.TEXT_GOLD))
+	# Phonics Quiz Launcher + Phonics Units (Short/Long Vowels, Digraphs, Blending)
+	var ph_quiz_card := _make_card(Color(0.12, 0.22, 0.36, 0.98), UIDesignSystem.TEXT_GOLD)
+	var ph_row := HBoxContainer.new()
+	ph_row.add_theme_constant_override("separation", 10)
+	var ph_col := VBoxContainer.new()
+	ph_col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	ph_col.add_child(_make_label("Bài tập Thực hành Phonics (Nghe & Ghép âm)", 16, UIDesignSystem.TEXT_GOLD))
+	ph_col.add_child(_make_label("Luyện chọn âm đầu, âm cuối, ghép vần CVC và phân biệt cặp âm gần nhau.", 13, UIDesignSystem.TEXT_MUTED))
+	ph_row.add_child(ph_col)
+	var ph_btn := Button.new()
+	ph_btn.text = "Luyện Phonics"
+	ph_btn.custom_minimum_size = Vector2(130, 42)
+	UIDesignSystem.apply_button_variant(ph_btn, "confirm")
+	ph_btn.pressed.connect(_start_phonics_quiz_runner)
+	ph_row.add_child(ph_btn)
+	ph_quiz_card.add_child(ph_row)
+	content_vbox.add_child(ph_quiz_card)
+
+	content_vbox.add_child(_make_label("Nhóm âm Phonics & Ghép vần (%d nhóm):" % LearningEngine.phonics_manager.get_phonics_units().size(), 16, UIDesignSystem.TEXT_GOLD))
 	for unit in LearningEngine.phonics_manager.get_phonics_units():
 		var ucard := _make_card()
 		var uv := VBoxContainer.new()
@@ -425,29 +494,99 @@ func _render_phonics_tab() -> void:
 
 
 # =============================================================================
-# TAB 3: VOCABULARY MANAGER (32 REUSABLE WORDS)
+# TAB 3: VOCABULARY & PHRASES MANAGER (PRE-A1 + A1 SAMPLE)
 # =============================================================================
 func _render_vocab_tab() -> void:
 	_clear_content()
-	header_title.text = "KHO TỪ VỰNG PRE-A1 (%d TỪ)" % LearningEngine.content_repo.vocab_ordered.size()
+	header_title.text = "KHO TỪ VỰNG (%d TỪ) & %d CỤM TỪ" % [
+		LearningEngine.content_repo.vocab_ordered.size(),
+		LearningEngine.content_repo.phrases_ordered.size()
+	]
 
-	var filter_row := HBoxContainer.new()
-	filter_row.add_theme_constant_override("separation", 6)
+	# Level / Mode filter row
+	var lvl_row := HBoxContainer.new()
+	lvl_row.add_theme_constant_override("separation", 8)
+	var modes := [
+		{ "id": "all", "label": "Tất cả từ vựng" },
+		{ "id": "Pre-A1", "label": "Pre-A1 (Cơ bản)" },
+		{ "id": "A1", "label": "A1 (Mẫu mở rộng)" },
+		{ "id": "phrases", "label": "Cụm từ thông dụng (%d)" % LearningEngine.content_repo.phrases_ordered.size() }
+	]
+	for m in modes:
+		var mid := str(m["id"])
+		var mb := Button.new()
+		mb.text = str(m["label"])
+		mb.focus_mode = Control.FOCUS_NONE
+		UIDesignSystem.apply_button_variant(mb, "confirm" if _vocab_level_filter == mid else "secondary")
+		mb.pressed.connect(func() -> void:
+			_vocab_level_filter = mid
+			_vocab_topic_filter = "all"
+			_render_vocab_tab()
+		)
+		lvl_row.add_child(mb)
+	content_vbox.add_child(lvl_row)
+
+	if _vocab_level_filter == "phrases":
+		for p in LearningEngine.vocabulary_manager.get_all_phrases():
+			var pid := str(p.get("id", ""))
+			var pcard := _make_card()
+			var prow := HBoxContainer.new()
+			prow.add_theme_constant_override("separation", 10)
+			var pcol := VBoxContainer.new()
+			pcol.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			pcol.add_child(_make_label("[%s] %s (%s) — %s" % [
+				str(p.get("cefr_level", "Pre-A1")),
+				str(p.get("phrase_en", "")),
+				LearningEngine.vocabulary_manager.get_ipa_for_accent(p),
+				str(p.get("meaning_vi", ""))
+			], 15, UIDesignSystem.TEXT_GOLD))
+			pcol.add_child(_make_label("Ví dụ: %s (%s)" % [
+				str(p.get("example_sentence", "")),
+				str(p.get("example_translation", ""))
+			], 13, UIDesignSystem.TEXT_MUTED))
+			prow.add_child(pcol)
+
+			var pl_btn := Button.new()
+			pl_btn.text = "Nghe"
+			pl_btn.custom_minimum_size = Vector2(70, 40)
+			UIDesignSystem.apply_button_variant(pl_btn, "secondary")
+			pl_btn.pressed.connect(func() -> void: LearningEngine.vocabulary_manager.play_phrase(p, false))
+			prow.add_child(pl_btn)
+
+			var pp_btn := Button.new()
+			pp_btn.text = "Luyện"
+			pp_btn.custom_minimum_size = Vector2(76, 40)
+			UIDesignSystem.apply_button_variant(pp_btn, "confirm")
+			pp_btn.pressed.connect(func() -> void: _start_single_phrase_practice(pid))
+			prow.add_child(pp_btn)
+
+			pcard.add_child(prow)
+			content_vbox.add_child(pcard)
+		return
+
+	var cefr_filter := "" if _vocab_level_filter == "all" else _vocab_level_filter
+	var filter_flow := HFlowContainer.new()
+	filter_flow.add_theme_constant_override("h_separation", 6)
+	filter_flow.add_theme_constant_override("v_separation", 6)
 	var topics: Array[String] = ["all"]
-	topics.append_array(LearningEngine.vocabulary_manager.get_topics())
+	topics.append_array(LearningEngine.vocabulary_manager.get_topics(cefr_filter))
 	for t in topics:
 		var fb := Button.new()
-		fb.text = "Tất cả" if t == "all" else t.capitalize()
+		fb.text = "Tất cả" if t == "all" else t.replace("_", " ").capitalize()
 		fb.focus_mode = Control.FOCUS_NONE
 		UIDesignSystem.apply_button_variant(fb, "primary" if _vocab_topic_filter == t else "secondary")
 		fb.pressed.connect(func() -> void:
 			_vocab_topic_filter = t
 			_render_vocab_tab()
 		)
-		filter_row.add_child(fb)
-	content_vbox.add_child(filter_row)
+		filter_flow.add_child(fb)
+	content_vbox.add_child(filter_flow)
 
-	var words := LearningEngine.vocabulary_manager.get_all_words() if _vocab_topic_filter == "all" else LearningEngine.vocabulary_manager.get_words_by_topic(_vocab_topic_filter)
+	var words: Array[Dictionary] = (
+		LearningEngine.vocabulary_manager.get_words_by_level(cefr_filter)
+		if _vocab_topic_filter == "all"
+		else LearningEngine.vocabulary_manager.get_words_by_topic(_vocab_topic_filter, cefr_filter)
+	)
 	for w in words:
 		var wid := str(w.get("id", ""))
 		var word_en := str(w.get("word", ""))
@@ -469,7 +608,8 @@ func _render_vocab_tab() -> void:
 		col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		var syls := LearningEngine.vocabulary_manager.get_syllables(w)
 		var syl_txt := ("  [" + " · ".join(PackedStringArray(syls)) + "]") if syls.size() > 1 else ""
-		col.add_child(_make_label("%s (%s)%s — %s  [%s]" % [
+		col.add_child(_make_label("[%s] %s (%s)%s — %s  [%s]" % [
+			str(w.get("cefr_level", "Pre-A1")),
 			word_en.capitalize(),
 			LearningEngine.vocabulary_manager.get_ipa_for_accent(w),
 			syl_txt,
@@ -515,11 +655,11 @@ func _render_vocab_tab() -> void:
 
 
 # =============================================================================
-# TAB 4: GRAMMAR & DYNAMIC SUBSTITUTION BUILDER
+# TAB 4: GRAMMAR & DYNAMIC SUBSTITUTION BUILDER (PRE-A1 + A1)
 # =============================================================================
 func _render_grammar_tab() -> void:
 	_clear_content()
-	header_title.text = "NGỮ PHÁP CƠ BẢN (15 CẤU TRÚC & THAY THẾ TỪ)"
+	header_title.text = "MẪU CÂU & NGỮ PHÁP ỨNG DỤNG (%d CẤU TRÚC)" % LearningEngine.grammar_manager.get_all_structures().size()
 
 	for g in LearningEngine.grammar_manager.get_all_structures():
 		var gid := str(g.get("id", ""))
@@ -532,7 +672,7 @@ func _render_grammar_tab() -> void:
 		gv.add_theme_constant_override("separation", 6)
 
 		var top_row := HBoxContainer.new()
-		top_row.add_child(_make_label(str(g.get("structure", "")), 17, UIDesignSystem.TEXT_GOLD))
+		top_row.add_child(_make_label("[%s] %s" % [str(g.get("cefr_level", "Pre-A1")), str(g.get("structure", ""))], 17, UIDesignSystem.TEXT_GOLD))
 		top_row.get_child(0).size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		var toggle_btn := Button.new()
 		toggle_btn.text = "Đang xem" if is_sel else "Tập ghép câu"
@@ -564,28 +704,55 @@ func _render_grammar_tab() -> void:
 
 
 # =============================================================================
-# TAB 5: PROGRESS, ASSESSMENT & 4 SKILLS
+# TAB 5: PROGRESS, 4-STATE MASTERY & A1 UNLOCK READINESS
 # =============================================================================
 func _render_progress_tab() -> void:
 	_clear_content()
-	header_title.text = "TIẾN ĐỘ HỌC TẬP & ĐÁNH GIÁ 4 KỸ NĂNG"
+	header_title.text = "TIẾN ĐỘ HỌC TẬP, GHI NHỚ & ĐÁNH GIÁ 4 KỸ NĂNG"
 
 	var pm := LearningEngine.progress_manager
+	var four := pm.get_four_state_summary()
+	var a1_gate := LearningEngine.evaluate_a1_unlock_status()
+
 	var summary_card := _make_card(Color(0.11, 0.19, 0.34, 0.98), UIDesignSystem.PRIMARY)
 	var sv := VBoxContainer.new()
 	sv.add_theme_constant_override("separation", 6)
-	sv.add_child(_make_label("Phân tách Điểm Học Tập vs Điểm Trò Chơi:", 16, UIDesignSystem.TEXT_GOLD))
-	sv.add_child(_make_label("• Learning Score (Kết quả học tập): %d điểm" % pm.total_learning_score, 15, UIDesignSystem.SUCCESS))
-	sv.add_child(_make_label("• Game Score (Điểm thưởng trò chơi): %d điểm | Player EXP: %d | Gold: %d" % [
-		pm.total_game_score, GameStateManager.exp, GameStateManager.gold
-	], 14, UIDesignSystem.TEXT_LIGHT))
-	sv.add_child(_make_label("• Bài học đã hoàn thành: %d / %d   |   Chủ đề xong: %d" % [
-		pm.completed_lessons.size(),
+	sv.add_child(_make_label("Phân biệt rõ 4 trạng thái học tập (không đánh đồng chỉ số):", 16, UIDesignSystem.TEXT_GOLD))
+	sv.add_child(_make_label("1. Hoàn thành bài học: %d / %d bài   |   Chủ đề xong: %d" % [
+		int(four.get("lessons_completed", 0)),
 		LearningEngine.content_repo.lessons_ordered.size(),
-		pm.completed_topics.size()
+		int(four.get("topics_completed", 0))
 	], 14, Color(0.65, 0.88, 1.0, 1.0)))
+	sv.add_child(_make_label("2. Trả lời đúng lần đầu: %d / %d lượt (Độ chính xác: %.1f%%)" % [
+		int(four.get("correct_answers", 0)),
+		int(four.get("total_attempts", 0)),
+		float(four.get("overall_accuracy_pct", 0.0))
+	], 14, UIDesignSystem.TEXT_LIGHT))
+	sv.add_child(_make_label("3. Kiến thức đã ghi nhớ (Practicing/Reviewing): %d mục   |   4. Thành thạo (Mastered >=2 kỹ năng): %d mục" % [
+		int(four.get("remembered_items", 0)),
+		int(four.get("mastered_items", 0))
+	], 14, UIDesignSystem.SUCCESS))
+	sv.add_child(_make_label("• Learning Score: %d điểm   |   Game Score: %d điểm (EXP: %d, Gold: %d)" % [
+		pm.total_learning_score, pm.total_game_score, GameStateManager.exp, GameStateManager.gold
+	], 13, UIDesignSystem.TEXT_MUTED))
+	sv.add_child(_make_label("Lưu ý: Pre-A1 / A1 là mức tham chiếu độ khó chương trình trong game, không phải chứng chỉ CEFR chính thức.", 12, Color(1.0, 0.82, 0.45, 1.0)))
 	summary_card.add_child(sv)
 	content_vbox.add_child(summary_card)
+
+	var unlock_card := _make_card(Color(0.10, 0.18, 0.28, 0.96), UIDesignSystem.SUCCESS if bool(a1_gate.get("unlocked", false)) else UIDesignSystem.TEXT_GOLD)
+	var uv := VBoxContainer.new()
+	uv.add_theme_constant_override("separation", 4)
+	uv.add_child(_make_label("Điều kiện mở khóa chính thức cấp độ A1: %s" % ("ĐÃ ĐẠT" if bool(a1_gate.get("unlocked", false)) else "ĐANG RÈN LUYỆN"), 15, UIDesignSystem.TEXT_GOLD))
+	uv.add_child(_make_label("• Bài Pre-A1 hoàn thành: %d / %d   • Từ/kiến thức ghi nhớ: %d / %d" % [
+		int(a1_gate.get("pre_a1_lessons_done", 0)), int(a1_gate.get("pre_a1_lessons_required", 6)),
+		int(a1_gate.get("remembered_items", 0)), int(a1_gate.get("remembered_required", 15))
+	], 13, UIDesignSystem.TEXT_LIGHT))
+	uv.add_child(_make_label("• Độ chính xác tổng hợp: %.1f%% / %.0f%%   • Quest Cổng Bí Ẩn (Quest 03): %s" % [
+		float(a1_gate.get("overall_accuracy_pct", 0.0)), float(a1_gate.get("accuracy_required", 60.0)),
+		"Đã hoàn thành" if bool(a1_gate.get("quests_completed", false)) else "Chưa hoàn thành"
+	], 13, UIDesignSystem.TEXT_LIGHT))
+	unlock_card.add_child(uv)
+	content_vbox.add_child(unlock_card)
 
 	var skill_card := _make_card()
 	var skv := VBoxContainer.new()
@@ -606,7 +773,7 @@ func _render_progress_tab() -> void:
 	var miss_card := _make_card()
 	var mv := VBoxContainer.new()
 	mv.add_theme_constant_override("separation", 4)
-	mv.add_child(_make_label("Từ vựng cần luyện tập thêm (Wrong History):", 15, Color(1.0, 0.78, 0.45, 1.0)))
+	mv.add_child(_make_label("Từ vựng cần luyện tập thêm (Adaptive Review):", 15, Color(1.0, 0.78, 0.45, 1.0)))
 	if missed.is_empty():
 		mv.add_child(_make_label("Chưa có từ nào trả lời sai gần đây!", 13, UIDesignSystem.TEXT_MUTED))
 	else:
@@ -616,6 +783,34 @@ func _render_progress_tab() -> void:
 			], 13))
 	miss_card.add_child(mv)
 	content_vbox.add_child(miss_card)
+
+
+func _start_phonics_quiz_runner() -> void:
+	var qs := LearningEngine.get_phonics_quiz_batch()
+	if qs.is_empty():
+		return
+	_in_runner = true
+	_runner_is_review = true
+	_runner_title = "Thực hành Phonics & Ghép âm"
+	_runner_questions = qs
+	_runner_index = 0
+	_reset_question_state()
+	_update_tab_styles()
+	_render_runner_question()
+
+
+func _start_single_phrase_practice(phrase_id: String) -> void:
+	var q := LearningEngine.question_manager.build_reusable_phrase_question(phrase_id)
+	if q.is_empty():
+		return
+	_in_runner = true
+	_runner_is_review = true
+	_runner_title = "Luyện tập Cụm từ thông dụng"
+	_runner_questions = [q]
+	_runner_index = 0
+	_reset_question_state()
+	_update_tab_styles()
+	_render_runner_question()
 
 
 # =============================================================================

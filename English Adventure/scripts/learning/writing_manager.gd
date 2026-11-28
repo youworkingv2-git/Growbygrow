@@ -1,7 +1,8 @@
 class_name WritingManager
 extends RefCounted
 ## Manages Writing activities: fill missing letter, assemble letters into word,
-## fill word in sentence, arrange words into sentence, and simple sentence writing.
+## fill word in sentence, arrange words into sentence, and guided sentence writing
+## with support for multiple valid equivalent answers (acceptable_answers).
 
 var _repo: LearningContentRepository
 
@@ -18,6 +19,14 @@ func get_item(item_id: String) -> Dictionary:
 	return _repo.writing_by_id.get(item_id, {})
 
 
+func _normalize_writing_text(txt: String) -> String:
+	var out := txt.strip_edges().to_lower()
+	while out.contains("  "):
+		out = out.replace("  ", " ")
+	out = out.rstrip(".!?")
+	return out.strip_edges()
+
+
 func evaluate_answer(item: Dictionary, submitted_answer: String) -> Dictionary:
 	var atype := str(item.get("activity_type", ""))
 	var clean := submitted_answer.strip_edges()
@@ -32,9 +41,17 @@ func evaluate_answer(item: Dictionary, submitted_answer: String) -> Dictionary:
 		is_correct = clean.to_lower() == correct.to_lower()
 	else:
 		correct = str(item.get("target_text", ""))
-		var norm_sub := clean.to_lower().rstrip(".!?")
-		var norm_cor := correct.to_lower().rstrip(".!?")
-		is_correct = norm_sub == norm_cor
+		var norm_sub := _normalize_writing_text(clean)
+		var norm_cor := _normalize_writing_text(correct)
+		if not norm_sub.is_empty() and norm_sub == norm_cor:
+			is_correct = true
+		else:
+			var accepted: Array = item.get("acceptable_answers", [])
+			for acc_var in accepted:
+				var norm_acc := _normalize_writing_text(str(acc_var))
+				if not norm_acc.is_empty() and norm_sub == norm_acc:
+					is_correct = true
+					break
 
 	var display_correct := str(item.get("target_text", correct))
 	return {

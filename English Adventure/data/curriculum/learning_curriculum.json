@@ -37,7 +37,16 @@
         "is_unlocked_default": false,
         "status": "planned_extensible"
       }
-    ]
+    ],
+    "a1_unlock_criteria": {
+      "min_pre_a1_lessons_completed": 6,
+      "min_remembered_or_mastered_items": 15,
+      "required_quest_ids": [
+        "quest_03_mysterious_gate"
+      ],
+      "min_overall_accuracy_pct": 60.0,
+      "description_vi": "Mở khóa lộ trình A1 khi hoàn thành tối thiểu 6 bài Pre-A1, ghi nhớ/thành thạo ít nhất 15 kiến thức cốt lõi, vượt qua Cổng Bí Ẩn (Quest 03) và đạt độ chính xác tối thiểu 60%."
+    }
   },
   "worlds": [
     {
@@ -429,8 +438,224 @@
               ]
             }
           ]
+        },
+        {
+          "id": "topic_06_greetings_numbers",
+          "order_index": 6,
+          "area_id": "welcome_village",
+          "title_en": "Greetings, Shapes & Numbers 1-10",
+          "title_vi": "Chủ đề 06: Chào hỏi, Hình dạng & Số đếm 1-10",
+          "lessons": [
+            {
+              "id": "lesson_06_01_shapes_numbers",
+              "quest_id": "",
+              "area_id": "crystal_lake",
+              "title_en": "Shapes, Numbers 6-10 & Polite Words",
+              "title_vi": "Bài 08: Hình dạng, Số 6-10 & Lời chào lịch sự",
+              "summary_vi": "Học số 6-10, 4 hình dạng cơ bản và câu chào hỏi lịch sự.",
+              "rewards": {
+                "exp": 35,
+                "gold": 15
+              },
+              "activities": [
+                {
+                  "id": "act_08_1",
+                  "skill": "listening",
+                  "source_type": "listening",
+                  "source_id": "list_13"
+                },
+                {
+                  "id": "act_08_2",
+                  "skill": "reading",
+                  "source_type": "reading",
+                  "source_id": "read_13"
+                },
+                {
+                  "id": "act_08_3",
+                  "skill": "writing",
+                  "source_type": "writing",
+                  "source_id": "write_14"
+                },
+                {
+                  "id": "act_08_4",
+                  "skill": "speaking",
+                  "source_type": "speaking",
+                  "source_id": "speak_09"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "topic_07_world_around_us",
+          "order_index": 7,
+          "area_id": "crystal_lake",
+          "title_en": "Body, Clothes, Weather & Daily Life",
+          "title_vi": "Chủ đề 07: Cơ thể, Quần áo, Thời tiết & Hoạt động",
+          "lessons": [
+            {
+              "id": "lesson_07_01_body_weather",
+              "quest_id": "",
+              "area_id": "crystal_lake",
+              "title_en": "Body Parts, Weather & Feelings",
+              "title_vi": "Bài 09: Cơ thể, Thời tiết & Cảm xúc",
+              "summary_vi": "Nhận diện bộ phận cơ thể, thời tiết nắng/mưa và cảm xúc vui/buồn.",
+              "rewards": {
+                "exp": 40,
+                "gold": 20
+              },
+              "activities": [
+                {
+                  "id": "act_09_1",
+                  "skill": "listening",
+                  "source_type": "listening",
+                  "source_id": "list_14"
+                },
+                {
+                  "id": "act_09_2",
+                  "skill": "listening",
+                  "source_type": "listening",
+                  "source_id": "list_15"
+                },
+                {
+                  "id": "act_09_3",
+                  "skill": "listening",
+                  "source_type": "listening",
+                  "source_id": "list_16"
+                },
+                {
+                  "id": "act_09_4",
+                  "skill": "reading",
+                  "source_type": "reading",
+                  "source_id": "read_18"
+                },
+                {
+                  "id": "act_09_5",
+                  "skill": "writing",
+                  "source_type": "writing",
+                  "source_id": "write_13"
+                },
+                {
+                  "id": "act_09_6",
+                  "skill": "writing",
+                  "source_type": "writing",
+                  "source_id": "write_22"
+                }
+              ]
+            },
+            {
+              "id": "lesson_07_02_toys_places_stories",
+              "quest_id": "",
+              "area_id": "crystal_lake",
+              "title_en": "Toys, Places & Short Stories",
+              "title_vi": "Bài 10: Đồ chơi, Địa điểm & Đọc hiểu ngắn",
+              "summary_vi": "Luyện tập diều, xe đạp, công viên và đọc đoạn văn 1-3 câu.",
+              "rewards": {
+                "exp": 40,
+                "gold": 20
+              },
+              "activities": [
+                {
+                  "id": "act_10_1",
+                  "skill": "listening",
+                  "source_type": "listening",
+                  "source_id": "list_17"
+                },
+                {
+                  "id": "act_10_2",
+                  "skill": "listening",
+                  "source_type": "listening",
+                  "source_id": "list_19"
+                },
+                {
+                  "id": "act_10_3",
+                  "skill": "reading",
+                  "source_type": "reading",
+                  "source_id": "read_19"
+                },
+                {
+                  "id": "act_10_4",
+                  "skill": "reading",
+                  "source_type": "reading",
+                  "source_id": "read_20"
+                },
+                {
+                  "id": "act_10_5",
+                  "skill": "writing",
+                  "source_type": "writing",
+                  "source_id": "write_21"
+                },
+                {
+                  "id": "act_10_6",
+                  "skill": "speaking",
+                  "source_type": "speaking",
+                  "source_id": "speak_11"
+                }
+              ]
+            }
+          ]
         }
-      ]
+      ],
+      "area_mapping": {
+        "welcome_village": [
+          "topic_01_alphabet",
+          "topic_06_greetings_numbers"
+        ],
+        "alphabet_meadow": [
+          "topic_01_alphabet",
+          "topic_02_basic_vocab"
+        ],
+        "letter_cave": [
+          "topic_03_basic_phonics"
+        ],
+        "crystal_lake": [
+          "topic_04_basic_words",
+          "topic_07_world_around_us"
+        ],
+        "shadow_gate": [
+          "topic_05_simple_sentences"
+        ]
+      }
+    },
+    {
+      "id": "world_02",
+      "level_id": "a1_basic",
+      "title_en": "Vocabulary Forest (A1 Foundation Sample)",
+      "title_vi": "Rừng Từ Vựng (Gói Nội Dung Mẫu A1)",
+      "status": "sample_playable",
+      "topics": []
+    },
+    {
+      "id": "world_03",
+      "level_id": "a1_basic",
+      "title_en": "Sentence Kingdom",
+      "title_vi": "Vương Quốc Mẫu Câu",
+      "status": "planned_extensible",
+      "topics": []
+    },
+    {
+      "id": "world_04",
+      "level_id": "a1_plus",
+      "title_en": "Listening Ocean",
+      "title_vi": "Đại Dương Luyện Nghe",
+      "status": "planned_extensible",
+      "topics": []
+    },
+    {
+      "id": "world_05",
+      "level_id": "a1_plus",
+      "title_en": "Speaking City",
+      "title_vi": "Thành Phố Luyện Nói",
+      "status": "planned_extensible",
+      "topics": []
+    },
+    {
+      "id": "world_06",
+      "level_id": "a2_starter",
+      "title_en": "Challenge Kingdom",
+      "title_vi": "Vương Quốc Thử Thách",
+      "status": "planned_extensible",
+      "topics": []
     }
   ]
 }

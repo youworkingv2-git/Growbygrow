@@ -300,3 +300,20 @@ Các thành phần đã triển khai thành GDScript & Scene thực thi trong `p
 - **`SaveLoadManager`:** Bổ sung thuộc tính `is_online` + `set_online_status()` / `refresh_online_status()`, cơ chế sao lưu xoay vòng `active_profile.bak.json` kèm tự động phục hồi khi file chính hỏng, và kiểm tra chặt kiểu dữ liệu trong `_validate_save_schema()`.
 - **`SceneRouter` & Responsive Scaling:** Tự động điều chỉnh `content_scale_factor = 2.0` trên màn hình dọc (`MOBILE_PORTRAIT`) và dọn dẹp `stop_all_speech()` + `clear_recording(false)` khi chuyển cảnh.
 - **Tối ưu 3D & Input Locking:** Cache `StandardMaterial3D` / `Mesh` tĩnh trong `AreaEnvironment3D` & `PropFactory3D`, điều khiển `quality_particles` theo cấu hình `low`/`medium`/`high` trong `WorldEnvironment3DController`, đồng bộ mục tiêu nhặt trước trong `QuestManager`, và khóa input mini-game (`set_input_locked()`) khi panel phản hồi đang mở.
+
+---
+
+## 14. CẬP NHẬT KIẾN TRÚC TẠI PROMPT 09 (CONTENT EXPANSION SYSTEM)
+
+- **Kiến trúc Kho nội dung đa tầng (`data/`):** Tách bạch rõ giữa **Gói Pre-A1 cốt lõi** (`world_01_*`) và **Gói mẫu A1** (`world_02_a1_*`, `a1_sample_curriculum.json`, `a1_dialogue_adventures.json`), bổ sung `common_phrases.json` và `question_bank.json`, đảm bảo 100% tương thích ngược với các bộ kiểm định Prompt 02–08.
+- **Lớp lọc kiểm duyệt & Mở khóa đa yếu tố:** `LearningContentRepository` chỉ nạp các bản ghi có `review_status` là `approved` hoặc `published`. `LearningEngine.evaluate_a1_unlock_status()` kết hợp tiến độ bài học, trí nhớ (`remembered_items + mastered_items`), độ chính xác và cột mốc nhiệm vụ (`quest_03_mysterious_gate`) trước khi mở nội dung A1 trên `LearningHubModal`.
+- **Liên kết Quest – Nội dung – Ôn tập:** 8 nhiệm vụ trong `data/quests/world_01_quests.json` ánh xạ trực tiếp tới `linked_topics`, `linked_vocab_ids`, `linked_phrase_ids`, `linked_grammar_ids` và `review_vocab_ids` dùng chung cùng 147 tài nguyên SVG (`assets/learning/images/`).
+- **Database Migration 0007:** `supabase/migrations/0007_content_expansion_system.sql` bổ sung `learning_phrases`, `question_bank_items`, `content_review_logs`, `level_unlock_evaluations` với RLS đầy đủ.
+
+---
+
+## 15. CẬP NHẬT KIẾN TRÚC TẠI PROMPT 10 (RELEASE PREPARATION)
+
+- **`ReleaseInfo` (`scripts/core/release_info.gd`) & `data/release/version.json`:** Nguồn dữ liệu phiên bản thống nhất (`0.9.0`, Build `900`) cho `AppLogger`, `MainMenuUI`, `SettingsModalUI`, `SaveLoadManager` và `export_presets.cfg`.
+- **Save Migration & Crash-Safe Lifecycle:** `SaveLoadManager.migrate_save_data()` hỗ trợ di trú không phá hủy `v1 -> v2` kèm sao lưu tiền di trú; `AudioManager._notification()` tạm dừng âm thanh và hủy micro khi ứng dụng mất tiêu điểm / thu nhỏ trên PC & Mobile.
+- **Multi-Platform Export & CI:** `export_presets.cfg` chuẩn bị sẵn cho `Web`, `Windows Desktop`, `Android`, `Android AAB` và `iOS`, kết hợp `tools/build_release.ps1` / `.sh` và `.github/workflows/release-multiplatform.yml`.
