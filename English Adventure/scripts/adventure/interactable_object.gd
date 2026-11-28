@@ -1,7 +1,10 @@
 class_name InteractableObject
 extends Area3D
 ## Shared 3D interactable component for Signposts, Treasure Chests, Lost Letters,
-## Magic Crystals, Doors, Gates, and Area Portals.
+## Magic Crystals, Doors, Gates, and Area Portals with proximity-only nameplates
+## and collection sparkle feedback.
+
+const PROXIMITY_LABEL_RADIUS_SQ: float = 36.0 # Show nameplate within ~6.0m or when focused
 
 @export var object_id: String = ""
 @export var object_type: String = "signpost"   # signpost | chest | lost_letter | crystal | gate | portal
@@ -43,6 +46,7 @@ func setup_portal(portal_id: String, dest_area_id: String, dest_spawn: Vector2) 
 
 func _ready() -> void:
 	focus_ring.visible = false
+	label.visible = false
 	EventBus.ui_locale_changed.connect(func(_l: String) -> void: _refresh_visuals())
 	EventBus.area_unlocked.connect(func(_aid: String) -> void: _refresh_visuals())
 	if not object_data.is_empty():
@@ -61,6 +65,53 @@ func _process(delta: float) -> void:
 			rune_ring.rotation.z += delta * 1.1
 	if focus_ring.visible:
 		focus_ring.rotation.y += delta * 1.8
+
+	var is_near := focus_ring.visible or (object_type == "portal")
+	if not is_near:
+		var player_node := get_tree().get_first_node_in_group("player") as Node3D
+		if player_node != null and is_instance_valid(player_node):
+			is_near = global_position.distance_squared_to(player_node.global_position) <= PROXIMITY_LABEL_RADIUS_SQ
+	label.visible = is_near
+
+
+func spawn_collect_fx() -> void:
+	if SettingsManager.graphics_quality == "low":
+		return
+	var parent_node := get_parent()
+	if parent_node == null:
+		return
+	var burst := CPUParticles3D.new()
+	burst.position = global_position + Vector3(0, 0.9, 0)
+	burst.one_shot = true
+	burst.explosiveness = 0.92
+	burst.amount = 18
+	burst.lifetime = 0.85
+	burst.emission_shape = CPUParticles3D.EMISSION_SHAPE_SPHERE
+	burst.emission_sphere_radius = 0.35
+	burst.direction = Vector3(0, 1, 0)
+	burst.spread = 70.0
+	burst.initial_velocity_min = 2.0
+	burst.initial_velocity_max = 4.2
+	burst.gravity = Vector3(0, -5.0, 0)
+	burst.scale_amount_min = 0.06
+	burst.scale_amount_max = 0.14
+	var sm := SphereMesh.new()
+	sm.radius = 0.5
+	sm.height = 1.0
+	var mat := StandardMaterial3D.new()
+	mat.albedo_color = Color("#FFE36E")
+	mat.emission_enabled = true
+	mat.emission = Color("#FFCA3A")
+	mat.emission_energy_multiplier = 2.0
+	sm.material = mat
+	burst.mesh = sm
+	parent_node.add_child(burst)
+	burst.emitting = true
+	var t := parent_node.get_tree().create_timer(1.2)
+	t.timeout.connect(func() -> void:
+		if is_instance_valid(burst):
+			burst.queue_free()
+	)
 
 
 func _refresh_visuals() -> void:

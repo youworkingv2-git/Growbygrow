@@ -99,7 +99,7 @@ func _build_ocean_and_island() -> void:
 	grass.bottom_radius = 10.2
 	grass.height = 0.8
 	grass.radial_segments = 32
-	var grass_mi := _mesh(self, grass, _mat(Color(0.32, 0.72, 0.38), 0.76), Vector3(0, 0.2, 0))
+	var grass_mi := _mesh(self, grass, _mat(Color("#3C733B"), 0.82), Vector3(0, 0.2, 0))
 	grass_mi.scale = Vector3(1.12, 1.0, 0.72)
 
 	# Northern misty mountain ridge
@@ -137,7 +137,7 @@ func _build_landmarks_and_paths() -> void:
 	var wv := Node3D.new()
 	wv.position = AREA_COORDS["welcome_village"]
 	add_child(wv)
-	var cottage := PropFactory3D.build_village_cottage(Color(0.24, 0.46, 0.80), Color(0.98, 0.94, 0.84), true)
+	var cottage := PropFactory3D.build_village_cottage(Color("#2D4F8A"), Color("#EFE5D2"), true)
 	cottage.scale = Vector3.ONE * 0.42
 	wv.add_child(cottage)
 	var t1 := PropFactory3D.build_stylized_tree(0.45)

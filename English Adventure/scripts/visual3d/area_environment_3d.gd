@@ -1,8 +1,9 @@
 extends Node3D
 class_name AreaEnvironment3D
 ## Procedural 3D Stylized Fantasy Environment Builder for Alphabet Island's 5 Areas.
-## Builds terrain, multi-tier hills, stone plazas, curving trails, cottages, trees,
-## lampposts, animated water, cave arches, crystals, firefly particles, and colliders.
+## Builds multi-tier terrain, sculpted grass mounds, stone plazas, cobblestone paths,
+## half-timbered cottages, varied trees (oak/pine/blossom), benches, lecterns, archways,
+## animated water, distant mountain ridges, firefly particles, and colliders.
 
 @export_enum("welcome_village", "alphabet_meadow", "letter_cave", "crystal_lake", "shadow_gate") var area_id: String = "welcome_village"
 
@@ -24,7 +25,7 @@ func _ready() -> void:
 			_build_shadow_gate()
 
 
-func _mat(albedo: Color, roughness: float = 0.72, metallic: float = 0.0, emission: Color = Color.BLACK, emission_energy: float = 0.0) -> StandardMaterial3D:
+func _mat(albedo: Color, roughness: float = 0.78, metallic: float = 0.0, emission: Color = Color.BLACK, emission_energy: float = 0.0) -> StandardMaterial3D:
 	var key := "%s|%.2f|%.2f|%s|%.2f" % [albedo.to_html(true), roughness, metallic, emission.to_html(true), emission_energy]
 	if _mat_cache.has(key):
 		return _mat_cache[key] as StandardMaterial3D
@@ -84,7 +85,6 @@ func _mesh(parent: Node3D, node_name: String, mesh: Mesh, mat: Material, pos: Ve
 	mi.position = pos
 	mi.rotation_degrees = rot_deg
 	mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON if shadows else GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	# Keep all village/area meshes continuously visible (no mid-range LOD popping)
 	if lod_end > 90.0:
 		mi.visibility_range_end = lod_end
 		mi.visibility_range_fade_mode = GeometryInstance3D.VISIBILITY_RANGE_FADE_SELF
@@ -108,78 +108,114 @@ func _add_ground_plane(size_x: float, size_z: float, color: Color) -> void:
 
 	var plane := PlaneMesh.new()
 	plane.size = Vector2(size_x, size_z)
-	_mesh(self, "GroundMesh", plane, _mat(color, 0.85), Vector3.ZERO, Vector3.ZERO, false)
+	_mesh(self, "GroundMesh", plane, _mat(color, 0.88), Vector3.ZERO, Vector3.ZERO, false)
 
 
-func _add_trail_segment(parent: Node3D, from_p: Vector3, to_p: Vector3, width: float, mat: Material) -> void:
+func _add_grass_mound(parent: Node3D, pos: Vector3, radius_x: float, height: float, radius_z: float, color: Color) -> void:
+	var sm := _cached_sphere(1.0, 1.0, 8, 14)
+	var mi := _mesh(parent, "GrassMound", sm, _mat(color, 0.86), pos, Vector3.ZERO, false)
+	mi.scale = Vector3(radius_x, height, radius_z)
+
+
+func _add_trail_segment(parent: Node3D, from_p: Vector3, to_p: Vector3, width: float, earth_mat: Material, stone_mat: Material) -> void:
 	var diff := to_p - from_p
 	var length := Vector2(diff.x, diff.z).length()
 	if length < 0.05:
 		return
 	var mid := (from_p + to_p) * 0.5
 	var box := BoxMesh.new()
-	box.size = Vector3(width, 0.04, length + width * 0.5)
+	box.size = Vector3(width, 0.04, length + width * 0.45)
 	var yaw := rad_to_deg(atan2(diff.x, diff.z))
-	_mesh(parent, "Trail", box, mat, Vector3(mid.x, 0.02, mid.z), Vector3(0, yaw, 0), false)
+	_mesh(parent, "Trail", box, earth_mat, Vector3(mid.x, 0.02, mid.z), Vector3(0, yaw, 0), false)
+
+	# Stepping flagstones along trail for tactile fantasy depth
+	var steps := maxi(2, int(floor(length / 1.45)))
+	var dir_n := Vector2(diff.x, diff.z).normalized()
+	var perp := Vector2(-dir_n.y, dir_n.x)
+	var stone_slab := _cached_cylinder(0.36, 0.42, 0.045, 7)
+	for i in range(steps):
+		var t := (float(i) + 0.5) / float(steps)
+		var lateral := (0.28 if (i % 2 == 0) else -0.28) * minf(1.0, width * 0.45)
+		var sp := from_p.lerp(to_p, t) + Vector3(perp.x * lateral, 0.032, perp.y * lateral)
+		var smi := _mesh(parent, "SteppingStone", stone_slab, stone_mat, sp, Vector3(0, float(i * 37), 0), false)
+		smi.scale = Vector3(1.15, 1.0, 0.85)
 
 
-func _add_fireflies(color: Color, count: int = 24, spread: Vector3 = Vector3(16.0, 2.2, 9.0)) -> void:
+func _add_fireflies(color: Color, count: int = 20, spread: Vector3 = Vector3(15.0, 2.0, 8.5)) -> void:
 	var p := CPUParticles3D.new()
 	p.name = "AmbientParticles"
 	p.add_to_group("quality_particles")
 	p.set_meta("base_amount", count)
 	p.position = Vector3(0, 1.5, 0)
 	var q := SettingsManager.graphics_quality
-	p.amount = count if q == "high" else maxi(8, count / 2)
+	p.amount = count if q == "high" else maxi(6, count / 2)
 	p.visible = q != "low"
 	p.emitting = q != "low"
 	p.lifetime = 3.2
 	p.emission_shape = CPUParticles3D.EMISSION_SHAPE_BOX
 	p.emission_box_extents = spread
 	p.gravity = Vector3(0, 0.12, 0)
-	p.initial_velocity_min = 0.15
-	p.initial_velocity_max = 0.45
-	p.scale_amount_min = 0.04
-	p.scale_amount_max = 0.10
+	p.initial_velocity_min = 0.12
+	p.initial_velocity_max = 0.40
+	p.scale_amount_min = 0.035
+	p.scale_amount_max = 0.085
 	var sm := _cached_sphere(0.5, 1.0, 6, 8)
-	p.material_override = _mat(color, 0.1, 0.0, color, 2.0)
+	p.material_override = _mat(color, 0.1, 0.0, color, 1.8)
 	p.mesh = sm
 	add_child(p)
 
 
 func _add_flower_cluster(parent: Node3D, pos: Vector3, petal_color: Color) -> void:
-	var leaf_m := _mat(Color(0.24, 0.68, 0.32), 0.7)
-	var pet_m := _mat(petal_color, 0.45, 0.0, petal_color, 0.15)
-	var bush := _cached_sphere(0.35, 0.4, 8, 10)
-	_mesh(parent, "Bush", bush, leaf_m, pos + Vector3(0, 0.14, 0), Vector3.ZERO, false, 34.0)
-	var fl := _cached_sphere(0.09, 0.14, 6, 8)
-	for i in range(3):
-		var ang := float(i) * 2.1
-		_mesh(parent, "Flower%d" % i, fl, pet_m, pos + Vector3(cos(ang) * 0.22, 0.32, sin(ang) * 0.22), Vector3.ZERO, false, 28.0)
+	var leaf_m := _mat(Color("#2D6B37"), 0.76)
+	var pet_m := _mat(petal_color, 0.50, 0.0, petal_color, 0.12)
+	var center_m := _mat(Color("#F6C945"), 0.45)
+	var bush := _cached_sphere(0.38, 0.42, 7, 10)
+	_mesh(parent, "Bush", bush, leaf_m, pos + Vector3(0, 0.15, 0), Vector3.ZERO, false)
+	var bush_side := _cached_sphere(0.24, 0.28, 6, 8)
+	_mesh(parent, "BushSide", bush_side, _mat(Color("#397D42"), 0.74), pos + Vector3(0.26, 0.11, 0.12), Vector3.ZERO, false)
+	var fl := _cached_sphere(0.085, 0.12, 6, 8)
+	for i in range(4):
+		var ang := float(i) * 1.57 + 0.3
+		var fpos := pos + Vector3(cos(ang) * 0.24, 0.34, sin(ang) * 0.24)
+		_mesh(parent, "Flower%d" % i, fl, pet_m if i % 2 == 0 else center_m, fpos, Vector3.ZERO, false)
+
+
+func _add_shrub(parent: Node3D, pos: Vector3, scale_s: float = 1.0, color: Color = Color("#2A6334")) -> void:
+	var m_main := _mat(color, 0.78)
+	var m_hi := _mat(color.lightened(0.14), 0.72)
+	var s1 := _cached_sphere(0.42, 0.56, 7, 9)
+	var s2 := _cached_sphere(0.30, 0.42, 6, 8)
+	_mesh(parent, "ShrubCore", s1, m_main, pos + Vector3(0, 0.22 * scale_s, 0), Vector3.ZERO, false).scale = Vector3.ONE * scale_s
+	_mesh(parent, "ShrubTop", s2, m_hi, pos + Vector3(0.22 * scale_s, 0.30 * scale_s, -0.10 * scale_s), Vector3.ZERO, false).scale = Vector3.ONE * scale_s
 
 
 func _add_fence_row(parent: Node3D, start_p: Vector3, end_p: Vector3, posts: int) -> void:
-	var wood := _mat(Color(0.62, 0.40, 0.22), 0.72)
-	var post_m := _cached_cylinder(0.07, 0.09, 0.75, 10)
+	var wood := _mat(Color("#6E4627"), 0.76)
+	var cap := _mat(Color("#54331A"), 0.80)
+	var post_m := _cached_cylinder(0.075, 0.095, 0.78, 8)
+	var cap_m := _cached_sphere(0.09, 0.10, 5, 7)
 	for i in range(posts):
 		var t := float(i) / maxf(1.0, float(posts - 1))
 		var p := start_p.lerp(end_p, t)
-		_mesh(parent, "Post_%d" % i, post_m, wood, p + Vector3(0, 0.37, 0), Vector3.ZERO, true, 36.0)
+		_mesh(parent, "Post_%d" % i, post_m, wood, p + Vector3(0, 0.39, 0), Vector3.ZERO, true)
+		_mesh(parent, "PostCap_%d" % i, cap_m, cap, p + Vector3(0, 0.79, 0), Vector3.ZERO, false)
 	var diff := end_p - start_p
 	var len_f := Vector2(diff.x, diff.z).length()
 	var mid := (start_p + end_p) * 0.5
 	var yaw := rad_to_deg(atan2(diff.x, diff.z))
 	var rail := _cached_box(Vector3(0.06, 0.08, len_f))
-	_mesh(parent, "RailTop", rail, wood, Vector3(mid.x, 0.56, mid.z), Vector3(0, yaw, 0), false, 36.0)
-	_mesh(parent, "RailLow", rail, wood, Vector3(mid.x, 0.28, mid.z), Vector3(0, yaw, 0), false, 36.0)
+	_mesh(parent, "RailTop", rail, wood, Vector3(mid.x, 0.58, mid.z), Vector3(0, yaw, 0), false)
+	_mesh(parent, "RailLow", rail, wood, Vector3(mid.x, 0.30, mid.z), Vector3(0, yaw, 0), false)
 
 
-func _add_rock(pos: Vector3, radius: float, color: Color = Color(0.46, 0.49, 0.55), has_collider: bool = true) -> void:
-	var rm := _cached_sphere(radius, radius * 1.45, 6, 8)
-	_mesh(self, "Rock3D", rm, _mat(color, 0.88), pos + Vector3(0, radius * 0.45, 0), Vector3(8, 22, -6))
+func _add_rock(pos: Vector3, radius: float, color: Color = Color("#58616E"), has_collider: bool = true) -> void:
+	var rm := _cached_sphere(radius, radius * 1.35, 6, 8)
+	_mesh(self, "Rock3D", rm, _mat(color, 0.88), pos + Vector3(0, radius * 0.42, 0), Vector3(8, 22, -6))
+	var moss := _cached_sphere(radius * 0.58, radius * 0.45, 5, 7)
+	_mesh(self, "RockAccent", moss, _mat(color.lightened(0.12), 0.85), pos + Vector3(radius * 0.38, radius * 0.25, radius * 0.22), Vector3(0, 15, 12), false)
 	if has_collider:
 		var body := StaticBody3D.new()
-		body.collision_layer = 32
+		body.collision_layer = 32 | 64
 		body.collision_mask = 0
 		var col := CollisionShape3D.new()
 		var sp := SphereShape3D.new()
@@ -190,157 +226,279 @@ func _add_rock(pos: Vector3, radius: float, color: Color = Color(0.46, 0.49, 0.5
 		add_child(body)
 
 
-func _add_hills_backdrop(hill_color: Color) -> void:
-	var h_mat := _mat(hill_color, 0.82)
-	# Keep backdrop hills safely outside playable + 6.8m camera orbit radius so camera never clips inside a hill
-	var positions := [
-		Vector3(-28, -1.0, -26), Vector3(-11, -0.6, -29), Vector3(9, -0.8, -30), Vector3(28, -1.0, -26),
-		Vector3(-33, -1.2, 4), Vector3(33, -1.2, 4), Vector3(-24, -1.4, 26), Vector3(24, -1.4, 26)
+func _add_mountain_backdrop(hill_color: Color, mountain_color: Color) -> void:
+	var h_mat := _mat(hill_color, 0.86)
+	var m_mat := _mat(mountain_color, 0.88)
+	var peak_mat := _mat(mountain_color.lightened(0.22), 0.80)
+
+	# Midground rolling forest hills safely outside camera orbit radius
+	var hill_positions := [
+		Vector3(-27, -0.8, -22), Vector3(-12, -0.4, -25), Vector3(8, -0.6, -26), Vector3(26, -0.8, -22),
+		Vector3(-32, -1.0, 2), Vector3(32, -1.0, 2), Vector3(-25, -1.1, 24), Vector3(25, -1.1, 24)
 	]
-	for i in range(positions.size()):
+	for i in range(hill_positions.size()):
 		var sm := SphereMesh.new()
-		sm.radius = 7.5 + float(i % 3) * 1.5
-		sm.height = 6.5 + float(i % 2) * 2.0
-		_mesh(self, "Hill_%d" % i, sm, h_mat, positions[i], Vector3.ZERO, false)
+		sm.radius = 8.2 + float(i % 3) * 1.6
+		sm.height = 7.0 + float(i % 2) * 2.2
+		_mesh(self, "Hill_%d" % i, sm, h_mat, hill_positions[i], Vector3.ZERO, false)
+
+	# Distant layered fantasy mountain silhouettes for strong foreground/mid/background separation
+	var peaks := [
+		{ "pos": Vector3(-34, 4.5, -42), "r": 12.5, "h": 19.0 },
+		{ "pos": Vector3(-14, 6.2, -46), "r": 14.0, "h": 24.0 },
+		{ "pos": Vector3(11, 5.5, -45), "r": 13.0, "h": 22.0 },
+		{ "pos": Vector3(34, 4.8, -40), "r": 12.0, "h": 18.5 },
+		{ "pos": Vector3(44, 3.8, -16), "r": 11.0, "h": 16.0 },
+		{ "pos": Vector3(-44, 3.8, -16), "r": 11.0, "h": 16.0 },
+	]
+	for idx in range(peaks.size()):
+		var pk: Dictionary = peaks[idx]
+		var r: float = float(pk["r"])
+		var h: float = float(pk["h"])
+		var pos: Vector3 = pk["pos"]
+		var cone := _cached_cylinder(0.6, r, h, 7)
+		_mesh(self, "Mountain_%d" % idx, cone, m_mat, pos, Vector3(0, float(idx * 23), 0), false)
+		var cap := _cached_cylinder(0.25, r * 0.34, h * 0.32, 7)
+		_mesh(self, "MountainCap_%d" % idx, cap, peak_mat, pos + Vector3(0, h * 0.35, 0), Vector3(0, float(idx * 23), 0), false)
+
+
+func _add_distant_forest_ring(ring_parent: Node3D) -> void:
+	# Lightweight silhouette trees around outer valley perimeter (no colliders)
+	var bark := _mat(Color("#4D331E"), 0.86)
+	var pine1 := _mat(Color("#1F4F2D"), 0.78)
+	var pine2 := _mat(Color("#275E35"), 0.76)
+	var spots := [
+		Vector3(-21.5, 0, -14.5), Vector3(-17.5, 0, -16.8), Vector3(-9.5, 0, -17.5),
+		Vector3(9.0, 0, -17.5), Vector3(17.5, 0, -16.5), Vector3(22.0, 0, -13.5),
+		Vector3(-23.0, 0, -5.0), Vector3(-23.0, 0, 7.5), Vector3(23.5, 0, -6.5), Vector3(23.5, 0, 8.5),
+		Vector3(-18.5, 0, 15.5), Vector3(0.0, 0, 16.5), Vector3(18.5, 0, 15.5)
+	]
+	for i in range(spots.size()):
+		var sc := 1.15 + float(i % 3) * 0.25
+		var p: Vector3 = spots[i]
+		_mesh(ring_parent, "BgTrunk_%d" % i, _cached_cylinder(0.20 * sc, 0.32 * sc, 1.8 * sc, 6), bark, p + Vector3(0, 0.9 * sc, 0), Vector3.ZERO, false)
+		_mesh(ring_parent, "BgCrownA_%d" % i, _cached_cylinder(0.18 * sc, 1.45 * sc, 2.2 * sc, 7), pine1 if i % 2 == 0 else pine2, p + Vector3(0, 2.4 * sc, 0), Vector3.ZERO, false)
+		_mesh(ring_parent, "BgCrownB_%d" % i, _cached_cylinder(0.08 * sc, 1.05 * sc, 1.7 * sc, 7), pine2, p + Vector3(0, 3.6 * sc, 0), Vector3.ZERO, false)
+
+	# Distant Mystical Lighthouse / Watchtower in Northeast to spark exploration curiosity
+	var tower_pos := Vector3(24.5, 0, -20.5)
+	_mesh(ring_parent, "DistantTowerBase", _cached_cylinder(1.1, 1.45, 5.2, 8), _mat(Color("#697385"), 0.84), tower_pos + Vector3(0, 2.6, 0), Vector3.ZERO, false)
+	_mesh(ring_parent, "DistantTowerBeacon", _cached_sphere(0.65), _mat(Color("#7CE4FF"), 0.15, 0.0, Color("#5CCFFF"), 1.6), tower_pos + Vector3(0, 5.7, 0), Vector3.ZERO, false)
+	_mesh(ring_parent, "DistantTowerRoof", _cached_cylinder(0.1, 1.35, 1.6, 8), _mat(Color("#2D4F8A"), 0.65), tower_pos + Vector3(0, 6.7, 0), Vector3.ZERO, false)
 
 
 func _build_welcome_village() -> void:
-	_add_ground_plane(110.0, 90.0, Color(0.26, 0.58, 0.30))
-	_add_hills_backdrop(Color(0.22, 0.50, 0.28))
+	# Rich multi-layered natural green ground (never pastel mint!)
+	_add_ground_plane(130.0, 110.0, Color("#2C5D33"))
+	_add_mountain_backdrop(Color("#275632"), Color("#3C556E"))
 
-	# Raised lush village lawn
+	var bg_forest := Node3D.new()
+	bg_forest.name = "DistantForestRing"
+	add_child(bg_forest)
+	_add_distant_forest_ring(bg_forest)
+
+	# Gentle sculpted grass terraces / elevation mounds around village edges
+	var terrain_decor := Node3D.new()
+	terrain_decor.name = "TerrainRelief"
+	add_child(terrain_decor)
+	_add_grass_mound(terrain_decor, Vector3(-16.5, -0.15, -9.5), 6.5, 1.35, 5.2, Color("#356C38"))
+	_add_grass_mound(terrain_decor, Vector3(16.5, -0.15, -9.5), 6.5, 1.45, 5.2, Color("#387039"))
+	_add_grass_mound(terrain_decor, Vector3(-16.2, -0.20, 9.2), 6.0, 1.15, 4.6, Color("#3B733C"))
+	_add_grass_mound(terrain_decor, Vector3(16.2, -0.20, 9.2), 6.0, 1.15, 4.6, Color("#376E3A"))
+	_add_grass_mound(terrain_decor, Vector3(0.0, -0.18, -13.2), 11.5, 1.55, 4.8, Color("#326636"))
+
+	# Natural Village Meadow Terrace
 	var lawn := CylinderMesh.new()
-	lawn.top_radius = 18.0
-	lawn.bottom_radius = 19.2
+	lawn.top_radius = 18.6
+	lawn.bottom_radius = 19.8
 	lawn.height = 0.14
 	lawn.radial_segments = 32
-	_mesh(self, "VillageLawn", lawn, _mat(Color(0.35, 0.68, 0.36), 0.86), Vector3(0, 0.01, 0), Vector3.ZERO, false)
+	_mesh(self, "VillageLawn", lawn, _mat(Color("#3F763B"), 0.88), Vector3(0, 0.01, 0), Vector3.ZERO, false)
 
-	# Cobblestone central plaza
+	# Stepped Cobblestone Central Plaza (warm earth & stone tones)
 	var plaza_rim := CylinderMesh.new()
-	plaza_rim.top_radius = 6.2
-	plaza_rim.bottom_radius = 6.4
-	plaza_rim.height = 0.08
-	plaza_rim.radial_segments = 28
-	_mesh(self, "PlazaBorder", plaza_rim, _mat(Color(0.64, 0.52, 0.34), 0.82), Vector3(0, 0.03, 1.5), Vector3.ZERO, false)
+	plaza_rim.top_radius = 6.3
+	plaza_rim.bottom_radius = 6.6
+	plaza_rim.height = 0.10
+	plaza_rim.radial_segments = 24
+	_mesh(self, "PlazaBorder", plaza_rim, _mat(Color("#696E78"), 0.84), Vector3(0, 0.035, 1.5), Vector3.ZERO, false)
 
 	var plaza_inner := CylinderMesh.new()
-	plaza_inner.top_radius = 5.6
-	plaza_inner.bottom_radius = 5.7
-	plaza_inner.height = 0.09
-	plaza_inner.radial_segments = 28
-	_mesh(self, "PlazaSurface", plaza_inner, _mat(Color(0.82, 0.72, 0.50), 0.78), Vector3(0, 0.04, 1.5), Vector3.ZERO, false)
+	plaza_inner.top_radius = 5.65
+	plaza_inner.bottom_radius = 5.8
+	plaza_inner.height = 0.11
+	plaza_inner.radial_segments = 24
+	_mesh(self, "PlazaSurface", plaza_inner, _mat(Color("#B69C6E"), 0.82), Vector3(0, 0.045, 1.5), Vector3.ZERO, false)
 
-	# Pathways connecting landmarks
-	var path_mat := _mat(Color(0.76, 0.66, 0.44), 0.80)
+	# Decorative center compass emblem ring on plaza floor
+	var plaza_ring := TorusMesh.new()
+	plaza_ring.inner_radius = 2.65
+	plaza_ring.outer_radius = 2.85
+	_mesh(self, "PlazaEmblemRing", plaza_ring, _mat(Color("#8E7854"), 0.84), Vector3(0, 0.08, 1.5), Vector3.ZERO, false)
+
+	# Earth & Flagstone Pathways connecting all landmarks
+	var path_mat := _mat(Color("#8E6C47"), 0.84)
+	var stone_mat := _mat(Color("#838995"), 0.82)
 	var trails_root := Node3D.new()
 	trails_root.name = "VillageTrails"
 	add_child(trails_root)
-	_add_trail_segment(trails_root, Vector3(0, 0, 1.5), Vector3(0, 0, -5.8), 2.2, path_mat) # To Owl House
-	_add_trail_segment(trails_root, Vector3(-3.5, 0, 1.5), Vector3(-10.0, 0, 0.6), 1.8, path_mat) # To Chest
-	_add_trail_segment(trails_root, Vector3(4.2, 0, 1.8), Vector3(16.5, 0, 1.25), 2.1, path_mat) # To Meadow Portal
-	_add_trail_segment(trails_root, Vector3(6.0, 0, 2.5), Vector3(10.0, 0, 3.3), 1.7, path_mat) # To Lily
+	_add_trail_segment(trails_root, Vector3(0, 0, 1.5), Vector3(0, 0, -5.6), 2.3, path_mat, stone_mat)      # To Owl Academy
+	_add_trail_segment(trails_root, Vector3(-3.5, 0, 1.5), Vector3(-10.0, 0, 0.6), 1.85, path_mat, stone_mat) # To Chest Camp
+	_add_trail_segment(trails_root, Vector3(4.2, 0, 1.6), Vector3(16.5, 0, 1.25), 2.2, path_mat, stone_mat)  # To Meadow Arch & Portal
+	_add_trail_segment(trails_root, Vector3(6.2, 0, 2.2), Vector3(10.0, 0, 3.3), 1.75, path_mat, stone_mat)  # To Lily
 
-	# Professor Owl's Academy Cottage (North center - plenty of walkable space behind Professor Owl)
-	var owl_house := PropFactory3D.build_village_cottage(Color(0.24, 0.44, 0.78), Color(0.98, 0.94, 0.84), true)
+	# 1. Professor Owl's Academy Cottage (North center)
+	var owl_house := PropFactory3D.build_village_cottage(Color("#2D4F8A"), Color("#EFE5D2"), true)
 	owl_house.position = Vector3(0, 0, -7.8)
 	add_child(owl_house)
 
-	# Lily's Garden Cottage (Northeast)
-	var lily_house := PropFactory3D.build_village_cottage(Color(0.86, 0.36, 0.34), Color(0.98, 0.92, 0.82), false)
+	var lectern := PropFactory3D.build_academy_lectern()
+	lectern.position = Vector3(-2.15, 0, -4.35)
+	lectern.rotation_degrees.y = 22.0
+	add_child(lectern)
+
+	# 2. Lily's Garden Cottage (Northeast)
+	var lily_house := PropFactory3D.build_village_cottage(Color("#C94B43"), Color("#EFE4CE"), false)
 	lily_house.position = Vector3(11.6, 0, -4.6)
 	lily_house.rotation_degrees.y = -24.0
 	add_child(lily_house)
 
-	# Cozy Explorer Bakery/Inn Cottage (Northwest)
-	var west_house := PropFactory3D.build_village_cottage(Color(0.88, 0.58, 0.22), Color(0.96, 0.92, 0.84), false)
+	# 3. Explorer's Supply Cottage (Northwest) + Chest Camp Crates
+	var west_house := PropFactory3D.build_village_cottage(Color("#CF862E"), Color("#EDE2CC"), false)
 	west_house.position = Vector3(-11.8, 0, -4.8)
 	west_house.rotation_degrees.y = 26.0
 	add_child(west_house)
 
-	# Central Village Fountain (offset left of center walkway so Owl & Player spawns remain clear)
+	var crates := PropFactory3D.build_supply_crates()
+	crates.position = Vector3(-11.6, 0, 1.85)
+	crates.rotation_degrees.y = 18.0
+	add_child(crates)
+
+	# 4. Fountain Square + Wooden Bench
 	var fountain := PropFactory3D.build_fountain()
-	fountain.position = Vector3(-5.0, 0, -0.8)
-	fountain.scale = Vector3.ONE * 0.72
+	fountain.position = Vector3(-5.0, 0, -1.0)
+	fountain.scale = Vector3.ONE * 0.74
 	add_child(fountain)
 
-	# Stylized Trees framing the village
-	var tree_spots := [
-		Vector3(-15.5, 0, -7.2), Vector3(-15.2, 0, 5.8), Vector3(-8.0, 0, 8.2),
-		Vector3(7.2, 0, -8.5), Vector3(15.0, 0, -7.8), Vector3(14.5, 0, 7.6),
-		Vector3(-4.2, 0, -9.2), Vector3(4.5, 0, -9.2)
+	var bench1 := PropFactory3D.build_wooden_bench()
+	bench1.position = Vector3(-4.8, 0, 3.6)
+	bench1.rotation_degrees.y = 152.0
+	add_child(bench1)
+
+	var bench2 := PropFactory3D.build_wooden_bench()
+	bench2.position = Vector3(2.3, 0, -4.3)
+	bench2.rotation_degrees.y = -18.0
+	add_child(bench2)
+
+	# 5. Eastern Meadow Welcome Gateway Arch framing ToAlphabetMeadow portal
+	var gateway := PropFactory3D.build_gateway_arch()
+	gateway.position = Vector3(13.6, 0, 1.3)
+	gateway.rotation_degrees.y = 90.0
+	add_child(gateway)
+
+	# 6. Varied Trees (Oak, Pine, Blossom) with Forest Green & Natural Moss tones
+	var tree_specs := [
+		{ "pos": Vector3(-15.5, 0, -7.2), "scale": 1.08, "color": Color("#265B33"), "style": "oak" },
+		{ "pos": Vector3(-15.2, 0, 5.8),  "scale": 1.02, "color": Color("#1E4D2D"), "style": "pine" },
+		{ "pos": Vector3(-8.2, 0, 8.4),   "scale": 0.96, "color": Color("#2F6D39"), "style": "oak" },
+		{ "pos": Vector3(7.4, 0, -8.6),   "scale": 1.10, "color": Color("#215330"), "style": "pine" },
+		{ "pos": Vector3(15.2, 0, -7.6),  "scale": 1.05, "color": Color("#2A6436"), "style": "oak" },
+		{ "pos": Vector3(14.5, 0, 7.4),   "scale": 0.96, "color": Color("#DF6B88"), "style": "blossom" },
+		{ "pos": Vector3(-4.4, 0, -9.4),  "scale": 1.06, "color": Color("#1F4F2E"), "style": "pine" },
+		{ "pos": Vector3(4.6, 0, -9.4),   "scale": 1.02, "color": Color("#2B6637"), "style": "oak" },
 	]
-	for i in range(tree_spots.size()):
-		var leaf_c := Color(0.24, 0.68, 0.34) if i % 2 == 0 else Color(0.32, 0.74, 0.36)
-		var tree := PropFactory3D.build_stylized_tree(0.95 + float(i % 3) * 0.14, leaf_c)
-		tree.position = tree_spots[i]
+	for ts in tree_specs:
+		var tree := PropFactory3D.build_stylized_tree(float(ts["scale"]), ts["color"], str(ts["style"]))
+		tree.position = ts["pos"]
 		add_child(tree)
 
-	# Warm Glowing Lampposts
-	var lamp_spots := [Vector3(-2.6, 0, -3.4), Vector3(2.6, 0, -3.4), Vector3(7.8, 0, 0.2), Vector3(-8.2, 0, 2.2)]
+	# 7. Warm Glowing Lampposts
+	var lamp_spots := [
+		Vector3(-2.6, 0, -3.2),
+		Vector3(2.6, 0, -3.2),
+		Vector3(8.2, 0, 0.2),
+		Vector3(-8.0, 0, 2.2)
+	]
 	for lp in lamp_spots:
 		var lamp := PropFactory3D.build_lamppost()
 		lamp.position = lp
 		add_child(lamp)
 
-	# Wooden Fences & Flowerbeds
+	# 8. Wooden Fences, Shrubs, Rocks & Flowerbeds
 	var decor := Node3D.new()
 	decor.name = "VillageDecor"
 	add_child(decor)
-	_add_fence_row(decor, Vector3(-14.5, 0, 8.8), Vector3(-6.0, 0, 8.8), 6)
-	_add_fence_row(decor, Vector3(6.0, 0, 8.8), Vector3(14.5, 0, 8.8), 6)
-	_add_flower_cluster(decor, Vector3(9.4, 0, -1.6), Color(1.0, 0.45, 0.65))
-	_add_flower_cluster(decor, Vector3(11.6, 0, 1.4), Color(1.0, 0.82, 0.25))
-	_add_flower_cluster(decor, Vector3(-3.2, 0, 5.8), Color(0.55, 0.78, 1.0))
-	_add_flower_cluster(decor, Vector3(3.4, 0, 5.8), Color(1.0, 0.55, 0.72))
+	_add_fence_row(decor, Vector3(-14.5, 0, 8.8), Vector3(-5.8, 0, 8.8), 6)
+	_add_fence_row(decor, Vector3(5.8, 0, 8.8), Vector3(14.5, 0, 8.8), 6)
+	_add_flower_cluster(decor, Vector3(9.4, 0, -1.6), Color("#E85878"))
+	_add_flower_cluster(decor, Vector3(11.8, 0, 5.2), Color("#F0B836"))
+	_add_flower_cluster(decor, Vector3(-3.0, 0, 5.8), Color("#589BE8"))
+	_add_flower_cluster(decor, Vector3(3.2, 0, 5.8), Color("#EB6884"))
+	_add_shrub(decor, Vector3(-7.6, 0, -4.8), 1.15, Color("#275E32"))
+	_add_shrub(decor, Vector3(6.8, 0, -4.4), 1.05, Color("#2D6B37"))
+	_add_shrub(decor, Vector3(13.2, 0, 4.4), 0.95, Color("#2A6234"))
+	_add_rock(Vector3(-13.8, 0, 3.8), 0.65, Color("#5A6270"), false)
+	_add_rock(Vector3(12.8, 0, -0.8), 0.58, Color("#5C6573"), false)
 
-	_add_fireflies(Color(1.0, 0.92, 0.48), 22)
+	_add_fireflies(Color("#FFE478"), 22)
 
 
 func _build_alphabet_meadow() -> void:
-	_add_ground_plane(110.0, 90.0, Color(0.34, 0.74, 0.42))
-	_add_hills_backdrop(Color(0.28, 0.64, 0.34))
+	_add_ground_plane(120.0, 100.0, Color("#306B37"))
+	_add_mountain_backdrop(Color("#295E32"), Color("#3D5872"))
 
-	var path_mat := _mat(Color(0.88, 0.80, 0.54), 0.76)
+	var meadow_disc := CylinderMesh.new()
+	meadow_disc.top_radius = 19.5
+	meadow_disc.bottom_radius = 20.5
+	meadow_disc.height = 0.12
+	meadow_disc.radial_segments = 28
+	_mesh(self, "MeadowTerrace", meadow_disc, _mat(Color("#44803E"), 0.86), Vector3(0, 0.01, 0), Vector3.ZERO, false)
+
+	var path_mat := _mat(Color("#9A784E"), 0.82)
+	var stone_mat := _mat(Color("#868C98"), 0.82)
 	var trails := Node3D.new()
 	add_child(trails)
-	_add_trail_segment(trails, Vector3(-16.8, 0, 2.2), Vector3(16.5, 0, 2.2), 2.0, path_mat)
-	_add_trail_segment(trails, Vector3(-8.8, 0, 2.2), Vector3(-8.8, 0, -3.2), 1.6, path_mat)
-	_add_trail_segment(trails, Vector3(0.8, 0, 2.2), Vector3(0.8, 0, -4.6), 1.6, path_mat)
-	_add_trail_segment(trails, Vector3(7.5, 0, 2.2), Vector3(7.5, 0, 5.6), 1.6, path_mat)
-	_add_trail_segment(trails, Vector3(10.0, 0, 2.2), Vector3(10.0, 0, -3.2), 1.6, path_mat)
+	_add_trail_segment(trails, Vector3(-16.8, 0, 2.2), Vector3(16.5, 0, 2.2), 2.1, path_mat, stone_mat)
+	_add_trail_segment(trails, Vector3(-8.8, 0, 2.2), Vector3(-8.8, 0, -3.2), 1.65, path_mat, stone_mat)
+	_add_trail_segment(trails, Vector3(0.8, 0, 2.2), Vector3(0.8, 0, -4.6), 1.65, path_mat, stone_mat)
+	_add_trail_segment(trails, Vector3(7.5, 0, 2.2), Vector3(7.5, 0, 5.6), 1.65, path_mat, stone_mat)
+	_add_trail_segment(trails, Vector3(10.0, 0, 2.2), Vector3(10.0, 0, -3.2), 1.65, path_mat, stone_mat)
 
-	# Stylized Meadow Trees & Flowers
-	var trees := [Vector3(-13.5, 0, -6.5), Vector3(-4.0, 0, -7.2), Vector3(5.5, 0, -7.5), Vector3(13.8, 0, -6.0), Vector3(12.5, 0, 6.8), Vector3(-12.5, 0, 6.8)]
-	for i in range(trees.size()):
-		var t := PropFactory3D.build_stylized_tree(1.05, Color(0.26, 0.74, 0.38) if i % 2 == 0 else Color(0.36, 0.78, 0.40))
-		t.position = trees[i]
+	var trees := [
+		{ "pos": Vector3(-13.5, 0, -6.5), "style": "oak", "col": Color("#2A6838") },
+		{ "pos": Vector3(-4.0, 0, -7.2),  "style": "pine", "col": Color("#205430") },
+		{ "pos": Vector3(5.5, 0, -7.5),   "style": "oak", "col": Color("#34753D") },
+		{ "pos": Vector3(13.8, 0, -6.0),  "style": "pine", "col": Color("#245B33") },
+		{ "pos": Vector3(12.5, 0, 6.8),   "style": "blossom", "col": Color("#E4728E") },
+		{ "pos": Vector3(-12.5, 0, 6.8),  "style": "oak", "col": Color("#2D6B39") },
+	]
+	for t_info in trees:
+		var t := PropFactory3D.build_stylized_tree(1.05, t_info["col"], str(t_info["style"]))
+		t.position = t_info["pos"]
 		add_child(t)
 
 	_add_rock(Vector3(0.0, 0, 6.2), 1.05)
-	_add_flower_cluster(self, Vector3(-6.0, 0, -1.5), Color(1.0, 0.50, 0.72))
-	_add_flower_cluster(self, Vector3(4.2, 0, -2.2), Color(1.0, 0.85, 0.25))
-	_add_flower_cluster(self, Vector3(-2.5, 0, 4.5), Color(0.45, 0.82, 1.0))
-	_add_fireflies(Color(0.95, 1.0, 0.58), 24)
+	_add_flower_cluster(self, Vector3(-6.0, 0, -1.5), Color("#ED5A7C"))
+	_add_flower_cluster(self, Vector3(4.2, 0, -2.2), Color("#F2C236"))
+	_add_flower_cluster(self, Vector3(-2.5, 0, 4.5), Color("#509CEB"))
+	_add_fireflies(Color("#EBFF80"), 22)
 
 
 func _build_letter_cave() -> void:
-	_add_ground_plane(70.0, 50.0, Color(0.18, 0.21, 0.30))
+	_add_ground_plane(74.0, 54.0, Color(0.16, 0.19, 0.28))
 	var floor_m := CylinderMesh.new()
 	floor_m.top_radius = 17.5
 	floor_m.bottom_radius = 18.5
 	floor_m.height = 0.12
-	_mesh(self, "CaveFloor", floor_m, _mat(Color(0.30, 0.34, 0.44), 0.85), Vector3(0, 0.02, 0), Vector3.ZERO, false)
+	_mesh(self, "CaveFloor", floor_m, _mat(Color(0.27, 0.31, 0.41), 0.85), Vector3(0, 0.02, 0), Vector3.ZERO, false)
 
-	# Giant Stone Cave Arches
-	var stone := _mat(Color(0.36, 0.39, 0.48), 0.86)
+	var stone := _mat(Color(0.34, 0.38, 0.48), 0.86)
 	var arch_m := TorusMesh.new()
 	arch_m.inner_radius = 4.2
 	arch_m.outer_radius = 5.6
 	_mesh(self, "CaveArchNorth", arch_m, stone, Vector3(0.5, 0.5, -6.5), Vector3(90, 0, 0))
 	_mesh(self, "CaveArchBack", arch_m, stone, Vector3(0.5, 0.8, -9.8), Vector3(90, 0, 0))
 
-	# Glowing Cave Crystals
 	var crystal_spots := [Vector3(-11.0, 0, -5.5), Vector3(11.0, 0, -5.0), Vector3(-6.0, 0, -7.8), Vector3(6.5, 0, -7.8)]
 	for cp in crystal_spots:
 		var c := PropFactory3D.build_interactable_prop("crystal")
@@ -350,30 +508,28 @@ func _build_letter_cave() -> void:
 
 	_add_rock(Vector3(-7.5, 0, -3.1), 1.15, Color(0.36, 0.40, 0.50))
 	_add_rock(Vector3(8.75, 0, 5.0), 1.15, Color(0.36, 0.40, 0.50))
-	_add_fireflies(Color(0.45, 0.90, 1.0), 26)
+	_add_fireflies(Color(0.45, 0.90, 1.0), 24)
 
 
 func _build_crystal_lake() -> void:
-	_add_ground_plane(110.0, 90.0, Color(0.28, 0.68, 0.54))
-	_add_hills_backdrop(Color(0.22, 0.56, 0.48))
+	_add_ground_plane(116.0, 96.0, Color("#265F4A"))
+	_add_mountain_backdrop(Color("#1F5243"), Color("#2E536E"))
 
-	# Sandy shoreline around lake
 	var sand := CylinderMesh.new()
 	sand.top_radius = 9.2
 	sand.bottom_radius = 9.8
 	sand.height = 0.08
-	_mesh(self, "ShoreSand", sand, _mat(Color(0.92, 0.86, 0.66), 0.78), Vector3(-0.3, 0.02, 3.8), Vector3.ZERO, false)
+	_mesh(self, "ShoreSand", sand, _mat(Color("#D4C294"), 0.82), Vector3(-0.3, 0.02, 3.8), Vector3.ZERO, false)
 
-	# Shimmering 3D Lake Water + Collider
 	var water_mesh := CylinderMesh.new()
 	water_mesh.top_radius = 6.2
 	water_mesh.bottom_radius = 6.2
 	water_mesh.height = 0.14
 	water_mesh.radial_segments = 28
-	_mesh(self, "LakeWaterSurface", water_mesh, PropFactory3D.create_stylized_water_material(Color(0.18, 0.74, 0.96, 0.88)), Vector3(-0.3, 0.05, 4.2), Vector3.ZERO, false)
+	_mesh(self, "LakeWaterSurface", water_mesh, PropFactory3D.create_stylized_water_material(Color(0.15, 0.68, 0.92, 0.88)), Vector3(-0.3, 0.05, 4.2), Vector3.ZERO, false)
 
 	var lake_body := StaticBody3D.new()
-	lake_body.collision_layer = 32
+	lake_body.collision_layer = 32 | 64
 	lake_body.collision_mask = 0
 	var lake_col := CollisionShape3D.new()
 	var cyl := CylinderShape3D.new()
@@ -384,7 +540,6 @@ func _build_crystal_lake() -> void:
 	lake_body.add_child(lake_col)
 	add_child(lake_body)
 
-	# Giant Glowing Crystals & Trees
 	for cp in [Vector3(-12.0, 0, -6.0), Vector3(11.0, 0, -6.5), Vector3(13.0, 0, 5.0)]:
 		var cr := PropFactory3D.build_interactable_prop("crystal")
 		cr.position = cp
@@ -392,28 +547,26 @@ func _build_crystal_lake() -> void:
 		add_child(cr)
 
 	for tp in [Vector3(-13.5, 0, -5.0), Vector3(13.5, 0, 6.2), Vector3(-5.0, 0, -8.5)]:
-		var t := PropFactory3D.build_stylized_tree(1.0, Color(0.22, 0.72, 0.56))
+		var t := PropFactory3D.build_stylized_tree(1.0, Color("#20634A"), "pine")
 		t.position = tp
 		add_child(t)
 
-	_add_fireflies(Color(0.42, 0.96, 1.0), 28)
+	_add_fireflies(Color(0.42, 0.96, 1.0), 26)
 
 
 func _build_shadow_gate() -> void:
-	_add_ground_plane(74.0, 52.0, Color(0.15, 0.14, 0.28))
+	_add_ground_plane(76.0, 54.0, Color(0.14, 0.13, 0.26))
 
-	# Obsidian Sanctuary Platform & Ancient Path
 	var path_m := BoxMesh.new()
 	path_m.size = Vector3(5.6, 0.10, 14.0)
-	_mesh(self, "AncientPath", path_m, _mat(Color(0.28, 0.25, 0.42), 0.72), Vector3(0, 0.03, 3.0), Vector3.ZERO, false)
+	_mesh(self, "AncientPath", path_m, _mat(Color(0.26, 0.23, 0.39), 0.72), Vector3(0, 0.03, 3.0), Vector3.ZERO, false)
 
 	var sanct := CylinderMesh.new()
 	sanct.top_radius = 6.8
 	sanct.bottom_radius = 7.4
 	sanct.height = 0.18
-	_mesh(self, "SanctuaryPlatform", sanct, _mat(Color(0.24, 0.20, 0.38), 0.65), Vector3(0, 0.06, -4.0), Vector3.ZERO, false)
+	_mesh(self, "SanctuaryPlatform", sanct, _mat(Color(0.22, 0.19, 0.36), 0.65), Vector3(0, 0.06, -4.0), Vector3.ZERO, false)
 
-	# Monumental Shadow Gate Arch behind obj_shadow_gate_seal
 	var obsidian := _mat(Color(0.18, 0.16, 0.30), 0.45, 0.3)
 	var rune_violet := _mat(Color(0.68, 0.38, 1.0), 0.2, 0.0, Color(0.66, 0.36, 1.0), 1.6)
 	var arch := TorusMesh.new()
@@ -427,4 +580,4 @@ func _build_shadow_gate() -> void:
 
 	_add_rock(Vector3(-6.25, 0, 0.6), 1.15, Color(0.28, 0.26, 0.42))
 	_add_rock(Vector3(6.25, 0, 0.6), 1.15, Color(0.28, 0.26, 0.42))
-	_add_fireflies(Color(0.76, 0.48, 1.0), 28)
+	_add_fireflies(Color(0.76, 0.48, 1.0), 26)

@@ -17,19 +17,22 @@ func _ready() -> void:
 	env.background_mode = Environment.BG_SKY
 	var sky := Sky.new()
 	var psky := ProceduralSkyMaterial.new()
-	psky.sky_top_color = Color(0.18, 0.48, 0.86)
-	psky.sky_horizon_color = Color(0.62, 0.86, 0.98)
+	psky.sky_top_color = Color("#1B62B8")
+	psky.sky_horizon_color = Color("#8BCCEE")
 	sky.sky_material = psky
 	env.sky = sky
+	env.tonemap_mode = Environment.TONE_MAPPER_FILMIC
+	env.tonemap_exposure = 0.90
 	env.ambient_light_source = Environment.AMBIENT_SOURCE_SKY
-	env.ambient_light_energy = 0.82
+	env.ambient_light_energy = 0.56
 	env.glow_enabled = SettingsManager.graphics_quality != "low"
 	we.environment = env
 	add_child(we)
 
 	var sun := DirectionalLight3D.new()
-	sun.rotation_degrees = Vector3(-36, 28, 0)
-	sun.light_energy = 1.2
+	sun.light_color = Color("#FFE3B3")
+	sun.rotation_degrees = Vector3(-38, 28, 0)
+	sun.light_energy = 1.05
 	sun.shadow_enabled = SettingsManager.graphics_quality != "low"
 	add_child(sun)
 
@@ -88,13 +91,13 @@ func _build_welcome_diorama() -> void:
 	cyl.height = 0.35
 	disc.mesh = cyl
 	var g_mat := StandardMaterial3D.new()
-	g_mat.albedo_color = Color(0.36, 0.76, 0.40)
-	g_mat.roughness = 0.8
+	g_mat.albedo_color = Color("#3F763B")
+	g_mat.roughness = 0.86
 	disc.material_override = g_mat
 	disc.position = Vector3(0, -0.18, 0)
 	_turntable.add_child(disc)
 
-	var cottage := PropFactory3D.build_village_cottage(Color(0.24, 0.46, 0.80), Color(0.98, 0.94, 0.84), true)
+	var cottage := PropFactory3D.build_village_cottage(Color("#2D4F8A"), Color("#EFE5D2"), true)
 	cottage.scale = Vector3.ONE * 0.52
 	cottage.position = Vector3(0.95, 0, -0.85)
 	cottage.rotation_degrees.y = -18.0

@@ -74,6 +74,7 @@ func _handle_object_interaction(obj: InteractableObject) -> void:
 	var already_collected := GameStateManager.is_object_collected(obj.object_id)
 	if bool(data.get("one_time_reward", false)) and not already_collected:
 		GameStateManager.mark_object_collected(obj.object_id)
+		obj.spawn_collect_fx()
 		var items_arr: Array = []
 		if data.has("reward_item") and typeof(data["reward_item"]) == TYPE_DICTIONARY:
 			items_arr.append(data["reward_item"])

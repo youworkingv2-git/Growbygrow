@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3]
+[gd_scene load_steps=20 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/adventure_hud.gd" id="1_hud"]
 [ext_resource type="Script" path="res://scripts/ui/dialogue_box_ui.gd" id="2_dlg_ui"]
@@ -13,21 +13,28 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/common/reward_display.tscn" id="11_reward_disp"]
 [ext_resource type="PackedScene" path="res://scenes/ui/pause_menu/pause_menu.tscn" id="12_pause"]
 [ext_resource type="PackedScene" path="res://scenes/learning/learning_hub_modal.tscn" id="13_learning_hub"]
+[ext_resource type="Script" path="res://scripts/ui/components/minimap_widget.gd" id="14_minimap"]
+[ext_resource type="Texture2D" path="res://assets/icons/buddy_icon.svg" id="15_buddy_ico"]
+[ext_resource type="Texture2D" path="res://assets/icons/learn_icon.svg" id="16_learn_ico"]
+[ext_resource type="Texture2D" path="res://assets/icons/games_icon.svg" id="17_games_ico"]
+[ext_resource type="Texture2D" path="res://assets/icons/save_icon.svg" id="18_save_ico"]
+[ext_resource type="Texture2D" path="res://assets/icons/settings_icon.svg" id="19_settings_ico"]
+[ext_resource type="Texture2D" path="res://assets/icons/menu_icon.svg" id="20_menu_ico"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_joy_bg"]
-bg_color = Color(0.06, 0.09, 0.16, 0.45)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(1, 1, 1, 0.65)
+bg_color = Color(0.05, 0.09, 0.18, 0.50)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.92, 0.78, 0.34, 0.72)
 corner_radius_top_left = 70
 corner_radius_top_right = 70
 corner_radius_bottom_right = 70
 corner_radius_bottom_left = 70
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_joy_knob"]
-bg_color = Color(0.18, 0.66, 1, 0.88)
+bg_color = Color(0.24, 0.70, 1.0, 0.88)
 corner_radius_top_left = 28
 corner_radius_top_right = 28
 corner_radius_bottom_right = 28
@@ -100,7 +107,9 @@ theme_override_constants/separation = 8
 [node name="BuddyBtn" type="Button" parent="MobileControls/RightPad"]
 custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
-text = "Hỏi Buddy"
+icon = ExtResource("15_buddy_ico")
+text = "Buddy"
+expand_icon = true
 
 [node name="TouchJumpBtn" type="Button" parent="MobileControls/RightPad"]
 custom_minimum_size = Vector2(0, 44)
@@ -108,25 +117,23 @@ layout_mode = 2
 text = "Nhảy"
 
 [node name="TouchInteractBtn" type="Button" parent="MobileControls/RightPad"]
-custom_minimum_size = Vector2(0, 54)
+custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
 disabled = true
 text = "Tương tác"
 
 [node name="TopBar" type="PanelContainer" parent="."]
-anchors_preset = 10
-anchor_right = 1.0
-offset_left = 10.0
-offset_top = 8.0
-offset_right = -10.0
+offset_left = 12.0
+offset_top = 10.0
+offset_right = 344.0
 offset_bottom = 66.0
 
 [node name="Margin" type="MarginContainer" parent="TopBar"]
 layout_mode = 2
 theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 5
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 6
 
 [node name="Row" type="HBoxContainer" parent="TopBar/Margin"]
 layout_mode = 2
@@ -134,6 +141,7 @@ theme_override_constants/separation = 10
 
 [node name="ProfileBox" type="HBoxContainer" parent="TopBar/Margin/Row"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_constants/separation = 8
 
 [node name="Avatar" type="TextureRect" parent="TopBar/Margin/Row/ProfileBox"]
@@ -145,11 +153,12 @@ stretch_mode = 5
 
 [node name="StatsCol" type="VBoxContainer" parent="TopBar/Margin/Row/ProfileBox"]
 layout_mode = 2
-theme_override_constants/separation = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 3
 
 [node name="PlayerInfo" type="Label" parent="TopBar/Margin/Row/ProfileBox/StatsCol"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 13
 text = "Leo | Lv.1"
 
 [node name="ExpRow" type="HBoxContainer" parent="TopBar/Margin/Row/ProfileBox/StatsCol"]
@@ -157,7 +166,7 @@ layout_mode = 2
 theme_override_constants/separation = 6
 
 [node name="ExpBar" type="ProgressBar" parent="TopBar/Margin/Row/ProfileBox/StatsCol/ExpRow"]
-custom_minimum_size = Vector2(96, 12)
+custom_minimum_size = Vector2(88, 10)
 layout_mode = 2
 size_flags_vertical = 4
 max_value = 115.0
@@ -166,17 +175,8 @@ show_percentage = false
 [node name="ExpLabel" type="Label" parent="TopBar/Margin/Row/ProfileBox/StatsCol/ExpRow"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.65, 0.86, 1, 1)
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 11
 text = "0/115"
-
-[node name="AreaTitle" type="Label" parent="TopBar/Margin/Row"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.99, 0.83, 0.3, 1)
-theme_override_font_sizes/font_size = 16
-text = "Làng Khởi Đầu (Welcome Village)"
-horizontal_alignment = 1
-clip_text = true
 
 [node name="RightStats" type="HBoxContainer" parent="TopBar/Margin/Row"]
 layout_mode = 2
@@ -187,7 +187,7 @@ layout_mode = 2
 theme_override_constants/separation = 4
 
 [node name="Icon" type="TextureRect" parent="TopBar/Margin/Row/RightStats/GoldChip"]
-custom_minimum_size = Vector2(22, 22)
+custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 texture = ExtResource("6_gold")
 expand_mode = 1
@@ -196,7 +196,7 @@ stretch_mode = 5
 [node name="GoldLabel" type="Label" parent="TopBar/Margin/Row/RightStats/GoldChip"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.84, 0.32, 1)
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 13
 text = "0"
 
 [node name="CrystalChip" type="HBoxContainer" parent="TopBar/Margin/Row/RightStats"]
@@ -204,7 +204,7 @@ layout_mode = 2
 theme_override_constants/separation = 4
 
 [node name="Icon" type="TextureRect" parent="TopBar/Margin/Row/RightStats/CrystalChip"]
-custom_minimum_size = Vector2(22, 22)
+custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 texture = ExtResource("7_crystal")
 expand_mode = 1
@@ -213,47 +213,134 @@ stretch_mode = 5
 [node name="CrystalLabel" type="Label" parent="TopBar/Margin/Row/RightStats/CrystalChip"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.45, 0.85, 1, 1)
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 13
 text = "0"
 
-[node name="SettingsBtn" type="Button" parent="TopBar/Margin/Row/RightStats"]
-custom_minimum_size = Vector2(78, 38)
-layout_mode = 2
-text = "Cài đặt"
-
-[node name="PauseBtn" type="Button" parent="TopBar/Margin/Row/RightStats"]
-custom_minimum_size = Vector2(86, 38)
-layout_mode = 2
-text = "Menu"
-
 [node name="QuestTracker" type="PanelContainer" parent="."]
-offset_left = 10.0
+offset_left = 12.0
 offset_top = 72.0
-offset_right = 330.0
-offset_bottom = 146.0
+offset_right = 344.0
+offset_bottom = 148.0
 
 [node name="Margin" type="MarginContainer" parent="QuestTracker"]
 layout_mode = 2
 theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 7
+theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 7
+theme_override_constants/margin_bottom = 8
 
-[node name="VBox" type="VBoxContainer" parent="QuestTracker/Margin"]
+[node name="Row" type="HBoxContainer" parent="QuestTracker/Margin"]
 layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ScrollIcon" type="TextureRect" parent="QuestTracker/Margin/Row"]
+custom_minimum_size = Vector2(26, 26)
+layout_mode = 2
+size_flags_vertical = 0
+texture = ExtResource("9_quest")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VBox" type="VBoxContainer" parent="QuestTracker/Margin/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
 theme_override_constants/separation = 3
 
-[node name="Title" type="Label" parent="QuestTracker/Margin/VBox"]
+[node name="Title" type="Label" parent="QuestTracker/Margin/Row/VBox"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.99, 0.83, 0.3, 1)
 theme_override_font_sizes/font_size = 13
 text = "Nhiệm vụ hiện tại"
 
-[node name="StepLabel" type="Label" parent="QuestTracker/Margin/VBox"]
+[node name="StepLabel" type="Label" parent="QuestTracker/Margin/Row/VBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 12
 text = "• Gặp Giáo sư Cú Mèo"
 autowrap_mode = 3
+
+[node name="TopRightCluster" type="VBoxContainer" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -208.0
+offset_top = 10.0
+offset_right = -12.0
+offset_bottom = 178.0
+grow_horizontal = 0
+theme_override_constants/separation = 6
+
+[node name="TopRow" type="HBoxContainer" parent="TopRightCluster"]
+layout_mode = 2
+alignment = 2
+theme_override_constants/separation = 8
+
+[node name="BtnCol" type="VBoxContainer" parent="TopRightCluster/TopRow"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="SettingsBtn" type="Button" parent="TopRightCluster/TopRow/BtnCol"]
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+icon = ExtResource("19_settings_ico")
+icon_alignment = 1
+expand_icon = true
+
+[node name="PauseBtn" type="Button" parent="TopRightCluster/TopRow/BtnCol"]
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+icon = ExtResource("20_menu_ico")
+icon_alignment = 1
+expand_icon = true
+
+[node name="MiniMapPanel" type="PanelContainer" parent="TopRightCluster/TopRow"]
+custom_minimum_size = Vector2(124, 124)
+layout_mode = 2
+
+[node name="MiniMapWidget" type="Control" parent="TopRightCluster/TopRow/MiniMapPanel"]
+custom_minimum_size = Vector2(118, 118)
+layout_mode = 2
+script = ExtResource("14_minimap")
+
+[node name="AreaBadge" type="PanelContainer" parent="TopRightCluster"]
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="TopRightCluster/AreaBadge"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 3
+
+[node name="AreaTitle" type="Label" parent="TopRightCluster/AreaBadge/Margin"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.99, 0.83, 0.3, 1)
+theme_override_font_sizes/font_size = 12
+text = "Làng Khởi Đầu"
+horizontal_alignment = 1
+clip_text = true
+
+[node name="ControlsHint" type="PanelContainer" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = -38.0
+offset_right = 314.0
+offset_bottom = -10.0
+grow_vertical = 0
+
+[node name="Margin" type="MarginContainer" parent="ControlsHint"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 4
+
+[node name="Label" type="Label" parent="ControlsHint/Margin"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.82, 0.89, 0.98, 0.92)
+theme_override_font_sizes/font_size = 11
+text = "WASD Di chuyển · Chuột phải Xoay · E Tương tác · Esc Menu"
 
 [node name="BottomDock" type="PanelContainer" parent="."]
 anchors_preset = 7
@@ -261,65 +348,73 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -265.0
-offset_top = -62.0
-offset_right = 265.0
+offset_left = -230.0
+offset_top = -60.0
+offset_right = 230.0
 offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 0
 
 [node name="Margin" type="MarginContainer" parent="BottomDock"]
 layout_mode = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 6
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 6
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 5
 
 [node name="Row" type="HBoxContainer" parent="BottomDock/Margin"]
 layout_mode = 2
 alignment = 1
-theme_override_constants/separation = 8
+theme_override_constants/separation = 6
 
 [node name="MapBtn" type="Button" parent="BottomDock/Margin/Row"]
-custom_minimum_size = Vector2(96, 40)
+custom_minimum_size = Vector2(54, 40)
 layout_mode = 2
 icon = ExtResource("8_map")
-text = "Bản đồ"
+text = "M"
 expand_icon = true
 
 [node name="QuestsBtn" type="Button" parent="BottomDock/Margin/Row"]
-custom_minimum_size = Vector2(106, 40)
+custom_minimum_size = Vector2(62, 40)
 layout_mode = 2
 icon = ExtResource("9_quest")
-text = "Nhiệm vụ"
+text = "Tab"
 expand_icon = true
 
 [node name="BagBtn" type="Button" parent="BottomDock/Margin/Row"]
-custom_minimum_size = Vector2(96, 40)
+custom_minimum_size = Vector2(54, 40)
 layout_mode = 2
 icon = ExtResource("10_bag")
-text = "Túi đồ"
+text = "Túi"
 expand_icon = true
 
 [node name="DesktopBuddyBtn" type="Button" parent="BottomDock/Margin/Row"]
-custom_minimum_size = Vector2(106, 40)
+custom_minimum_size = Vector2(54, 40)
 layout_mode = 2
-text = "Buddy [H]"
+icon = ExtResource("15_buddy_ico")
+text = "H"
+expand_icon = true
 
 [node name="LearnBtn" type="Button" parent="BottomDock/Margin/Row"]
-custom_minimum_size = Vector2(98, 40)
+custom_minimum_size = Vector2(54, 40)
 layout_mode = 2
-text = "Học tập"
+icon = ExtResource("16_learn_ico")
+text = "L"
+expand_icon = true
 
 [node name="MiniGamesBtn" type="Button" parent="BottomDock/Margin/Row"]
-custom_minimum_size = Vector2(108, 40)
+custom_minimum_size = Vector2(54, 40)
 layout_mode = 2
-text = "Trò chơi [G]"
+icon = ExtResource("17_games_ico")
+text = "G"
+expand_icon = true
 
 [node name="SaveBtn" type="Button" parent="BottomDock/Margin/Row"]
-custom_minimum_size = Vector2(68, 40)
+custom_minimum_size = Vector2(54, 40)
 layout_mode = 2
+icon = ExtResource("18_save_ico")
 text = "Lưu"
+expand_icon = true
 
 [node name="InteractBanner" type="Button" parent="."]
 visible = false
@@ -329,12 +424,12 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -170.0
-offset_top = -124.0
+offset_top = -118.0
 offset_right = 170.0
-offset_bottom = -74.0
+offset_bottom = -70.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 15
 text = "[E] Tương tác"
 
 [node name="DialogueBox" type="PanelContainer" parent="."]
@@ -739,21 +834,23 @@ visible = false
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -150.0
-offset_top = 74.0
-offset_right = 150.0
-offset_bottom = 112.0
+offset_left = -165.0
+offset_top = 18.0
+offset_right = 165.0
+offset_bottom = 58.0
 grow_horizontal = 2
 
 [node name="Margin" type="MarginContainer" parent="ToastPanel"]
 layout_mode = 2
-theme_override_constants/margin_left = 12
-theme_override_constants/margin_top = 6
-theme_override_constants/margin_right = 12
-theme_override_constants/margin_bottom = 6
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 7
 
 [node name="Label" type="Label" parent="ToastPanel/Margin"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.99, 0.86, 0.38, 1)
+theme_override_font_sizes/font_size = 14
 text = "Đã lưu!"
 horizontal_alignment = 1
 

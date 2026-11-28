@@ -138,6 +138,15 @@ func _torus(inner_r: float, outer_r: float) -> TorusMesh:
 	return t
 
 
+func _add_ground_shadow(radius: float, opacity: float = 0.28) -> void:
+	var shadow_mat := StandardMaterial3D.new()
+	shadow_mat.albedo_color = Color(0.05, 0.09, 0.14, opacity)
+	shadow_mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	shadow_mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	var shadow_disc := _add_part(self, "GroundShadow", _cylinder(radius, radius, 0.015), shadow_mat, Vector3(0, 0.012, 0))
+	shadow_disc.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+
+
 func _add_face(parent: Node3D, z_face: float, y_center: float, eye_sep: float = 0.095, eye_scale: float = 1.0) -> void:
 	var eye_white := _mat("eye_white", Color(0.98, 0.99, 1.0), 0.25)
 	var eye_dark := _mat("eye_dark", Color(0.11, 0.14, 0.22), 0.12)
@@ -175,12 +184,7 @@ func _build_adventurer(is_girl: bool) -> void:
 	var gold := _mat("gold", Color(0.98, 0.82, 0.28), 0.28, 0.75)
 
 	# Ground drop shadow disc (subtle grounding cue even if dynamic shadow off on Low)
-	var shadow_mat := StandardMaterial3D.new()
-	shadow_mat.albedo_color = Color(0.06, 0.10, 0.16, 0.28)
-	shadow_mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	shadow_mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	var shadow_disc := _add_part(self, "GroundShadow", _cylinder(0.34, 0.34, 0.015), shadow_mat, Vector3(0, 0.01, 0))
-	shadow_disc.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	_add_ground_shadow(0.36, 0.30)
 
 	# Legs
 	left_leg_pivot = Node3D.new()
@@ -209,6 +213,8 @@ func _build_adventurer(is_girl: bool) -> void:
 	# Adventurer Backpack
 	var pack := _add_part(body_pivot, "Backpack", _box(Vector3(0.28, 0.32, 0.15)), boots, Vector3(0, 0.72, -0.22))
 	_add_part(pack, "Bedroll", _cylinder(0.055, 0.055, 0.30), accent, Vector3(0, 0.19, 0), Vector3(0, 0, 90))
+	_add_part(body_pivot, "ScarfTailL", _box(Vector3(0.11, 0.30, 0.04)), accent, Vector3(-0.08, 0.76, -0.31), Vector3(-14, 0, 8))
+	_add_part(body_pivot, "ScarfTailR", _box(Vector3(0.10, 0.24, 0.04)), accent, Vector3(0.07, 0.78, -0.31), Vector3(-18, 0, -10))
 
 	# Arms
 	left_arm_pivot = Node3D.new()
@@ -252,6 +258,7 @@ func _build_adventurer(is_girl: bool) -> void:
 
 
 func _build_buddy() -> void:
+	_add_ground_shadow(0.26, 0.22)
 	var jade := _mat("buddy_jade", Color(0.20, 0.78, 0.48), 0.45)
 	var belly := _mat("buddy_belly", Color(0.98, 0.90, 0.62), 0.55)
 	var wing_mat := _mat("buddy_wing", Color(0.98, 0.74, 0.24), 0.35, 0.0, Color(0.98, 0.70, 0.20), 0.35)
@@ -314,6 +321,7 @@ func _build_buddy() -> void:
 
 
 func _build_professor_owl() -> void:
+	_add_ground_shadow(0.38, 0.28)
 	var feather := _mat("owl_feather", Color(0.55, 0.36, 0.22), 0.7)
 	var chest := _mat("owl_chest", Color(0.95, 0.89, 0.76), 0.72)
 	var robe := _mat("owl_robe", Color(0.20, 0.28, 0.62), 0.55)
@@ -383,6 +391,7 @@ func _build_rocky() -> void:
 
 
 func _build_humanoid_npc(tunic_c: Color, accent_c: Color, hair_c: Color, skirt: bool) -> void:
+	_add_ground_shadow(0.35, 0.28)
 	var skin := _mat("npc_skin", Color(0.98, 0.80, 0.68), 0.62)
 	var tunic := _mat("npc_tunic", tunic_c, 0.55)
 	var accent := _mat("npc_accent", accent_c, 0.45)
@@ -425,6 +434,7 @@ func _build_humanoid_npc(tunic_c: Color, accent_c: Color, hair_c: Color, skirt: 
 
 
 func _build_crystal_guardian() -> void:
+	_add_ground_shadow(0.42, 0.26)
 	var robe := _mat("cg_robe", Color(0.22, 0.42, 0.86), 0.35, 0.15, Color(0.18, 0.45, 0.90), 0.25)
 	var crystal := _mat("cg_crystal", Color(0.38, 0.92, 1.0), 0.12, 0.2, Color(0.35, 0.90, 1.0), 1.2)
 	var violet := _mat("cg_violet", Color(0.72, 0.45, 0.98), 0.2, 0.2, Color(0.68, 0.40, 0.95), 0.9)

@@ -5,8 +5,8 @@ extends Node3D
 
 enum BuddyMood { IDLE, HAPPY, SAD, SURPRISED, THINKING, TALKING, CELEBRATING }
 
-@export var follow_offset: Vector3 = Vector3(-1.45, 1.35, 0.0)
-@export var follow_speed: float = 5.5
+@export var follow_offset: Vector3 = Vector3(-1.18, 1.38, 0.32)
+@export var follow_speed: float = 5.8
 
 var current_mood: BuddyMood = BuddyMood.IDLE
 var target_node: Node3D = null

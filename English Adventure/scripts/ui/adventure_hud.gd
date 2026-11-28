@@ -34,15 +34,23 @@ var _cam_mouse_drag: bool = false
 @onready var player_info_label: Label = $TopBar/Margin/Row/ProfileBox/StatsCol/PlayerInfo
 @onready var exp_bar: ProgressBar = $TopBar/Margin/Row/ProfileBox/StatsCol/ExpRow/ExpBar
 @onready var exp_label: Label = $TopBar/Margin/Row/ProfileBox/StatsCol/ExpRow/ExpLabel
-@onready var area_title_label: Label = $TopBar/Margin/Row/AreaTitle
 @onready var gold_label: Label = $TopBar/Margin/Row/RightStats/GoldChip/GoldLabel
 @onready var crystal_label: Label = $TopBar/Margin/Row/RightStats/CrystalChip/CrystalLabel
-@onready var settings_btn: Button = $TopBar/Margin/Row/RightStats/SettingsBtn
-@onready var pause_btn: Button = $TopBar/Margin/Row/RightStats/PauseBtn
+
+@onready var top_right_cluster: VBoxContainer = $TopRightCluster
+@onready var settings_btn: Button = $TopRightCluster/TopRow/BtnCol/SettingsBtn
+@onready var pause_btn: Button = $TopRightCluster/TopRow/BtnCol/PauseBtn
+@onready var minimap_panel: PanelContainer = $TopRightCluster/TopRow/MiniMapPanel
+@onready var minimap: MiniMapWidget = $TopRightCluster/TopRow/MiniMapPanel/MiniMapWidget
+@onready var area_badge: PanelContainer = $TopRightCluster/AreaBadge
+@onready var area_title_label: Label = $TopRightCluster/AreaBadge/Margin/AreaTitle
 
 @onready var quest_tracker_panel: PanelContainer = $QuestTracker
-@onready var tracker_title: Label = $QuestTracker/Margin/VBox/Title
-@onready var tracker_step: Label = $QuestTracker/Margin/VBox/StepLabel
+@onready var tracker_title: Label = $QuestTracker/Margin/Row/VBox/Title
+@onready var tracker_step: Label = $QuestTracker/Margin/Row/VBox/StepLabel
+
+@onready var controls_hint: PanelContainer = $ControlsHint
+@onready var controls_hint_label: Label = $ControlsHint/Margin/Label
 
 @onready var bottom_dock: PanelContainer = $BottomDock
 @onready var map_btn: Button = $BottomDock/Margin/Row/MapBtn
@@ -122,6 +130,14 @@ func _ready() -> void:
 		UIAnimator.attach_button_feedback(modal_btn)
 
 	map_btn.pressed.connect(func() -> void: SceneRouter.go_to_world_map())
+	minimap.map_clicked.connect(func() -> void: SceneRouter.go_to_world_map())
+	quest_tracker_panel.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	quest_tracker_panel.gui_input.connect(func(ev: InputEvent) -> void:
+		if ev is InputEventMouseButton and (ev as InputEventMouseButton).pressed and (ev as InputEventMouseButton).button_index == MOUSE_BUTTON_LEFT:
+			_open_quest_log()
+		elif ev is InputEventScreenTouch and (ev as InputEventScreenTouch).pressed:
+			_open_quest_log()
+	)
 	quests_btn.pressed.connect(_open_quest_log)
 	bag_btn.pressed.connect(_open_bag)
 	learn_btn.pressed.connect(func() -> void: open_learning_hub())
@@ -217,22 +233,27 @@ func _apply_design_system() -> void:
 				(child as Control).theme = UIManager.shared_theme
 
 	var solid_modal := UIDesignSystem.make_panel_style(Color(0.08, 0.13, 0.24, 1.0), UIDesignSystem.BORDER_DEFAULT, 14, 2, 0, 0)
-	var hud_panel := UIDesignSystem.make_panel_style(Color(0.07, 0.12, 0.22, 0.96), UIDesignSystem.BORDER_DEFAULT, 12, 2, 0, 0)
-	for p: PanelContainer in [top_bar, quest_tracker_panel, bottom_dock]:
-		p.add_theme_stylebox_override("panel", hud_panel)
+	var fantasy_hud := UIDesignSystem.make_panel_style(Color(0.05, 0.10, 0.21, 0.84), Color(0.92, 0.74, 0.28, 0.78), 14, 2, 0, 0)
+	var dock_panel := UIDesignSystem.make_panel_style(Color(0.05, 0.10, 0.21, 0.88), Color(0.92, 0.74, 0.28, 0.72), 16, 2, 0, 0)
+	var badge_panel := UIDesignSystem.make_panel_style(Color(0.05, 0.10, 0.21, 0.80), Color(0.32, 0.56, 0.86, 0.72), 10, 1, 0, 0)
+	for p: PanelContainer in [top_bar, quest_tracker_panel]:
+		p.add_theme_stylebox_override("panel", fantasy_hud)
+	bottom_dock.add_theme_stylebox_override("panel", dock_panel)
+	area_badge.add_theme_stylebox_override("panel", badge_panel)
+	controls_hint.add_theme_stylebox_override("panel", badge_panel)
+	toast_panel.add_theme_stylebox_override("panel", fantasy_hud)
+
+	var clear_map_frame := StyleBoxEmpty.new()
+	minimap_panel.add_theme_stylebox_override("panel", clear_map_frame)
+
 	for m: PanelContainer in [dialogue_box, quest_intro_popup, quest_done_popup, area_locked_popup, area_unlocked_popup, quest_log_modal, bag_modal]:
 		m.add_theme_stylebox_override("panel", solid_modal)
 	dialogue_box.add_theme_stylebox_override("panel", UIDesignSystem.make_panel_style(Color(0.07, 0.12, 0.23, 1.0), UIDesignSystem.PRIMARY, 16, 2, 0, 0))
 
-	UIDesignSystem.apply_button_variant(map_btn, "primary")
-	UIDesignSystem.apply_button_variant(quests_btn, "secondary")
-	UIDesignSystem.apply_button_variant(bag_btn, "secondary")
-	UIDesignSystem.apply_button_variant(desktop_buddy_btn, "reward")
-	UIDesignSystem.apply_button_variant(learn_btn, "confirm")
-	UIDesignSystem.apply_button_variant(minigames_btn, "reward")
-	UIDesignSystem.apply_button_variant(save_btn, "primary")
-	UIDesignSystem.apply_button_variant(settings_btn, "icon")
-	UIDesignSystem.apply_button_variant(pause_btn, "secondary")
+	# Sleek cohesive Deep Navy icon buttons on BottomDock & TopRight
+	for dock_btn: Button in [map_btn, quests_btn, bag_btn, desktop_buddy_btn, learn_btn, minigames_btn, save_btn, settings_btn, pause_btn]:
+		_apply_fantasy_dock_button(dock_btn)
+
 	UIDesignSystem.apply_button_variant(interact_banner, "reward")
 	UIDesignSystem.apply_button_variant(qi_accept_btn, "confirm")
 	UIDesignSystem.apply_button_variant(qi_later_btn, "secondary")
@@ -242,6 +263,22 @@ func _apply_design_system() -> void:
 	UIDesignSystem.apply_button_variant(au_stay_btn, "secondary")
 	UIDesignSystem.apply_button_variant(quest_log_close_btn, "close")
 	UIDesignSystem.apply_button_variant(bag_close_btn, "close")
+
+
+func _apply_fantasy_dock_button(btn: Button) -> void:
+	if btn == null:
+		return
+	var normal_sb := UIDesignSystem.make_button_style(Color(0.11, 0.19, 0.34, 0.92), Color(0.32, 0.50, 0.78, 0.85), 11, 8, 6)
+	var hover_sb := UIDesignSystem.make_button_style(Color(0.18, 0.31, 0.52, 0.98), Color(0.96, 0.78, 0.30, 0.95), 11, 8, 6)
+	var press_sb := UIDesignSystem.make_button_style(Color(0.08, 0.14, 0.26, 1.0), Color(0.96, 0.78, 0.30, 1.0), 11, 8, 6)
+	btn.add_theme_stylebox_override("normal", normal_sb)
+	btn.add_theme_stylebox_override("hover", hover_sb)
+	btn.add_theme_stylebox_override("pressed", press_sb)
+	btn.add_theme_stylebox_override("focus", hover_sb)
+	btn.add_theme_color_override("font_color", Color("#F1F5F9"))
+	btn.add_theme_color_override("font_hover_color", Color("#FDE047"))
+	btn.add_theme_color_override("font_pressed_color", Color("#FACC15"))
+	btn.add_theme_font_size_override("font_size", 12)
 
 
 func is_blocking_overlay_above_dialogue() -> bool:
@@ -282,10 +319,13 @@ func _sync_overlay_visibility() -> void:
 	interact_banner.visible = (not blocked) and _has_focused_target
 	bottom_dock.visible = not blocked
 	quest_tracker_panel.visible = not dlg_open
+	top_right_cluster.visible = not dlg_open
 	top_bar.modulate.a = 0.55 if dlg_open else 1.0
 	var use_touch := SceneRouter.is_mobile_or_compact() or _touch_input_seen
 	mobile_controls.visible = use_touch and (not blocked)
 	desktop_buddy_btn.visible = (not blocked) and (not use_touch)
+	var vp := get_viewport().get_visible_rect().size
+	controls_hint.visible = (not blocked) and (not use_touch) and (vp.x >= 960.0)
 	overlay_blocking_changed.emit(blocked)
 
 
@@ -395,10 +435,10 @@ func open_learning_hub(initial_lesson_id: String = "") -> void:
 
 
 func set_area_header(area_data: Dictionary) -> void:
-	area_title_label.text = "%s (%s)" % [
-		str(area_data.get("name_vi", "")),
-		str(area_data.get("name_en", ""))
-	]
+	area_title_label.text = LocalizationManager.pick_text(area_data, "name")
+	var aid := str(area_data.get("id", "welcome_village"))
+	if minimap != null:
+		minimap.set_area(aid)
 
 
 func set_focused_target(meta: Dictionary) -> void:
@@ -445,6 +485,7 @@ func _flush_queued_quest_intro() -> void:
 func show_toast(msg: String) -> void:
 	toast_label.text = msg
 	toast_panel.visible = true
+	UIAnimator.animate_pulse_once(toast_panel)
 	toast_timer.start(3.0)
 
 
@@ -588,20 +629,35 @@ func _refresh_quest_tracker() -> void:
 
 
 func _refresh_localized_labels() -> void:
-	var vp := get_viewport().get_visible_rect().size
-	var short_dock := vp.x < 700.0
-	map_btn.text = LocalizationManager.tr_key("btn_map", "Bản đồ")
-	quests_btn.text = LocalizationManager.tr_key("btn_quests", "Nhiệm vụ")
-	bag_btn.text = LocalizationManager.tr_key("btn_bag", "Túi đồ")
-	learn_btn.text = LocalizationManager.tr_key("btn_learn", "Học tập") if short_dock else ("%s [L]" % LocalizationManager.tr_key("btn_learn", "Học tập"))
-	minigames_btn.text = LocalizationManager.tr_key("btn_minigames", "Trò chơi") if short_dock else ("%s [G]" % LocalizationManager.tr_key("btn_minigames", "Trò chơi"))
-	save_btn.text = LocalizationManager.tr_key("btn_save", "Lưu")
-	settings_btn.text = LocalizationManager.tr_key("btn_settings", "Cài đặt")
-	pause_btn.text = LocalizationManager.tr_key("btn_pause", "Menu")
+	var use_touch := SceneRouter.is_mobile_or_compact() or _touch_input_seen
+	map_btn.text = "" if use_touch else "M"
+	map_btn.tooltip_text = "%s [M]" % LocalizationManager.tr_key("btn_map", "Bản đồ")
+	quests_btn.text = "" if use_touch else "Tab"
+	quests_btn.tooltip_text = "%s [Tab]" % LocalizationManager.tr_key("btn_quests", "Nhiệm vụ")
+	bag_btn.text = "" if use_touch else LocalizationManager.tr_key("btn_bag_short", "Túi")
+	bag_btn.tooltip_text = LocalizationManager.tr_key("btn_bag", "Túi đồ")
+	desktop_buddy_btn.text = "H"
+	desktop_buddy_btn.tooltip_text = "%s [H]" % LocalizationManager.tr_key("btn_buddy", "Hỏi Buddy")
+	learn_btn.text = "" if use_touch else "L"
+	learn_btn.tooltip_text = "%s [L]" % LocalizationManager.tr_key("btn_learn", "Học tập")
+	minigames_btn.text = "" if use_touch else "G"
+	minigames_btn.tooltip_text = "%s [G]" % LocalizationManager.tr_key("btn_minigames", "Trò chơi")
+	save_btn.text = "" if use_touch else LocalizationManager.tr_key("btn_save", "Lưu")
+	save_btn.tooltip_text = LocalizationManager.tr_key("btn_save_progress", "Lưu tiến trình")
+
+	settings_btn.text = ""
+	settings_btn.tooltip_text = LocalizationManager.tr_key("btn_settings", "Cài đặt")
+	pause_btn.text = ""
+	pause_btn.tooltip_text = LocalizationManager.tr_key("btn_pause", "Menu")
 	buddy_btn.text = LocalizationManager.tr_key("btn_buddy", "Hỏi Buddy")
-	desktop_buddy_btn.text = "%s [H]" % LocalizationManager.tr_key("btn_buddy", "Hỏi Buddy")
 	touch_jump_btn.text = LocalizationManager.tr_key("btn_jump", "Nhảy")
 	touch_interact_btn.text = LocalizationManager.tr_key("btn_interact_mobile", "Tương tác")
+	var is_en: bool = str(LocalizationManager.get_locale()) == "en"
+	controls_hint_label.text = (
+		"WASD Move · Right-Drag Look · E Interact · Esc Menu"
+		if is_en else
+		"WASD Di chuyển · Chuột phải Xoay · E Tương tác · Esc Menu"
+	)
 	_refresh_quest_tracker()
 
 
@@ -869,46 +925,60 @@ func _apply_responsive() -> void:
 	var left_pad := int(safe["left"])
 	var right_pad := int(safe["right"])
 	var bottom_pad := int(safe["bottom"])
+	var compact := vp.x < 740.0
+	var use_touch := SceneRouter.is_mobile_or_compact() or _touch_input_seen
 
-	top_bar.offset_left = 10.0 + float(left_pad)
-	top_bar.offset_right = -10.0 - float(right_pad)
-	top_bar.offset_top = 8.0 + float(top_pad)
+	var left_panel_w := minf(332.0, maxf(210.0, vp.x * (0.48 if compact else 0.30)))
+	top_bar.offset_left = 12.0 + float(left_pad)
+	top_bar.offset_right = 12.0 + float(left_pad) + left_panel_w
+	top_bar.offset_top = 10.0 + float(top_pad)
 	top_bar.offset_bottom = 66.0 + float(top_pad)
 
-	var compact := vp.x < 780.0
-	area_title_label.visible = vp.x >= 720.0
-	settings_btn.visible = vp.x >= 680.0
-	quest_tracker_panel.offset_left = 10.0 + float(left_pad)
-	quest_tracker_panel.offset_right = minf(330.0, vp.x - 20.0 - float(right_pad))
+	quest_tracker_panel.offset_left = 12.0 + float(left_pad)
+	quest_tracker_panel.offset_right = 12.0 + float(left_pad) + left_panel_w
 	quest_tracker_panel.offset_top = 72.0 + float(top_pad)
-	quest_tracker_panel.offset_bottom = 146.0 + float(top_pad)
+	quest_tracker_panel.offset_bottom = 148.0 + float(top_pad)
 
-	var dock_w := minf(756.0, vp.x - 24.0 - float(left_pad + right_pad))
+	var map_sz := 88.0 if compact else 118.0
+	minimap_panel.custom_minimum_size = Vector2(map_sz + 4.0, map_sz + 4.0)
+	minimap.custom_minimum_size = Vector2(map_sz, map_sz)
+	var cluster_w := map_sz + 52.0
+	top_right_cluster.offset_right = -12.0 - float(right_pad)
+	top_right_cluster.offset_left = -12.0 - float(right_pad) - cluster_w
+	top_right_cluster.offset_top = 10.0 + float(top_pad)
+	top_right_cluster.offset_bottom = 44.0 + map_sz + float(top_pad)
+	area_badge.visible = vp.x >= 460.0
+
+	var dock_btn_w := 42.0 if use_touch else 56.0
+	for b: Button in [map_btn, quests_btn, bag_btn, desktop_buddy_btn, learn_btn, minigames_btn, save_btn]:
+		b.custom_minimum_size = Vector2(dock_btn_w, 38.0)
+
+	save_btn.visible = not compact
+	var visible_dock_btns := (6 if desktop_buddy_btn.visible else 5) - (1 if compact else 0)
+	var dock_w := minf(vp.x - 24.0 - float(left_pad + right_pad), float(visible_dock_btns) * (dock_btn_w + 8.0) + 24.0)
 	bottom_dock.offset_left = -dock_w * 0.5
 	bottom_dock.offset_right = dock_w * 0.5
 	bottom_dock.offset_bottom = -10.0 - float(bottom_pad)
-	bottom_dock.offset_top = -62.0 - float(bottom_pad)
+	bottom_dock.offset_top = -60.0 - float(bottom_pad)
+
+	controls_hint.offset_left = 12.0 + float(left_pad)
+	controls_hint.offset_bottom = -10.0 - float(bottom_pad)
+	controls_hint.offset_top = -38.0 - float(bottom_pad)
 
 	# Keep touch Joystick & RightPad safely above BottomDock with zero overlap
-	var touch_bottom_base := 74.0 + float(bottom_pad)
-	var joy_sz := 122.0 if vp.x < 680.0 else 140.0
+	var touch_bottom_base := 72.0 + float(bottom_pad)
+	var joy_sz := 118.0 if vp.x < 680.0 else 138.0
 	joystick.offset_left = 14.0 + float(left_pad)
 	joystick.offset_right = 14.0 + float(left_pad) + joy_sz
 	joystick.offset_bottom = -touch_bottom_base
 	joystick.offset_top = -touch_bottom_base - joy_sz
 
 	touch_right_pad.offset_right = -14.0 - float(right_pad)
-	touch_right_pad.offset_left = -14.0 - float(right_pad) - (126.0 if vp.x < 680.0 else 138.0)
+	touch_right_pad.offset_left = -14.0 - float(right_pad) - (124.0 if vp.x < 680.0 else 138.0)
 	touch_right_pad.offset_bottom = -touch_bottom_base
 	touch_right_pad.offset_top = -touch_bottom_base - 156.0
 
-	if compact:
-		save_btn.visible = false
-	else:
-		save_btn.visible = true
-	var short_dock := vp.x < 700.0
-	learn_btn.text = LocalizationManager.tr_key("btn_learn", "Học tập") if short_dock else ("%s [L]" % LocalizationManager.tr_key("btn_learn", "Học tập"))
-	minigames_btn.text = LocalizationManager.tr_key("btn_minigames", "Trò chơi") if short_dock else ("%s [G]" % LocalizationManager.tr_key("btn_minigames", "Trò chơi"))
+	_refresh_localized_labels()
 	if _has_focused_target:
 		var prefix := "Chạm: " if SceneRouter.is_mobile_or_compact() else "[E] Tương tác: "
 		interact_banner.text = prefix + _focused_target_title

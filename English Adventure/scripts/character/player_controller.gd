@@ -14,17 +14,17 @@ extends CharacterBody3D
 @export var world_half_extent_z: float = 11.5
 
 @export_group("Third-person Camera Manager")
-@export_range(6.0, 18.0, 0.5) var camera_distance: float = 12.5
-@export_range(0.9, 2.5, 0.05) var camera_height: float = 1.35
+@export_range(3.8, 10.5, 0.2) var camera_distance: float = 6.2
+@export_range(1.1, 2.4, 0.05) var camera_height: float = 1.55
 @export_range(0.4, 2.0, 0.1) var camera_sensitivity: float = 1.0
-@export_range(3.0, 16.0, 0.5) var camera_smoothing: float = 8.5
+@export_range(3.0, 16.0, 0.5) var camera_smoothing: float = 9.0
 @export_range(0.8, 3.5, 0.1) var camera_rotation_speed: float = 1.9
 @export var camera_collision: bool = true
 
-const MIN_CAM_DIST: float = 6.0
-const MAX_CAM_DIST: float = 18.0
-const DEFAULT_CAM_DIST: float = 12.5
-const DEFAULT_CAM_PITCH: float = -0.58
+const MIN_CAM_DIST: float = 3.8
+const MAX_CAM_DIST: float = 10.5
+const DEFAULT_CAM_DIST: float = 6.2
+const DEFAULT_CAM_PITCH: float = -0.30
 
 var virtual_move_vector: Vector2 = Vector2.ZERO
 var movement_locked: bool = false
@@ -60,8 +60,9 @@ func _ready() -> void:
 func _sync_camera_settings() -> void:
 	camera_sensitivity = SettingsManager.camera_sensitivity
 	if spring_arm != null:
-		# Collide SpringArm3D ONLY with ground (layer 2) so trees/cottages smoothly fade instead of violently zooming in
-		spring_arm.collision_mask = 2 if camera_collision else 0
+		# Collide SpringArm3D with ground (layer 2) + solid architecture/hills (layer 64),
+		# while trees/lampposts (layer 16) smoothly fade via raycast occluder check.
+		spring_arm.collision_mask = 66 if camera_collision else 0
 		if not _dialogue_focus_active:
 			spring_arm.spring_length = clampf(camera_distance, MIN_CAM_DIST, MAX_CAM_DIST)
 
@@ -78,7 +79,7 @@ func apply_look_delta(delta_px: Vector2) -> void:
 	var yaw_step := clampf(delta_px.x * 0.0055 * camera_sensitivity, -0.14, 0.14)
 	var pitch_step := clampf(delta_px.y * 0.0042 * camera_sensitivity, -0.10, 0.10)
 	_cam_yaw -= yaw_step
-	_cam_pitch = clampf(_cam_pitch - pitch_step, -1.05, -0.26)
+	_cam_pitch = clampf(_cam_pitch - pitch_step, -0.78, -0.14)
 
 
 func apply_character_visual(gender_id: String) -> void:
@@ -93,6 +94,14 @@ func apply_character_visual(gender_id: String) -> void:
 		animator.bind_rig(loaded as CharacterRig3D)
 	else:
 		animator.bind_rig(null)
+
+
+func get_camera_yaw() -> float:
+	return _cam_yaw
+
+
+func get_facing_yaw() -> float:
+	return atan2(_last_facing.x, _last_facing.z)
 
 
 func set_camera_limits(_bounds: Rect2i) -> void:
@@ -233,9 +242,9 @@ func _update_camera(delta: float) -> void:
 
 	if _dialogue_focus_active:
 		var mid := (_dialogue_focus_pos - global_position) * 0.45
-		target_pivot_pos = Vector3(mid.x, camera_height + 0.15, mid.z)
-		target_pitch = -0.38
-		target_len = 7.2
+		target_pivot_pos = Vector3(mid.x, camera_height + 0.05, mid.z)
+		target_pitch = -0.22
+		target_len = 5.4
 
 	var pos_alpha := minf(1.0, delta * maxf(2.0, camera_smoothing * 0.78))
 	var rot_alpha := minf(1.0, delta * maxf(2.5, camera_smoothing))
