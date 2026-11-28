@@ -19,3 +19,8 @@ Thumbs.db
 logs/
 test_results/
 coverage/
+
+# Local reference HTML saves
+*Ý kiến game tiếng Anh*
+*.html
+*_files/
