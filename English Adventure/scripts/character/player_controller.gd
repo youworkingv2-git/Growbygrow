@@ -295,6 +295,7 @@ func _update_camera_occluders(delta: float) -> void:
 			var query := PhysicsRayQueryParameters3D.create(cam_pos, target_pos, 16, exclude)
 			query.collide_with_bodies = true
 			query.collide_with_areas = false
+			query.hit_from_inside = true
 			var hit := space_state.intersect_ray(query)
 			if hit.is_empty():
 				break
@@ -321,6 +322,30 @@ func _update_camera_occluders(delta: float) -> void:
 							"shader_mats": sh_mats
 						}
 
+	# Also hide any canopy if camera is physically inside its layer-16 occluder volume
+	var inside_roots := {}
+	var pt_query := PhysicsPointQueryParameters3D.new()
+	pt_query.position = cam_pos
+	pt_query.collision_mask = 16
+	pt_query.collide_with_bodies = true
+	pt_query.collide_with_areas = false
+	for pt_hit in space_state.intersect_point(pt_query, 6):
+		var col_obj: Variant = pt_hit.get("collider")
+		if col_obj is Node:
+			var col_n := col_obj as Node
+			var root_n: Node = col_n.get_meta("occluder_root", null) as Node
+			if root_n == null:
+				root_n = col_n.get_parent()
+			if root_n is Node3D:
+				var k := root_n.get_instance_id()
+				hit_roots[k] = root_n
+				inside_roots[k] = true
+				if not _faded_occluders.has(k):
+					var std_m: Array[StandardMaterial3D] = []
+					var sh_m: Array[ShaderMaterial] = []
+					_collect_occluder_materials(root_n, std_m, sh_m)
+					_faded_occluders[k] = { "node": root_n, "alpha": 1.0, "mats": std_m, "shader_mats": sh_m }
+
 	var to_remove: Array[int] = []
 	for key in _faded_occluders.keys():
 		var entry: Dictionary = _faded_occluders[key]
@@ -329,7 +354,7 @@ func _update_camera_occluders(delta: float) -> void:
 			to_remove.append(key)
 			continue
 		var is_blocking := hit_roots.has(key)
-		var target_alpha := 0.24 if is_blocking else 1.0
+		var target_alpha := 0.0 if inside_roots.has(key) else (0.24 if is_blocking else 1.0)
 		var cur_alpha := lerpf(float(entry.get("alpha", 1.0)), target_alpha, minf(1.0, delta * 12.0))
 		entry["alpha"] = cur_alpha
 		var mats: Array = entry.get("mats", [])

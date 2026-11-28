@@ -375,7 +375,7 @@ func _add_distant_forest_ring(ring_parent: Node3D) -> void:
 		Vector3(-21.5, 0, -14.5), Vector3(-17.5, 0, -16.8), Vector3(-9.5, 0, -17.5),
 		Vector3(9.0, 0, -17.5), Vector3(17.5, 0, -16.5), Vector3(22.0, 0, -13.5),
 		Vector3(-23.0, 0, -5.0), Vector3(-23.0, 0, 7.5), Vector3(23.5, 0, -6.5), Vector3(23.5, 0, 8.5),
-		Vector3(-18.5, 0, 15.5), Vector3(0.0, 0, 16.5), Vector3(18.5, 0, 15.5)
+		Vector3(-19.5, 0, 21.0), Vector3(0.0, 0, 22.0), Vector3(19.5, 0, 21.0)
 	]
 	for i in range(spots.size()):
 		var sc := 1.15 + float(i % 3) * 0.25
@@ -514,7 +514,7 @@ func _build_welcome_village() -> void:
 		{ "pos": Vector3(-14.2, 0, 9.8),  "scale": 0.98, "color": Color("#2F6D39"), "style": "oak", "rot": -35.0 },
 		{ "pos": Vector3(7.8, 0, -9.2),   "scale": 1.12, "color": Color("#215330"), "style": "pine", "rot": 12.0 },
 		{ "pos": Vector3(15.4, 0, -7.8),  "scale": 1.05, "color": Color("#2A6436"), "style": "oak", "rot": 65.0 },
-		{ "pos": Vector3(14.8, 0, 7.6),   "scale": 0.98, "color": Color("#DF6B88"), "style": "blossom", "rot": -20.0 },
+		{ "pos": Vector3(16.6, 0, 9.2),   "scale": 0.98, "color": Color("#DF6B88"), "style": "blossom", "rot": -20.0 },
 		{ "pos": Vector3(-5.8, 0, -10.2), "scale": 1.06, "color": Color("#1F4F2E"), "style": "pine", "rot": 80.0 },
 		{ "pos": Vector3(5.8, 0, -10.2),  "scale": 1.02, "color": Color("#2B6637"), "style": "oak", "rot": -55.0 },
 		# Small Trees / Saplings (3 distinct small variants)
@@ -640,10 +640,10 @@ func _build_alphabet_meadow() -> void:
 		{ "pos": Vector3(-4.2, 0, -8.2),  "scale": 1.06, "style": "pine", "col": Color("#205430"), "rot": 40.0 },
 		{ "pos": Vector3(5.6, 0, -8.4),   "scale": 1.08, "style": "oak", "col": Color("#34753D"), "rot": -28.0 },
 		{ "pos": Vector3(14.5, 0, -6.8),  "scale": 1.06, "style": "pine", "col": Color("#245B33"), "rot": 62.0 },
-		{ "pos": Vector3(13.8, 0, 8.6),   "scale": 1.00, "style": "blossom", "col": Color("#E4728E"), "rot": -18.0 },
-		{ "pos": Vector3(-13.8, 0, 8.6),  "scale": 1.02, "style": "oak", "col": Color("#2D6B39"), "rot": 32.0 },
+		{ "pos": Vector3(18.5, 0, 11.4),  "scale": 1.00, "style": "blossom", "col": Color("#E4728E"), "rot": -18.0 },
+		{ "pos": Vector3(-18.8, 0, 11.4), "scale": 1.02, "style": "oak", "col": Color("#2D6B39"), "rot": 32.0 },
 		{ "pos": Vector3(-11.8, 0, -5.8), "scale": 0.90, "style": "sapling_oak", "col": Color("#3B7F41"), "rot": 10.0 },
-		{ "pos": Vector3(4.0, 0, 8.8),    "scale": 0.92, "style": "berry_tree", "col": Color("#2E6D37"), "rot": -45.0 },
+		{ "pos": Vector3(2.8, 0, 9.8),    "scale": 0.92, "style": "berry_tree", "col": Color("#2E6D37"), "rot": -45.0 },
 		{ "pos": Vector3(14.6, 0, -1.6),  "scale": 0.88, "style": "cypress_small", "col": Color("#235D34"), "rot": 0.0 },
 	]
 	for t_info in trees:
@@ -806,11 +806,11 @@ func _build_crystal_lake() -> void:
 
 	var lake_trees := [
 		{ "pos": Vector3(-14.2, 0, -5.2), "scale": 1.06, "col": Color("#20634A"), "style": "pine", "rot": 18.0 },
-		{ "pos": Vector3(13.8, 0, 7.6),   "scale": 1.02, "col": Color("#276E50"), "style": "oak", "rot": -28.0 },
+		{ "pos": Vector3(17.8, 0, 10.6),  "scale": 1.02, "col": Color("#276E50"), "style": "oak", "rot": -28.0 },
 		{ "pos": Vector3(-5.2, 0, -8.8),  "scale": 1.08, "col": Color("#1E5A44"), "style": "pine", "rot": 44.0 },
 		{ "pos": Vector3(5.8, 0, -8.8),   "scale": 1.04, "col": Color("#2A7254"), "style": "oak", "rot": -52.0 },
-		{ "pos": Vector3(-13.8, 0, 8.6),  "scale": 0.96, "col": Color("#E07596"), "style": "blossom", "rot": 22.0 },
-		{ "pos": Vector3(8.2, 0, 8.8),    "scale": 0.90, "style": "cypress_small", "col": Color("#1E5F47"), "rot": 0.0 },
+		{ "pos": Vector3(-18.5, 0, 11.2), "scale": 0.96, "col": Color("#E07596"), "style": "blossom", "rot": 22.0 },
+		{ "pos": Vector3(11.8, 0, 10.2),  "scale": 0.90, "style": "cypress_small", "col": Color("#1E5F47"), "rot": 0.0 },
 		{ "pos": Vector3(-8.4, 0, -6.2),  "scale": 0.92, "style": "sapling_oak", "col": Color("#2C7556"), "rot": 35.0 },
 	]
 	for lt in lake_trees:
